@@ -1,0 +1,14 @@
+brk
+capget
+getregset
+lsframe1
+lsframe2
+proc-auxv
+rfcomm
+sigqueue
+stack_changes
+stack_switch
+sys-openat
+syscalls-2007
+syslog-syscall
+timerfd-syscall

@@ -1,0 +1,1418 @@
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..9a39a4d
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,29 @@
++Makefile.in
++aclocal.m4
++autom4te.cache/
++config.guess
++config.h.in
++config.sub
++configure
++depcomp
++install-sh
++missing
++Makefile.vex.in
++compile
++Makefile
++.deps/
++config.h
++config.log
++config.status
++glibc-2.X.supp
++stamp-h1
++valgrind.pc
++valgrind.spec
++*.o
++*.a
++*.so
++.in_place/
++default.supp
++*-x86-linux
++*-amd64-linux
++.dirstamp
+diff --git a/Makefile.am b/Makefile.am
+index 4ad7b16..7f9bf6f 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -14,7 +14,8 @@ TOOLS =		memcheck \
+ 
+ EXP_TOOLS = 	exp-sgcheck \
+ 		exp-bbv \
+-		exp-dhat
++		exp-dhat \
++		exp-flowcheck
+ 
+ # Put docs last because building the HTML is slow and we want to get
+ # everything else working before we try it.
+diff --git a/auxprogs/.gitignore b/auxprogs/.gitignore
+new file mode 100644
+index 0000000..ea9a822
+--- /dev/null
++++ b/auxprogs/.gitignore
+@@ -0,0 +1,2 @@
++valgrind-listener
++valgrind-di-server
+diff --git a/cachegrind/.gitignore b/cachegrind/.gitignore
+new file mode 100644
+index 0000000..1d2f1c8
+--- /dev/null
++++ b/cachegrind/.gitignore
+@@ -0,0 +1,3 @@
++cg_annotate
++cg_diff
++cg_merge
+diff --git a/cachegrind/tests/.gitignore b/cachegrind/tests/.gitignore
+new file mode 100644
+index 0000000..d09bf02
+--- /dev/null
++++ b/cachegrind/tests/.gitignore
+@@ -0,0 +1,3 @@
++chdir
++clreq
++dlclose
+diff --git a/cachegrind/tests/x86/.gitignore b/cachegrind/tests/x86/.gitignore
+new file mode 100644
+index 0000000..36eb8fe
+--- /dev/null
++++ b/cachegrind/tests/x86/.gitignore
+@@ -0,0 +1 @@
++fpu-28-108
+diff --git a/callgrind/.gitignore b/callgrind/.gitignore
+new file mode 100644
+index 0000000..d1de0d6
+--- /dev/null
++++ b/callgrind/.gitignore
+@@ -0,0 +1,2 @@
++callgrind_annotate
++callgrind_control
+diff --git a/callgrind/tests/.gitignore b/callgrind/tests/.gitignore
+new file mode 100644
+index 0000000..dbc62db
+--- /dev/null
++++ b/callgrind/tests/.gitignore
+@@ -0,0 +1,3 @@
++clreq
++simwork
++threads
+diff --git a/configure.ac b/configure.ac
+index 4ebea04..f0ff2c0 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -4364,6 +4364,8 @@ AC_CONFIG_FILES([
+    exp-bbv/tests/arm-linux/Makefile
+    exp-dhat/Makefile
+    exp-dhat/tests/Makefile
++   exp-flowcheck/Makefile
++   exp-flowcheck/tests/Makefile
+    shared/Makefile
+    solaris/Makefile
+ ])
+diff --git a/coregrind/.gitignore b/coregrind/.gitignore
+new file mode 100644
+index 0000000..a235dc6
+--- /dev/null
++++ b/coregrind/.gitignore
+@@ -0,0 +1,5 @@
++link_tool_exe_darwin
++link_tool_exe_linux
++link_tool_exe_solaris
++valgrind
++vgdb
+diff --git a/coregrind/m_debuginfo/readelf.c b/coregrind/m_debuginfo/readelf.c
+index 81f94ee..98685c2 100644
+--- a/coregrind/m_debuginfo/readelf.c
++++ b/coregrind/m_debuginfo/readelf.c
+@@ -1280,6 +1280,10 @@ DiImage* find_debug_file( struct _DebugInfo* di,
+    DiImage* dimg      = NULL; /* the img that we found */
+    HChar*   debugpath = NULL; /* where we found it */
+ 
++   /* Make this a build option? -SMcC */
++   if (!extrapath)
++      extrapath = "/export/scratch2/mccamant/valgrind/debug-libc/libc6-dbg-386-2.15.0u10.4/usr/lib/debug";
++
+    if (buildid != NULL) {
+       debugpath = ML_(dinfo_zalloc)("di.fdf.1",
+                                     VG_(strlen)(buildid) + 33);
+diff --git a/coregrind/m_machine.c b/coregrind/m_machine.c
+index 8215c80..bb86302 100644
+--- a/coregrind/m_machine.c
++++ b/coregrind/m_machine.c
+@@ -145,7 +145,7 @@ VG_(get_shadow_regs_area) ( ThreadId tid,
+ {
+    void*        src;
+    ThreadState* tst;
+-   vg_assert(shadowNo == 0 || shadowNo == 1 || shadowNo == 2);
++   vg_assert(shadowNo >= 0 && shadowNo <= 9);
+    vg_assert(VG_(is_valid_tid)(tid));
+    // Bounds check
+    vg_assert(0 <= offset && offset < sizeof(VexGuestArchState));
+@@ -157,6 +157,13 @@ VG_(get_shadow_regs_area) ( ThreadId tid,
+       case 0: src = (void*)(((Addr)&(tst->arch.vex)) + offset); break;
+       case 1: src = (void*)(((Addr)&(tst->arch.vex_shadow1)) + offset); break;
+       case 2: src = (void*)(((Addr)&(tst->arch.vex_shadow2)) + offset); break;
++      case 3: src = (void*)(((Addr)&(tst->arch.vex_shadow3)) + offset); break;
++      case 4: src = (void*)(((Addr)&(tst->arch.vex_shadow4)) + offset); break;
++      case 5: src = (void*)(((Addr)&(tst->arch.vex_shadow5)) + offset); break;
++      case 6: src = (void*)(((Addr)&(tst->arch.vex_shadow6)) + offset); break;
++      case 7: src = (void*)(((Addr)&(tst->arch.vex_shadow7)) + offset); break;
++      case 8: src = (void*)(((Addr)&(tst->arch.vex_shadow8)) + offset); break;
++      case 9: src = (void*)(((Addr)&(tst->arch.vex_shadow9)) + offset); break;
+    }
+    vg_assert(src != NULL);
+    VG_(memcpy)( dst, src, size);
+@@ -169,7 +176,7 @@ VG_(set_shadow_regs_area) ( ThreadId tid,
+ {
+    void*        dst;
+    ThreadState* tst;
+-   vg_assert(shadowNo == 0 || shadowNo == 1 || shadowNo == 2);
++   vg_assert(shadowNo >= 0 && shadowNo <= 9);
+    vg_assert(VG_(is_valid_tid)(tid));
+    // Bounds check
+    vg_assert(0 <= offset && offset < sizeof(VexGuestArchState));
+@@ -181,6 +188,13 @@ VG_(set_shadow_regs_area) ( ThreadId tid,
+       case 0: dst = (void*)(((Addr)&(tst->arch.vex)) + offset); break;
+       case 1: dst = (void*)(((Addr)&(tst->arch.vex_shadow1)) + offset); break;
+       case 2: dst = (void*)(((Addr)&(tst->arch.vex_shadow2)) + offset); break;
++      case 3: dst = (void*)(((Addr)&(tst->arch.vex_shadow3)) + offset); break;
++      case 4: dst = (void*)(((Addr)&(tst->arch.vex_shadow4)) + offset); break;
++      case 5: dst = (void*)(((Addr)&(tst->arch.vex_shadow5)) + offset); break;
++      case 6: dst = (void*)(((Addr)&(tst->arch.vex_shadow6)) + offset); break;
++      case 7: dst = (void*)(((Addr)&(tst->arch.vex_shadow7)) + offset); break;
++      case 8: dst = (void*)(((Addr)&(tst->arch.vex_shadow8)) + offset); break;
++      case 9: dst = (void*)(((Addr)&(tst->arch.vex_shadow9)) + offset); break;
+    }
+    vg_assert(dst != NULL);
+    VG_(memcpy)( dst, src, size);
+diff --git a/coregrind/m_main.c b/coregrind/m_main.c
+index 80f347e..acfc91f 100644
+--- a/coregrind/m_main.c
++++ b/coregrind/m_main.c
+@@ -2174,10 +2174,10 @@ Int valgrind_main ( Int argc, HChar **argv, HChar **envp )
+       VG_(printf)("pid=%d, entering delay loop\n", VG_(getpid)());
+ 
+ #     if defined(VGP_x86_linux)
+-      iters = 10;
++      iters = 30;
+ #     elif defined(VGP_amd64_linux) || defined(VGP_ppc64be_linux) \
+          || defined(VGP_ppc64le_linux) || defined(VGP_tilegx_linux)
+-      iters = 10;
++      iters = 30;
+ #     elif defined(VGP_ppc32_linux)
+       iters = 5;
+ #     elif defined(VGP_arm_linux)
+diff --git a/coregrind/m_redir.c b/coregrind/m_redir.c
+index c9e8726..6f90dd7 100644
+--- a/coregrind/m_redir.c
++++ b/coregrind/m_redir.c
+@@ -1309,6 +1309,10 @@ static const HChar* complain_about_stripped_glibc_ldso[]
+ 
+ void VG_(redir_initialise) ( void )
+ {
++   Bool is_memcheck =
++      (0==VG_(strcmp)("Memcheck", VG_(details).name)) ||
++      (0==VG_(strcmp)("Flowcheck", VG_(details).name));
++
+    // Assert that there are no DebugInfos so far
+    vg_assert( VG_(next_DebugInfo)(NULL) == NULL );
+ 
+@@ -1324,7 +1328,7 @@ void VG_(redir_initialise) ( void )
+ #  if defined(VGP_x86_linux)
+    /* If we're using memcheck, use this intercept right from the
+       start, otherwise ld.so (glibc-2.3.5) makes a lot of noise. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       const HChar** mandatory;
+ #     ifndef GLIBC_MANDATORY_INDEX_AND_STRLEN_REDIRECT
+       mandatory = NULL;
+@@ -1358,7 +1362,7 @@ void VG_(redir_initialise) ( void )
+ 
+    /* If we're using memcheck, use these intercepts right from
+       the start, otherwise ld.so makes a lot of noise. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+ 
+       add_hardwired_spec(
+          "ld-linux-x86-64.so.2", "index",
+@@ -1379,7 +1383,7 @@ void VG_(redir_initialise) ( void )
+ #  elif defined(VGP_ppc32_linux)
+    /* If we're using memcheck, use these intercepts right from
+       the start, otherwise ld.so makes a lot of noise. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+ 
+       /* this is mandatory - can't sanely continue without it */
+       add_hardwired_spec(
+@@ -1404,7 +1408,7 @@ void VG_(redir_initialise) ( void )
+ #  elif defined(VGP_ppc64be_linux)
+    /* If we're using memcheck, use these intercepts right from
+       the start, otherwise ld.so makes a lot of noise. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+ 
+       /* this is mandatory - can't sanely continue without it */
+       add_hardwired_spec(
+@@ -1425,7 +1429,7 @@ void VG_(redir_initialise) ( void )
+    /* If we're using memcheck, use these intercepts right from
+     * the start, otherwise ld.so makes a lot of noise.
+     */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+ 
+       /* this is mandatory - can't sanely continue without it */
+       add_hardwired_spec(
+@@ -1447,7 +1451,7 @@ void VG_(redir_initialise) ( void )
+       start, otherwise ld.so makes a lot of noise.  In most ARM-linux
+       distros, ld.so's soname is ld-linux.so.3, but Ubuntu 14.04 on
+       Odroid uses ld-linux-armhf.so.3 for some reason. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       /* strlen */
+       add_hardwired_spec(
+          "ld-linux.so.3", "strlen",
+@@ -1486,7 +1490,7 @@ void VG_(redir_initialise) ( void )
+ #  elif defined(VGP_arm64_linux)
+    /* If we're using memcheck, use these intercepts right from
+       the start, otherwise ld.so makes a lot of noise. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec(
+          "ld-linux-aarch64.so.1", "strlen",
+          (Addr)&VG_(arm64_linux_REDIR_FOR_strlen),
+@@ -1514,7 +1518,7 @@ void VG_(redir_initialise) ( void )
+ #  elif defined(VGP_x86_darwin)
+    /* If we're using memcheck, use these intercepts right from
+       the start, otherwise dyld makes a lot of noise. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("dyld", "strcmp",
+                          (Addr)&VG_(x86_darwin_REDIR_FOR_strcmp), NULL);
+       add_hardwired_spec("dyld", "strlen",
+@@ -1530,7 +1534,7 @@ void VG_(redir_initialise) ( void )
+ #  elif defined(VGP_amd64_darwin)
+    /* If we're using memcheck, use these intercepts right from
+       the start, otherwise dyld makes a lot of noise. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("dyld", "strcmp",
+                          (Addr)&VG_(amd64_darwin_REDIR_FOR_strcmp), NULL);
+       add_hardwired_spec("dyld", "strlen",
+@@ -1551,7 +1555,7 @@ void VG_(redir_initialise) ( void )
+    }
+ 
+ #  elif defined(VGP_s390x_linux)
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       // added in rsponse to BZ 327943
+       add_hardwired_spec("ld64.so.1", "index",
+                          (Addr)&VG_(s390x_linux_REDIR_FOR_index),
+@@ -1559,7 +1563,7 @@ void VG_(redir_initialise) ( void )
+    }
+ 
+ #  elif defined(VGP_mips32_linux)
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+ 
+       /* this is mandatory - can't sanely continue without it */
+       add_hardwired_spec(
+@@ -1570,7 +1574,7 @@ void VG_(redir_initialise) ( void )
+    }
+ 
+ #  elif defined(VGP_mips64_linux)
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+ 
+       /* this is mandatory - can't sanely continue without it */
+       add_hardwired_spec(
+@@ -1581,7 +1585,7 @@ void VG_(redir_initialise) ( void )
+    }
+ 
+ #  elif defined(VGP_tilegx_linux)
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+ 
+       add_hardwired_spec(
+          "ld.so.1", "strlen",
+@@ -1592,33 +1596,33 @@ void VG_(redir_initialise) ( void )
+ #  elif defined(VGP_x86_solaris)
+    /* If we're using memcheck, use these intercepts right from
+       the start, otherwise ld.so makes a lot of noise. */
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("/lib/ld.so.1", "strcmp",
+                          (Addr)&VG_(x86_solaris_REDIR_FOR_strcmp), NULL);
+    }
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("/lib/ld.so.1", "strlen",
+                          (Addr)&VG_(x86_solaris_REDIR_FOR_strlen), NULL);
+    }
+ 
+ #  elif defined(VGP_amd64_solaris)
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("/lib/amd64/ld.so.1", "strcpy",
+                          (Addr)&VG_(amd64_solaris_REDIR_FOR_strcpy), NULL);
+    }
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("/lib/amd64/ld.so.1", "strncpy",
+                          (Addr)&VG_(amd64_solaris_REDIR_FOR_strncpy), NULL);
+    }
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("/lib/amd64/ld.so.1", "strcmp",
+                          (Addr)&VG_(amd64_solaris_REDIR_FOR_strcmp), NULL);
+    }
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("/lib/amd64/ld.so.1", "strcat",
+                          (Addr)&VG_(amd64_solaris_REDIR_FOR_strcat), NULL);
+    }
+-   if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
++   if (is_memcheck) {
+       add_hardwired_spec("/lib/amd64/ld.so.1", "strlen",
+                          (Addr)&VG_(amd64_solaris_REDIR_FOR_strlen), NULL);
+    }
+diff --git a/coregrind/m_scheduler/scheduler.c b/coregrind/m_scheduler/scheduler.c
+index 9aa854d..742d8df 100644
+--- a/coregrind/m_scheduler/scheduler.c
++++ b/coregrind/m_scheduler/scheduler.c
+@@ -708,18 +708,32 @@ void VG_(scheduler_init_phase2) ( ThreadId tid_main,
+    Specifically, check that what we have matches Vex's guest state
+    layout requirements.  See libvex.h for details, but in short the
+    requirements are: There must be no holes in between the primary
+-   guest state, its two copies, and the spill area.  In short, all 4
+-   areas must be aligned on the LibVEX_GUEST_STATE_ALIGN boundary and 
+-   be placed back-to-back without holes in between. */
++   guest state, its nine copies, and the spill area.  In short, all 11
++   areas must have a 16-aligned size and be 16-aligned, and placed
++   back-to-back. */
+ static void do_pre_run_checks ( volatile ThreadState* tst )
+ {
+    Addr a_vex     = (Addr) & tst->arch.vex;
+    Addr a_vexsh1  = (Addr) & tst->arch.vex_shadow1;
+    Addr a_vexsh2  = (Addr) & tst->arch.vex_shadow2;
++   Addr a_vexsh3  = (Addr) & tst->arch.vex_shadow3;
++   Addr a_vexsh4  = (Addr) & tst->arch.vex_shadow4;
++   Addr a_vexsh5  = (Addr) & tst->arch.vex_shadow5;
++   Addr a_vexsh6  = (Addr) & tst->arch.vex_shadow6;
++   Addr a_vexsh7  = (Addr) & tst->arch.vex_shadow7;
++   Addr a_vexsh8  = (Addr) & tst->arch.vex_shadow8;
++   Addr a_vexsh9  = (Addr) & tst->arch.vex_shadow9;
+    Addr a_spill   = (Addr) & tst->arch.vex_spill;
+    UInt sz_vex    = (UInt) sizeof tst->arch.vex;
+    UInt sz_vexsh1 = (UInt) sizeof tst->arch.vex_shadow1;
+    UInt sz_vexsh2 = (UInt) sizeof tst->arch.vex_shadow2;
++   UInt sz_vexsh3 = (UInt) sizeof tst->arch.vex_shadow3;
++   UInt sz_vexsh4 = (UInt) sizeof tst->arch.vex_shadow4;
++   UInt sz_vexsh5 = (UInt) sizeof tst->arch.vex_shadow5;
++   UInt sz_vexsh6 = (UInt) sizeof tst->arch.vex_shadow6;
++   UInt sz_vexsh7 = (UInt) sizeof tst->arch.vex_shadow7;
++   UInt sz_vexsh8 = (UInt) sizeof tst->arch.vex_shadow8;
++   UInt sz_vexsh9 = (UInt) sizeof tst->arch.vex_shadow9;
+    UInt sz_spill  = (UInt) sizeof tst->arch.vex_spill;
+ 
+    if (0)
+@@ -733,26 +747,54 @@ static void do_pre_run_checks ( volatile ThreadState* tst )
+    vg_assert(sz_vex    % LibVEX_GUEST_STATE_ALIGN == 0);
+    vg_assert(sz_vexsh1 % LibVEX_GUEST_STATE_ALIGN == 0);
+    vg_assert(sz_vexsh2 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(sz_vexsh3 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(sz_vexsh4 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(sz_vexsh5 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(sz_vexsh6 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(sz_vexsh7 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(sz_vexsh8 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(sz_vexsh9 % LibVEX_GUEST_STATE_ALIGN == 0);
+    vg_assert(sz_spill  % LibVEX_GUEST_STATE_ALIGN == 0);
+ 
+    vg_assert(a_vex    % LibVEX_GUEST_STATE_ALIGN == 0);
+    vg_assert(a_vexsh1 % LibVEX_GUEST_STATE_ALIGN == 0);
+    vg_assert(a_vexsh2 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(a_vexsh3 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(a_vexsh4 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(a_vexsh5 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(a_vexsh6 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(a_vexsh7 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(a_vexsh8 % LibVEX_GUEST_STATE_ALIGN == 0);
++   vg_assert(a_vexsh9 % LibVEX_GUEST_STATE_ALIGN == 0);
+    vg_assert(a_spill  % LibVEX_GUEST_STATE_ALIGN == 0);
+ 
+-   /* Check that the guest state and its two shadows have the same
++   /* Check that the guest state and nine two shadows have the same
+       size, and that there are no holes in between.  The latter is
+       important because Memcheck assumes that it can reliably access
+       the shadows by indexing off a pointer to the start of the
+       primary guest state area. */
+    vg_assert(sz_vex == sz_vexsh1);
+    vg_assert(sz_vex == sz_vexsh2);
++   vg_assert(sz_vex == sz_vexsh3);
++   vg_assert(sz_vex == sz_vexsh4);
++   vg_assert(sz_vex == sz_vexsh5);
++   vg_assert(sz_vex == sz_vexsh6);
++   vg_assert(sz_vex == sz_vexsh7);
++   vg_assert(sz_vex == sz_vexsh8);
++   vg_assert(sz_vex == sz_vexsh9);
+    vg_assert(a_vex + 1 * sz_vex == a_vexsh1);
+    vg_assert(a_vex + 2 * sz_vex == a_vexsh2);
++   vg_assert(a_vex + 3 * sz_vex == a_vexsh3);
++   vg_assert(a_vex + 4 * sz_vex == a_vexsh4);
++   vg_assert(a_vex + 5 * sz_vex == a_vexsh5);
++   vg_assert(a_vex + 6 * sz_vex == a_vexsh6);
++   vg_assert(a_vex + 7 * sz_vex == a_vexsh7);
++   vg_assert(a_vex + 8 * sz_vex == a_vexsh8);
++   vg_assert(a_vex + 9 * sz_vex == a_vexsh9);
+    /* Also check there's no hole between the second shadow area and
+       the spill area. */
+    vg_assert(sz_spill == LibVEX_N_SPILL_BYTES);
+-   vg_assert(a_vex + 3 * sz_vex == a_spill);
++   vg_assert(a_vex + 10 * sz_vex == a_spill);
+ 
+ #  if defined(VGA_x86)
+    /* x86 XMM regs must form an array, ie, have no holes in
+diff --git a/coregrind/m_syswrap/priv_types_n_macros.h b/coregrind/m_syswrap/priv_types_n_macros.h
+index 0eacfc7..2989c89 100644
+--- a/coregrind/m_syswrap/priv_types_n_macros.h
++++ b/coregrind/m_syswrap/priv_types_n_macros.h
+@@ -618,6 +618,16 @@ static inline UWord getERR ( SyscallStatus* st ) {
+ #define PRE_MEM_READ(zzname, zzaddr, zzlen) \
+    VG_TRACK( pre_mem_read, Vg_CoreSysCall, tid, zzname, zzaddr, zzlen)
+ 
++#define PRE_MEM_READ_SECRET(zzname, zzaddr, zzlen)			\
++   do {									\
++      if (VG_(tdict).track_pre_mem_read_secret)				\
++	 VG_TRACK( pre_mem_read_secret, Vg_CoreSysCall, tid, zzname,	\
++		   zzaddr, zzlen);					\
++      else								\
++	 VG_TRACK( pre_mem_read, Vg_CoreSysCall, tid, zzname,		\
++		   zzaddr, zzlen);					\
++   } while(0)
++
+ #define PRE_MEM_RASCIIZ(zzname, zzaddr) \
+    VG_TRACK( pre_mem_read_asciiz, Vg_CoreSysCall, tid, zzname, zzaddr)
+ 
+@@ -627,6 +637,14 @@ static inline UWord getERR ( SyscallStatus* st ) {
+ #define POST_MEM_WRITE(zzaddr, zzlen) \
+    VG_TRACK( post_mem_write, Vg_CoreSysCall, tid, zzaddr, zzlen)
+ 
++#define POST_MEM_WRITE_SECRET(zzname, zzfd, zzaddr, zzlen)		\
++   do {									\
++      if (VG_(tdict).track_post_mem_write_secret)			\
++	 VG_TRACK( post_mem_write_secret, Vg_CoreSysCall, tid, zzname,	\
++		   zzfd, zzaddr, zzlen);				\
++      else								\
++	 VG_TRACK( post_mem_write, Vg_CoreSysCall, tid, zzaddr,	zzlen);	\
++   } while(0)
+ 
+ #define PRE_FIELD_READ(zzname, zzfield) \
+     PRE_MEM_READ(zzname, (UWord)&zzfield, sizeof(zzfield))
+diff --git a/coregrind/m_syswrap/syswrap-generic.c b/coregrind/m_syswrap/syswrap-generic.c
+index ed44494..2cc2265 100644
+--- a/coregrind/m_syswrap/syswrap-generic.c
++++ b/coregrind/m_syswrap/syswrap-generic.c
+@@ -4033,7 +4033,7 @@ PRE(sys_read)
+ POST(sys_read)
+ {
+    vg_assert(SUCCESS);
+-   POST_MEM_WRITE( ARG2, RES );
++   POST_MEM_WRITE_SECRET( "read(buf)", ARG1, ARG2, RES );
+ }
+ 
+ PRE(sys_write)
+@@ -4057,7 +4057,7 @@ PRE(sys_write)
+    if (!ok)
+       SET_STATUS_Failure( VKI_EBADF );
+    else
+-      PRE_MEM_READ( "write(buf)", ARG2, ARG3 );
++      PRE_MEM_READ_SECRET( "write(buf)", ARG2, ARG3 );
+ }
+ 
+ PRE(sys_creat)
+@@ -4527,8 +4527,8 @@ PRE(sys_writev)
+          /* ToDo: don't do any of the following if the vector is invalid */
+          vec = (struct vki_iovec *)ARG2;
+          for (i = 0; i < (Int)ARG3; i++)
+-            PRE_MEM_READ( "writev(vector[...])",
+-                           (Addr)vec[i].iov_base, vec[i].iov_len );
++            PRE_MEM_READ_SECRET( "writev(vector[...])",
++                                 (Addr)vec[i].iov_base, vec[i].iov_len );
+       }
+    }
+ }
+diff --git a/coregrind/m_tooliface.c b/coregrind/m_tooliface.c
+index 38bc7c2..521ead5 100644
+--- a/coregrind/m_tooliface.c
++++ b/coregrind/m_tooliface.c
+@@ -436,9 +436,11 @@ DEF0(track_die_mem_stack,         Addr, SizeT)
+ DEF0(track_ban_mem_stack,         Addr, SizeT)
+ 
+ DEF0(track_pre_mem_read,          CorePart, ThreadId, const HChar*, Addr, SizeT)
++DEF0(track_pre_mem_read_secret,   CorePart, ThreadId, const HChar*, Addr, SizeT)
+ DEF0(track_pre_mem_read_asciiz,   CorePart, ThreadId, const HChar*, Addr)
+ DEF0(track_pre_mem_write,         CorePart, ThreadId, const HChar*, Addr, SizeT)
+ DEF0(track_post_mem_write,        CorePart, ThreadId, Addr, SizeT)
++DEF0(track_post_mem_write_secret, CorePart, ThreadId, const HChar*, Int, Addr, SizeT)
+ 
+ DEF0(track_pre_reg_read,          CorePart, ThreadId, const HChar*, PtrdiffT, SizeT)
+ DEF0(track_post_reg_write,        CorePart, ThreadId,               PtrdiffT, SizeT)
+diff --git a/coregrind/m_ume/elf.c b/coregrind/m_ume/elf.c
+index 8a998db..1edc921 100644
+--- a/coregrind/m_ume/elf.c
++++ b/coregrind/m_ume/elf.c
+@@ -644,6 +644,15 @@ Int VG_(load_ELF)(Int fd, const HChar* name, /*MOD*/ExeInfo* info)
+          VG_(pread)(fd, buf, ph->p_filesz, ph->p_offset);
+          buf[ph->p_filesz] = '\0';
+ 
++	 /* This implements an inelegant way to replace the dynamic loader
++	    (say, with one that has the debug symbols Valgrind needs)
++	    even if you can't write to /lib. */
++	 if (!VG_(strcmp)(buf, "/lib/ld-linux.so.2") &&
++	     VG_(access)("/tmp/ld-linux.so.2", True, False, False) == 0) {
++	    buf[1] = 't'; buf[2] = 'm'; buf[3] = 'p';
++	    VG_(printf)("Using %s as the dynamic loader\n", buf);
++	 }
++
+          sres = VG_(open)(buf, VKI_O_RDONLY, 0);
+          if (sr_isError(sres)) {
+             VG_(printf)("valgrind: m_ume.c: can't open interpreter\n");
+diff --git a/coregrind/pub_core_machine.h b/coregrind/pub_core_machine.h
+index a72381b..11c30d8 100644
+--- a/coregrind/pub_core_machine.h
++++ b/coregrind/pub_core_machine.h
+@@ -175,11 +175,11 @@
+ 
+ //-------------------------------------------------------------
+ // Guest state accessors that are not visible to tools.  The only
+-// ones that are visible are get_IP and get_SP.
++// ones that are visible are get_IP and get_SP and get_FP.
+ 
+ //Addr VG_(get_IP) ( ThreadId tid );  // in pub_tool_machine.h
+ //Addr VG_(get_SP) ( ThreadId tid );  // in pub_tool_machine.h
+-Addr VG_(get_FP) ( ThreadId tid );
++//Addr VG_(get_FP) ( ThreadId tid );  // in pub_tool_machine.h
+ 
+ void VG_(set_IP) ( ThreadId tid, Addr encip );
+ void VG_(set_SP) ( ThreadId tid, Addr sp );
+diff --git a/coregrind/pub_core_threadstate.h b/coregrind/pub_core_threadstate.h
+index d2aa251..2b9046d 100644
+--- a/coregrind/pub_core_threadstate.h
++++ b/coregrind/pub_core_threadstate.h
+@@ -91,7 +91,7 @@ typedef
+       /* --- BEGIN vex-mandated guest state --- */
+ 
+       /* Note that for code generation reasons, we require that the
+-         guest state area, its two shadows, and the spill area, are
++         guest state area, its shadows, and the spill area, are
+          aligned on LibVEX_GUEST_STATE_ALIGN and have sizes, such that
+          there are no holes in between. This is checked by do_pre_run_checks()
+          in scheduler.c. */
+@@ -99,11 +99,25 @@ typedef
+       /* Saved machine context. */
+       VexGuestArchState vex __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
+ 
+-      /* Saved shadow context (2 copies). */
++      /* Saved shadow context (9 copies). */
+       VexGuestArchState vex_shadow1
+                         __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
+       VexGuestArchState vex_shadow2 
+                         __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
++      VexGuestArchState vex_shadow3
++                        __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
++      VexGuestArchState vex_shadow4 
++                        __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
++      VexGuestArchState vex_shadow5 
++                        __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
++      VexGuestArchState vex_shadow6 
++                        __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
++      VexGuestArchState vex_shadow7 
++                        __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
++      VexGuestArchState vex_shadow8 
++                        __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
++      VexGuestArchState vex_shadow9 
++                        __attribute__((aligned(LibVEX_GUEST_STATE_ALIGN)));
+ 
+       /* Spill area. */
+       UChar vex_spill[LibVEX_N_SPILL_BYTES]
+diff --git a/coregrind/pub_core_tooliface.h b/coregrind/pub_core_tooliface.h
+index 83758a8..eb4e773 100644
+--- a/coregrind/pub_core_tooliface.h
++++ b/coregrind/pub_core_tooliface.h
+@@ -225,9 +225,11 @@ typedef struct {
+    void (*track_ban_mem_stack)(Addr, SizeT);
+ 
+    void (*track_pre_mem_read)       (CorePart, ThreadId, const HChar*, Addr, SizeT);
++   void (*track_pre_mem_read_secret)(CorePart, ThreadId, const HChar*, Addr, SizeT);
+    void (*track_pre_mem_read_asciiz)(CorePart, ThreadId, const HChar*, Addr);
+    void (*track_pre_mem_write)      (CorePart, ThreadId, const HChar*, Addr, SizeT);
+    void (*track_post_mem_write)     (CorePart, ThreadId, Addr, SizeT);
++  void(*track_post_mem_write_secret)(CorePart, ThreadId, const HChar*, Int, Addr, SizeT);
+ 
+    void (*track_pre_reg_read)  (CorePart, ThreadId, const HChar*, PtrdiffT, SizeT);
+    void (*track_post_reg_write)(CorePart, ThreadId,               PtrdiffT, SizeT);
+diff --git a/drd/scripts/.gitignore b/drd/scripts/.gitignore
+new file mode 100644
+index 0000000..b697c54
+--- /dev/null
++++ b/drd/scripts/.gitignore
+@@ -0,0 +1 @@
++download-and-build-splash2
+diff --git a/drd/tests/.gitignore b/drd/tests/.gitignore
+new file mode 100644
+index 0000000..7ec25ad
+--- /dev/null
++++ b/drd/tests/.gitignore
+@@ -0,0 +1,59 @@
++annotate_barrier
++annotate_hb_err
++annotate_hb_race
++annotate_ignore_rw
++annotate_ignore_write
++annotate_publish_hg
++annotate_rwlock
++annotate_smart_pointer
++annotate_static
++annotate_trace_memory
++atomic_var
++boost_thread
++bug-235681
++circular_buffer
++custom_alloc
++fp_race
++free_is_write
++hold_lock
++linuxthreads_det
++matinv
++memory_allocation
++monitor_example
++new_delete
++omp_matinv
++omp_prime
++omp_printf
++pth_barrier
++pth_barrier_race
++pth_barrier_reinit
++pth_barrier_thr_cr
++pth_broadcast
++pth_cancel_locked
++pth_cleanup_handler
++pth_cond_destroy_busy
++pth_cond_race
++pth_create_chain
++pth_detached
++pth_detached3
++pth_detached_sem
++pth_inconsistent_cond_wait
++pth_mutex_reinit
++pth_process_shared_mutex
++pth_spinlock
++pth_uninitialized_cond
++recursive_mutex
++rwlock_race
++rwlock_test
++rwlock_type_checking
++sem_as_mutex
++sem_open
++sem_wait
++sigalrm
++std_thread
++thread_name
++threaded-fork
++trylock
++tsan_unittest
++unit_bitmap
++unit_vc
+diff --git a/exp-bbv/tests/amd64-linux/.gitignore b/exp-bbv/tests/amd64-linux/.gitignore
+new file mode 100644
+index 0000000..f81d266
+--- /dev/null
++++ b/exp-bbv/tests/amd64-linux/.gitignore
+@@ -0,0 +1,8 @@
++clone_test
++clone_test.out.bb.2
++clone_test.out.pc
++complex_rep
++fldcw_check
++ll
++million
++rep_prefix
+diff --git a/exp-bbv/tests/x86-linux/.gitignore b/exp-bbv/tests/x86-linux/.gitignore
+new file mode 100644
+index 0000000..3024e01
+--- /dev/null
++++ b/exp-bbv/tests/x86-linux/.gitignore
+@@ -0,0 +1,4 @@
++clone_test
++clone_test.out.bb.2
++clone_test.out.pc
++ll
+diff --git a/exp-bbv/tests/x86/.gitignore b/exp-bbv/tests/x86/.gitignore
+new file mode 100644
+index 0000000..0ca4d22
+--- /dev/null
++++ b/exp-bbv/tests/x86/.gitignore
+@@ -0,0 +1,4 @@
++complex_rep
++fldcw_check
++million
++rep_prefix
+diff --git a/exp-sgcheck/tests/.gitignore b/exp-sgcheck/tests/.gitignore
+new file mode 100644
+index 0000000..c986568
+--- /dev/null
++++ b/exp-sgcheck/tests/.gitignore
+@@ -0,0 +1,6 @@
++bad_percentify
++globalerr
++hackedbz2
++hsg
++preen_invars
++stackerr
+diff --git a/gdbserver_tests/.gitignore b/gdbserver_tests/.gitignore
+new file mode 100644
+index 0000000..36d93ac
+--- /dev/null
++++ b/gdbserver_tests/.gitignore
+@@ -0,0 +1,18 @@
++clean_after_fork
++fork_chain
++garbage.filtered.out
++gdb
++gdb.eval
++gdb.pic
++gdb.step
++gone
++main_pic
++massif.vgdb.out
++passsigalrm
++progB.done
++self_invalidate
++sleepers
++t
++vgdb
++vgdb.ptraceinvoker
++watchpoints
+diff --git a/helgrind/tests/.gitignore b/helgrind/tests/.gitignore
+new file mode 100644
+index 0000000..e68e1dd
+--- /dev/null
++++ b/helgrind/tests/.gitignore
+@@ -0,0 +1,42 @@
++annotate_hbefore
++annotate_rwlock
++bar_bad
++bar_trivial
++cond_init_destroy
++cond_timedwait_invalid
++free_is_write
++hg01_all_ok
++hg02_deadlock
++hg03_inherit
++hg04_race
++hg05_race2
++hg06_readshared
++locked_vs_unlocked1
++locked_vs_unlocked2
++locked_vs_unlocked3
++pth_destroy_cond
++t2t
++tc01_simple_race
++tc02_simple_tls
++tc03_re_excl
++tc04_free_lock
++tc05_simple_race
++tc06_two_races
++tc07_hbl1
++tc08_hbl2
++tc09_bad_unlock
++tc10_rec_lock
++tc11_XCHG
++tc12_rwl_trivial
++tc13_laog1
++tc14_laog_dinphils
++tc15_laog_lockdel
++tc16_byterace
++tc17_sembar
++tc18_semabuse
++tc19_shadowmem
++tc20_verifywrap
++tc21_pthonce
++tc22_exit_w_lock
++tc23_bogus_condwait
++tc24_nonzero_sem
+diff --git a/include/pub_tool_machine.h b/include/pub_tool_machine.h
+index 4ec31ab..f5d28c6 100644
+--- a/include/pub_tool_machine.h
++++ b/include/pub_tool_machine.h
+@@ -116,10 +116,10 @@
+ 
+ // Guest state accessors
+ // Are mostly in the core_ header.
+-//  Only these two are available to tools.
++//  Only these three are available to tools.
+ Addr VG_(get_IP) ( ThreadId tid );
+ Addr VG_(get_SP) ( ThreadId tid );
+-
++Addr VG_(get_FP) ( ThreadId tid );
+ 
+ // For get/set, 'area' is where the asked-for guest state will be copied
+ // into/from.  If shadowNo == 0, the real (non-shadow) guest state is
+diff --git a/include/pub_tool_tooliface.h b/include/pub_tool_tooliface.h
+index f7805e9..629ea66 100644
+--- a/include/pub_tool_tooliface.h
++++ b/include/pub_tool_tooliface.h
+@@ -621,6 +621,14 @@ void VG_(track_pre_mem_write)      (void(*f)(CorePart part, ThreadId tid,
+ void VG_(track_post_mem_write)     (void(*f)(CorePart part, ThreadId tid,
+                                              Addr a, SizeT size));
+ 
++/* Specialized versions of the above for system call arguments that
++   might contain sensitive information. */
++void VG_(track_pre_mem_read_secret)(void(*f)(CorePart part, ThreadId tid,
++                                             const HChar* s, Addr a, SizeT size));
++void VG_(track_post_mem_write_secret)(void(*f)(CorePart part, ThreadId tid,
++					       const HChar* s, Int fd,
++					       Addr a, SizeT size));
++
+ /* Register events.  Use VG_(set_shadow_state_area)() to set the shadow regs
+    for these events.  */
+ void VG_(track_pre_reg_read)  (void(*f)(CorePart part, ThreadId tid,
+diff --git a/massif/.gitignore b/massif/.gitignore
+new file mode 100644
+index 0000000..55e1bf1
+--- /dev/null
++++ b/massif/.gitignore
+@@ -0,0 +1 @@
++ms_print
+diff --git a/massif/tests/.gitignore b/massif/tests/.gitignore
+new file mode 100644
+index 0000000..1ccf882
+--- /dev/null
++++ b/massif/tests/.gitignore
+@@ -0,0 +1,22 @@
++alloc-fns
++basic
++big-alloc
++culling1
++culling2
++custom_alloc
++deep
++ignored
++ignoring
++insig
++long-names
++long-time
++malloc_usable
++new-cpp
++null
++one
++overloaded-new
++pages_as_heap
++peak
++realloc
++thresholds
++zero
+diff --git a/memcheck/tests/.gitignore b/memcheck/tests/.gitignore
+new file mode 100644
+index 0000000..b017ff4
+--- /dev/null
++++ b/memcheck/tests/.gitignore
+@@ -0,0 +1,132 @@
++accounting
++addressable
++atomic_incs
++badaddrvalue
++badfree
++badjump
++badjump2
++badloop
++badpoll
++badrw
++big_blocks_freed_list
++brk2
++buflen_check
++bug287260
++calloc-overflow
++clientperm
++clireq_nofill
++clo_redzone
++cond_ld_st
++custom-overlap
++custom_alloc
++deep-backtrace
++deep_templates
++describe-block
++doublefree
++err_disable1
++err_disable2
++err_disable3
++err_disable4
++erringfds
++error_counts
++errs1
++execve1
++execve2
++exitprog
++file_locking
++fprw
++fwrite
++holey_buffer_too_small
++inits
++inline
++leak-0
++leak-cases
++leak-cycle
++leak-delta
++leak-pool
++leak-segv-jmp
++leak-tree
++long-supps
++long_namespace_xml
++mallinfo
++malloc1
++malloc2
++malloc3
++malloc_free_fill
++malloc_usable
++manuel1
++manuel2
++manuel3
++match-overrun
++memalign2
++memalign_test
++memcmptest
++mempool
++mempool2
++metadata
++mismatches
++mmaptest
++nanoleak2
++nanoleak_supp
++new_nothrow
++new_override
++noisy_child
++null_socket
++origin1-yes
++origin2-not-quite
++origin3-no
++origin4-many
++origin5-bz2
++origin6-fp
++overlap
++partial_load
++partiallydefinedeq
++pdb-realloc
++pdb-realloc2
++pipe
++pointer-trace
++post-syscall
++realloc1
++realloc2
++realloc3
++recursive-merge
++sbfragment
++sendmsg
++sh-mem
++sh-mem-random
++sigaltstack
++sigkill
++signal2
++sigprocmask
++static_malloc
++stpncpy
++str_tester
++strchr
++supp1
++supp2
++supp_unknown
++suppfree
++test-plo
++trivialleak
++undef_malloc_args
++unit_libcbase
++unit_oset
++varinfo1
++varinfo2
++varinfo3
++varinfo4
++varinfo5
++varinfo6
++vcpu_fbench
++vcpu_fnfns
++wcs
++wrap1
++wrap2
++wrap3
++wrap4
++wrap5
++wrap6
++wrap7
++wrap8
++writev1
++xml1
+diff --git a/memcheck/tests/amd64-linux/.gitignore b/memcheck/tests/amd64-linux/.gitignore
+new file mode 100644
+index 0000000..4b2b40b
+--- /dev/null
++++ b/memcheck/tests/amd64-linux/.gitignore
+@@ -0,0 +1,2 @@
++defcfaexpr
++int3-amd64
+diff --git a/memcheck/tests/amd64/.gitignore b/memcheck/tests/amd64/.gitignore
+new file mode 100644
+index 0000000..817560f
+--- /dev/null
++++ b/memcheck/tests/amd64/.gitignore
+@@ -0,0 +1,10 @@
++bt_everything
++bug132146
++bug279698
++fxsave-amd64
++insn-bsfl
++insn-pcmpistri
++insn-pmovmskb
++more_x87_fp
++sse_memory
++xor-undef-amd64
+diff --git a/memcheck/tests/linux/.gitignore b/memcheck/tests/linux/.gitignore
+new file mode 100644
+index 0000000..62e11ae
+--- /dev/null
++++ b/memcheck/tests/linux/.gitignore
+@@ -0,0 +1,14 @@
++brk
++capget
++getregset
++lsframe1
++lsframe2
++proc-auxv
++rfcomm
++sigqueue
++stack_changes
++stack_switch
++sys-openat
++syscalls-2007
++syslog-syscall
++timerfd-syscall
+diff --git a/memcheck/tests/vbit-test/.gitignore b/memcheck/tests/vbit-test/.gitignore
+new file mode 100644
+index 0000000..dac9623
+--- /dev/null
++++ b/memcheck/tests/vbit-test/.gitignore
+@@ -0,0 +1 @@
++vbit-test
+diff --git a/memcheck/tests/x86-linux/.gitignore b/memcheck/tests/x86-linux/.gitignore
+new file mode 100644
+index 0000000..3431da9
+--- /dev/null
++++ b/memcheck/tests/x86-linux/.gitignore
+@@ -0,0 +1,7 @@
++bug133694
++int3-x86
++scalar
++scalar_exit_group
++scalar_fork
++scalar_supp
++scalar_vfork
+diff --git a/memcheck/tests/x86/.gitignore b/memcheck/tests/x86/.gitignore
+new file mode 100644
+index 0000000..20acc71
+--- /dev/null
++++ b/memcheck/tests/x86/.gitignore
+@@ -0,0 +1,12 @@
++bug152022
++espindola2
++fpeflags
++fprem
++fxsave
++more_x86_fp
++pushfpopf
++pushfw_x86
++pushpopmem
++sse_memory
++tronical
++xor-undef-x86
+diff --git a/none/tests/.gitignore b/none/tests/.gitignore
+new file mode 100644
+index 0000000..97df888
+--- /dev/null
++++ b/none/tests/.gitignore
+@@ -0,0 +1,78 @@
++ansi
++args
++async-sigs
++bitfield1
++bug129866
++closeall
++coolo_sigaction
++coolo_strlen
++discard
++exec-sigmask
++execve
++faultstatus
++fcntl_setown
++fdleak_cmsg
++fdleak_creat
++fdleak_dup
++fdleak_dup2
++fdleak_fcntl
++fdleak_ipv4
++fdleak_open
++fdleak_pipe
++fdleak_socketpair
++floored
++fork
++fucomip
++gxx304
++ifunc
++manythreads
++map_unaligned
++map_unmap
++mmap_fcntl_bug
++mq
++munmap_exe
++nestedfns
++pending
++pluto
++process_vm_readv_writev
++procfs-cmdline-exe
++pth_atfork1
++pth_blockedsig
++pth_cancel1
++pth_cancel2
++pth_cvsimple
++pth_empty
++pth_exit
++pth_exit2
++pth_mutexspeed
++pth_once
++pth_rwlock
++pth_stackalign
++rcrl
++readline1
++require-text-symbol
++res_search
++resolv
++rlimit64_nofile
++rlimit_nofile
++selfrun
++sem
++semlimit
++sha1_test
++shortpush
++shorts
++sigstackgrowth
++stackgrowth
++syscall-restart1
++syscall-restart2
++syslog
++system
++thread-exits
++threaded-fork
++threadederrno
++timestamp
++tls
++valgrind_cpp_test
++vgprintf
++allexec32
++allexec64
+diff --git a/none/tests/amd64/.gitignore b/none/tests/amd64/.gitignore
+new file mode 100644
+index 0000000..4a54018
+--- /dev/null
++++ b/none/tests/amd64/.gitignore
+@@ -0,0 +1,54 @@
++aes
++allexec
++amd64locked
++asorep
++avx-1
++avx2-1
++bmi
++bug127521-64
++bug132813-amd64
++bug132918
++bug137714-amd64
++bug156404-amd64
++clc
++cmpxchg
++crc32
++fcmovnu
++fma
++fxtract
++insn_basic
++insn_basic.c
++insn_fpu
++insn_fpu.c
++insn_mmx
++insn_mmx.c
++insn_pclmulqdq
++insn_pclmulqdq.c
++insn_sse
++insn_sse.c
++insn_sse2
++insn_sse2.c
++insn_sse3
++insn_sse3.c
++insn_ssse3
++insn_ssse3.c
++jrcxz
++looper
++loopnel
++lzcnt64
++movbe
++nan80and64
++nibz_bennee_mmap
++pcmpstr64
++pcmpstr64w
++pcmpxstrx64
++pcmpxstrx64w
++rcl-amd64
++redundantRexW
++sbbmisc
++shrld
++slahf-amd64
++smc1
++sse4-64
++ssse3_misaligned
++xadd
+diff --git a/none/tests/linux/.gitignore b/none/tests/linux/.gitignore
+new file mode 100644
+index 0000000..f95062b
+--- /dev/null
++++ b/none/tests/linux/.gitignore
+@@ -0,0 +1,4 @@
++blockfault
++mremap
++mremap2
++mremap3
+diff --git a/none/tests/x86-linux/.gitignore b/none/tests/x86-linux/.gitignore
+new file mode 100644
+index 0000000..e82f6a4
+--- /dev/null
++++ b/none/tests/x86-linux/.gitignore
+@@ -0,0 +1,2 @@
++seg_override
++sigcontext
+diff --git a/none/tests/x86/.gitignore b/none/tests/x86/.gitignore
+new file mode 100644
+index 0000000..e72703b
+--- /dev/null
++++ b/none/tests/x86/.gitignore
+@@ -0,0 +1,53 @@
++insn_basic.c
++insn_cmov.c
++insn_fpu.c
++insn_mmx.c
++insn_mmxext.c
++insn_sse.c
++insn_sse2.c
++insn_sse3.c
++insn_ssse3.c
++aad_aam
++allexec
++badseg
++bt_everything
++bt_literal
++bug125959-x86
++bug126147-x86
++bug132813-x86
++bug135421-x86
++bug137714-x86
++bug152818-x86
++cmpxchg8b
++cpuid
++cse_fail
++faultstatus
++fcmovnu
++fpu_lazy_eflags
++fxtract
++getseg
++incdec_alt
++insn_basic
++insn_cmov
++insn_fpu
++insn_mmx
++insn_mmxext
++insn_sse
++insn_sse2
++insn_sse3
++insn_ssse3
++int
++jcxz
++lahf
++looper
++lzcnt32
++movbe
++movx
++pushpopseg
++sbbmisc
++shift_ndep
++smc1
++ssse3_misaligned
++x86locked
++xadd
++yield
+diff --git a/perf/.gitignore b/perf/.gitignore
+new file mode 100644
+index 0000000..7396212
+--- /dev/null
++++ b/perf/.gitignore
+@@ -0,0 +1,10 @@
++vg_perf
++bigcode
++bz2
++fbench
++ffbench
++heap
++many-loss-records
++many-xpts
++sarp
++tinycc
+diff --git a/shared/vg_replace_strmem.c b/shared/vg_replace_strmem.c
+index f3be419..eb24bc2 100644
+--- a/shared/vg_replace_strmem.c
++++ b/shared/vg_replace_strmem.c
+@@ -1497,6 +1497,7 @@ static inline void my_exit ( int x )
+       if (is_overlap(dst, src, len, len)) \
+          RECORD_OVERLAP_ERROR("mempcpy", dst, src, len); \
+       \
++      FC_ENTER_ENCLOSE_R(69420653, dst, len); \
+       if ( dst > src ) { \
+          register HChar *d = (char *)dst + len - 1; \
+          register const HChar *s = (const char *)src + len - 1; \
+@@ -1510,6 +1511,7 @@ static inline void my_exit ( int x )
+             *d++ = *s++; \
+          } \
+       } \
++      FC_LEAVE_ENCLOSE(69420653); \
+       return (void*)( ((char*)dst) + len_saved ); \
+    }
+ 
+diff --git a/tests/.gitignore b/tests/.gitignore
+new file mode 100644
+index 0000000..c8b0049
+--- /dev/null
++++ b/tests/.gitignore
+@@ -0,0 +1,6 @@
++vg_regtest
++arch_test
++os_test
++s390x_features
++true
++x86_amd64_features
+diff --git a/tests/filter_stderr_basic b/tests/filter_stderr_basic
+index 4b6e480..d3acb07 100755
+--- a/tests/filter_stderr_basic
++++ b/tests/filter_stderr_basic
+@@ -69,4 +69,8 @@ sed "s/[0-9][0-9]* bytes below stack pointer/.... bytes below stack pointer/" |
+ sed '/warning: the debug information found in "[^"]*" does not match/d' |
+ 
+ # Suppress warnings from Dwarf reader
+-sed '/warning: evaluate_Dwarf3_Expr: unhandled DW_OP_/d'
++sed '/warning: evaluate_Dwarf3_Expr: unhandled DW_OP_/d' |
++
++# Suppress this warning about ptrace support, since it's probably some
++# kernel issue I can't easily fix
++sed '/error calling PR_SET_PTRACER, vgdb might block/d'

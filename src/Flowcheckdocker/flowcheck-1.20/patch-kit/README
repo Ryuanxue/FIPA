@@ -1,0 +1,50 @@
+The contents of this directory are a cleaner representation of the
+changes we made to Valgrind to make the Flowcheck distribution. Rather
+than just a single big diff, they're presented in multiple parts to
+reflect the way the Flowcheck tool is a renamed and modified version
+of the Memcheck tool:
+
+vex-r3426+flowcheck.patch contains the changes needed against a recent
+version of the VEX library (which is version-controlled separately
+from Valgrind but usually compiled together). The two changes are
+increasing the size of the shadow guest state, and converting accesses
+to sub-registers like %ax into full-register accesses and bitwise
+operations.
+
+valgrind-r15939-core+flowcheck.patch is a patch relative the to main
+Valgrind directory that makes some more changes to the Valgrind core
+that are needed by Flowcheck, such as increasing the size of the
+shadow guest state (split between here and VEX), exposing the frame
+pointer, and adding hooks to the system call wrapping of reads. It
+also adds "exp-flowcheck" to the list of tools, and gives Flowcheck
+the same redirections that Memcheck has. At the moment this also
+contains some not-really-Flowcheck-specific changes that make
+development and debugging easier, such as increasing the time of the
+wait-for-GDB delay loop, and adding another location to search for
+debug libraries.
+
+copy-mc-to-fc.sh is a script to make a copy of a "memcheck" directory
+in which everything has been renamed to be (exp-)"flowcheck" instead. 
+
+memcheck-r15939-to-flowcheck.patch is a patch that applies to the
+"exp-flowcheck" directory produced by copy-mc-to-fc.sh to create a
+working version of the Flowcheck tool. In other words, it contains the
+actual new code, and presumes that the renaming has already been
+performed. This makes it somewhat easier to see the substantive
+changes as separate from the renaming. Though the patch is against
+the Valgrind SVN r15939 version of Memcheck, most of the porting of
+Flowcheck was actually only done up to the SVN r15894 version from
+earlier in the summer. The changes to Memcheck in the interim would
+probably be appropriate to merge into Flowcheck, but we haven't done
+so yet because they don't seem important (they mostly just affect
+performance and unsupported platforms), and version control system
+wasn't aware to do them automatically.
+
+Astute observers will notice that the first two patches were made with
+"git diff", and also add .gitignore metadata. This is because our
+internal development of Flowcheck uses a Git repository that mirrors
+the Valgrind SVN one. At the moment this repository isn't public,
+though we might make it public in the future if the pace of Flowcheck
+development warrants it.
+
+

@@ -1,0 +1,4 @@
+IF-driver-partition/
+**/vgcore*
+src/program-dependence-graph-main/build/*
+examples/chage/input/aa.txt

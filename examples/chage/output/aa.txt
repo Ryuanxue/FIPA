@@ -1,0 +1,24 @@
+['chage.pinout_new1', 'chage.pinout_new']
+Caller: main, Callee: process_flags, Count: 1
+Caller: process_flags, Callee: check_flags, Count: 1
+Caller: main, Callee: check_perms, Count: 1
+Caller: main, Callee: open_files, Count: 1
+Caller: main, Callee: get_defaults, Count: 1
+Caller: main, Callee: update_age, Count: 1
+Caller: main, Callee: close_files, Count: 1
+Caller: main, Callee: list_fields, Count: 1
+Caller: list_fields, Callee: print_date, Count: 3
+Caller: main, Callee: fail_exit, Count: 1
+
+每个函数的总执行次数：
+Function: process_flags, Total Executions: 1
+Function: check_flags, Total Executions: 1
+Function: check_perms, Total Executions: 1
+Function: open_files, Total Executions: 1
+Function: get_defaults, Total Executions: 1
+Function: update_age, Total Executions: 1
+Function: close_files, Total Executions: 1
+Function: list_fields, Total Executions: 1
+Function: print_date, Total Executions: 3
+Function: fail_exit, Total Executions: 1
+Function: main, Total Executions: 1

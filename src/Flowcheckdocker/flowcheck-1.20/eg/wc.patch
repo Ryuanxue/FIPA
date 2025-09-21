@@ -1,0 +1,79 @@
+--- wc.c.orig	2008-07-07 15:52:03.000000000 -0400
++++ wc.c	2008-07-07 15:51:58.000000000 -0400
+@@ -14,6 +14,20 @@
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+    Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
++#include <valgrind/flowcheck.h>
++
++#ifdef MORE_PRECISE
++int bound_mask(unsigned int bound) {
++  unsigned int mask;
++  mask = bound;
++  mask |= mask >> 16;
++  mask |= mask >> 8;
++  mask |= mask >> 4;
++  mask |= mask >> 2;
++  mask |= mask >> 1;
++  return mask;
++}
++#endif
+ 
+ /* Written by Paul Rubin, phr@ocf.berkeley.edu
+    and David MacKenzie, djm@gnu.ai.mit.edu. */
+@@ -3894,11 +3908,13 @@
+ 	      break;
+ 	    }
+ 
++	  FC_ENTER_ENCLOSE_V(3898, lines)
+ 	  while ((p = memchr (p, '\n', (buf + bytes_read) - p)))
+ 	    {
+ 	      ++p;
+ 	      ++lines;
+ 	    }
++	  FC_LEAVE_ENCLOSE(3898);
+ 	  bytes += bytes_read;
+ 	}
+     }
+@@ -4056,6 +4072,8 @@
+ 	    }
+ 
+ 	  bytes += bytes_read;
++	  FC_ENTER_ENCLOSE_VVVVVV(4062, lines, linelength, linepos,
++				  in_word, words, bytes_read);
+ 	  do
+ 	    {
+ 	      switch (*p++)
+@@ -4092,22 +4110,32 @@
+ 		}
+ 	    }
+ 	  while (--bytes_read);
++	  FC_LEAVE_ENCLOSE(4062);
+ 	}
++      FC_ENTER_ENCLOSE_V(4102, linelength);
+       if (linepos > linelength)
+ 	linelength = linepos;
++      FC_LEAVE_ENCLOSE(4102);
+       words += in_word;
+     }
+ 
+   if (count_chars < print_chars)
+     chars = bytes;
+ 
++#ifdef MORE_PRECISE
++  words &= bound_mask((bytes+1)/2);
++  lines &= bound_mask(words);
++#endif
++
+   write_counts (lines, words, chars, bytes, linelength, file_x);
+   total_lines += lines;
+   total_words += words;
+   total_chars += chars;
+   total_bytes += bytes;
++  FC_ENTER_ENCLOSE_V(4117, max_line_length);
+   if (linelength > max_line_length)
+     max_line_length = linelength;
++  FC_LEAVE_ENCLOSE(4117);
+ 
+   return ok;
+ }

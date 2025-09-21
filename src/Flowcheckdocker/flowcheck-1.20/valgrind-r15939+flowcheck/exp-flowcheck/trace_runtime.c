@@ -1,0 +1,2029 @@
+/*--------------------------------------------------------------------*/
+/*--- Runtime operations related to constructing a data-flow       ---*/
+/*--- graph of program execution.                                  ---*/
+/*---                                              trace_runtime.c ---*/
+/*--------------------------------------------------------------------*/
+
+/*
+   This file is part of FlowCheck, a heavyweight Valgrind tool for
+   detecting leakage of secret information.
+
+   By Stephen McCamant, MIT CSAIL Program Analsis group, Copyright (C)
+   2007-2008.
+
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License as
+   published by the Free Software Foundation; either version 2 of the
+   License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+   02111-1307, USA.
+
+   The GNU General Public License is contained in the file COPYING.
+*/
+
+#include "pub_tool_basics.h"
+#include "pub_tool_aspacemgr.h"
+#include "pub_tool_hashtable.h"     // For fc_include.h
+#include "pub_tool_debuginfo.h"
+#include "pub_tool_machine.h"
+#include "pub_tool_mallocfree.h"
+#include "pub_tool_poolalloc.h"
+#include "pub_tool_threadstate.h"
+#include "pub_tool_tooliface.h"
+#include "pub_tool_oset.h"
+#include "pub_tool_vki.h"
+#include "pub_tool_libcbase.h"
+#include "pub_tool_libcfile.h"
+#include "pub_tool_libcprint.h"
+#include "pub_tool_libcassert.h"
+#include "fc_include.h"
+#include "fc_translate.h" /* To get FC_(tags_guest_offset) */
+#include "trace_runtime.h"
+#include "fold.h"
+
+#define MORE_DEBUG
+
+#if VG_WORDSIZE == 4
+#define HIGH_BITS(addr) ((addr) >> 16)
+#define LOW_BITS(addr) ((addr) & 0xffff)
+#define PAGE_SIZE 65536
+#define TABLE_SIZE 65536
+#else
+#error Only 32-bit architectures supported
+#endif
+
+const HChar *callsite_location;//raoxue
+static ULong zero_page[PAGE_SIZE];
+
+static ULong *page_table[TABLE_SIZE];
+
+#define MAX_FLOW_EXCEPTIONS 30
+struct flow_region {
+   Addr start;
+   SizeT size;
+   ULong src_tag;
+   int num_exceptions;
+   Addr exceptions[MAX_FLOW_EXCEPTIONS];
+};
+
+#define MAX_FLOW_REGIONS 40
+static struct flow_region flow_regions[MAX_FLOW_REGIONS];
+static int num_flow_regions;
+
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
+/* Hash of the calling context, a la "Probabilistic Calling Context",
+   Bond and McKinley OOPSLA 2007 */
+static ULong callstack_hash = 0;
+static Addr last_callsite;
+
+/* Tourist information: graph size before collapsing */
+static ULong total_nodes = 0;
+static ULong total_edges = 0;
+
+/* File descriptor to which graph edges should be output. The value of 2
+   is special, since that's where Valgrind's printf goes. */
+static Int graph_output_fd;
+
+void output_graph_stats(void) {
+   VG_(printf)("Uncollapsed graph had %lld nodes, %lld edges\n",
+	       total_nodes, total_edges);
+   if (graph_output_fd != 2) {
+      VG_(close)(graph_output_fd);
+   }
+}
+
+static Word edge_compare(const void *key, const void *elem) {
+   const ULong *key_llp = key;
+   const struct edge_info *edge = (const struct edge_info *)elem;
+   if (key_llp[0] < edge->location)
+      return -1;
+   else if (key_llp[0] > edge->location)
+      return 1;
+   else if (key_llp[1] < edge->context)
+      return -1;
+   else if (key_llp[1] > edge->context)
+      return 1;
+   else {
+      tl_assert(key_llp[0] == edge->location);
+      tl_assert(key_llp[1] == edge->context);
+      return 0;
+   }
+   /*return (Word)(key_llp[0] - edge->location)
+     || (Word)(key_llp[1] - edge->context);*/
+}
+
+void init_tag_memory(void) {
+   int i;
+   for (i = 0; i < TABLE_SIZE; i++)
+      page_table[i] = zero_page;
+   edges = VG_(OSetGen_Create)(offsetof(struct edge_info, location),
+			       edge_compare, VG_(malloc), "fc.tr.itm1", VG_(free));
+   if (FC_(clo_graph_file)) {
+      SysRes sr;
+      sr = VG_(open)(FC_(clo_graph_file), VKI_O_WRONLY|VKI_O_CREAT|VKI_O_TRUNC,
+		     0666);
+      tl_assert(!sr_isError(sr));
+      graph_output_fd = (int)sr_Res(sr);
+   } else {
+      graph_output_fd = 2;
+   }
+   if (FC_(clo_folding_level)) {
+      fold_init();
+      fold_new_tag(SOURCE_TAG);
+      fold_new_tag(SINK_TAG);
+   }
+}
+
+static ULong get_single_tag(Addr addr) {
+   /*VG_(printf)("tag[%08x] is %lld (flat)\n", addr,
+     page_table[HIGH_BITS(addr)][LOW_BITS(addr)]);*/
+   return page_table[HIGH_BITS(addr)][LOW_BITS(addr)];
+}
+
+static void set_single_tag(Addr addr, ULong tag) {
+   if (page_table[HIGH_BITS(addr)] == zero_page) {
+      int i;
+      ULong *page = VG_(am_shadow_alloc)(PAGE_SIZE * sizeof(ULong));
+      if (!page)
+	 VG_(out_of_memory_NORETURN)("flowcheck: allocate new tag page",
+				     PAGE_SIZE * sizeof(ULong));
+      for (i = 0; i < PAGE_SIZE; i++)
+	 page[i] = 0;
+      page_table[HIGH_BITS(addr)] = page;
+   }
+   /*VG_(printf)("tag[%08x] := %lld (flat)\n", addr, tag);*/
+   page_table[HIGH_BITS(addr)][LOW_BITS(addr)] = tag;
+}
+
+void mark_special_tags(void);
+
+void mark_memory_tags(void) {
+   int i;
+   for (i = 0; i < TABLE_SIZE; i++) {
+      int j;
+      ULong *page = page_table[i];
+      if (page == zero_page)
+	 continue;
+      for (j = 0; j < PAGE_SIZE; j++)
+	 if (page[j] != 0)
+	    mark_tag_in_use(page[j]);
+   }
+   for (i = 0; i < num_flow_regions; i++) {
+      mark_tag_in_use(flow_regions[i].src_tag);
+   }
+   mark_special_tags();
+}
+
+static void new_edge(ULong src, ULong dest, int capacity,
+		     const char *type, ULong location) {
+   tl_assert(src != SINK_TAG && dest != SOURCE_TAG);
+   /* Graph should be a DAG, but node numbers aren't always increasing */
+   /* tl_assert(dest == SINK_TAG || dest > src); */
+   total_edges++;
+   if (capacity == 0) /* can discard immediately */
+      return;
+   if (FC_(clo_folding_level) == 0) {
+      Addr eip = VG_(get_IP)(VG_(get_running_tid)());
+      const HChar *buf;
+      buf = VG_(describe_IP)(eip, NULL);
+      if (src == SOURCE_TAG)
+	 src = 0;
+      if (dest == SINK_TAG)
+	 dest = -1;
+      if (graph_output_fd == 2) {
+	 VG_(printf)("%lld %lld %d %llx:%llx %s (%s)\n", src, dest,
+		     (Int)capacity, location, callstack_hash, buf, type);
+      } else {
+	 fdprintf(graph_output_fd, "%lld %lld %d %llx:%llx %s (%s)\n",
+		  src, dest, (Int)capacity, location,
+		  callstack_hash, buf, type);
+      }
+   } else {
+      ULong key[2];
+      struct edge_info *edge;
+      ULong context;
+      ULong loc;
+      if (FC_(clo_folding_level) <= 10) {
+	 context = callstack_hash;
+      } else if (FC_(clo_folding_level) <= 50) {
+	 context = last_callsite;
+      } else {
+	 context = 0;
+      }
+      /*loc = (location << 8) | ((int)type & 0xff);*/
+      loc = location;
+      key[0] = loc;
+      key[1] = context;
+      edge = VG_(OSetGen_Lookup)(edges, &key);
+      if (!edge) {
+	 Addr eip = VG_(get_IP)(VG_(get_running_tid)());
+	 const HChar *buf;
+	 edge = VG_(OSetGen_AllocNode)(edges, sizeof(struct edge_info));
+	 edge->location = loc;
+	 edge->context = context;
+	 edge->eip = eip;
+	 buf = VG_(describe_IP)(eip, NULL);
+	 edge->eip_descr = VG_(strdup)("fc.tr.ne.1", buf);
+	 edge->type_descr = type;
+	 edge->src_tag = edge->dest_tag = NO_TAG;
+	 edge->total_capacity = 0;
+	 VG_(OSetGen_Insert)(edges, edge);
+      }
+      fold_new_edge(src, dest, capacity, edge);
+   }
+}
+
+/* Used only when FC_(clo_folding_level) == 0. In that case, we assign
+   new tags freely and never garbage collect them. But when we're folding,
+   we need to keep state for each tag; then we keep only a limited number
+   around at once, and reuse indices by garbage collecting. */
+static ULong next_tag = FIRST_TAG;
+
+static ULong get_next_tag(void) {
+   total_nodes++;
+   if (FC_(clo_folding_level))
+      return get_free_tag();
+   else
+      return next_tag++;
+}
+
+static void add_flow_region(Addr start, SizeT size, ULong src_tag,
+			    ULong location) {
+   int i;
+   Addr end = start + size;
+   for (i = 0; i < num_flow_regions; i++) {
+      Addr old_start = flow_regions[i].start;
+      int old_size =  flow_regions[i].size;
+      Addr old_end = old_start + old_size;
+      if (!(end < old_start) && !(old_end < start)) {
+         /* overlapping or adjacent regions: merge */
+         Addr new_end;
+         int j;
+	 ULong new_tag = get_next_tag();
+         flow_regions[i].start = MIN(start, old_start);
+         new_end = MAX(end, old_end);
+         flow_regions[i].size = new_end - flow_regions[i].start;
+         /*if (flow_regions[i].start != old_start || new_end != old_end)
+            VG_(printf)("Expanding flow region %d to 0x%08x to 0x%08x"
+                        " (size %d)\n",
+                        i, flow_regions[i].start, end, flow_regions[i].size);
+	 else
+            VG_(printf)("Renewing flow region %d to 0x%08x to 0x%08x"
+                        " (size %d)\n",
+                        i, flow_regions[i].start, end, flow_regions[i].size);*/
+         for (j = 0; j < flow_regions[i].num_exceptions; j++) {
+            Addr a = flow_regions[i].exceptions[j];
+            if (a >= start && a < end) {
+               Addr old_num = flow_regions[i].num_exceptions;
+               /*VG_(printf)("Removing exception for 0x%08x\n", a);*/
+               flow_regions[i].exceptions[j] =
+                  flow_regions[i].exceptions[old_num - 1];
+               --flow_regions[i].num_exceptions;
+	       j--;
+            }
+         }
+	 new_edge(flow_regions[i].src_tag, new_tag, old_size * 8,
+		     "flow region cascade old", location);
+	 new_edge(src_tag, new_tag, size * 8, "flow region cascade new",
+		     location + 1);
+	 flow_regions[i].src_tag = new_tag;
+         return;
+      }
+   }
+   i = num_flow_regions++;
+   tl_assert(num_flow_regions <= MAX_FLOW_REGIONS);
+   flow_regions[i].start = start;
+   flow_regions[i].size = size;
+   flow_regions[i].num_exceptions = 0;
+   flow_regions[i].src_tag = src_tag;
+   /*VG_(printf)("Adding flow region %d from 0x%08x to 0x%08x (size %d)\n",
+     i, start, end, size);*/
+}
+
+static void partial_give_up_on_flow_region(int i, SizeT size, ULong location) {
+   Addr a;
+   Addr end = flow_regions[i].start + size;
+   Bool partial = (size < flow_regions[i].size);
+   /*const char *partial_str = partial ? "partial " : "";*/
+   int j;
+
+   /*if (partial) {
+      VG_(printf)("Scaling back flow region %d\n", i);
+   } else {
+      VG_(printf)("Destroying flow region %d\n", i);
+   }
+   VG_(printf)("Exceptions were:\n");
+   for (j = 0; j < flow_regions[i].num_exceptions; j++) {
+      Addr addr = flow_regions[i].exceptions[j];
+      VG_(printf)("    0x%08x\n", addr);
+      }*/
+
+   a = flow_regions[i].start;
+   /*VG_(printf)("On %sdestruction, tainting from 0x%08x to 0x%08x\n",
+     partial_str, a, end);*/
+   for (; a < end; a++) {
+      Bool is_exception = False;
+      for (j = 0; j < flow_regions[i].num_exceptions; j++) {
+	 Addr a2 = flow_regions[i].exceptions[j];
+	 tl_assert(a2 >= flow_regions[i].start && a2 < end);
+	 if (a == a2) {
+	    /* VG_(printf)("  except 0x%08x\n", a);*/
+	    is_exception = True;
+	    break;
+	 }
+      }
+      if (!is_exception) {
+	 ULong old_tag = get_single_tag(a);
+	 ULong new_tag = get_next_tag();
+	 if (old_tag)
+	    new_edge(old_tag, new_tag, 8, partial ?
+			"old value in partial give up" :
+			"old value in give up", location + 2 * partial);
+	 new_edge(flow_regions[i].src_tag, new_tag, 8, partial ?
+		     "enclosed output in partial give up" :
+		     "enclosed output in give up", location + 2*partial + 1);
+	 set_single_tag(a, new_tag);
+      }
+   }
+   flow_regions[i].num_exceptions = 0;
+   flow_regions[i].start += size;
+   flow_regions[i].size -= size;
+}
+
+static void give_up_on_flow_region(int i, ULong location) {
+  partial_give_up_on_flow_region(i, flow_regions[i].size, location);
+   flow_regions[i] = flow_regions[--num_flow_regions];
+}
+
+static void add_flow_exception(int i, Addr addr, ULong location) {
+   if (addr == flow_regions[i].start) {
+      flow_regions[i].start++;
+      flow_regions[i].size--;
+      return;
+   }
+   flow_regions[i].exceptions[flow_regions[i].num_exceptions++] = addr;
+   if (flow_regions[i].num_exceptions == MAX_FLOW_EXCEPTIONS) {
+      int j;
+      Addr max_exception = flow_regions[i].exceptions[0];
+      SizeT partial_size;
+      for (j = 1; j < flow_regions[i].num_exceptions; j++) {
+	 if (flow_regions[i].exceptions[j] > max_exception)
+	    max_exception = flow_regions[i].exceptions[j];
+      }
+      /* VG_(printf)("Largest exeception is 0x%08x\n", max_exception);*/
+      partial_size = max_exception - flow_regions[i].start + 1;
+      if (2 * partial_size < flow_regions[i].size)
+	 partial_give_up_on_flow_region(i, partial_size, location);
+      else
+	 give_up_on_flow_region(i, location);
+   }
+}
+
+ULong get_tag(Addr addr, ULong location) {
+   int i;
+   for (i = 0; i < num_flow_regions; i++) {
+      /*VG_(printf)("Checking 0x%08x versus 0x%08x and 0x%08x (flow)\n",
+		  addr, flow_regions[i].start,
+		  flow_regions[i].start + flow_regions[i].size);*/
+      if (addr >= flow_regions[i].start &&
+	  addr < flow_regions[i].start + flow_regions[i].size) {
+	 int j;
+	 ULong old_tag, new_tag;
+	 for (j = 0; j < flow_regions[i].num_exceptions; j++)
+	    if (flow_regions[i].exceptions[j] == addr) {
+	       /*VG_(printf)("0x%08x is an exception\n", addr);*/
+	       return get_single_tag(addr);
+	    }
+	 old_tag = get_single_tag(addr);
+	 new_tag = get_next_tag();
+	 if (old_tag)
+	    new_edge(old_tag, new_tag, 8,
+			"old value of enclosed output region", location+31);
+	 new_edge(flow_regions[i].src_tag, new_tag, 8,
+		     "enclosed output in region", location+32);
+	 set_single_tag(addr, new_tag);
+	 if (flow_regions[i].num_exceptions < MAX_FLOW_EXCEPTIONS / 2)
+	    add_flow_exception(i, addr, location);
+	 return new_tag;
+      }
+   }
+   return get_single_tag(addr);
+}
+
+void set_tag(Addr addr, ULong tag, ULong location) {
+   int i;
+   for (i = 0; i < num_flow_regions; i++) {
+      if (addr >= flow_regions[i].start &&
+	  addr < flow_regions[i].start + flow_regions[i].size) {
+	 int j;
+	 for (j = 0; j < flow_regions[i].num_exceptions; j++)
+	    if (flow_regions[i].exceptions[j] == addr) {
+	       /*VG_(printf)("0x%08x is already an exception\n", addr);*/
+	       return set_single_tag(addr, tag);
+	    }
+	 add_flow_exception(i, addr, location);
+	 return set_single_tag(addr, tag);
+      }
+   }
+   return set_single_tag(addr, tag);
+}
+
+void make_freshly_tagged_input(Addr start, SizeT len, ULong location) {
+   SizeT i;
+   check_enough_tags(len);
+   for (i = 0; i < len; i++) {
+      ULong tag = get_next_tag();
+      set_tag(start + i, tag, location);
+      new_edge(SOURCE_TAG, tag, 8, "input byte", location);
+   }
+}
+
+void make_freshly_tagged_register(ThreadId tid, OffT offset, int capacity,
+				  ULong location) {
+   ULong tag;
+   OffT tag_offset;
+   check_enough_tags(1);
+   tag = get_next_tag();
+   tag_offset = FC_(tags_guest_offset) + 8 * offset;
+   VG_(set_shadow_regs_area)(tid, 0, tag_offset, sizeof(ULong), (UChar*)&tag);
+   new_edge(SOURCE_TAG, tag, capacity, "input register", location);
+}
+
+static ULong leak_cascade = 0;
+
+void count_leaked_tags(Addr start, SizeT len, ULong location) {
+   SizeT i;
+   ULong next_cascade = 0;
+   check_enough_tags(2 * len);
+   for (i = 0; i < len; i++) {
+      ULong tag = get_tag(start + i, location);
+      if (tag) {
+	 if (leak_cascade) {
+	    ULong join_node = get_next_tag();
+	    if (!next_cascade) {
+	       next_cascade = get_next_tag();
+	       new_edge(leak_cascade, next_cascade, FC_(total_bits_leaked),
+			   "global leak cascade", location);
+	    }
+	    new_edge(tag, join_node, 8, "output byte to join", location+1);
+	    new_edge(leak_cascade, join_node, 8, "global leak to output",
+			location+2);
+	    tag = join_node;
+	 }
+	 new_edge(tag, SINK_TAG, 8, "output byte", location+3);
+      } else if (leak_cascade) {
+	new_edge(leak_cascade, SINK_TAG, 8, "global leak on public output",
+		    location+4);
+      }
+   }
+   if (next_cascade) {
+      leak_cascade = next_cascade;
+   }
+   if (FC_(clo_incremental))
+      run_incremental_max_flow();
+}
+
+static ULong combine2(ULong tag1, ULong tag2, ULong location) {
+   if (tag1 == tag2) {
+      return tag1;
+   } else if (!tag1) {
+      return tag2;
+   } else if (!tag2) {
+      return tag1;
+   } else {
+      ULong new_tag = get_next_tag();
+      new_edge(tag1, new_tag, 8, "combine2", location + 1);
+      new_edge(tag2, new_tag, 8, "combine2", location + 2);
+      return new_tag;
+   }
+}
+
+static ULong merge2(ULong tag1, ULong tag2, ULong location) {
+   if (tag1 == tag2)
+      return tag1;
+   else
+      return combine2(tag1, tag2, location);
+}
+
+static ULong combine4(ULong tag1, ULong tag2, ULong tag3, ULong tag4,
+		      ULong location) {
+   if (tag1 == tag2 && tag2 == tag3 && tag3 == tag4) {
+      return tag1;
+   } else if (!tag1 && !tag2 && !tag3) {
+      return tag4;
+   } else if (!tag2 && !tag3 && !tag4) {
+      return tag1;
+   } else if (!tag1 && !tag3 && !tag4) {
+      return tag2;
+   } else if (!tag1 && !tag2 && !tag4) {
+      return tag3;
+   } else {
+      ULong new_tag = get_next_tag();
+      if (tag1)
+	 new_edge(tag1, new_tag, 8, "combine4", location);
+      if (tag2)
+	 new_edge(tag2, new_tag, 8, "combine4", location);
+      if (tag3)
+	 new_edge(tag3, new_tag, 8, "combine4", location);
+      if (tag4)
+	 new_edge(tag4, new_tag, 8, "combine4", location);
+      return new_tag;
+   }
+}
+
+static ULong merge4(ULong tag1, ULong tag2, ULong tag3, ULong tag4,
+		    ULong location) {
+   if (tag1 == tag2 && tag2 == tag3 && tag3 == tag4)
+      return tag1;
+   else
+      return combine4(tag1, tag2, tag3, tag4, location);
+}
+
+ULong FC_(helperc_RESULT_TAG)(ULong tag, UInt width, ULong location) {
+   if (width && !tag) {
+      VG_(printf)("Missing tag for result at %llx\n", location);
+     // tl_assert(!width || tag); //commentd by shen
+   }
+   if (!tag) {
+      return tag;
+   } else {
+      ULong new_tag;
+      check_enough_tags(1);
+      new_tag = get_next_tag();
+      new_edge(tag, new_tag, width, "result", location + 10);
+      return new_tag;
+   }
+}
+
+ULong FC_(helperc_UNARY_TAG)(ULong tag, UInt width, ULong location) {
+   if (!tag) {
+      return tag;
+   } else {
+      ULong new_tag;
+      check_enough_tags(1);
+      new_tag = get_next_tag();
+      new_edge(tag, new_tag, width, "unary", location + 20);
+      return new_tag;
+   }
+}
+
+ULong FC_(helperc_BINARY_TAGS)(ULong tag1, ULong tag2,
+			       UInt width1, UInt width2,
+			       ULong location) {
+   ULong new_tag;
+  // tl_assert(!width1 || tag1); //commented by shen
+   if (width2 && !tag2) {
+      VG_(printf)("Missing tag for second arg at %llx\n", location);
+     // tl_assert(!width2 || tag2); //commented by shen
+   }
+   if (!tag1 && !tag2)
+      return 0;
+   check_enough_tags(1);
+   new_tag = get_next_tag();
+   if (tag1)
+      new_edge(tag1, new_tag, width1, "binary arg 1", location + 1);
+   if (tag2)
+      new_edge(tag2, new_tag, width2, "binary arg 2", location + 2);
+   return new_tag;
+}
+
+ULong FC_(helperc_TERNARY_TAGS)(ULong tag1, ULong tag2, ULong tag3,
+				UInt width1, UInt width2, UInt width3,
+				ULong location) {
+   ULong new_tag;
+   if (!tag1 && !tag2 && !tag3)
+      return 0;
+   check_enough_tags(1);
+   new_tag = get_next_tag();
+   if (tag1)
+      new_edge(tag1, new_tag, width1, "ternary arg 1", location + 1);
+   if (tag2)
+      new_edge(tag2, new_tag, width2, "ternary arg 2", location + 2);
+   if (tag3)
+      new_edge(tag3, new_tag, width3, "ternary arg 3", location + 3);
+   return new_tag;
+}
+
+ULong FC_(helperc_FOURARY_TAGS)(ULong tag1, ULong tag2, ULong tag3, ULong tag4,
+				UInt width1, UInt width2, UInt width3,
+				UInt width4, ULong location) {
+   ULong new_tag;
+   if (!tag1 && !tag2 && !tag3 && !tag4)
+      return 0;
+   check_enough_tags(1);
+   new_tag = get_next_tag();
+   if (tag1)
+      new_edge(tag1, new_tag, width1, "fourary arg 1", location + 1);
+   if (tag2)
+      new_edge(tag2, new_tag, width2, "fourary arg 2", location + 2);
+   if (tag3)
+      new_edge(tag3, new_tag, width3, "fourary arg 3", location + 3);
+   if (tag4)
+      new_edge(tag4, new_tag, width4, "fourary arg 4", location + 4);
+   return new_tag;
+}
+
+ULong FC_(helperc_FIVEARY_TAGS)(ULong tag1, ULong tag2, ULong tag3, ULong tag4,
+				ULong tag5,
+				UInt width1, UInt width2, UInt width3,
+				UInt width4, UInt width5, ULong location) {
+   ULong new_tag;
+   if (!tag1 && !tag2 && !tag3 && !tag4 && !tag5)
+      return 0;
+   check_enough_tags(1);
+   new_tag = get_next_tag();
+   if (tag1)
+      new_edge(tag1, new_tag, width1, "fiveary arg 1", location + 1);
+   if (tag2)
+      new_edge(tag2, new_tag, width2, "fiveary arg 2", location + 2);
+   if (tag3)
+      new_edge(tag3, new_tag, width3, "fiveary arg 3", location + 3);
+   if (tag4)
+      new_edge(tag4, new_tag, width4, "fiveary arg 4", location + 4);
+   if (tag5)
+      new_edge(tag5, new_tag, width5, "fiveary arg 5", location + 5);
+   return new_tag;
+}
+
+ULong FC_(helper_LOAD_TAG_1) (Addr addr, ULong addrTag, ULong location) {
+   ULong tag = get_tag(addr, location);
+#ifdef EVEN_MORE_DEBUG
+   Bool ok;
+   UChar vbits8;
+   ok = get_vbits8(addr, &vbits8);
+   if (ok && vbits8 && !tag) {
+      VG_(printf)("Missing tag for loaded byte at %llx\n", location);
+      tl_assert(!vbits8 || tag);
+   }
+#endif
+   return tag;
+}
+
+ULong FC_(helper_LOAD_TAG_2) (Addr addr, ULong addrTag, ULong location) {
+   check_enough_tags(3);
+   return merge2(get_tag(addr, location), get_tag(addr + 1, location),
+		 location);
+}
+
+ULong FC_(helper_LOAD_TAG_4) (Addr addr, ULong addrTag, ULong location) {
+   check_enough_tags(5);
+   return merge4(get_tag(addr, location),     get_tag(addr + 1, location),
+		 get_tag(addr + 2, location), get_tag(addr + 3, location),
+		 location);
+}
+
+ULong FC_(helper_LOAD_TAG_8) (Addr addr, ULong addrTag, ULong location) {
+   check_enough_tags(13);
+   return merge4(merge2(get_tag(addr, location),
+			get_tag(addr + 1, location), location),
+		 merge2(get_tag(addr + 2, location),
+			get_tag(addr + 3, location), location + 4),
+		 merge2(get_tag(addr + 4, location),
+			get_tag(addr + 5, location), location + 8),
+		 merge2(get_tag(addr + 6, location),
+			get_tag(addr + 7, location), location + 12),
+		 location + 16);
+}
+
+ULong FC_(helper_LOAD_TAG_16)(Addr addr, ULong addrTag, ULong location) {
+   check_enough_tags(21);
+   return
+      merge4
+      (merge4(get_tag(addr, location),      get_tag(addr + 1, location),
+	      get_tag(addr + 2, location),  get_tag(addr + 3, location),
+	      location),
+       merge4(get_tag(addr + 4, location),  get_tag(addr + 5, location),
+	      get_tag(addr + 6, location),  get_tag(addr + 7, location),
+	      location),
+       merge4(get_tag(addr + 8, location),  get_tag(addr + 9, location),
+	      get_tag(addr + 10, location), get_tag(addr + 11, location),
+	      location),
+       merge4(get_tag(addr + 12, location), get_tag(addr + 13, location),
+	      get_tag(addr + 14, location), get_tag(addr + 15, location),
+	      location),
+       location);
+}
+
+static void store_tag(Addr addr, ULong dataTag, ULong location,
+		      Word in_rollback) {
+   if (in_rollback && !FC_(is_escaping)(addr)) {
+      dataTag = combine2(dataTag, get_tag(addr, location), location);
+   }
+   set_tag(addr, dataTag, location);
+}
+
+void FC_(helper_STORE_TAG_1) (Addr addr, ULong addrTag, ULong dataTag,
+			      ULong location, Word in_rollback) {
+#ifdef EVEN_MORE_DEBUG
+   /* Assuming the V bits get written first */
+   Bool ok;
+   UChar vbits8;
+   ok = get_vbits8(addr, &vbits8);
+   if (ok && vbits8 && !dataTag) {
+      VG_(printf)("Missing tag for stored byte at %llx\n", location);
+      tl_assert(!vbits8 || dataTag);
+   }
+#endif
+   store_tag(addr, dataTag, location, in_rollback);
+}
+
+void FC_(helper_STORE_TAG_2) (Addr addr, ULong addrTag, ULong dataTag,
+			      ULong location, Word in_rollback) {
+   store_tag(addr,     dataTag, location, in_rollback);
+   store_tag(addr + 1, dataTag, location, in_rollback);
+}
+
+void FC_(helper_STORE_TAG_4) (Addr addr, ULong addrTag, ULong dataTag,
+			      ULong location, Word in_rollback) {
+   store_tag(addr,     dataTag, location, in_rollback);
+   store_tag(addr + 1, dataTag, location, in_rollback);
+   store_tag(addr + 2, dataTag, location, in_rollback);
+   store_tag(addr + 3, dataTag, location, in_rollback);
+}
+
+void FC_(helper_STORE_TAG_8) (Addr addr, ULong addrTag, ULong dataTag,
+			      ULong location, Word in_rollback) {
+   store_tag(addr,     dataTag, location, in_rollback);
+   store_tag(addr + 1, dataTag, location, in_rollback);
+   store_tag(addr + 2, dataTag, location, in_rollback);
+   store_tag(addr + 3, dataTag, location, in_rollback);
+   store_tag(addr + 4, dataTag, location, in_rollback);
+   store_tag(addr + 5, dataTag, location, in_rollback);
+   store_tag(addr + 6, dataTag, location, in_rollback);
+   store_tag(addr + 7, dataTag, location, in_rollback);
+}
+
+void FC_(helper_STORE_TAG_16)(Addr addr, ULong addrTag, ULong dataTag,
+			      ULong location, Word in_rollback) {
+   int i;
+   for (i = 0; i < 16; i++)
+      store_tag(addr + i, dataTag, location, in_rollback);
+}
+
+static ULong enclose_node = 0;
+
+void mark_special_tags(void) {
+   if (leak_cascade)
+      mark_tag_in_use(leak_cascade);
+   if (enclose_node)
+      mark_tag_in_use(enclose_node);
+}
+
+void trace_enter_enclose() {
+   enclose_node = 0;
+}
+
+void trace_leak(ULong tag, Int width, ULong location) {
+   //tl_assert(tag); //comented by shen
+   check_enough_tags(1);
+   if (!leak_cascade)
+      leak_cascade = get_next_tag();
+   new_edge(tag, leak_cascade, width, "global leak", location);
+}
+
+void trace_leak_enclosed(ULong tag, Int width, ULong location) {
+   tl_assert(width > 0);
+   if (!tag) {
+      VG_(printf)("Leak (%d bits) with no tag\n", width);
+      tl_assert(0);
+   }
+
+   if (!enclose_node) {
+      check_enough_tags(1);
+      enclose_node = get_next_tag();
+   }
+
+   new_edge(tag, enclose_node, width, "enclosed leak", location + 41);
+}
+
+void trace_enclosed_output(Addr addr, ULong location) {
+   ULong old_tag = get_tag(addr, location + 1);
+   ULong new_tag;
+   check_enough_tags(1);
+   new_tag = get_next_tag();
+   if (!enclose_node) {
+      VG_(printf)("Enclosed output at %p with no node\n", (void *)addr);
+      tl_assert(0);
+   }
+   if (old_tag)
+      new_edge(old_tag, new_tag, 8, "old value of enclosed output",
+	       location + 2);
+   new_edge(enclose_node, new_tag, 8, "enclosed output", location + 3);
+   set_single_tag(addr, new_tag);
+}
+
+void trace_enclosed_output_region(Addr addr, Int size, ULong location) {
+   if (!enclose_node) {
+      VG_(printf)("Enclosed output at %p with no node\n", (void *)addr);
+      tl_assert(0);
+   }
+   check_enough_tags(size);
+   add_flow_region(addr, size, enclose_node, location);
+}
+
+#define CALL_DEPTH 4096
+static Addr shadow_call_stack[CALL_DEPTH];
+static ULong shadow_stack_hashes[CALL_DEPTH];
+static int call_level = 0;
+
+void FC_(helper_WATCH_CALL)(Addr addr) {
+   /*int i;*/
+   Addr eip = VG_(get_IP)(VG_(get_running_tid)());
+   Addr global_esp = VG_(get_SP)(VG_(get_running_tid)());
+   // Addr current_ebp = VG_(get_FP)(VG_(get_running_tid)());
+   HChar *buf = VG_(describe_IP)(eip, NULL);
+   //打印buf, global_esp, current_ebp
+   // char result[100];
+   //     VG_(memset)(result,0,100);
+   //     VG_(sprintf)(result, "%s%s%s", "/", FC_(project_name), "/");
+      
+   //    // if(VG_(strstr)(buf,"test.c")!=NULL)
+
+   //    if((VG_(strstr)(buf, result) != NULL) && (VG_(strstr)(buf, ".c:") != NULL))
+   // VG_(printf)("Saw call to 0x%llx at 0x%llx (%s)\n", (ULong)global_esp, (ULong)current_ebp, buf);
+   callsite_location=buf;//raoxue
+   // VG_(printf)("Saw call to 0x%llx at 0x%llx (%s)\n", (ULong)addr, (ULong)eip, buf);
+   /*for (i = 0; i < call_level; i++)
+      VG_(printf)(" ");
+      VG_(printf)("Saw call to 0x%llx at 0x%llx\n", (ULong)addr, (ULong)eip);*/
+   last_callsite = eip;
+   shadow_call_stack[call_level] = eip;
+   shadow_stack_hashes[call_level] = callstack_hash;
+   call_level++;
+   
+   callstack_hash = 3 * callstack_hash + eip;
+   // VG_(printf)("Call level is add %d  %s  %p 0x%llx\n", call_level, buf,global_esp, callstack_hash);
+   /*VG_(printf)("Call stack hash is 0x%llx\n", callstack_hash);*/
+   tl_assert(call_level < CALL_DEPTH);
+}
+
+void FC_(helper_WATCH_RET)(void) {
+   Addr eip = VG_(get_IP)(VG_(get_running_tid)());
+   HChar *buf = VG_(describe_IP)(eip, NULL);
+   Addr global_esp = VG_(get_SP)(VG_(get_running_tid)());
+   // Addr current_ebp = VG_(get_FP)(VG_(get_running_tid)());
+   //打印buf, global_esp, current_ebp
+   // char result[100];
+   //     VG_(memset)(result,0,100);
+   //     VG_(sprintf)(result, "%s%s%s", "/", FC_(project_name), "/");
+      
+   //    // if(VG_(strstr)(buf,"test.c")!=NULL)
+
+   //    if((VG_(strstr)(buf, result) != NULL) && (VG_(strstr)(buf, ".c:") != NULL))
+   // VG_(printf)("Saw return from 0x%llx at 0x%llx (%s)\n", (ULong)global_esp, (ULong)current_ebp, buf);
+   /*int i;*/
+   Addr old_callsite;
+   --call_level;
+   // VG_(printf)("Call level is sub %d %s %p  0x%llx\n", call_level, buf, global_esp, callstack_hash);
+   if (call_level < 0)
+      call_level = 0;
+   old_callsite = shadow_call_stack[call_level];
+   callstack_hash = shadow_stack_hashes[call_level];
+   /*for (i = 0; i < call_level; i++)
+      VG_(printf)(" ");
+      VG_(printf)("Saw return, popping 0x%llx\n", (ULong)old_callsite);*/
+   last_callsite = old_callsite;
+   /*VG_(printf)("Call stack hash is 0x%llx\n", callstack_hash);*/
+}
+
+void shadow_stack_iterate(void) {
+   callstack_hash += 541; /* perturb by a random value */
+   /*VG_(printf)("Iterating call stack hash to 0x%llx\n", callstack_hash);*/
+}
+
+
+/////////////  ===================================================add by xue
+
+
+
+static Addr addr_val_zero_page[PAGE_SIZE];//add by xue
+static Addr *addr_val_page_table[TABLE_SIZE]; //add by xue
+
+void init_addr_val_page_table(void) {//add by xue
+   int i;
+   for (i = 0; i < TABLE_SIZE; i++)
+      addr_val_page_table[i] = addr_val_zero_page;
+}
+
+static void set_single_addr_val(Addr addr, Addr val,int size) {//add by xue,只保存32位的值，因为只有32的值才有可能是地址
+   if (addr_val_page_table[HIGH_BITS(addr)] == addr_val_zero_page) {
+      int i;
+      Addr *page = VG_(am_shadow_alloc)(PAGE_SIZE * sizeof(Addr));
+      if (!page)
+	 VG_(out_of_memory_NORETURN)("flowcheck: allocate new tag page",
+				     PAGE_SIZE * sizeof(Addr));
+      for (i = 0; i < PAGE_SIZE; i++)
+      page[i]=0;
+	 
+      addr_val_page_table[HIGH_BITS(addr)] = page;
+   }
+    addr_val_page_table[HIGH_BITS(addr)][LOW_BITS(addr)] = val;
+  
+}
+
+static ULong get_single_addr_val(Addr addr) {//add by xue
+   /*VG_(printf)("tag[%08x] is %lld (flat)\n", addr,
+     page_table[HIGH_BITS(addr)][LOW_BITS(addr)]);*/
+   return addr_val_page_table[HIGH_BITS(addr)][LOW_BITS(addr)];
+   // return 0;
+}
+
+#define MAX_STACK_SIZE 512
+// 假设这是你的call_stack_ebp
+Addr call_stack_ebp[MAX_STACK_SIZE] = { /* 这里放入你的数据 */ };
+HChar *call_staack_funname[MAX_STACK_SIZE]={""};
+static int pre_call_level=-1;
+static my_verbone=0;//raoxue
+static isparse=False; //raoxue
+static Addr  global_esp;
+static Addr global_ebp;
+static globaal_isFunCall=False;
+static Bool global_result=False;
+static char pre_bb[13]="prebb";
+static char cur_bb[13]="curbb";
+#define MAX_INSTR_LEN 100
+#define MAX_BLOCK_LEN 100
+#define MAX_BLOCKS 3000
+Addr prev_bp = 0;
+Addr prev_sp = 0;
+int new_call_level = 0;
+// void extract_basic_block();
+// void extract_basic_block()
+// {
+//  int file = VG_(fd_open)("basic_blocks_data.pkl", VKI_O_RDONLY, 0);
+//     if (file == -1) {
+//         VG_(exit)(1);
+//     }
+
+//     int address_len;
+//     int instr_len;
+//     int bb_len;
+//     char address_buf[MAX_BLOCK_LEN];
+//     char instr_buf[MAX_INSTR_LEN];
+
+//     // 初始化哈希表
+//     init_map(MAX_BLOCKS);
+//     init_instruction_map(MAX_BLOCKS);
+
+//     // 读取并存储文件内容到哈希表
+//     int read_byte;
+//     while(1)
+//     {
+//        read_byte=VG_(read)(file, &address_len,sizeof(int));
+//        if (read_byte<=0) break;
+//       //  VG_(lseek)(file,read_byte,VKI_SEEK_CUR);
+//       //   VG_(printf)("Address Length: %d\n", address_len); // 打印地址长度
+//       //   VG_(printf)("read_byte: %d\n", read_byte); // 打印地址长度
+//         read_byte=VG_(read)(file, address_buf,sizeof(char)*address_len);
+//       //   VG_(printf)("read_byte: %d\n", read_byte);
+//       //   VG_(lseek)(file,read_byte,VKI_SEEK_CUR);
+//         address_buf[address_len] = '\0';  // 添加字符串结束符
+//       //   VG_(printf)("Address Buffer: %s\n", address_buf); // 打印地址内容
+        
+//         // 为基本块分配内存
+//         struct BasicBlock *block = VG_(malloc)("block_1",sizeof(struct BasicBlock));
+//         if (block == NULL) {
+//             VG_(exit)(1);
+//         }
+//         block->instructions = NULL;
+//         VG_(strcpy)(block->address, address_buf);
+//       //   VG_(printf)("Basic Block Address: %s\n", block->address); // 打印基本块地址
+
+        
+//          read_byte=VG_(read)(file, &bb_len,sizeof(int));
+//          // VG_(lseek)(file,read_byte,VKI_SEEK_CUR);
+//         int num_instructions = 0;
+//         while(1)
+//         {
+            
+//             read_byte=VG_(read)(file, &instr_len,sizeof(int));
+//             // VG_(printf)("Instruction Length: %zu\n", instr_len); // 打印指令长度
+//             // VG_(lseek)(file,read_byte,VKI_SEEK_CUR);
+//             read_byte=VG_(read)(file, instr_buf,sizeof(char)*instr_len);
+//             // VG_(lseek)(file,read_byte,VKI_SEEK_CUR);
+             
+//             instr_buf[instr_len] = '\0';  // 添加字符串结束符
+//             // VG_(printf)("Instruction Buffer: %s\n", instr_buf); // 打印指令内容
+
+//             // 分配内存并复制指令内容
+//             block->instructions = VG_(realloc)("bb_inst_0",block->instructions, (num_instructions + 1) * sizeof(char *));
+//             if (block->instructions == NULL) {
+//                 VG_(exit)(1);
+//             }
+//             char **new_instructions = VG_(malloc)("bb_inst_0", (num_instructions + 1) * sizeof(char *));
+//             if (new_instructions == NULL) {
+//                VG_(exit)(1);
+//             }
+            
+
+//             block->instructions[num_instructions] = VG_(malloc)("block_inst_1",(instr_len + 1) * sizeof(char));
+//             if (block->instructions[num_instructions] == NULL) {
+//                 VG_(exit)(1);
+//             }
+//             VG_(strcpy)(block->instructions[num_instructions], instr_buf);
+
+//             //////////
+//             // char *colonPos = VG_(strchr)(block->instructions[num_instructions], ':');
+//             //    char result[100];
+//             //    VG_(memset)(result,0,100);
+//             //    VG_(strncpy)(result, block->instructions[num_instructions], colonPos - block->instructions[num_instructions]-1);
+//             //    instruction_map_put(result, block->address);
+
+
+//             num_instructions++;
+//             if(num_instructions==bb_len) break;
+//         }
+//         block->num_instructions = num_instructions;
+
+//         // 将基本块添加到哈希表中
+//         put(address_buf, block);
+//         // printf("Number of Instructions: %d\n", block->num_instructions); // 打印指令数量
+//         num_blocks++; // 每读取一个基本块，增加基本块数量
+//     }
+    
+//     VG_(close)(file);
+//     extract_instruction_map();
+// // print_instruction_map();
+    // 打印保存的内容
+   //  print_blocks();
+   //  VG_(printf)("Total Basic Blocks: %d\n", num_blocks);
+
+   //  // 释放动态分配的内存
+   //  for (int i = 0; i < block_map->size; i++) {
+   //      struct HashNode *node = block_map->nodes[i];
+   //      if (node != NULL) {
+   //          VG_(free)(node->value->instructions);
+   //          VG_(free)(node->value);
+   //          VG_(free)(node);
+   //      }
+   //  }
+   //  VG_(free)(block_map->nodes);
+   //  VG_(free)(block_map);
+
+//     return ;
+// }
+
+
+#define MAX_SYMBOLS 100 // 定义一个合适的数组大小
+
+// 结构体定义
+typedef 
+   struct {
+      Addr avmas;   
+      UInt    size;    /* size in bytes */
+   }
+   DiSym;
+
+DiSym** non_text_global_symbols=NULL;
+
+// // 查找符号函数
+// DiSym* find_symbol_by_name(const char* name) {
+//     if (name == NULL || non_text_global_symbols == NULL) {
+//         return NULL;
+//     }
+
+//     for (int i = 0; non_text_global_symbols[i] != NULL; i++) {
+//         if (VG_(strcmp)(name, non_text_global_symbols[i]->pri_name) == 0) {
+//             return non_text_global_symbols[i];
+//         }
+//     }
+//     return NULL; // 没有找到匹配的符号
+// }
+
+// 判断地址是否等于某个符号的 avmas，如果等于则返回该符号的 size
+int get_symbol_size(Addr addr,Addr *begin, Addr *end) {
+    SizeT size = 0;
+
+    for (int i = 0; non_text_global_symbols[i] != NULL; i++) {
+      // VG_(printf)("avmas:%p\n",non_text_global_symbols[i]->avmas);
+      // VG_(printf)("size:%d\n",non_text_global_symbols[i]->size);
+        if (addr>=non_text_global_symbols[i]->avmas && addr<=non_text_global_symbols[i]->avmas+
+        non_text_global_symbols[i]->size) {
+            size = non_text_global_symbols[i]->size;
+            *begin=non_text_global_symbols[i]->avmas;
+            *end=*begin+size;
+            // arr[1]=non_text_global_symbols[i]->avmas+non_text_global_symbols[i]->size;//这行代码报段错误，为什么
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+
+
+// 找到第一个非零元素的下标
+int find_first_non_zero_index() {
+   // VG_(printf)("find_first_non_zero_index \n");
+    int i = 0;
+    
+    while (i < MAX_STACK_SIZE && call_stack_ebp[i] == 0) {
+        i++;
+    }
+    //打印call_level以及i之后非零的元素
+      // VG_(printf)("call_level:%d\n",new_call_level);
+      // VG_(printf)("call_stack_ebp:[");
+      // for(int i=0;i<new_call_level;i++)
+      // {
+      //    if(call_stack_ebp[i]!=0)
+      //    VG_(printf)(" %p",call_stack_ebp[i]);
+      // }
+      // VG_(printf)(" ]\n");
+    return i;
+}
+
+
+
+// 判断地址是否在两个地址之间，并返回较小的那个地址的下标
+int find_interval_index(Addr addr) {
+   // VG_(printf)("find_interval_index \n");
+   // VG_(printf("addr:%p\n",global_esp));
+   if (addr>global_esp && addr<global_ebp) 
+      return call_level;
+    int first_non_zero_index = find_first_non_zero_index();
+    if (addr <= call_stack_ebp[first_non_zero_index]) {
+        return -1; // addr 在第一个非零元素之前
+    }
+    for (int i = first_non_zero_index; i < MAX_STACK_SIZE; i++) {
+        if (call_stack_ebp[i] != 0 && addr > call_stack_ebp[i]) {
+            return i - 1; // addr 在 call_stack_ebp[i-1] 和 call_stack_ebp[i] 之间
+        }else if(call_stack_ebp[i]==0)
+        return i-1;
+
+    }
+    return -1; // addr 大于数组中的所有非零元素
+}
+
+char* extractFunctionName(const char* input) {
+    // 找到第一个冒号
+    char* start = VG_(strchr)(input, ':');
+    if (start != NULL) {
+        start += 2; // 跳过冒号和空格
+
+        // 找到下一个空格
+        char* end = VG_(strchr)(start, ' ');
+        if (end != NULL) {
+            int len = end - start;
+            char* funcName = (char*)VG_(malloc)("my_examp.c", len + 1); // 动态分配内存
+            
+            if (funcName == NULL) {
+                VG_(printf)("内存分配失败\n");
+                return NULL;
+            }
+
+            VG_(strncpy)(funcName, start, len);
+            funcName[len] = '\0'; // 确保字符串结束符
+
+            return funcName;
+        }
+    }
+
+    return NULL;
+}
+
+
+static Addr all_sense_addr[4096];
+int all_sense_addr_size=0;
+
+static void split_stack_frame(HChar *buf) {
+    global_esp = VG_(get_SP)(VG_(get_running_tid)());
+    global_ebp = VG_(get_FP)(VG_(get_running_tid)());
+    if (global_ebp< global_esp) 
+        return;
+      // VG_(printf)("global_esp:%p\n",global_esp);
+      // VG_(printf)("global_ebp:%p\n",global_ebp);
+      // VG_(printf)("buf:%s\n",buf);
+
+    // 第一次调用，初始化
+    if (prev_bp == 0) {
+        prev_bp = global_ebp;
+      //   prev_sp = global_esp;
+        HChar *funname = extractFunctionName(buf);
+        
+         call_stack_ebp[new_call_level] = global_ebp;
+         call_staack_funname[new_call_level] = funname;  // 假设 funname 不需释放
+        
+        return;
+    }
+
+    if (global_ebp < prev_bp) {
+        // 压栈：进入新函数
+        new_call_level++;
+        HChar *funname = extractFunctionName(buf);
+        call_stack_ebp[new_call_level] = global_ebp;
+        VG_(printf)("Function entry: %s\n", funname);
+        //如果call_staack_funname的长度不为0，打印函数调用关系caller,callee,caller为上一个函数，callee为当前函数
+         VG_(printf)("callpair: caller:%s,callee:%s, location:%s\n",call_staack_funname[new_call_level-1],funname,buf);
+        call_staack_funname[new_call_level] = funname;
+        VG_(printf)(" ]\n");
+          
+        
+        prev_bp = global_ebp;
+         
+    } else if (global_ebp > prev_bp) {
+        // 退栈：函数退出
+        if (new_call_level < 0) {
+         prev_bp = global_ebp;
+            // VG_(printf)("Error: Call stack underflow!\n");
+            return;
+        }
+        VG_(printf)("Function exit: %s end\n", call_staack_funname[new_call_level]);
+        call_stack_ebp[new_call_level] = 0;
+        call_staack_funname[new_call_level] = NULL;  // 清空，不释放（假设由 extractFunctionName 管理）
+        new_call_level--;
+       // 清除栈帧中的敏感标记
+    Addr start_addr = prev_sp;        // 栈顶地址
+    Addr end_addr = prev_bp;          // 栈底地址
+    
+    // 打印清除范围
+    VG_(printf)("Clearing sensitive tags from stack: %p to %p\n", start_addr, end_addr);
+    
+    // 遍历栈帧地址范围
+    for (Addr addr = start_addr; addr <= end_addr; addr++) {
+        // 检查并清除 page_table 中的敏感标记
+        UInt high_bits = HIGH_BITS(addr);
+        UInt low_bits = LOW_BITS(addr);
+        
+        // 如果该页不是 zero_page，则检查并清除
+        if (page_table[high_bits] != zero_page) {
+            // 如果该地址被标记为敏感，则清除
+            if (page_table[high_bits][low_bits] != 0) {
+                page_table[high_bits][low_bits] = 0;
+            }
+
+        }
+      }
+        
+           
+            
+
+        prev_bp = global_ebp;
+         prev_sp = global_esp;
+        // print_stack_trace();  // 可选：调试输出
+    } else {
+        // global_ebp == prev_bp，可能无需处理
+        prev_bp = global_ebp;
+        //prev_sp等于prev_sp和global_esp中的较小值
+        prev_sp = (prev_sp < global_esp) ? prev_sp : global_esp;
+         
+      //   VG_(printf)("Note: Same ebp detected, no stack change.\n");
+    }
+}
+
+// static void split_stack_frame(HChar *buf){//获得类栈帧，将运行时的每个函数的栈顶和栈底保存
+
+
+//    global_esp = VG_(get_SP)(VG_(get_running_tid)());
+//    global_ebp = VG_(get_FP)(VG_(get_running_tid)());
+//    if (prev_bp == 0) {
+//       prev_bp = global_ebp;
+//       HChar * funname=extractFunctionName(buf);
+//          call_stack_ebp[new_call_level]=global_ebp;
+//          call_staack_funname[new_call_level]=funname;
+//          return;
+//    }
+//    if (global_ebp < prev_bp) {
+//       new_call_level = new_call_level + 1;
+//       //获得函数名，保存到call_stack_funname中
+//       HChar * funname=extractFunctionName(buf);
+//       call_stack_ebp[new_call_level]=global_ebp;
+//       call_staack_funname[new_call_level]=funname;
+//       prev_bp = global_ebp;
+//       //输出new_call_level和call_stack_funname
+//       VG_(printf)("Function entry: %s\n",funname);
+//       // VG_(printf)("call_stack_funname add %d:[",new_call_level);
+//       //     for(int i=0;i<=new_call_level;i++)
+//       //     {
+//       //        if(call_staack_funname[i]!=NULL)
+//       //        VG_(printf)(" %s",call_staack_funname[i]);
+//       //     }
+//       //     VG_(printf)(" ]\n");
+//       //     //输出call_stack_ebp
+//       //       VG_(printf)("call_stack_ebp add %d:[",new_call_level);
+//       //       for(int i=0;i<=new_call_level;i++)
+//       //       {
+//       //          if(call_stack_ebp[i]!=0)
+//       //          VG_(printf)(" %p",call_stack_ebp[i]);
+//       //       }
+//       //       VG_(printf)(" ]\n");
+//    } else if(global_ebp > prev_bp) {
+//       //退栈
+//       call_stack_ebp[new_call_level]=0;
+//       char *prefun=call_staack_funname[new_call_level];
+//       VG_(printf)("Function exit: %s end\n",prefun);
+//       call_staack_funname[new_call_level]="";
+//       new_call_level = new_call_level -1;
+//       // VG_(printf)("call_stack_funname sub %d:[",new_call_level);
+//       //     for(int i=0;i<=new_call_level;i++)
+//       //     {
+//       //        if(call_staack_funname[i]!=NULL)
+//       //        VG_(printf)(" %s",call_staack_funname[i]);
+//       //     }
+//       //     VG_(printf)(" ]\n");
+//       //       //输出call_stack_ebp
+//       //          VG_(printf)("call_stack_ebp sub %d:[",new_call_level);
+//       //          for(int i=0;i<=new_call_level;i++)
+//       //          {
+//       //             if(call_stack_ebp[i]!=0)
+//       //             VG_(printf)(" %p",call_stack_ebp[i]);
+//       //          }
+//       //          VG_(printf)(" ]\n");
+   
+
+//       prev_bp = global_ebp;
+   
+//    }
+
+//    // if(pre_call_level>call_level)
+//    // {
+//    //    //退栈
+//    //    call_stack_ebp[pre_call_level]=0;
+//    //    char *prefun=call_staack_funname[pre_call_level];
+//    //    VG_(printf)("Function exit: %s end\n",prefun);
+//    //    call_staack_funname[pre_call_level]="";
+
+//    //    VG_(printf)("call_stack_funname %d:[",call_level);
+//    //          for(int i=0;i<=call_level;i++)
+//    //          {
+//    //             if(call_staack_funname[i]!=NULL)
+//    //             VG_(printf)(" %s",call_staack_funname[i]);
+//    //          }
+//    //          VG_(printf)(" ]\n");
+
+//    // }else{
+//    //    //小心call_stack_ebp的大小不够
+//    //    if(global_ebp!=0 && call_stack_ebp[call_level]==0 && global_ebp!=call_stack_ebp[call_level-1])
+//    //    {
+//    //       char funcName[100]="";
+//    //       HChar * funname=extractFunctionName(buf);
+//    //       call_stack_ebp[call_level]=global_ebp;
+//    //       call_staack_funname[call_level]=funname;
+//    //       VG_(printf)("Function entry: %s begin， %s\n",funname,buf);
+
+//    //       VG_(printf)("call_stack_funname %d:[",call_level);
+//    //          for(int i=0;i<=call_level;i++)
+//    //          {
+//    //             if(call_staack_funname[i]!=NULL)
+//    //             VG_(printf)(" %s",call_staack_funname[i]);
+//    //          }
+//    //          VG_(printf)(" ]\n");
+         
+
+//    //    }
+      
+
+//    // }
+   
+// }
+
+// 动态数组结构,用于保存查找到的潜在地址
+typedef struct {
+    Addr *array;     // 动态分配的数组
+    int capacity;   // 当前数组的容量
+    int size;       // 当前数组中的元素数量
+} DynamicArray;
+// 初始化动态数组
+void initArray(DynamicArray *arr, int initialCapacity) {
+    arr->array = (Addr *)VG_(malloc)("init_arry_",initialCapacity * sizeof(Addr));
+    arr->capacity = initialCapacity;
+    arr->size = 0;
+    if (arr->array == NULL) {
+        VG_(printf)( "Memory allocation failed\n");
+        VG_(exit)(1);
+    }
+}
+
+// // 动态增加数组的容量
+void resizeArray(DynamicArray *arr, int newCapacity) {
+    Addr *newArray = (Addr *)VG_(realloc)("RESIZE_ARRAY_",arr->array, newCapacity * sizeof(Addr));
+    if (newArray == NULL) {
+        VG_(printf)("Memory allocation failed\n");
+        VG_(exit)(1);
+    }
+    arr->array = newArray;
+    arr->capacity = newCapacity;
+}
+
+// static void resizeArray(DynamicArray *arr, int newCapacity) {
+//    if (newCapacity <= arr->capacity) {
+//        return; // 避免不必要的扩容
+//    }
+//    Addr *newArray = (Addr *)VG_(realloc)("RESIZE_ARRAY_", arr->array, newCapacity * sizeof(Addr));
+//    if (newArray == NULL) {
+//        VG_(printf)("Memory allocation failed\n");
+//        VG_(exit)(1);
+//    }
+//    arr->array = newArray;
+//    arr->capacity = newCapacity;
+// }
+
+// 检查值是否在数组中
+int containsValue(const DynamicArray *arr, Addr value) {
+    for (int i = 0; i < arr->size; ++i) {
+        if (arr->array[i] == value) {
+            return 1;  // 如果找到该值，返回 1
+        }
+    }
+    return 0;  // 如果未找到该值，返回 0
+}
+
+// 添加整数值到数组（如果不存在）
+
+static void addValue(DynamicArray *arr, Addr value) {
+   if (!containsValue(arr, value)) { // 确保值不重复
+       if (arr->size >= arr->capacity) {
+           resizeArray(arr, arr->capacity * 2); // 扩容时容量加倍
+       }
+       arr->array[arr->size++] = value;
+   }
+}
+// 打印数组
+void printArray(const DynamicArray *arr) {
+    for (int i = 0; i < arr->size; ++i) {
+        VG_(printf)("ind_addrset_value:%p ", arr->array[i]);
+    }
+    VG_(printf)("\n");
+}
+
+// 释放动态数组内存
+static void freeArray(DynamicArray *arr) {
+   if (arr->array != NULL) {
+       VG_(free)(arr->array);
+       arr->array = NULL;
+   }
+   arr->capacity = 0;
+   arr->size = 0;
+}
+
+
+//遍历(FC_(malloc_list))并判断addr是否在堆区，如果在堆区，返回对应的地址空间
+FC_Chunk* find_chunk(Addr addr) {
+   FC_Chunk* chunk;
+   VG_(HT_ResetIter)(FC_(malloc_list));
+   while ((chunk = VG_(HT_Next)(FC_(malloc_list)))) {
+      if (addr >= chunk->data && addr <= chunk->data + chunk->szB) {
+         return chunk;
+      }
+   }
+   return NULL;
+}
+
+// 添加地址缓存结构
+typedef struct {
+   Addr addr;
+   FC_Chunk* chunk;      // NULL表示不在堆区
+   Bool is_global;       // 是否是全局变量
+   Addr global_begin;    // 全局变量的起始地址
+   Addr global_end;      // 全局变量的结束地址
+} AddrCacheEntry;
+
+#define ADDR_CACHE_SIZE 1024
+static AddrCacheEntry addr_cache[ADDR_CACHE_SIZE];
+static Int addr_cache_index = 0;
+
+// 在find_addresses前添加缓存查找
+static AddrCacheEntry* lookup_addr_cache(Addr addr) {
+   for (Int i = 0; i < ADDR_CACHE_SIZE; i++) {
+       if (addr_cache[i].addr == addr) {
+           return &addr_cache[i];
+       }
+   }
+   return NULL;
+}
+
+// 添加到缓存
+static void cache_addr_result(Addr addr, FC_Chunk* chunk, Bool is_global, 
+                             Addr global_begin, Addr global_end) {
+   addr_cache[addr_cache_index].addr = addr;
+   addr_cache[addr_cache_index].chunk = chunk;
+   addr_cache[addr_cache_index].is_global = is_global;
+   addr_cache[addr_cache_index].global_begin = global_begin;
+   addr_cache[addr_cache_index].global_end = global_end;
+   
+   addr_cache_index = (addr_cache_index + 1) % ADDR_CACHE_SIZE;
+}
+
+
+// void find_addresses(Addr addr, int depth, DynamicArray *set) {
+//    if (depth <= 0) {
+//        return;
+//    }
+   
+//    // 检查缓存
+//    AddrCacheEntry* cache_entry = lookup_addr_cache(addr);
+   
+//    int addr_in_heap = 0;
+//    FC_Chunk* found_mc = NULL;
+   
+//    if (cache_entry) {
+//        // 使用缓存结果
+//        found_mc = cache_entry->chunk;
+//        if (found_mc) {
+//            addr_in_heap = 1;
+//            Addr start_addr = found_mc->data;
+//            Addr end_addr = found_mc->data + found_mc->szB;
+           
+//            // 预先计算需要的容量，避免频繁扩容
+//            int needed_capacity = set->size + (end_addr - start_addr + 1);
+//            if (needed_capacity > set->capacity) {
+//                resizeArray(set, needed_capacity * 2);
+//            }
+           
+//            for (Addr a = start_addr; a <= end_addr; a += 1) {
+//                addValue(set, a);
+//            }
+//        } else if (cache_entry->is_global) {
+//            // 使用缓存的全局变量信息
+//            Addr start_addr = cache_entry->global_begin;
+//            Addr end_addr = cache_entry->global_end;
+           
+//            // 预先计算需要的容量
+//            int needed_capacity = set->size + (end_addr - start_addr + 1);
+//            if (needed_capacity > set->capacity) {
+//                resizeArray(set, needed_capacity * 2);
+//            }
+           
+//            for (Addr a = start_addr; a <= end_addr; a += 1) {
+//                addValue(set, a);
+//            }
+//            return;
+//        }
+//    } else {
+//        // 没有缓存，执行查找
+//        found_mc = find_chunk(addr);
+       
+//        if (found_mc) {
+//            addr_in_heap = 1;
+//            Addr start_addr = found_mc->data;
+//            Addr end_addr = found_mc->data + found_mc->szB;
+           
+//            // 预先计算需要的容量
+//            int needed_capacity = set->size + (end_addr - start_addr + 1);
+//            if (needed_capacity > set->capacity) {
+//                resizeArray(set, needed_capacity * 2);
+//            }
+           
+//            for (Addr a = start_addr; a <= end_addr; a += 1) {
+//                addValue(set, a);
+//            }
+           
+//            // 添加到缓存
+//            cache_addr_result(addr, found_mc, False, 0, 0);
+//        }
+//    }
+   
+//    if (!addr_in_heap) {
+//        // 检查是否全局变量
+//        Addr begin;
+//        Addr end;
+//        Bool is_global = False;
+       
+//        // 如果缓存中有结果
+//        if (cache_entry && cache_entry->is_global) {
+//            is_global = True;
+//            begin = cache_entry->global_begin;
+//            end = cache_entry->global_end;
+//        } else {
+//            is_global = get_symbol_size(addr, &begin, &end);
+//            // 如果是全局变量，添加到缓存
+//            if (is_global) {
+//                cache_addr_result(addr, NULL, True, begin, end);
+//            } else {
+//                cache_addr_result(addr, NULL, False, 0, 0);
+//            }
+//        }
+       
+//        if (is_global) {
+//            // 预先计算需要的容量
+//            int needed_capacity = set->size + (end - begin + 1);
+//            if (needed_capacity > set->capacity) {
+//                resizeArray(set, needed_capacity * 2);
+//            }
+           
+//            for (Addr a = begin; a <= end; a += 1) {
+//                addValue(set, a);
+//            }
+//        }
+//    }
+   
+//    // 递归部分也可以优化，但现在已经注释掉了
+// }
+
+
+void find_addresses(Addr addr, int depth, DynamicArray *set) {
+   //递归函数找到间接内存的指向的地址空间
+    if (depth <= 0) {
+        return;
+    }
+     //heap
+     int addr_in_heap=0;
+   //   FC_Chunk* found_mc = VG_(HT_lookup) ( FC_(malloc_list), addr );
+      FC_Chunk* found_mc = find_chunk(addr);
+     
+            /////////////////////////
+            // FC_Chunk* chunk;
+            //  VG_(HT_ResetIter)(FC_(malloc_list));
+            //  while ((chunk = VG_(HT_Next)(FC_(malloc_list))))
+            //    {
+            //       VG_(printf)("chunk.data: %p\n",chunk->data);
+            //       VG_(printf)("chunk.size: %d\n",chunk->szB);
+                  
+            //    }
+            //  ////////////////
+
+            if (found_mc) 
+            {
+               // VG_(printf)("find heap info: \n");
+               Addr start_addr = found_mc->data;
+               Addr end_addr = found_mc->data + found_mc->szB;
+               
+               // 计算要添加的地址数量，限制为2000
+               SizeT addr_count = end_addr - start_addr + 1;
+               SizeT max_addrs = 2000; // 最多添加2000个地址
+               SizeT to_add = addr_count <= max_addrs ? addr_count : max_addrs;
+               
+               // 预先确保数组有足够的容量
+               if (set->size + to_add > set->capacity) {
+                  resizeArray(set, set->size + to_add);
+               }
+               
+               // 只添加前2000个地址
+               for (SizeT i = 0; i < to_add; i++) {
+                  addValue(set, start_addr + i);
+               }
+               
+               addr_in_heap = 1;
+            }
+
+      int addr_in_global=0;
+      if(!addr_in_heap) // 当没有在heap上找到addr，继续在全局符号表中查找
+   {
+      Addr begin; // 全局变量的起始地址
+      Addr end; // 全局变量的结束地址
+      Bool isglobal = get_symbol_size(addr, &begin, &end);
+      if (isglobal)
+      {
+         Addr start_addr = begin;
+         Addr end_addr = end;
+         // 打印结束地址减去起始地址
+         // VG_(printf)("end_addr-begin:%d\n", end_addr - begin);
+         
+         // 计算要添加的地址数量，限制为2000
+         SizeT addr_count = end_addr - start_addr + 1;
+         SizeT max_addrs = 2000; // 最多添加2000个地址
+         SizeT to_add = addr_count <= max_addrs ? addr_count : max_addrs;
+         
+         // 预先确保数组有足够的容量
+         if (set->size + to_add > set->capacity) {
+            resizeArray(set, set->size + to_add);
+         }
+         
+         // 只添加前2000个地址
+         for (SizeT i = 0; i < to_add; i++) {
+            addValue(set, start_addr + i);
+         }
+         
+         addr_in_global = 1;
+      }
+   }
+
+      
+      
+
+   if(!addr_in_heap && !addr_in_global) // 当没有在堆区找到且没有在全局符号区找到，继续在栈帧上查找
+   {
+      int index = find_interval_index(addr);
+      if(index > -1)
+      {
+         Addr start_addr;
+         Addr end_addr;
+         if (index == call_level) {
+            start_addr = global_esp;
+            end_addr = global_ebp;
+         } else {
+            start_addr = call_stack_ebp[index] + 4;
+            end_addr = call_stack_ebp[index - 1] + 4;
+         }
+   
+         // 计算要添加的地址数量，限制为2000
+         SizeT addr_count = end_addr - start_addr + 1;
+         SizeT max_addrs = 2000; // 最多添加2000个地址
+         SizeT to_add = addr_count <= max_addrs ? addr_count : max_addrs;
+   
+         // 预先确保数组有足够的容量
+         if (set->size + to_add > set->capacity) {
+            resizeArray(set, set->size + to_add);
+         }
+   
+         // 只添加前2000个地址
+         for (SizeT i = 0; i < to_add; i++) {
+            addValue(set, start_addr + i);
+         }
+      }
+   }
+      
+      // // 递归查找
+      // for(int i=0;i<set->size;i++)
+      // {
+      //    if(set->array[i]%4==0)
+      //    {
+      //       //到my_page_table中取出地址所指向的数据，并判断数据是否为地址，如果为地址，判断size的大小，将对应字节的地址添加到set中
+      //       Addr tempval=get_single_addr_val(set->array[i]);
+      //        if (VG_(am_is_valid_for_client)(tempval, 4, VKI_PROT_READ))
+      //        {
+      //          if (!containsValue(set, tempval)) { 
+      //             addValue(set, tempval);
+      //             // 继续递归查找这个新地址
+      //             find_addresses(tempval, depth-1, set);
+      //          }
+            
+
+      //       }
+      //    }
+      // }
+}
+
+void helperc_store_addr_val(Addr data,Addr val,int size)
+{
+ set_single_addr_val(data,val,size);
+}
+
+void extract_path(const char *input, char *output) {
+    // 找到第一个左括号的位置
+    const char *start = VG_(strchr)(input, '(');
+    if (!start) return;
+
+    // 跳过左括号
+    start++;
+
+    // 找到第一个冒号的位置
+    const char *end = VG_(strchr)(start, ':');
+    if (!end) return;
+
+    // 计算路径长度并复制
+    int length = end - start;
+    VG_(strncpy)(output, start, length);
+    output[length] = '\0';  // 确保输出字符串以 NULL 结尾
+}
+
+char *filearr[3665]={NULL};
+int eipidex=0;
+
+
+void helper_split_stack(void) {
+    Addr eip = VG_(get_IP)(VG_(get_running_tid)());
+      const HChar *buf;
+      buf = VG_(describe_IP)(eip, NULL);
+      char result[100];
+       VG_(memset)(result,0,100);
+       VG_(sprintf)(result, "%s%s%s", "/", FC_(project_name), "/");
+       
+      // if(VG_(strstr)(buf,"test.c")!=NULL)
+      
+      if(((VG_(strstr)(buf, result) != NULL)) && (VG_(strstr)(buf, ".c:")!=NULL))// || VG_(strstr)(buf,".h") )!= NULL))
+      {
+         // VG_(printf)("Shadow memory at %p: %s\n", eip, buf);
+         // VG_(printf)("split buf:%s\n",buf);
+         split_stack_frame(buf);//随时判断栈帧是否有更新
+         // for(int i=0;i<all_sense_addr_size;i++)
+         // {
+         //    VG_(printf)("hassenseinfo:%s,%p\n",buf,all_sense_addr[i]);
+         // }
+         //如果行号等于14，25， 40， 42，遍历shadow memory,打印shadow memory不为0的地址
+         // if (VG_(strstr)(buf, ".c:14") || VG_(strstr)(buf, ".c:25") || VG_(strstr)(buf, ".c:40") || VG_(strstr)(buf, ".c:42")) {
+         //    // 遍历shadow memory
+         //    // VG_(printf)("Shadow memory at %p: %s\n", eip, buf);
+         //    for (int i = 0; i < 65536; i++) {
+         //       if (page_table[i] != zero_page) {
+         //          VG_(printf)("Page %d:\n", i);
+         //          for (int j = 0; j < 65536; j++) {
+         //             if (page_table[i][j] != 0) {
+         //                VG_(printf)("Shadow memory at  %s: %p: %d\n", buf, (i << 16) | j, page_table[i][j]);
+         //             }
+                     
+         //          }
+         //       }
+         //    }
+         // }
+         
+
+      }
+      
+}
+
+
+
+
+
+void helperc_count_senaddr(Addr data,int len,int type){
+   //data为地址或者是数据，当type=0时是数据，当type=1是显示流，当type=0时是潜在流，数据来源于load或者store中的data，此时data也可以是地址，这是潜在流
+
+
+    Addr eip = VG_(get_IP)(VG_(get_running_tid)());
+   //  VG_(printf)("eip:%p\n",eip);
+      const HChar *buf;
+      buf = VG_(describe_IP)(eip, NULL);
+      // split_stack_frame(buf);//随时判断栈帧是否有更新
+       char result[100];
+       VG_(memset)(result,0,100);
+       VG_(sprintf)(result, "%s%s%s", "/", FC_(project_name), "/");
+      
+      // if(VG_(strstr)(buf,"test.c")!=NULL)
+
+       // 检查是否在信号处理函数中
+    if (VG_(strstr)(buf, "handle_alrm") != NULL) {
+      return;  // 如果在 handle_alrm 函数中，直接返回
+   }
+
+
+//   if((VG_(strstr)(buf, result) != NULL) && (VG_(strstr)(buf, ".c:") != NULL) )
+      if((VG_(strstr)(buf, result) != NULL) && ((VG_(strstr)(buf, ".c:") || VG_(strstr)(buf,".h") )!= NULL) && FC_(secret_start))
+      {
+         char output[266];
+         extract_path(buf, output);
+      //    //判断output是否在filearr中，如果不在，添加到filearr中
+         int isexist=0;
+         // for(int i=0;i<3665;i++)
+         // {
+         //    if(filearr[i]!=NULL)
+         //    {
+         //       if(VG_(strcmp)(filearr[i],output)==0)
+         //       {
+         //          isexist=1;
+         //          break;
+         //       }
+         //    }
+         // }
+         // if(isexist==0)
+         // {
+         //    VG_(printf)("eip:%p\n",eip);
+         //    filearr[eipidex]=(char *)VG_(malloc)("filearr",sizeof(char)*266);
+         //    VG_(strcpy)(filearr [eipidex],output);
+         //    eipidex+=1;
+         //    DebugInfo*   di      = VG_(find_DebugInfo)( eip );
+         //    if(di!=NULL)
+         //    {
+               
+         //       non_text_global_symbols = VG_(get_non_text_global_symbols)(di);
+               
+         //    }
+            
+           
+         // }
+
+
+         
+         // 获取非文本全局符号
+         if(!isparse)
+         {//只运行一次
+         // extract_basic_block();
+
+         DebugInfo*   di      = VG_(find_DebugInfo)( eip );
+        non_text_global_symbols = VG_(get_non_text_global_symbols)(di);
+      //   for (int i = 0; non_text_global_symbols[i] != NULL; i++) {
+      //    VG_(printf)("debug symbol addr:%p\n",non_text_global_symbols[i]->avmas);
+      //    VG_(printf)("debug symbol size:%d\n",non_text_global_symbols[i]->size);
+
+      //   }
+        isparse=1;
+         }
+
+
+         // Addr sense_addrset[100000];//用于存放敏感地址集合，最后统一输出
+         // Addr nosense_aaddrset[100000];
+         Addr *sense_addrset = VG_(malloc)("sense_addrset", 2000 * sizeof(Addr));
+         Addr *nosense_aaddrset = VG_(malloc)("nosense_addrset", 2000 * sizeof(Addr));
+         int addrsize=0;//用于保存敏感地址的个数
+         int nonaddrsize=0;
+         DynamicArray ind_addrset;
+         initArray(&ind_addrset, 2);  // 初始化动态数组，初始容量为 2
+         if(type==1)//显示信息量
+         {
+            //  VG_(printf)("direct addr:%s\n",buf);
+            for(int i=0;i<len;i++)
+            {
+               if(page_table[HIGH_BITS(data+i)][LOW_BITS(data+i)] != 0)
+               {
+                  sense_addrset[addrsize]=data+i;
+                  addrsize+=1;
+                  all_sense_addr[all_sense_addr_size]=data+i;
+                  all_sense_addr_size+=1;
+               }
+               else{
+               //    //如果data+i没有在all_sense_addr中没有出现过，则不添加到nosense_aaddrset中
+               //    Bool found = False;
+               //    for(int j=0; j<all_sense_addr_size; j++) {
+               //       if(all_sense_addr[j] == data+i) {
+               //          found = True;
+               //          break;
+               //       }
+               //    }
+                  
+               //    if(found) {
+                     nosense_aaddrset[nonaddrsize] = data+i;
+                     nonaddrsize+=1;
+                  }
+               }
+            }
+                     
+         else if(type==0){//潜在信息量
+            // 从addr_val_page_table中根据addr获得val，并判断val是否为地址
+            // VG_(printf)("indirect addr:%s,%p\n",buf, data);
+            Addr tempval=get_single_addr_val(data);
+            if (tempval!=0){
+               if(VG_(am_is_valid_for_client)(tempval, sizeof(Addr), VKI_PROT_READ)) 
+               {
+                  
+                  
+                  int depth=2;
+                  find_addresses(tempval, depth, &ind_addrset);
+                  
+                  
+                  //判断ind_addrset中的地址是否敏感
+                  for(int i=0;i<ind_addrset.size;i++)
+                  {
+                     // VG_(printf)("indirect addr:%p\n",ind_addrset.array[i]);
+                     if(page_table[HIGH_BITS(ind_addrset.array[i])][LOW_BITS(ind_addrset.array[i])]!=0)
+                     {
+                        sense_addrset[addrsize]=ind_addrset.array[i];
+                        addrsize=addrsize+1;
+                     }
+                     else{
+
+                        
+                           //如果data+i没有在all_sense_addr中没有出现过，则不添加到nosense_aaddrset中
+                           // Bool found = False;
+                           // for(int j=0; j<all_sense_addr_size; j++) {
+                           //    if(all_sense_addr[j] == ind_addrset.array[i]) {
+                           //       //删除该地址
+                           //       for (int k = j; k < all_sense_addr_size - 1; k++) {
+                           //          all_sense_addr[k] = all_sense_addr[k + 1];
+                           //       }
+                           //       all_sense_addr_size--;
+                           //       // found = True;
+                           //       break;
+                           //    }
+                           // }
+                           
+                           // if(found) {
+                           //    nosense_aaddrset[nonaddrsize] = ind_addrset.array[i];
+                           //    nonaddrsize+=1;
+                           // }
+                        
+                        nosense_aaddrset[nonaddrsize]=ind_addrset.array[i];
+                        nonaddrsize+=1;
+                     }
+                  }
+
+                  
+                  
+               
+               }
+
+            }
+
+         }
+
+//          // 输出敏感信息流
+         if (addrsize || nonaddrsize )
+         {
+         VG_(printf)("call_stack_funname:[");
+         for(int i=0;i<=new_call_level;i++)
+            {
+               if(call_staack_funname[i]!=NULL)
+               VG_(printf)(" %s",call_staack_funname[i]);
+            }
+            VG_(printf)(" ]\n");
+         }
+         for(int i=0;i<addrsize;i++)
+         {
+            
+            VG_(printf)("hassenseinfo:%s,%p\n",buf,sense_addrset[i]);
+         }
+         for(int i=0;i<nonaddrsize && i<4 ;i++){
+             VG_(printf)("nosenseinfo:%s,%p\n",buf,nosense_aaddrset[i]);
+         }
+
+//           // 使用完后释放内存
+          VG_(free)(sense_addrset);
+          VG_(free)(nosense_aaddrset);
+          // 释放动态数组内存
+          freeArray(&ind_addrset);
+         
+
+      }
+
+}
+
+
+////////////////////////

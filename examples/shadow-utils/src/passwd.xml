@@ -1,0 +1,351 @@
+<root>
+    <function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39"/>
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54"/>
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35"/>
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47"/>
+    </function>
+    <function name="usage" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:162:162"/>
+        <stmt dec="CStyleCastExpr:163:167"/>
+        <stmt dec="CStyleCastExpr:168:168"/>
+        <stmt dec="CStyleCastExpr:169:169"/>
+        <stmt dec="CStyleCastExpr:170:170"/>
+        <stmt dec="CStyleCastExpr:171:171"/>
+        <stmt dec="CStyleCastExpr:172:172"/>
+        <stmt dec="CStyleCastExpr:173:174"/>
+        <stmt dec="CStyleCastExpr:175:175"/>
+        <stmt dec="CStyleCastExpr:176:177"/>
+        <stmt dec="CStyleCastExpr:178:178"/>
+        <stmt dec="CStyleCastExpr:179:179"/>
+        <stmt dec="CStyleCastExpr:180:180"/>
+        <stmt dec="CStyleCastExpr:181:181"/>
+        <stmt dec="CStyleCastExpr:182:182"/>
+        <stmt dec="CStyleCastExpr:183:183"/>
+        <stmt dec="CStyleCastExpr:184:185"/>
+        <stmt dec="CStyleCastExpr:186:186"/>
+        <stmt dec="CallExpr:187:187"/>
+    </function>
+    <function name="reuse" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="ReturnStmt:210:210"/>
+    </function>
+    <function name="new_password" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:219:219"/>
+        <stmt dec="DeclStmt:220:220"/>
+        <stmt dec="DeclStmt:221:221"/>
+        <stmt dec="DeclStmt:222:222"/>
+        <stmt dec="DeclStmt:223:223"/>
+        <stmt dec="DeclStmt:224:224"/>
+        <stmt dec="DeclStmt:225:225"/>
+        <stmt dec="DeclStmt:226:226"/>
+        <stmt dec="DeclStmt:227:227"/>
+        <stmt dec="DeclStmt:228:228"/>
+        <stmt dec="IfStmt:239:274"/>
+        <stmt dec="BinaryOperator:282:282"/>
+        <stmt dec="IfStmt:283:298"/>
+        <stmt dec="IfStmt:299:311"/>
+        <stmt dec="BinaryOperator:313:313"/>
+        <stmt dec="ForStmt:314:353"/>
+        <stmt dec="CallExpr:354:354"/>
+        <stmt dec="IfStmt:356:359"/>
+        <stmt dec="BinaryOperator:364:364"/>
+        <stmt dec="BinaryOperator:365:365"/>
+        <stmt dec="CallExpr:366:366"/>
+        <stmt dec="IfStmt:368:373"/>
+        <stmt dec="ParenExpr:378:378"/>
+        <stmt dec="ReturnStmt:379:379"/>
+    </function>
+    <function name="check_password" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:390:390"/>
+        <stmt dec="DeclStmt:391:391"/>
+        <stmt dec="BinaryOperator:393:393"/>
+        <stmt dec="IfStmt:399:401"/>
+        <stmt dec="IfStmt:406:408"/>
+        <stmt dec="CStyleCastExpr:410:410"/>
+        <stmt dec="IfStmt:418:428"/>
+        <stmt dec="IfStmt:433:448"/>
+    </function>
+    <function name="date_to_str" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:454:454"/>
+        <stmt dec="DeclStmt:455:455"/>
+        <stmt dec="BinaryOperator:457:457"/>
+        <stmt dec="CStyleCastExpr:459:459"/>
+        <stmt dec="ReturnStmt:464:464"/>
+    </function>
+    <function name="pw_status" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="IfStmt:469:471"/>
+        <stmt dec="IfStmt:472:474"/>
+        <stmt dec="ReturnStmt:475:475"/>
+    </function>
+    <function name="print_status" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:483:483"/>
+        <stmt dec="BinaryOperator:485:485"/>
+        <stmt dec="IfStmt:486:498"/>
+    </function>
+    <function name="fail_exit" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="IfStmt:504:510"/>
+        <stmt dec="IfStmt:512:518"/>
+        <stmt dec="CallExpr:520:520"/>
+    </function>
+    <function name="oom" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="CStyleCastExpr:525:525"/>
+        <stmt dec="CallExpr:526:526"/>
+    </function>
+    <function name="update_crypt_pw" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="IfStmt:532:534"/>
+        <stmt dec="IfStmt:537:539"/>
+        <stmt dec="IfStmt:541:551"/>
+        <stmt dec="IfStmt:553:559"/>
+        <stmt dec="ReturnStmt:560:560"/>
+    </function>
+    <function name="update_noshadow" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:566:566"/>
+        <stmt dec="DeclStmt:567:567"/>
+        <stmt dec="IfStmt:569:574"/>
+        <stmt dec="BinaryOperator:575:575"/>
+        <stmt dec="IfStmt:576:582"/>
+        <stmt dec="BinaryOperator:583:583"/>
+        <stmt dec="IfStmt:584:589"/>
+        <stmt dec="BinaryOperator:590:590"/>
+        <stmt dec="IfStmt:591:593"/>
+        <stmt dec="BinaryOperator:594:594"/>
+        <stmt dec="IfStmt:595:600"/>
+        <stmt dec="IfStmt:601:607"/>
+        <stmt dec="IfStmt:608:614"/>
+        <stmt dec="BinaryOperator:615:615"/>
+    </function>
+    <function name="update_shadow" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:620:620"/>
+        <stmt dec="DeclStmt:621:621"/>
+        <stmt dec="IfStmt:623:628"/>
+        <stmt dec="BinaryOperator:629:629"/>
+        <stmt dec="IfStmt:630:636"/>
+        <stmt dec="BinaryOperator:637:637"/>
+        <stmt dec="IfStmt:638:651"/>
+        <stmt dec="BinaryOperator:652:652"/>
+        <stmt dec="IfStmt:653:655"/>
+        <stmt dec="BinaryOperator:656:656"/>
+        <stmt dec="IfStmt:657:659"/>
+        <stmt dec="IfStmt:660:662"/>
+        <stmt dec="IfStmt:663:665"/>
+        <stmt dec="IfStmt:666:668"/>
+        <stmt dec="IfStmt:670:677"/>
+        <stmt dec="IfStmt:685:687"/>
+        <stmt dec="IfStmt:689:694"/>
+        <stmt dec="IfStmt:695:701"/>
+        <stmt dec="IfStmt:702:708"/>
+        <stmt dec="BinaryOperator:709:709"/>
+    </function>
+    <function name="check_selinux_access" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:717:717"/>
+        <stmt dec="DeclStmt:718:718"/>
+        <stmt dec="DeclStmt:719:719"/>
+        <stmt dec="DeclStmt:720:720"/>
+        <stmt dec="IfStmt:723:725"/>
+        <stmt dec="IfStmt:728:730"/>
+        <stmt dec="BinaryOperator:734:734"/>
+        <stmt dec="BinaryOperator:735:735"/>
+        <stmt dec="IfStmt:739:753"/>
+        <stmt dec="CallExpr:754:754"/>
+        <stmt dec="CallExpr:755:755"/>
+        <stmt dec="ReturnStmt:756:756"/>
+    </function>
+    <function name="usage" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:162:162"/>
+        <stmt dec="CStyleCastExpr:163:167"/>
+        <stmt dec="CStyleCastExpr:168:168"/>
+        <stmt dec="CStyleCastExpr:169:169"/>
+        <stmt dec="CStyleCastExpr:170:170"/>
+        <stmt dec="CStyleCastExpr:171:171"/>
+        <stmt dec="CStyleCastExpr:172:172"/>
+        <stmt dec="CStyleCastExpr:173:174"/>
+        <stmt dec="CStyleCastExpr:175:175"/>
+        <stmt dec="CStyleCastExpr:176:177"/>
+        <stmt dec="CStyleCastExpr:178:178"/>
+        <stmt dec="CStyleCastExpr:179:179"/>
+        <stmt dec="CStyleCastExpr:180:180"/>
+        <stmt dec="CStyleCastExpr:181:181"/>
+        <stmt dec="CStyleCastExpr:182:182"/>
+        <stmt dec="CStyleCastExpr:183:183"/>
+        <stmt dec="CStyleCastExpr:184:185"/>
+        <stmt dec="CStyleCastExpr:186:186"/>
+        <stmt dec="CallExpr:187:187"/>
+    </function>
+    <function name="reuse" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="ReturnStmt:210:210"/>
+    </function>
+    <function name="new_password" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:219:219"/>
+        <stmt dec="DeclStmt:220:220"/>
+        <stmt dec="DeclStmt:221:221"/>
+        <stmt dec="DeclStmt:222:222"/>
+        <stmt dec="DeclStmt:223:223"/>
+        <stmt dec="DeclStmt:224:224"/>
+        <stmt dec="DeclStmt:225:225"/>
+        <stmt dec="DeclStmt:226:226"/>
+        <stmt dec="DeclStmt:227:227"/>
+        <stmt dec="DeclStmt:228:228"/>
+        <stmt dec="IfStmt:239:274"/>
+        <stmt dec="BinaryOperator:282:282"/>
+        <stmt dec="IfStmt:283:298"/>
+        <stmt dec="IfStmt:299:311"/>
+        <stmt dec="BinaryOperator:313:313"/>
+        <stmt dec="ForStmt:314:353"/>
+        <stmt dec="CallExpr:354:354"/>
+        <stmt dec="IfStmt:356:359"/>
+        <stmt dec="BinaryOperator:364:364"/>
+        <stmt dec="BinaryOperator:365:365"/>
+        <stmt dec="CallExpr:366:366"/>
+        <stmt dec="IfStmt:368:373"/>
+        <stmt dec="ParenExpr:378:378"/>
+        <stmt dec="ReturnStmt:379:379"/>
+    </function>
+    <function name="check_password" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:390:390"/>
+        <stmt dec="DeclStmt:391:391"/>
+        <stmt dec="BinaryOperator:393:393"/>
+        <stmt dec="IfStmt:399:401"/>
+        <stmt dec="IfStmt:406:408"/>
+        <stmt dec="CStyleCastExpr:410:410"/>
+        <stmt dec="IfStmt:418:428"/>
+        <stmt dec="IfStmt:433:448"/>
+    </function>
+    <function name="date_to_str" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:454:454"/>
+        <stmt dec="DeclStmt:455:455"/>
+        <stmt dec="BinaryOperator:457:457"/>
+        <stmt dec="CStyleCastExpr:459:459"/>
+        <stmt dec="ReturnStmt:464:464"/>
+    </function>
+    <function name="pw_status" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="IfStmt:469:471"/>
+        <stmt dec="IfStmt:472:474"/>
+        <stmt dec="ReturnStmt:475:475"/>
+    </function>
+    <function name="print_status" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:483:483"/>
+        <stmt dec="BinaryOperator:485:485"/>
+        <stmt dec="IfStmt:486:498"/>
+    </function>
+    <function name="fail_exit" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="IfStmt:504:510"/>
+        <stmt dec="IfStmt:512:518"/>
+        <stmt dec="CallExpr:520:520"/>
+    </function>
+    <function name="oom" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="CStyleCastExpr:525:525"/>
+        <stmt dec="CallExpr:526:526"/>
+    </function>
+    <function name="update_crypt_pw" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="IfStmt:532:534"/>
+        <stmt dec="IfStmt:537:539"/>
+        <stmt dec="IfStmt:541:551"/>
+        <stmt dec="IfStmt:553:559"/>
+        <stmt dec="ReturnStmt:560:560"/>
+    </function>
+    <function name="update_noshadow" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:566:566"/>
+        <stmt dec="DeclStmt:567:567"/>
+        <stmt dec="IfStmt:569:574"/>
+        <stmt dec="BinaryOperator:575:575"/>
+        <stmt dec="IfStmt:576:582"/>
+        <stmt dec="BinaryOperator:583:583"/>
+        <stmt dec="IfStmt:584:589"/>
+        <stmt dec="BinaryOperator:590:590"/>
+        <stmt dec="IfStmt:591:593"/>
+        <stmt dec="BinaryOperator:594:594"/>
+        <stmt dec="IfStmt:595:600"/>
+        <stmt dec="IfStmt:601:607"/>
+        <stmt dec="IfStmt:608:614"/>
+        <stmt dec="BinaryOperator:615:615"/>
+    </function>
+    <function name="update_shadow" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:620:620"/>
+        <stmt dec="DeclStmt:621:621"/>
+        <stmt dec="IfStmt:623:628"/>
+        <stmt dec="BinaryOperator:629:629"/>
+        <stmt dec="IfStmt:630:636"/>
+        <stmt dec="BinaryOperator:637:637"/>
+        <stmt dec="IfStmt:638:651"/>
+        <stmt dec="BinaryOperator:652:652"/>
+        <stmt dec="IfStmt:653:655"/>
+        <stmt dec="BinaryOperator:656:656"/>
+        <stmt dec="IfStmt:657:659"/>
+        <stmt dec="IfStmt:660:662"/>
+        <stmt dec="IfStmt:663:665"/>
+        <stmt dec="IfStmt:666:668"/>
+        <stmt dec="IfStmt:670:677"/>
+        <stmt dec="IfStmt:685:687"/>
+        <stmt dec="IfStmt:689:694"/>
+        <stmt dec="IfStmt:695:701"/>
+        <stmt dec="IfStmt:702:708"/>
+        <stmt dec="BinaryOperator:709:709"/>
+    </function>
+    <function name="check_selinux_access" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:717:717"/>
+        <stmt dec="DeclStmt:718:718"/>
+        <stmt dec="DeclStmt:719:719"/>
+        <stmt dec="DeclStmt:720:720"/>
+        <stmt dec="IfStmt:723:725"/>
+        <stmt dec="IfStmt:728:730"/>
+        <stmt dec="BinaryOperator:734:734"/>
+        <stmt dec="BinaryOperator:735:735"/>
+        <stmt dec="IfStmt:739:753"/>
+        <stmt dec="CallExpr:754:754"/>
+        <stmt dec="CallExpr:755:755"/>
+        <stmt dec="ReturnStmt:756:756"/>
+    </function>
+    <function name="main" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/passwd.c">
+        <stmt dec="DeclStmt:792:792"/>
+        <stmt dec="DeclStmt:795:795"/>
+        <stmt dec="DeclStmt:797:797"/>
+        <stmt dec="CallExpr:800:800"/>
+        <stmt dec="BinaryOperator:806:806"/>
+        <stmt dec="CStyleCastExpr:808:808"/>
+        <stmt dec="CStyleCastExpr:809:809"/>
+        <stmt dec="CStyleCastExpr:810:810"/>
+        <stmt dec="CallExpr:812:812"/>
+        <stmt dec="BinaryOperator:818:818"/>
+        <stmt dec="CallExpr:820:820"/>
+        <stmt dec="CompoundStmt:822:941"/>
+        <stmt dec="BinaryOperator:948:948"/>
+        <stmt dec="IfStmt:949:956"/>
+        <stmt dec="BinaryOperator:957:957"/>
+        <stmt dec="IfStmt:958:962"/>
+        <stmt dec="IfStmt:967:969"/>
+        <stmt dec="IfStmt:975:991"/>
+        <stmt dec="IfStmt:1012:1014"/>
+        <stmt dec="IfStmt:1016:1019"/>
+        <stmt dec="IfStmt:1021:1024"/>
+        <stmt dec="BinaryOperator:1026:1026"/>
+        <stmt dec="IfStmt:1027:1032"/>
+        <stmt dec="IfStmt:1036:1053"/>
+        <stmt dec="IfStmt:1060:1069"/>
+        <stmt dec="IfStmt:1071:1074"/>
+        <stmt dec="BinaryOperator:1079:1079"/>
+        <stmt dec="IfStmt:1080:1088"/>
+        <stmt dec="BinaryOperator:1090:1090"/>
+        <stmt dec="IfStmt:1095:1120"/>
+        <stmt dec="CallExpr:1128:1128"/>
+        <stmt dec="IfStmt:1139:1144"/>
+        <stmt dec="IfStmt:1145:1149"/>
+        <stmt dec="CallExpr:1151:1151"/>
+        <stmt dec="CallExpr:1152:1152"/>
+        <stmt dec="DoStmt:1154:1154"/>
+        <stmt dec="CallExpr:1155:1155"/>
+        <stmt dec="IfStmt:1156:1164"/>
+        <stmt dec="ReturnStmt:1166:1166"/>
+    </function>
+</root>

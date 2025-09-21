@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root><function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39" />
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54" />
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75" />
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35" />
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41" />
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47" />
+    </function>
+    <function name="fail_exit" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="IfStmt:88:94" />
+        <stmt dec="CallExpr:96:96" />
+        <stmt dec="CallExpr:98:98" />
+    </function>
+    <function name="usage" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="DeclStmt:106:106" />
+        <stmt dec="CStyleCastExpr:107:111" />
+        <stmt dec="CStyleCastExpr:112:112" />
+        <stmt dec="CStyleCastExpr:113:113" />
+        <stmt dec="CStyleCastExpr:114:114" />
+        <stmt dec="CStyleCastExpr:115:115" />
+        <stmt dec="CallExpr:116:116" />
+    </function>
+    <function name="new_fields" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="CallExpr:127:127" />
+        <stmt dec="CallExpr:128:128" />
+    </function>
+    <function name="shell_is_listed" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="DeclStmt:157:157" />
+        <stmt dec="DeclStmt:158:158" />
+        <stmt dec="CallExpr:166:166" />
+        <stmt dec="WhileStmt:167:172" />
+        <stmt dec="CallExpr:173:173" />
+        <stmt dec="ReturnStmt:197:197" />
+    </function>
+    <function name="is_restricted_shell" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="ReturnStmt:142:142" />
+    </function>
+    <function name="process_flags" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="DeclStmt:207:207" />
+        <stmt dec="DeclStmt:208:213" />
+        <stmt dec="WhileStmt:215:230" />
+        <stmt dec="IfStmt:236:238" />
+    </function>
+    <function name="check_perms" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="IfStmt:263:269" />
+        <stmt dec="IfStmt:275:281" />
+        <stmt dec="IfStmt:287:295" />
+        <stmt dec="IfStmt:305:307" />
+    </function>
+    <function name="update_shell" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="DeclStmt:350:350" />
+        <stmt dec="DeclStmt:351:351" />
+        <stmt dec="IfStmt:359:363" />
+        <stmt dec="CallExpr:364:364" />
+        <stmt dec="IfStmt:370:374" />
+        <stmt dec="BinaryOperator:375:375" />
+        <stmt dec="IfStmt:376:380" />
+        <stmt dec="BinaryOperator:388:388" />
+        <stmt dec="IfStmt:389:394" />
+        <stmt dec="BinaryOperator:400:400" />
+        <stmt dec="BinaryOperator:401:401" />
+        <stmt dec="IfStmt:407:412" />
+        <stmt dec="IfStmt:417:421" />
+        <stmt dec="IfStmt:422:426" />
+        <stmt dec="BinaryOperator:427:427" />
+    </function>
+    <function name="main" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/chsh.c">
+        <stmt dec="DeclStmt:438:438" />
+        <stmt dec="DeclStmt:439:439" />
+        <stmt dec="CallExpr:441:441" />
+        <stmt dec="BinaryOperator:447:447" />
+        <stmt dec="CStyleCastExpr:449:449" />
+        <stmt dec="CStyleCastExpr:450:450" />
+        <stmt dec="CStyleCastExpr:451:451" />
+        <stmt dec="CallExpr:453:453" />
+        <stmt dec="BinaryOperator:458:458" />
+        <stmt dec="CallExpr:460:460" />
+        <stmt dec="CallExpr:463:463" />
+        <stmt dec="IfStmt:469:488" />
+        <stmt dec="CallExpr:512:512" />
+        <stmt dec="IfStmt:518:520" />
+        <stmt dec="IfStmt:526:529" />
+        <stmt dec="IfStmt:537:540" />
+        <stmt dec="IfStmt:541:546" />
+        <stmt dec="IfStmt:549:553" />
+        <stmt dec="CallExpr:555:555" />
+        <stmt dec="DoStmt:557:557" />
+        <stmt dec="CallExpr:559:559" />
+        <stmt dec="CallExpr:561:561" />
+        <stmt dec="CallExpr:562:562" />
+    </function>
+</root>

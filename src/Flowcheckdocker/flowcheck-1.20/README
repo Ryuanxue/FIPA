@@ -1,0 +1,468 @@
+INTRODUCTION
+
+    This README file covers some mechanics and technical details of
+    compiling and running the Flowcheck tool, but it doesn't attempt
+    to describe the theory of its operation or in general what it's
+    good for. For a more theoretical introduction, see our PLDI paper,
+    linked from:
+
+    http://groups.csail.mit.edu/pag/pubs/secret-max-flow-pldi2008-abstract.html
+
+    This version 1.20 of Flowcheck doesn't add any significant new
+    functionality, but it brings Flowcheck up to date with a recent
+    version of the underlying Valgrind and Memcheck infrastructure,
+    which should make it much easier to use on modern Linux systems.
+    Beyond everything that is inherited from Valgrind, the new code in
+    Flowcheck has been written by Stephen McCamant and Navid
+    Emamdoost.
+
+COMPILING
+
+    The main portion of Flowcheck is a modified version of Valgrind,
+    which is compiled in the usual way. You can install it wherever
+    you'd like, though it doesn't like being moved afterwards. If it
+    won't be used system-wide, one convenient location is in the
+    current directory, as shown below:
+
+    % cd valgrind-r15939+flowcheck
+    % ./configure --prefix=`pwd`/.. --enable-only32bit
+    % make
+    % make install
+
+    The current version of Flowcheck only works on Linux/x86 (32-bit)
+    platforms, though porting it to other systems supported by
+    Valgrind (most obviously, Linux/x86-64) would be fairly
+    straightforward. On x86-64 systems, you can build only a 32-bit
+    version of Flowcheck by passing "--enable-only32bit" to configure;
+    in that case of course the binaries you want to run Flowcheck on
+    also have to be compiled in 32-bit mode (e.g., with the "-m32"
+    flag to GCC).
+
+    The "max-flow-boost" program needs to be compiled with the Boost
+    Graph library (libboost-graph-dev for Debian/Ubuntu systems):
+
+    % g++ -O3 max-flow-boost.cc -o max-flow-boost
+
+BASIC USAGE
+
+    path/to/valgrind --tool=exp-flowcheck <options> program <args>
+
+    Flowcheck is based on the Valgrind framework, and so its usage is
+    like any other Valgrind tool. Following a Valgrind convention for
+    experimental tools, its tool name is "exp-flowcheck". Further,
+    Flowcheck is based on Memcheck, and for ease of merging it
+    inherits all of Memcheck's command-line options, though some of
+    them are not relevant. These are described in the Valgrind manual.
+
+FLOWCHECK COMMAND LINE OPTIONS
+
+    --private-files-are-secret=<yes|no> [default: no]
+        If yes, treat data read from non-world-readable files as
+        tainted.
+
+    --stdin-is-secret=<yes|no> [default: no]
+        If yes, treat data read from the standard input as tainted.
+
+    --unpredictable-is-secret=<yes|no> [default: no]
+        If yes, treat data that's unpredictable, like /dev/urandom and
+        the process ID returned by getpid(), as tainted. For instance,
+        this can be used to measure the amount on entropy in a
+        program's random number generator.
+
+    --detailed-leak-report=<yes|no> [default: no]
+        If yes, leaks will be reported with a backtrace (once each)
+        and other Memcheck-like details. If no, only one line of
+        information will be printed.
+
+    --max-bits-leaked=<number> [default: effectively infinite]
+        Abort execution after this number of bits have been measured
+        as leaked.
+
+    --trace-secret-graph=<yes|no> [default: no]
+        If yes, construct a graph representing the operations on
+        secrets.
+
+    --folding-level=<number> [default: 10]
+        Controls the extent to which the secret graph is simplified by
+        combining similar edges. Currently defined values:
+            0   - do not collapse at all
+            10  - collapse edges with the same source location and call
+                  stack (fully context sensitive)
+            50  - collapse edges with the same source location and
+                  caller (one level context sensitive)
+            100 - collapse edges with the same source location, no
+                  matter what call stack (context insensitive)
+        Larger values decrease memory usage and improve performance,
+        at the expense of potentially less precise results. The value
+        of 0 is special in that it causes the graph to be output
+        immediately rather than kept in memory. This reduces
+        Flowcheck's memory usage, but the resulting graph is so much
+        bigger that later processing becomes more difficult.
+
+    --graph-file=<filename> [default: standard error]
+        Write the flow graph into the named file. By default, it is
+        printed to the standard error along with other Valgrind
+        output.
+
+    --max-flow-program=<program> [default: none]
+        Path to a program to compute the maximum flow through the
+        secret flow graph. If not specified, no such program is run.
+
+    --incremental=<yes|no> [default: no]
+        If yes, rerun the maximum flow tool on the graph so far every
+        time a new value is output, or every second, whichever is less
+        frequent. Useful for getting a running measurement from an
+        interactive program. Generally you should set
+        --max-flow-program as well.
+
+    --trace-reverts=<yes|no> [default: no]
+        If yes, print an error message every time an enclosure region
+        rolls back a modified memory location (not declared as an
+        output) on exit.
+
+    --revert-notbelow=<number> [default: no]
+        Disable the first N rollback operations that would otherwise
+        be performed. You can use binary search on N to track down a
+        rollback that's causing program failure.
+
+FLOWCHECK PROGRAM ANNOTATIONS
+
+    To use the any of the following, you must include the
+    <valgrind/flowcheck.h> header file in your C program. (For
+    programs with a complex existing build process, it may be easiest
+    to do this by just giving the absolute path to the header file.)
+
+    FC_TAINT_WORD(wordptr)
+        Mark a word-sized memory location as containing secret data.
+
+    FC_UNTAINT_WORD(wordptr)
+        Trusted declassification, the inverse to FC_TAINT_WORD. Not
+        recommended, since it can cause the tool's results to be too
+        low.
+
+    value2 = FC_MAYBE_LEAK_WORD(value1)
+        A preemptive leakage, or cut, annotation, marking a place in
+        the program's data flow where the secret information has a
+        compact representation. In tainting mode, value2 will be a
+        copy of value1 with the tainting bits cleared, and the global
+        leakage counter will be incremented accordingly. In
+        graph-building mode, just the identity function.
+
+    FC_ENTER_ENCLOSE_R*V*(ident, base1, len1, ..., var1, ...)
+    ...
+    FC_LEAVE_ENCLOSE(ident)
+        An enclosure region. A single-exit control-flow region with
+        pre-declared outputs. ENTER and LEAVE must be matched by
+        having the same value of ident, but they can nest. (Each
+        ENTER-LEAVE pair must have a unique identifier.) The remaining
+        arguments to ENTER list all the memory locations that the
+        enclosed code might write to, each specified either as a
+        region consisting of a base address and a length in bytes, or
+        as a variable; the variable "v" is a equivalent to the region
+        (&v, sizeof(v)). The number of regions and variables is
+        encoded by a sequence of Rs and Vs in the name, with the
+        currently supported combinations being R, V, RR, RV, VV, RRR,
+        RRV, RVV, VVV, RVVV, VVVV, RVVVV, VVVVV, RVVVVV, and VVVVVV.
+
+    FC_NOTE_ITERATION()
+        Perturb the notion of context used by the graph folding
+        heuristic (see --folding-level). The usual use case is that
+        you put a call to FC_NOTE_ITERATION() in a loop, then each
+        iteration of the loop will be treated as a distinct context.
+        For instance, this can be useful for a loop that process
+        command-line arguments.
+
+TUTORIAL INTRODUCTION
+
+    This section demonstrates the main features of Flowcheck via a
+    running example of the GNU word-count program "wc".
+
+    Your Linux system probably already has the "wc" program
+    installed. In the default mode, it takes the name of a file as a
+    command line argument, and prints the number of lines, words, and
+    characters (bytes) in the file. For instance:
+
+    % head -100 /etc/services >input
+    % wc input
+     100  490 3319 input
+
+    Our goal in this tutorial is to accurately measure how much
+    information about the contents of the file wc reveals when it does
+    this.
+
+    If you've compiled the Flowcheck binaries to the locations
+    suggested in the COMPILING section, the paths will be:
+
+    path/to/valgrind          bin/valgrind
+    path/to/max-flow-boost    ./max-flow-boost
+    path/to/valgrind/include  include
+
+    The first step in using Flowcheck is to tell the tool what inputs
+    to the program are considered secret. You can do this with program
+    annotations, or with command line switches that enable some common
+    general policies. By default, though, Flowcheck doesn't treat
+    anything as secret, so you're sure to get a measurement of 0 bits
+    revealed:
+
+    % path/to/valgrind --tool=exp-flowcheck wc input
+    ...
+    Leaked 0 bits total
+
+    The easiest thing to do in this example is to use a switch to
+    Flowcheck that causes the contents of any file that's not world
+    readable to be considered secret, and to correspondingly modify
+    the permissions on the input file:
+
+    % chmod o-r input
+    % path/to/valgrind --tool=exp-flowcheck \
+      --private-files-are-secret=yes \
+      wc input 
+    ...
+    Leaked 38494 bits total
+
+    Now we have our first upper bound, though it's very imprecise.
+    Flowcheck is running here in its default tainting mode, where it
+    counts information as leaked every time a secret value is used in
+    a branch or indirect memory operation (though the resulting values
+    are then not tainted). The exact details of the count depend on
+    the way this wc binary was compiled, but basically it's leaking
+    several bits for each character of the input. (For my binary, the
+    leakage is of the form 9*W + 11*(b-W) + b, where W = 667 is the
+    number of whitespace characters in the file, and b is the number
+    of bytes.)
+
+    One way we can be sure the 38494-bit bound is imprecise is that
+    it's larger than either the size of the program's input (3319*8 =
+    26552 bits) or its output (21*8 = 168 bits), whereas it should be
+    at most the minimum of those. If we were to run Flowcheck in the
+    mode where it generates a graph and computes a maximum flow, those
+    bounds will automatically apply.
+
+    % path/to/valgrind --tool=exp-flowcheck \
+      --private-files-are-secret=yes --trace-secret-graph=yes \
+      --graph-file=wc.g --max-flow-program=path/to/max-flow-boost \
+      wc input
+    ...
+    Maximum flow is 168 units
+
+    But we didn't need program analysis to count the number of bits in
+    the program's output, so we aren't yet taking much advantage of
+    Flowcheck's power. The reason the results still aren't very
+    precise is that they are still dominated by the implicit flows
+    that were clearest in the tainting mode. To improve the results
+    further we'll need to avoid them, which we can do using
+    Flowcheck's enclosure region annotations.
+
+    In order to add annotations, we'll need to recompile wc from
+    source code; this will then have the side benefit that Flowcheck
+    can tell us the code locations where leaks occur. To save you the
+    trouble of working with the complete build system for the GNU
+    coreutils package where wc is found, we've combined everything it
+    needs into a single file, included as "eg/wc.c.orig" in the
+    Flowcheck distribution:
+
+    % cp eg/wc.c.orig wc.c
+    % gcc -g wc.c -o wc
+    % path/to/valgrind --tool=exp-flowcheck \
+      --private-files-are-secret=yes \
+      ./wc input 
+    ...
+    Leaked 81673 bits total
+    
+    Recompiling changed the leakage estimate, though it's not
+    qualitatively different than what was happening with the system
+    binary; it's just that some of the leaking basic operations are
+    getting counted differently. (The new formula is 30*W +
+    (11+11)*(b-W) + b.) 
+
+    To see the leaks broken down by code location, we've included a
+    script called log-count.pl that tabulates Flowcheck's leak
+    reports:
+
+    % path/to/valgrind --tool=exp-flowcheck \
+      --private-files-are-secret=yes --detailed-leak-report=yes \
+      ./wc input 2>&1 \
+      | tee wc.log | perl log-count.pl
+    3319 0804979a wc (wc.c:4061)
+    20010 080497a6 wc (wc.c:4061)
+    29172 0804986a wc (wc.c:4084)
+    29172 0804989f wc (wc.c:4087)
+    81673 total
+   
+    It looks like all of these leaks are coming from the same area in
+    the code:
+
+    4059           do
+    4060             {
+    4061               switch (*p++)
+    4062                 {
+    4063                 case '\n':
+    4064                   lines++;
+    4065                   /* Fall through. */
+    4066                 case '\r':
+    4067                 case '\f':
+    4068                   if (linepos > linelength)
+    4069                     linelength = linepos;
+    4070                   linepos = 0;
+    4071                   goto word_separator;
+    4072                 case '\t':
+    4073                   linepos += 8 - (linepos % 8);
+    4074                   goto word_separator;
+    4075                 case ' ':
+    4076                   linepos++;
+    4077                   /* Fall through. */
+    4078                 case '\v':
+    4079                 word_separator:
+    4080                   words += in_word;
+    4081                   in_word = false;
+    4082                   break;
+    4083                 default:
+    4084                   if (ISPRINT (to_uchar (p[-1])))
+    4085                     {
+    4086                       linepos++;
+    4087                       if (ISSPACE (to_uchar (p[-1])))
+    4088                         goto word_separator;
+    4089                       in_word = true;
+    4090                     }
+    4091                   break;
+    4092                 }
+    4093             }
+    4094           while (--bytes_read);
+
+    Specifically, the switch statement "switch (*p++)" is translated
+    into multiple instructions, two of which leak, and then so do the
+    "isprint" and "isspace" checks in the default case of the
+    switch. p is a pointer to a buffer containing input characters,
+    and when we test the identity of a character, we're getting some
+    information about it. To get a more precise estimate of the
+    leakage involved, we need to tell Flowcheck that all of this
+    branching isn't going to affect the high-level control flow of the
+    program; it's just being used to update the counts in this loop.
+    We do this by putting in an enclosure annotation around the code
+    shown above, delimiting the loop as a single-exit control flow
+    region and listing the six variables that represent the region's
+    output. By convention, we like to use the line number of the ENTER
+    annotation as the region identifier, so in unified diff form, the
+    change would look like:
+
+    @@ -4056,6 +4072,8 @@
+                }
+     
+              bytes += bytes_read;
+    +         FC_ENTER_ENCLOSE_VVVVVV(4062, lines, linelength, linepos,
+    +                                 in_word, words, bytes_read);
+              do
+                {
+                  switch (*p++)
+    @@ -4092,22 +4110,32 @@
+                    }
+                }
+              while (--bytes_read);
+    +         FC_LEAVE_ENCLOSE(4062);
+            }
+           if (linepos > linelength)
+             linelength = linepos;
+
+    To save you typing, we've put this and some other annotations that
+    will be useful later in the patch file eg/wc.patch:
+
+    % patch wc.c <eg/wc.patch
+    % gcc -Ipath/to/valgrind/include -g wc.c -o wc
+    % path/to/valgrind --tool=exp-flowcheck \
+      --private-files-are-secret=yes \
+      ./wc input 
+    ...
+    Leaking 48 bits via write(buf) of 21 bytes
+     100  490 3319 input
+    ...
+    Leaked 70 bits total
+
+    With these annotations, the flow bound has been reduced
+    considerably. There are still 22 bits of implicit flows, which
+    come from the process of converting binary integers to decimal
+    (for instance, determining how many columns each integer should
+    use). Then there are 48 bits of the output that are tainted, which
+    represent the 6 digit characters in "100" and "490". (Note that
+    the number of bytes in the file is not considered secret by
+    Flowcheck, because wc doesn't get it by examining the file's
+    contents: it gets in directly from a stat() system call.)
+
+    This bound can be reduced somewhat further, to 58 bits, by letting
+    Flowcheck pick minimum cut locations within the binary to decimal
+    conversion process by running in graph mode. Here we use the
+    supplied min-cut.pl script to see the code locations corresponding
+    to the cut location the maximum flow algorithm chose:
+
+    % path/to/valgrind --tool=exp-flowcheck \
+      --private-files-are-secret=yes --trace-secret-graph=yes \
+      --graph-file=wc.g --max-flow-program=path/to/max-flow-boost \
+      ./wc input
+    ...
+    Maximum flow is 58 units
+    % perl min-cut.pl wc.flow wc.g
+    274557 274558 24 ... umaxtostr (wc.c:4394) (result)
+    274206 274207 24 ... umaxtostr (wc.c:4394) (result)
+    274586 274587 3 ... umaxtostr (wc.c:4395) (result)
+    274235 274236 3 ... umaxtostr (wc.c:4395) (result)
+    274491 274492 1 ... __udivdi3 ...
+    274140 274141 1 ... __udivdi3 ...
+    274442 274443 1 ... __umoddi3 ...
+    274090 274091 1 ... __umoddi3 ...
+
+    The first two columns in the output are the node identifiers for
+    each edge, and then the third column is the edge's capacity. The
+    edges from umaxtostr each correspond to operations being repeated
+    three times in a loop. The strangely named functions __udivdi3 and
+    __umoddi3 are generated by GCC to perform 64-bit division and
+    modulus, which aren't supported directly on a 32-bit x86.
+
+    You might wonder why the most compact representation of the line
+    and word counts is found inside the binary to decimal conversion
+    routines. After all, numbers are usually more compact in binary.
+    The reason is that the decimal representation is variable-length.
+    For each digit in the printed representation, Flowcheck is
+    counting 8 bits for the digit itself, plus one or two more bits
+    related to whether or not this is the last digit (a
+    variable-length encoding always needs to know when to stop), for a
+    total of 29 bits. The binary representation in a "long long", on
+    the other hand, is fixed at 64 bits, even though most of them are
+    zero in this example. A variable-length binary representation
+    would be even more efficient, but Flowcheck doesn't look for that:
+    it only "considers" a variable-length decimal representation
+    because it's suggested by the structure of the program.
+
+    To get an even more precise result, we can add some extra
+    invariants about the program's behavior that further constrain its
+    output values. If l, w, and b are the number of lines, words, and
+    bytes counted, respectively, then l <= w <= (b+1)/2. Flowcheck
+    doesn't yet have a general assertion mechanism, but because of the
+    way its tainted bit tracking analysis works, you can assert a
+    bound on the value of an (unsigned) value by ANDing it with a bit
+    mask. For instance, to assert that "x < 8", say "x &= 7". We've
+    included some extra code to do this in the patch, enabled by an
+    #ifdef:
+
+    % gcc -DMORE_PRECISE -Ipath/to/valgrind/include -g wc.c -o wc
+
+    % path/to/valgrind --tool=exp-flowcheck \
+      --private-files-are-secret=yes --trace-secret-graph=yes \
+      --graph-file=wc.g --max-flow-program=path/to/max-flow-boost \
+      ./wc input
+    ...
+     100  490 3319 input
+    Leaked 66 bits total
+    Maximum flow is 22 units
+    % perl min-cut.pl wc.flow wc.g
+    274063 274064 11 804a3b0010b:0 0x804A3B6: wc (wc.c:4126) (result)
+    274108 274109 11 804a3eb010b:0 0x804A3F1: wc (wc.c:4127) (result)
+
+    Given the number of bytes in the file, we know that the number of
+    words and lines are less than 1670 < 2048 = 2**11, so they can
+    both be represented in 11 bits. (Ideally, Flowcheck would be able
+    to tell that the number of lines is less than 490 < 512 = 2**9,
+    for a total of 20 bits leaked. But because the bit-tracking occurs
+    completely before the graph maximum flow, Flowcheck still
+    considers the computed mask value of 511 to have the low 11 rather
+    than just the low 9 bits tainted. It isn't until later that
+    Flowcheck decides to treat the words count as being revealed at
+    that location.)

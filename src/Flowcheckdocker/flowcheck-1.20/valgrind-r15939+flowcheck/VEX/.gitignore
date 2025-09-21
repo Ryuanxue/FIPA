@@ -1,0 +1,4 @@
+Makefile
+.deps/
+libvex_*.o
+libvex*.a

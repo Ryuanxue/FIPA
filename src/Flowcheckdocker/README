@@ -1,0 +1,28 @@
+#构建docker镜像
+docker build -t flowchecker .
+
+#删除镜像
+docker rmi <image_id_or_name>
+docker rmi -f flowchecker
+
+#运行docker
+docker run -it flowchecker
+
+#以挂载的方式将当前目录挂载到某目录Desktop/IF-driver-partition/Flowcheckdocker下运行
+docker run -it -v .:/Desktop/IF-driver-partition/Flowcheckdocker flowchecker  (编译修改过的flowcheck的时候必须运行这个命令启动docker，用root权限的方式make编译)
+docker run --user $(id -u):$(id -g) -it -v .:/Desktop/IF-driver-partition/Flowcheckdocker flowchecker
+
+在IF-driver-partition启动docker，flowchecker,工作目录是IF-driver-partition。
+docker run --user $(id -u):$(id -g) -it -v .:/Desktop/IF-driver-partition/ flowchecker
+docker run --user $(id -u) -it -v .:/Desktop/IF-driver-partition/ flowchecker
+
+
+docker network create -d bridge --subnet=192.168.56.0/24 my_custom_network #docker创建网络
+docker run -d --name my_server --net my_network --ip 10.0.2.4 your_image
+
+
+给docker设置特定的地址需要两步
+1.创建网络
+docker network create -d bridge --subnet=192.168.56.0/24 my_custom_network #docker创建网络
+2.启动docker的时候用--ip指定
+docker run --user $(id -u) -it -v .:/Desktop/ --net my_network --ip 10.0.2.4  flowchecker #docker启动并指定网络和其ip地址，my_network需要事先创建过

@@ -1,0 +1,22 @@
+[
+	{
+        "arguments": [
+            "gcc",
+            "-c",
+            "-DHAVE_CONFIG_H",
+            "-I.",
+            "-I..",
+            "-I../lib",
+            "-I../libmisc",
+            "-DLOCALEDIR=\"/usr/share/locale\"",
+            "-O0",
+            "-Wall",
+            "-g",
+            "-o",
+            "chage.o",
+            "chage.c"
+        ],
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src",
+        "file": "chage.c"
+    }
+   ]

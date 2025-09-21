@@ -1,0 +1,6 @@
+vg_regtest
+arch_test
+os_test
+s390x_features
+true
+x86_amd64_features

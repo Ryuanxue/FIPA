@@ -1,0 +1,157 @@
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..684670c
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,4 @@
++Makefile
++.deps/
++libvex_*.o
++libvex*.a
+diff --git a/priv/.gitignore b/priv/.gitignore
+new file mode 100644
+index 0000000..864df15
+--- /dev/null
++++ b/priv/.gitignore
+@@ -0,0 +1,3 @@
++.dirstamp
++libvexmultiarch_amd64_linux_a-multiarch_main_main.o
++libvexmultiarch_x86_linux_a-multiarch_main_main.o
+diff --git a/priv/guest_x86_toIR.c b/priv/guest_x86_toIR.c
+index c24d9a4..c86a490 100644
+--- a/priv/guest_x86_toIR.c
++++ b/priv/guest_x86_toIR.c
+@@ -536,28 +536,6 @@ static Int xmmGuestRegLane64offset ( UInt xmmreg, Int laneno )
+    return xmmGuestRegOffset( xmmreg ) + 8 * laneno;
+ }
+ 
+-static IRExpr* getIReg ( Int sz, UInt archreg )
+-{
+-   vassert(sz == 1 || sz == 2 || sz == 4);
+-   vassert(archreg < 8);
+-   return IRExpr_Get( integerGuestRegOffset(sz,archreg),
+-                      szToITy(sz) );
+-}
+-
+-/* Ditto, but write to a reg instead. */
+-static void putIReg ( Int sz, UInt archreg, IRExpr* e )
+-{
+-   IRType ty = typeOfIRExpr(irsb->tyenv, e);
+-   switch (sz) {
+-      case 1: vassert(ty == Ity_I8); break;
+-      case 2: vassert(ty == Ity_I16); break;
+-      case 4: vassert(ty == Ity_I32); break;
+-      default: vpanic("putIReg(x86)");
+-   }
+-   vassert(archreg < 8);
+-   stmt( IRStmt_Put(integerGuestRegOffset(sz,archreg), e) );
+-}
+-
+ static IRExpr* getSReg ( UInt sreg )
+ {
+    return IRExpr_Get( segmentGuestRegOffset(sreg), Ity_I16 );
+@@ -697,6 +675,80 @@ static IRExpr* mkV128 ( UShort mask )
+    return IRExpr_Const(IRConst_V128(mask));
+ }
+ 
++static IRExpr* getIReg ( Int sz, UInt archreg )
++{
++   UInt archreg_word;
++   IRExpr *word;
++   vassert(sz == 1|| sz == 2 || sz == 4);
++   vassert(archreg < 8);
++   if (sz == 1 && archreg >= 4)
++      archreg_word = archreg - 4;
++   else
++      archreg_word = archreg;
++   word = IRExpr_Get( integerGuestRegOffset(sz,archreg_word), Ity_I32 );
++   if (sz == 4) {
++      /* Whole-word register */
++      return word;
++   } else if (sz == 2) {
++      /* Low 16 bits of word register */
++      return unop(Iop_32to16, word);
++   } else if (sz == 1 && archreg < 4) {
++      /* Low 8 bits of word register */
++      return unop(Iop_32to8, word);
++   } else if (sz == 1 && archreg >= 4) {
++      /* Second-lowest 8 bits of word register */
++      return unop(Iop_16HIto8, unop(Iop_32to16, word));
++   } else {
++      vpanic("getIReg(x86)");
++   }
++}
++
++/* Ditto, but write to a reg instead. */
++static void putIReg ( Int sz, UInt archreg, IRExpr* e )
++{
++   IRType ty = typeOfIRExpr(irsb->tyenv, e);
++   UInt word_offset;
++   switch (sz) {
++      case 1: vassert(ty == Ity_I8); break;
++      case 2: vassert(ty == Ity_I16); break;
++      case 4: vassert(ty == Ity_I32); break;
++      default: vpanic("putIReg(x86)");
++   }
++   vassert(archreg < 8);
++   if (sz == 1 && archreg >= 4)
++      word_offset = integerGuestRegOffset(4, archreg - 4);
++   else
++      word_offset = integerGuestRegOffset(4, archreg);
++   if (sz == 4) {
++      /* Whole-word register */
++      stmt( IRStmt_Put(word_offset, e) );
++   } else if (sz == 2) {
++      /* Low 16 bits of word register */
++      IRExpr *old_high = binop(Iop_And32, mkU32(0xffff0000),
++                               IRExpr_Get(word_offset, Ity_I32));
++      IRExpr *combined = binop(Iop_Or32, old_high,
++                               unop(Iop_16Uto32, e));
++      stmt( IRStmt_Put(word_offset, combined) );
++   } else if (sz == 1 && archreg < 4) {
++      /* Low 8 bits of word register */
++      IRExpr *old_high = binop(Iop_And32, mkU32(0xffffff00),
++                               IRExpr_Get(word_offset, Ity_I32));
++      IRExpr *combined = binop(Iop_Or32, old_high,
++                               unop(Iop_8Uto32, e));
++      stmt( IRStmt_Put(word_offset, combined) );
++   } else if (sz == 1 && archreg >= 4) {
++      /* Second-lowest 8 bits of word register */
++      IRExpr *old_rest = binop(Iop_And32, mkU32(0xffff00ff),
++                               IRExpr_Get(word_offset, Ity_I32));
++      IRExpr *widened = unop(Iop_16Uto32,
++                             binop(Iop_8HLto16, e, mkU8(0)));
++      IRExpr *combined = binop(Iop_Or32, old_rest, widened);
++      stmt( IRStmt_Put(word_offset, combined) );
++   } else {
++      vpanic("putIReg(x86)");
++   }
++}
++
+ static IRExpr* loadLE ( IRType ty, IRExpr* addr )
+ {
+    return IRExpr_Load(Iend_LE, ty, addr);
+diff --git a/priv/host_generic_reg_alloc2.c b/priv/host_generic_reg_alloc2.c
+index 3c0b8db..a827067 100644
+--- a/priv/host_generic_reg_alloc2.c
++++ b/priv/host_generic_reg_alloc2.c
+@@ -939,9 +939,9 @@ HInstrArray* doRegisterAllocation (
+       } /* switch (vreg_lrs[j].reg_class) */
+ 
+       /* This reflects LibVEX's hard-wired knowledge of the baseBlock
+-         layout: the guest state, then two equal sized areas following
+-         it for two sets of shadow state, and then the spill area. */
+-      vreg_lrs[j].spill_offset = toShort(guest_sizeB * 3 + ss_no * 8);
++         layout: the guest state, then nine equal sized areas following
++         it for none sets of shadow state, and then the spill area. */
++      vreg_lrs[j].spill_offset = toShort(guest_sizeB * 10 + ss_no * 8);
+ 
+       /* Independent check that we've made a sane choice of slot */
+       sanity_check_spill_offset( &vreg_lrs[j] );
+diff --git a/pub/.gitignore b/pub/.gitignore
+new file mode 100644
+index 0000000..95d2daa
+--- /dev/null
++++ b/pub/.gitignore
+@@ -0,0 +1 @@
++libvex_guest_offsets.h

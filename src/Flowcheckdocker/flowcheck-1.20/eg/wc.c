@@ -1,0 +1,5883 @@
+/* wc - print the number of lines, words, and bytes in files
+   Copyright (C) 85, 91, 1995-2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+#include <valgrind/flowcheck.h>
+
+#ifdef MORE_PRECISE
+int bound_mask(unsigned int bound) {
+  unsigned int mask;
+  mask = bound;
+  mask |= mask >> 16;
+  mask |= mask >> 8;
+  mask |= mask >> 4;
+  mask |= mask >> 2;
+  mask |= mask >> 1;
+  return mask;
+}
+#endif
+
+/* Written by Paul Rubin, phr@ocf.berkeley.edu
+   and David MacKenzie, djm@gnu.ai.mit.edu. */
+
+/* config.h.  Generated from config.hin by configure.  */
+/* config.hin.  Generated from configure.ac by autoheader.  */
+
+/* Define if you have the Andrew File System. */
+/* #undef AFS */
+
+/* Define to the function xargmatch calls on failures. */
+#define ARGMATCH_DIE usage (1)
+
+/* Define to the declaration of the xargmatch failure function. */
+#define ARGMATCH_DIE_DECL extern void usage ()
+
+/* Define if chown is not POSIX compliant regarding IDs of -1. */
+/* #undef CHOWN_FAILS_TO_HONOR_ID_OF_NEGATIVE_ONE */
+
+/* Define if chown modifies symlinks. */
+/* #undef CHOWN_MODIFIES_SYMLINK */
+
+/* Define to 1 if the `closedir' function returns void instead of `int'. */
+/* #undef CLOSEDIR_VOID */
+
+/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
+   systems. This function is required for `alloca.c' support on those systems.
+   */
+/* #undef CRAY_STACKSEG_END */
+
+/* Define to 1 if using `alloca.c'. */
+/* #undef C_ALLOCA */
+
+/* Define to 1 if using `getloadavg.c'. */
+/* #undef C_GETLOADAVG */
+
+/* Define the default level of POSIX conformance. The value is of the form
+   YYYYMM, specifying the year and month the standard was adopted. If not
+   defined here, it defaults to the value of _POSIX2_VERSION in <unistd.h>.
+   Define to 199209 to default to POSIX 1003.2-1992, which makes standard
+   programs like `head', `tail', and `sort' accept obsolete options like `+10'
+   and `-10'. Define to 200112 to default to POSIX 1003.1-2001, which makes
+   these standard programs treat leading-`+' operands as file names and
+   require modern usages like `-n 10' instead of `-10'. Whether defined here
+   or not, the default can be overridden at run time via the _POSIX2_VERSION
+   environment variable. */
+/* #undef DEFAULT_POSIX2_VERSION */
+
+/* Define to 1 for DGUX with <sys/dg_sys_info.h>. */
+/* #undef DGUX */
+
+/* the name of the file descriptor member of DIR */
+/* #undef DIR_FD_MEMBER_NAME */
+
+#ifdef DIR_FD_MEMBER_NAME
+# define DIR_TO_FD(Dir_p) ((Dir_p)->DIR_FD_MEMBER_NAME)
+#else
+# define DIR_TO_FD(Dir_p) -1
+#endif
+
+
+/* Define if there is a member named d_ino in the struct describing directory
+   headers. */
+#define D_INO_IN_DIRENT 1
+
+/* Define to 1 if translation of program messages to the user's native
+   language is requested. */
+#define ENABLE_NLS 1
+
+/* Define as good substitute value for EOVERFLOW. */
+/* #undef EOVERFLOW */
+
+/* Define on systems for which file names may have a so-called `drive letter'
+   prefix, define this to compute the length of that prefix, including the
+   colon. */
+#define FILE_SYSTEM_ACCEPTS_DRIVE_LETTER_PREFIX 0
+
+/* Define if the backslash character may also serve as a file name component
+   separator. */
+#define FILE_SYSTEM_BACKSLASH_IS_FILE_NAME_SEPARATOR 0
+
+#if FILE_SYSTEM_ACCEPTS_DRIVE_LETTER_PREFIX
+# define FILE_SYSTEM_PREFIX_LEN(Filename) \
+  ((Filename)[0] && (Filename)[1] == ':' ? 2 : 0)
+#else
+# define FILE_SYSTEM_PREFIX_LEN(Filename) 0
+#endif
+
+/* Define to the type of elements in the array set by `getgroups'. Usually
+   this is either `int' or `gid_t'. */
+#define GETGROUPS_T gid_t
+
+/* Define to 1 if the `getloadavg' function needs to be run setuid or setgid.
+   */
+/* #undef GETLOADAVG_PRIVILEGED */
+
+/* The concatenation of the strings `GNU ', and PACKAGE. */
+#define GNU_PACKAGE "GNU coreutils"
+
+/* Define if your system defines TIOCGWINSZ in sys/ioctl.h. */
+#define GWINSZ_IN_SYS_IOCTL 1
+
+/* Define if your system defines TIOCGWINSZ in sys/pty.h. */
+/* #undef GWINSZ_IN_SYS_PTY */
+
+/* Define to 1 if you have the `acl' function. */
+/* #undef HAVE_ACL */
+
+/* Define to 1 if you have the `acl_delete_def_file' function. */
+#define HAVE_ACL_DELETE_DEF_FILE 1
+
+/* Define to 1 if you have the `acl_entries' function. */
+#define HAVE_ACL_ENTRIES 1
+
+/* Define to 1 if you have the `acl_extended_file' function. */
+#define HAVE_ACL_EXTENDED_FILE 1
+
+/* Define to 1 if you have the `acl_free' function. */
+#define HAVE_ACL_FREE 1
+
+/* Define to 1 if you have the `acl_from_text' function. */
+#define HAVE_ACL_FROM_TEXT 1
+
+/* Define to 1 if you have the `acl_get_file' function. */
+#define HAVE_ACL_GET_FILE 1
+
+/* Define to 1 if you have the `acl_set_file' function. */
+#define HAVE_ACL_SET_FILE 1
+
+/* Define to 1 if you have the `acl_to_text' function. */
+#define HAVE_ACL_TO_TEXT 1
+
+/* Define to 1 if you have the `alarm' function. */
+#define HAVE_ALARM 1
+
+/* Define to 1 if you have `alloca' after including <alloca.h>, a header that
+   may be supplied by this distribution. */
+#define HAVE_ALLOCA 1
+
+/* Define HAVE_ALLOCA_H for backward compatibility with older code that
+   includes <alloca.h> only if HAVE_ALLOCA_H is defined. */
+#define HAVE_ALLOCA_H 1
+
+/* Define if you have an arithmetic hrtime_t type. */
+/* #undef HAVE_ARITHMETIC_HRTIME_T */
+
+/* Define to 1 if you have the `atexit' function. */
+#define HAVE_ATEXIT 1
+
+/* Define to 1 if you have the <bp-sym.h> header file. */
+/* #undef HAVE_BP_SYM_H */
+
+/* Define to 1 if you have the `btowc' function. */
+/* #undef HAVE_BTOWC */
+
+/* Define to 1 if strtold conforms to C99. */
+#define HAVE_C99_STRTOLD 1
+
+/* Define to 1 if your system has a GNU libc compatible `calloc' function, and
+   to 0 otherwise. */
+#define HAVE_CALLOC 1
+
+/* Define to 1 if you have the `canonicalize_file_name' function. */
+#define HAVE_CANONICALIZE_FILE_NAME 1
+
+/* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
+   CoreFoundation framework. */
+/* #undef HAVE_CFLOCALECOPYCURRENT */
+
+/* Define to 1 if you have the MacOS X function CFPreferencesCopyAppValue in
+   the CoreFoundation framework. */
+/* #undef HAVE_CFPREFERENCESCOPYAPPVALUE */
+
+/* Define to 1 if your system has a working `chown' function. */
+#define HAVE_CHOWN 1
+
+/* Define to 1 if you have the `chroot' function. */
+#define HAVE_CHROOT 1
+
+/* Define to 1 if you have the `chsize' function. */
+/* #undef HAVE_CHSIZE */
+
+/* Define to 1 if you have the `clock_gettime' function. */
+#define HAVE_CLOCK_GETTIME 1
+
+/* Define to 1 if you have the `clock_settime' function. */
+#define HAVE_CLOCK_SETTIME 1
+
+/* Define if you have compound literals. */
+/* #undef HAVE_COMPOUND_LITERALS */
+
+/* FIXME */
+#define HAVE_C_LINE 1
+
+/* Define if the GNU dcgettext() function is already present or preinstalled.
+   */
+#define HAVE_DCGETTEXT 1
+
+/* Define to 1 if you have the declaration of `clearerr_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_CLEARERR_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `dirfd', and to 0 if you don't.
+   */
+#define HAVE_DECL_DIRFD 1
+
+/* Define to 1 if you have the declaration of `euidaccess', and to 0 if you
+   don't. */
+#define HAVE_DECL_EUIDACCESS 1
+
+/* Define to 1 if you have the declaration of `feof_unlocked', and to 0 if you
+   don't. */
+#define HAVE_DECL_FEOF_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `ferror_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_FERROR_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `fflush_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_FFLUSH_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `fgets_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_FGETS_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `flockfile', and to 0 if you
+   don't. */
+#define HAVE_DECL_FLOCKFILE 1
+
+/* Define to 1 if you have the declaration of `fputc_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_FPUTC_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `fputs_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_FPUTS_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `fread_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_FREAD_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `free', and to 0 if you don't.
+   */
+#define HAVE_DECL_FREE 1
+
+/* Define to 1 if you have the declaration of `freeaddrinfo', and to 0 if you
+   don't. */
+#define HAVE_DECL_FREEADDRINFO 1
+
+/* Define to 1 if you have the declaration of `funlockfile', and to 0 if you
+   don't. */
+#define HAVE_DECL_FUNLOCKFILE 1
+
+/* Define to 1 if you have the declaration of `fwrite_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_FWRITE_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `gai_strerror', and to 0 if you
+   don't. */
+#define HAVE_DECL_GAI_STRERROR 1
+
+/* Define to 1 if you have the declaration of `getaddrinfo', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETADDRINFO 1
+
+/* Define to 1 if you have the declaration of `getchar_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_GETCHAR_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `getcwd', and to 0 if you don't.
+   */
+#define HAVE_DECL_GETCWD 1
+
+/* Define to 1 if you have the declaration of `getc_unlocked', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETC_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `getdelim', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETDELIM 1
+
+/* Define to 1 if you have the declaration of `getenv', and to 0 if you don't.
+   */
+#define HAVE_DECL_GETENV 1
+
+/* Define to 1 if you have the declaration of `geteuid', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETEUID 1
+
+/* Define to 1 if you have the declaration of `getgrgid', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETGRGID 1
+
+/* Define to 1 if you have the declaration of `gethrtime', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETHRTIME 0
+
+/* Define to 1 if you have the declaration of `getline', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETLINE 1
+
+/* Define to 1 if you have the declaration of `getlogin', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETLOGIN 1
+
+/* Define to 1 if you have the declaration of `getpass', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETPASS 1
+
+/* Define to 1 if you have the declaration of `getpwuid', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETPWUID 1
+
+/* Define to 1 if you have the declaration of `getuid', and to 0 if you don't.
+   */
+#define HAVE_DECL_GETUID 1
+
+/* Define to 1 if you have the declaration of `getutent', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETUTENT 1
+
+/* Define to 1 if you have the declaration of `lseek', and to 0 if you don't.
+   */
+#define HAVE_DECL_LSEEK 1
+
+/* Define to 1 if you have the declaration of `malloc', and to 0 if you don't.
+   */
+#define HAVE_DECL_MALLOC 1
+
+/* Define to 1 if you have a declaration of mbswidth() in <wchar.h>, and to 0
+   otherwise. */
+#define HAVE_DECL_MBSWIDTH_IN_WCHAR_H 0
+
+/* Define to 1 if you have the declaration of `memchr', and to 0 if you don't.
+   */
+#define HAVE_DECL_MEMCHR 1
+
+/* Define to 1 if you have the declaration of `memrchr', and to 0 if you
+   don't. */
+#define HAVE_DECL_MEMRCHR 1
+
+/* Define to 1 if you have the declaration of `nanosleep', and to 0 if you
+   don't. */
+#define HAVE_DECL_NANOSLEEP 1
+
+/* Define to 1 if you have the declaration of `putchar_unlocked', and to 0 if
+   you don't. */
+#define HAVE_DECL_PUTCHAR_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `putc_unlocked', and to 0 if you
+   don't. */
+#define HAVE_DECL_PUTC_UNLOCKED 1
+
+/* Define to 1 if you have the declaration of `realloc', and to 0 if you
+   don't. */
+#define HAVE_DECL_REALLOC 1
+
+/* Define to 1 if you have the declaration of `setregid', and to 0 if you
+   don't. */
+#define HAVE_DECL_SETREGID 1
+
+/* Define to 1 if you have the declaration of `stpcpy', and to 0 if you don't.
+   */
+#define HAVE_DECL_STPCPY 1
+
+/* Define to 1 if you have the declaration of `strdup', and to 0 if you don't.
+   */
+#define HAVE_DECL_STRDUP 1
+
+/* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
+   don't. */
+#define HAVE_DECL_STRERROR_R 1
+
+/* Define to 1 if you have the declaration of `strndup', and to 0 if you
+   don't. */
+#define HAVE_DECL_STRNDUP 1
+
+/* Define to 1 if you have the declaration of `strnlen', and to 0 if you
+   don't. */
+#define HAVE_DECL_STRNLEN 1
+
+/* Define to 1 if you have the declaration of `strsignal', and to 0 if you
+   don't. */
+#define HAVE_DECL_STRSIGNAL 1
+
+/* Define to 1 if you have the declaration of `strstr', and to 0 if you don't.
+   */
+#define HAVE_DECL_STRSTR 1
+
+/* Define to 1 if you have the declaration of `strtoimax', and to 0 if you
+   don't. */
+#define HAVE_DECL_STRTOIMAX 1
+
+/* Define to 1 if you have the declaration of `strtoll', and to 0 if you
+   don't. */
+/* #undef HAVE_DECL_STRTOLL */
+
+/* Define to 1 if you have the declaration of `strtoul', and to 0 if you
+   don't. */
+#define HAVE_DECL_STRTOUL 1
+
+/* Define to 1 if you have the declaration of `strtoull', and to 0 if you
+   don't. */
+#define HAVE_DECL_STRTOULL 1
+
+/* Define to 1 if you have the declaration of `strtoumax', and to 0 if you
+   don't. */
+#define HAVE_DECL_STRTOUMAX 1
+
+/* Define to 1 if you have the declaration of `sys_siglist', and to 0 if you
+   don't. */
+#define HAVE_DECL_SYS_SIGLIST 1
+
+/* Define to 1 if you have the declaration of `ttyname', and to 0 if you
+   don't. */
+#define HAVE_DECL_TTYNAME 1
+
+/* Define to 1 if you have the declaration of `tzname', and to 0 if you don't.
+   */
+/* #undef HAVE_DECL_TZNAME */
+
+/* Define to 1 if you have the declaration of wcwidth(), and to 0 otherwise.
+   */
+#define HAVE_DECL_WCWIDTH 1
+
+/* Define to 1 if you have the declaration of `_sys_siglist', and to 0 if you
+   don't. */
+#define HAVE_DECL__SYS_SIGLIST 1
+
+/* Define to 1 if you have the declaration of `__fpending', and to 0 if you
+   don't. */
+#define HAVE_DECL___FPENDING 1
+
+/* Define to 1 if you have the declaration of `__sys_siglist', and to 0 if you
+   don't. */
+#define HAVE_DECL___SYS_SIGLIST 0
+
+/* Define to 1 if you have the `directio' function. */
+/* #undef HAVE_DIRECTIO */
+
+/* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
+   */
+#define HAVE_DIRENT_H 1
+
+/* Define to 1 if you have the `dirfd' function. */
+#define HAVE_DIRFD 1
+
+/* Define to 1 if you have the `dup2' function. */
+#define HAVE_DUP2 1
+
+/* Define to 1 if you have the <dustat.h> header file. */
+/* #undef HAVE_DUSTAT_H */
+
+/* Define to 1 if you have the `eaccess' function. */
+/* #undef HAVE_EACCESS */
+
+/* Define to 1 if you have the `endgrent' function. */
+#define HAVE_ENDGRENT 1
+
+/* Define to 1 if you have the `endpwent' function. */
+#define HAVE_ENDPWENT 1
+
+/* Define if you have the declaration of environ. */
+/* #undef HAVE_ENVIRON_DECL */
+
+/* Define if you have the declaration of errno. */
+/* #undef HAVE_ERRNO_DECL */
+
+/* Define to 1 if you have the `euidaccess' function. */
+#define HAVE_EUIDACCESS 1
+
+/* Define to 1 if you have the `fchdir' function. */
+#define HAVE_FCHDIR 1
+
+/* Define to 1 if you have the `fchmod' function. */
+#define HAVE_FCHMOD 1
+
+/* Define to 1 if you have the `fchown' function. */
+#define HAVE_FCHOWN 1
+
+/* Define to 1 if you have the `fdatasync' function. */
+#define HAVE_FDATASYNC 1
+
+/* Define to 1 if you have the `fdopendir' function. */
+/* #undef HAVE_FDOPENDIR */
+
+/* Define to 1 if you have the `flockfile' function. */
+/* #undef HAVE_FLOCKFILE */
+
+/* Define to 1 if you have the `floor' function. */
+#define HAVE_FLOOR 1
+
+/* Define to 1 if fseeko (and presumably ftello) exists and is declared. */
+#define HAVE_FSEEKO 1
+
+/* Define to 1 if you have the <fs_info.h> header file. */
+/* #undef HAVE_FS_INFO_H */
+
+/* Define to 1 if you have the `fs_stat_dev' function. */
+/* #undef HAVE_FS_STAT_DEV */
+
+/* Define to 1 if you have the `ftruncate' function. */
+#define HAVE_FTRUNCATE 1
+
+/* Define to 1 if you have the `funlockfile' function. */
+/* #undef HAVE_FUNLOCKFILE */
+
+/* Define to 1 if you have the `futimes' function. */
+#define HAVE_FUTIMES 1
+
+/* Define to 1 if you have the `futimesat' function. */
+/* #undef HAVE_FUTIMESAT */
+
+/* Define if struct statfs has the f_fstypename member. */
+/* #undef HAVE_F_FSTYPENAME_IN_STATFS */
+
+/* Define to 1 if you have the `gai_strerror' function. */
+#define HAVE_GAI_STRERROR 1
+
+/* Define to 1 if you have the `getaddrinfo' function. */
+#define HAVE_GETADDRINFO 1
+
+/* Define to 1 if you have the `getdelim' function. */
+/* #undef HAVE_GETDELIM */
+
+/* Define to 1 if your system has a working `getgroups' function. */
+#define HAVE_GETGROUPS 1
+
+/* Define to 1 if you have the `gethostid' function. */
+#define HAVE_GETHOSTID 1
+
+/* Define to 1 if you have the `gethostname' function. */
+#define HAVE_GETHOSTNAME 1
+
+/* Define to 1 if you have the `getloadavg' function. */
+#define HAVE_GETLOADAVG 1
+
+/* Define to 1 if you have the `getmntent' function. */
+#define HAVE_GETMNTENT 1
+
+/* Define to 1 if you have the `getmntinfo' function. */
+/* #undef HAVE_GETMNTINFO */
+
+/* Define to 1 if you have the <getopt.h> header file. */
+#define HAVE_GETOPT_H 1
+
+/* Define to 1 if you have the `getopt_long_only' function. */
+#define HAVE_GETOPT_LONG_ONLY 1
+
+/* Define to 1 if you have the `getpagesize' function. */
+#define HAVE_GETPAGESIZE 1
+
+/* Define to 1 if you have the `getspnam' function. */
+#define HAVE_GETSPNAM 1
+
+/* Define to 1 if you have the `getsysinfo' function. */
+/* #undef HAVE_GETSYSINFO */
+
+/* Define if the GNU gettext() function is already present or preinstalled. */
+#define HAVE_GETTEXT 1
+
+/* Define to 1 if you have the `gettimeofday' function. */
+#define HAVE_GETTIMEOFDAY 1
+
+/* Define to 1 if you have the `getusershell' function. */
+#define HAVE_GETUSERSHELL 1
+
+/* Define to 1 if you have the <grp.h> header file. */
+#define HAVE_GRP_H 1
+
+/* Define to 1 if you have the `hasmntopt' function. */
+#define HAVE_HASMNTOPT 1
+
+/* Define to 1 if you have the <hurd.h> header file. */
+/* #undef HAVE_HURD_H */
+
+/* Define if you have the iconv() function. */
+#define HAVE_ICONV 1
+
+/* Define to 1 if you have the `initgroups' function. */
+#define HAVE_INITGROUPS 1
+
+/* Define if you have the 'intmax_t' type in <stdint.h> or <inttypes.h>. */
+#define HAVE_INTMAX_T 1
+
+/* Define if <inttypes.h> exists and doesn't clash with <sys/types.h>. */
+#define HAVE_INTTYPES_H 1
+
+/* Define if <inttypes.h> exists, doesn't clash with <sys/types.h>, and
+   declares uintmax_t. */
+#define HAVE_INTTYPES_H_WITH_UINTMAX 1
+
+/* Define to 1 if <sys/socket.h> defines AF_INET. */
+#define HAVE_IPV4 1
+
+/* Define to 1 if <sys/socket.h> defines AF_INET6. */
+#define HAVE_IPV6 1
+
+/* Define to 1 if you have the `isascii' function. */
+#define HAVE_ISASCII 1
+
+/* Define to 1 if you have the `isblank' function. */
+#define HAVE_ISBLANK 1
+
+/* Define to 1 if you have the `iswcntrl' function. */
+#define HAVE_ISWCNTRL 1
+
+/* Define to 1 if you have the `iswprint' function. */
+#define HAVE_ISWPRINT 1
+
+/* Define to 1 if you have the `iswspace' function. */
+#define HAVE_ISWSPACE 1
+
+/* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
+#define HAVE_LANGINFO_CODESET 1
+
+/* Define to 1 if you have the `lchown' function. */
+#define HAVE_LCHOWN 1
+
+/* Define to 1 if you have the `dgc' library (-ldgc). */
+/* #undef HAVE_LIBDGC */
+
+/* Define to 1 if you have the <libgen.h> header file. */
+#define HAVE_LIBGEN_H 1
+
+/* Define to 1 if you have the `kstat' library (-lkstat). */
+/* #undef HAVE_LIBKSTAT */
+
+/* Define to 1 if you have the `ldgc' library (-lldgc). */
+/* #undef HAVE_LIBLDGC */
+
+/* Define to 1 if you have the `os' library (-los). */
+/* #undef HAVE_LIBOS */
+
+/* Define to 1 if you have the `ypsec' library (-lypsec). */
+/* #undef HAVE_LIBYPSEC */
+
+/* Define to 1 if you have the `listmntent' function. */
+/* #undef HAVE_LISTMNTENT */
+
+/* Define to 1 if you have the <locale.h> header file. */
+#define HAVE_LOCALE_H 1
+
+/* Define if you have the 'long double' type. */
+#define HAVE_LONG_DOUBLE 1
+
+/* Define to 1 if the type `long double' works and has more range or precision
+   than `double'. */
+#define HAVE_LONG_DOUBLE_WIDER 1
+
+/* Define to 1 if you support file names longer than 14 characters. */
+#define HAVE_LONG_FILE_NAMES 1
+
+/* Define if you have the 'long long' type. */
+#define HAVE_LONG_LONG 1
+
+/* Define to 1 if `lstat' has the bug that it succeeds when given the
+   zero-length file name argument. */
+/* #undef HAVE_LSTAT_EMPTY_STRING_BUG */
+
+/* Define to 1 if you have the <machine/hal_sysinfo.h> header file. */
+/* #undef HAVE_MACHINE_HAL_SYSINFO_H */
+
+/* Define to 1 if you have the <mach/mach.h> header file. */
+/* #undef HAVE_MACH_MACH_H */
+
+/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
+   to 0 otherwise. */
+#define HAVE_MALLOC 1
+
+/* Define to 1 if you have the `mblen' function. */
+#define HAVE_MBLEN 1
+
+/* Define to 1 if you have the `mbrlen' function. */
+#define HAVE_MBRLEN 1
+
+/* Define to 1 if you have the `mbrtowc' function. */
+#define HAVE_MBRTOWC 1
+
+/* Define to 1 if you have the `mbsinit' function. */
+#define HAVE_MBSINIT 1
+
+/* Define to 1 if you have the `mbsrtowcs' function. */
+/* #undef HAVE_MBSRTOWCS */
+
+/* Define to 1 if <wchar.h> declares mbstate_t. */
+#define HAVE_MBSTATE_T 1
+
+/* Define to 1 if you have the `memchr' function. */
+#define HAVE_MEMCHR 1
+
+/* Define to 1 if you have the `memcpy' function. */
+#define HAVE_MEMCPY 1
+
+/* Define to 1 if you have the `memmove' function. */
+#define HAVE_MEMMOVE 1
+
+/* Define to 1 if you have the <memory.h> header file. */
+#define HAVE_MEMORY_H 1
+
+/* Define to 1 if you have the `mempcpy' function. */
+#define HAVE_MEMPCPY 1
+
+/* Define to 1 if you have the `memrchr' function. */
+#define HAVE_MEMRCHR 1
+
+/* Define to 1 if you have the `memset' function. */
+#define HAVE_MEMSET 1
+
+/* Define to 1 if you have the `microuptime' function. */
+/* #undef HAVE_MICROUPTIME */
+
+/* Define to 1 if you have the `mkfifo' function. */
+#define HAVE_MKFIFO 1
+
+/* Define to 1 if you have the `mkstemp' function. */
+#define HAVE_MKSTEMP 1
+
+/* Define to 1 if you have the <mntent.h> header file. */
+#define HAVE_MNTENT_H 1
+
+/* Define to 1 if you have the `modf' function. */
+#define HAVE_MODF 1
+
+/* Define to 1 if you have the `nanotime' function. */
+/* #undef HAVE_NANOTIME */
+
+/* Define to 1 if you have the `nanouptime' function. */
+/* #undef HAVE_NANOUPTIME */
+
+/* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
+/* #undef HAVE_NDIR_H */
+
+/* Define to 1 if you have the <netdb.h> header file. */
+#define HAVE_NETDB_H 1
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+#define HAVE_NETINET_IN_H 1
+
+/* Define to 1 if you have the `next_dev' function. */
+/* #undef HAVE_NEXT_DEV */
+
+/* Define to 1 if you have the <nfs/nfs_clnt.h> header file. */
+/* #undef HAVE_NFS_NFS_CLNT_H */
+
+/* Define to 1 if you have the <nfs/vfs.h> header file. */
+/* #undef HAVE_NFS_VFS_H */
+
+/* Define to 1 if you have the `nice' function. */
+/* #undef HAVE_NICE */
+
+/* Define to 1 if you have the <nlist.h> header file. */
+/* #undef HAVE_NLIST_H */
+
+/* Define to 1 if libc includes obstacks. */
+#define HAVE_OBSTACK 1
+
+/* Define to 1 if you have the `openat' function. */
+/* #undef HAVE_OPENAT */
+
+/* Define to 1 if you have the <OS.h> header file. */
+/* #undef HAVE_OS_H */
+
+/* Define to 1 if getcwd works, except it sometimes fails when it shouldn't,
+   setting errno to ERANGE, ENAMETOOLONG, or ENOENT. If __GETCWD_PREFIX is not
+   defined, it doesn't matter whether HAVE_PARTLY_WORKING_GETCWD is defined.
+   */
+/* #undef HAVE_PARTLY_WORKING_GETCWD */
+
+/* Define to 1 if you have the `pathconf' function. */
+#define HAVE_PATHCONF 1
+
+/* Define to 1 if you have the <paths.h> header file. */
+#define HAVE_PATHS_H 1
+
+/* Define to 1 if you have the <priv.h> header file. */
+/* #undef HAVE_PRIV_H */
+
+/* Define if your system has the /proc/uptime special file. */
+#define HAVE_PROC_UPTIME 1
+
+/* Define to 1 if you have the `pstat_getdynamic' function. */
+/* #undef HAVE_PSTAT_GETDYNAMIC */
+
+/* Define to 1 if you have the `pstat_getstatic' function. */
+/* #undef HAVE_PSTAT_GETSTATIC */
+
+/* Define to 1 if the system has the type `ptrdiff_t'. */
+#define HAVE_PTRDIFF_T 1
+
+/* Define to 1 if you have the <pwd.h> header file. */
+#define HAVE_PWD_H 1
+
+/* Define to 1 if you have the `raise' function. */
+#define HAVE_RAISE 1
+
+/* Define to 1 if you have the `readlink' function. */
+#define HAVE_READLINK 1
+
+/* Define to 1 if your system has a GNU libc compatible `realloc' function,
+   and to 0 otherwise. */
+#define HAVE_REALLOC 1
+
+/* Define to 1 if you have the `realpath' function. */
+#define HAVE_REALPATH 1
+
+/* Define to 1 if you have the `resolvepath' function. */
+/* #undef HAVE_RESOLVEPATH */
+
+/* Define to 1 if you have the `rint' function. */
+#define HAVE_RINT 1
+
+/* Define to 1 if you have the `rmdir' function. */
+#define HAVE_RMDIR 1
+
+/* Define to 1 if you have the `rpmatch' function. */
+#define HAVE_RPMATCH 1
+
+/* Define to 1 if you have run the test for working tzset. */
+#define HAVE_RUN_TZSET_TEST 1
+
+/* Define to 1 if you have the <search.h> header file. */
+/* #undef HAVE_SEARCH_H */
+
+/* Define to 1 if you have the `setenv' function. */
+#define HAVE_SETENV 1
+
+/* Define to 1 if you have the `sethostname' function. */
+#define HAVE_SETHOSTNAME 1
+
+/* Define to 1 if you have the `setlocale' function. */
+#define HAVE_SETLOCALE 1
+
+/* Define to 1 if you have the `settimeofday' function. */
+#define HAVE_SETTIMEOFDAY 1
+
+/* Define to 1 if you have the <shadow.h> header file. */
+#define HAVE_SHADOW_H 1
+
+/* Define to 1 if you have the `sig2str' function. */
+/* #undef HAVE_SIG2STR */
+
+/* Define to 1 if you have the `siginterrupt' function. */
+#define HAVE_SIGINTERRUPT 1
+
+/* Define to 1 if you have the `snprintf' function. */
+#define HAVE_SNPRINTF 1
+
+/* Define to 1 if you have the `statvfs' function. */
+#define HAVE_STATVFS 1
+
+/* Define to 1 if stdbool.h conforms to C99. */
+#define HAVE_STDBOOL_H 1
+
+/* Define to 1 if you have the <stddef.h> header file. */
+#define HAVE_STDDEF_H 1
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#define HAVE_STDINT_H 1
+
+/* Define if <stdint.h> exists, doesn't clash with <sys/types.h>, and declares
+   uintmax_t. */
+#define HAVE_STDINT_H_WITH_UINTMAX 1
+
+/* Define to 1 if you have the <stdio_ext.h> header file. */
+#define HAVE_STDIO_EXT_H 1
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#define HAVE_STDLIB_H 1
+
+/* Define to 1 if you have the `stime' function. */
+#define HAVE_STIME 1
+
+/* Define to 1 if you have the `stpcpy' function. */
+#define HAVE_STPCPY 1
+
+/* Define to 1 if you have the `strcoll' function and it is properly defined.
+   */
+#define HAVE_STRCOLL 1
+
+/* Define to 1 if you have the `strcspn' function. */
+#define HAVE_STRCSPN 1
+
+/* Define to 1 if you have the `strdup' function. */
+#define HAVE_STRDUP 1
+
+/* Define to 1 if you have the `strerror_r' function. */
+#define HAVE_STRERROR_R 1
+
+/* Define to 1 if you have the `strftime' function. */
+#define HAVE_STRFTIME 1
+
+/* Define to 1 if you have the <strings.h> header file. */
+#define HAVE_STRINGS_H 1
+
+/* Define to 1 if you have the <string.h> header file. */
+#define HAVE_STRING_H 1
+
+/* Define to 1 if you have the `strncasecmp' function. */
+#define HAVE_STRNCASECMP 1
+
+/* Define if you have the strndup() function and it works. */
+#define HAVE_STRNDUP 1
+
+/* Define to 1 if you have the <stropts.h> header file. */
+#define HAVE_STROPTS_H 1
+
+/* Define to 1 if you have the `strpbrk' function. */
+#define HAVE_STRPBRK 1
+
+/* Define to 1 if you have the `strtoimax' function. */
+#define HAVE_STRTOIMAX 1
+
+/* Define to 1 if you have the `strtol' function. */
+#define HAVE_STRTOL 1
+
+/* Define to 1 if you have the `strtoll' function. */
+#define HAVE_STRTOLL 1
+
+/* Define to 1 if you have the `strtoul' function. */
+#define HAVE_STRTOUL 1
+
+/* Define to 1 if you have the `strtoull' function. */
+#define HAVE_STRTOULL 1
+
+/* Define to 1 if you have the `strtoumax' function. */
+#define HAVE_STRTOUMAX 1
+
+/* Define to 1 if the system has the type `struct addrinfo'. */
+#define HAVE_STRUCT_ADDRINFO 1
+
+/* Define if there is a member named d_type in the struct describing directory
+   headers. */
+#define HAVE_STRUCT_DIRENT_D_TYPE 1
+
+/* Define to 1 if `f_fstypename' is member of `struct fsstat'. */
+/* #undef HAVE_STRUCT_FSSTAT_F_FSTYPENAME */
+
+/* Define to 1 if `n_un.n_name' is member of `struct nlist'. */
+/* #undef HAVE_STRUCT_NLIST_N_UN_N_NAME */
+
+/* Define to 1 if `sp_pwdp' is member of `struct spwd'. */
+#define HAVE_STRUCT_SPWD_SP_PWDP 1
+
+/* Define to 1 if `f_basetype' is member of `struct statfs'. */
+/* #undef HAVE_STRUCT_STATFS_F_BASETYPE */
+
+/* Define to 1 if `f_fsid.__val' is member of `struct statfs'. */
+#define HAVE_STRUCT_STATFS_F_FSID___VAL 1
+
+/* Define to 1 if `f_fstypename' is member of `struct statfs'. */
+/* #undef HAVE_STRUCT_STATFS_F_FSTYPENAME */
+
+/* Define to 1 if `f_namelen' is member of `struct statfs'. */
+#define HAVE_STRUCT_STATFS_F_NAMELEN 1
+
+/* Define to 1 if `f_namemax' is member of `struct statfs'. */
+/* #undef HAVE_STRUCT_STATFS_F_NAMEMAX */
+
+/* Define to 1 if `f_type' is member of `struct statfs'. */
+#define HAVE_STRUCT_STATFS_F_TYPE 1
+
+/* Define to 1 if `f_basetype' is member of `struct statvfs'. */
+/* #undef HAVE_STRUCT_STATVFS_F_BASETYPE */
+
+/* Define to 1 if `f_fsid.__val' is member of `struct statvfs'. */
+/* #undef HAVE_STRUCT_STATVFS_F_FSID___VAL */
+
+/* Define to 1 if `f_namelen' is member of `struct statvfs'. */
+/* #undef HAVE_STRUCT_STATVFS_F_NAMELEN */
+
+/* Define to 1 if `f_namemax' is member of `struct statvfs'. */
+#define HAVE_STRUCT_STATVFS_F_NAMEMAX 1
+
+/* Define to 1 if `f_type' is member of `struct statvfs'. */
+/* #undef HAVE_STRUCT_STATVFS_F_TYPE */
+
+/* Define to 1 if `st_atimensec' is member of `struct stat'. */
+/* #undef HAVE_STRUCT_STAT_ST_ATIMENSEC */
+
+/* Define to 1 if `st_atimespec.tv_nsec' is member of `struct stat'. */
+/* #undef HAVE_STRUCT_STAT_ST_ATIMESPEC_TV_NSEC */
+
+/* Define to 1 if `st_atim.st__tim.tv_nsec' is member of `struct stat'. */
+/* #undef HAVE_STRUCT_STAT_ST_ATIM_ST__TIM_TV_NSEC */
+
+/* Define to 1 if `st_atim.tv_nsec' is member of `struct stat'. */
+#define HAVE_STRUCT_STAT_ST_ATIM_TV_NSEC 1
+
+/* Define to 1 if `st_author' is member of `struct stat'. */
+/* #undef HAVE_STRUCT_STAT_ST_AUTHOR */
+
+/* Define to 1 if `st_blksize' is member of `struct stat'. */
+#define HAVE_STRUCT_STAT_ST_BLKSIZE 1
+
+/* Define to 1 if `st_blocks' is member of `struct stat'. */
+#define HAVE_STRUCT_STAT_ST_BLOCKS 1
+
+/* Define to 1 if `st_spare1' is member of `struct stat'. */
+/* #undef HAVE_STRUCT_STAT_ST_SPARE1 */
+
+/* Define if struct timespec is declared in <time.h>. */
+#define HAVE_STRUCT_TIMESPEC 1
+
+/* Define to 1 if `tm_zone' is member of `struct tm'. */
+#define HAVE_STRUCT_TM_TM_ZONE 1
+
+/* Define if struct utimbuf is declared -- usually in <utime.h>. Some systems
+   have utime.h but don't declare the struct anywhere. */
+#define HAVE_STRUCT_UTIMBUF 1
+
+/* Define to 1 if `ut_exit' is member of `struct utmpx'. */
+#define HAVE_STRUCT_UTMPX_UT_EXIT 1
+
+/* Define to 1 if `ut_exit.e_exit' is member of `struct utmpx'. */
+#define HAVE_STRUCT_UTMPX_UT_EXIT_E_EXIT 1
+
+/* Define to 1 if `ut_exit.e_termination' is member of `struct utmpx'. */
+#define HAVE_STRUCT_UTMPX_UT_EXIT_E_TERMINATION 1
+
+/* Define to 1 if `ut_exit.ut_exit' is member of `struct utmpx'. */
+/* #undef HAVE_STRUCT_UTMPX_UT_EXIT_UT_EXIT */
+
+/* Define to 1 if `ut_exit.ut_termination' is member of `struct utmpx'. */
+/* #undef HAVE_STRUCT_UTMPX_UT_EXIT_UT_TERMINATION */
+
+/* Define to 1 if `ut_id' is member of `struct utmpx'. */
+#define HAVE_STRUCT_UTMPX_UT_ID 1
+
+/* Define to 1 if `ut_name' is member of `struct utmpx'. */
+#define HAVE_STRUCT_UTMPX_UT_NAME 1
+
+/* Define to 1 if `ut_pid' is member of `struct utmpx'. */
+#define HAVE_STRUCT_UTMPX_UT_PID 1
+
+/* Define to 1 if `ut_type' is member of `struct utmpx'. */
+#define HAVE_STRUCT_UTMPX_UT_TYPE 1
+
+/* Define to 1 if `ut_user' is member of `struct utmpx'. */
+#define HAVE_STRUCT_UTMPX_UT_USER 1
+
+/* Define to 1 if `ut_exit' is member of `struct utmp'. */
+#define HAVE_STRUCT_UTMP_UT_EXIT 1
+
+/* Define to 1 if `ut_exit.e_exit' is member of `struct utmp'. */
+#define HAVE_STRUCT_UTMP_UT_EXIT_E_EXIT 1
+
+/* Define to 1 if `ut_exit.e_termination' is member of `struct utmp'. */
+#define HAVE_STRUCT_UTMP_UT_EXIT_E_TERMINATION 1
+
+/* Define to 1 if `ut_exit.ut_exit' is member of `struct utmp'. */
+/* #undef HAVE_STRUCT_UTMP_UT_EXIT_UT_EXIT */
+
+/* Define to 1 if `ut_exit.ut_termination' is member of `struct utmp'. */
+/* #undef HAVE_STRUCT_UTMP_UT_EXIT_UT_TERMINATION */
+
+/* Define to 1 if `ut_id' is member of `struct utmp'. */
+#define HAVE_STRUCT_UTMP_UT_ID 1
+
+/* Define to 1 if `ut_name' is member of `struct utmp'. */
+#define HAVE_STRUCT_UTMP_UT_NAME 1
+
+/* Define to 1 if `ut_pid' is member of `struct utmp'. */
+#define HAVE_STRUCT_UTMP_UT_PID 1
+
+/* Define to 1 if `ut_type' is member of `struct utmp'. */
+#define HAVE_STRUCT_UTMP_UT_TYPE 1
+
+/* Define to 1 if `ut_user' is member of `struct utmp'. */
+#define HAVE_STRUCT_UTMP_UT_USER 1
+
+/* Define to 1 if you have the `strverscmp' function. */
+#define HAVE_STRVERSCMP 1
+
+/* Define to 1 if your `struct stat' has `st_blocks'. Deprecated, use
+   `HAVE_STRUCT_STAT_ST_BLOCKS' instead. */
+#define HAVE_ST_BLOCKS 1
+
+/* Define if struct stat has an st_dm_mode member. */
+/* #undef HAVE_ST_DM_MODE */
+
+/* Define to 1 if you have the `sysctl' function. */
+#define HAVE_SYSCTL 1
+
+/* Define to 1 if you have the `sysinfo' function. */
+#define HAVE_SYSINFO 1
+
+/* FIXME */
+#define HAVE_SYSLOG 1
+
+/* Define to 1 if you have the <syslog.h> header file. */
+#define HAVE_SYSLOG_H 1
+
+/* Define to 1 if you have the `sysmp' function. */
+/* #undef HAVE_SYSMP */
+
+/* Define to 1 if you have the <sys/acl.h> header file. */
+#define HAVE_SYS_ACL_H 1
+
+/* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
+   */
+/* #undef HAVE_SYS_DIR_H */
+
+/* Define to 1 if you have the <sys/filsys.h> header file. */
+/* #undef HAVE_SYS_FILSYS_H */
+
+/* Define to 1 if you have the <sys/fs/s5param.h> header file. */
+/* #undef HAVE_SYS_FS_S5PARAM_H */
+
+/* Define to 1 if you have the <sys/fs_types.h> header file. */
+/* #undef HAVE_SYS_FS_TYPES_H */
+
+/* Define to 1 if you have the <sys/ioctl.h> header file. */
+#define HAVE_SYS_IOCTL_H 1
+
+/* Define to 1 if you have the <sys/mntent.h> header file. */
+/* #undef HAVE_SYS_MNTENT_H */
+
+/* Define to 1 if you have the <sys/mount.h> header file. */
+#define HAVE_SYS_MOUNT_H 1
+
+/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
+   */
+/* #undef HAVE_SYS_NDIR_H */
+
+/* Define to 1 if you have the <sys/param.h> header file. */
+#define HAVE_SYS_PARAM_H 1
+
+/* Define to 1 if you have the <sys/pstat.h> header file. */
+/* #undef HAVE_SYS_PSTAT_H */
+
+/* Define to 1 if you have the <sys/resource.h> header file. */
+#define HAVE_SYS_RESOURCE_H 1
+
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#define HAVE_SYS_SOCKET_H 1
+
+/* Define to 1 if you have the <sys/statfs.h> header file. */
+#define HAVE_SYS_STATFS_H 1
+
+/* Define to 1 if you have the <sys/statvfs.h> header file. */
+#define HAVE_SYS_STATVFS_H 1
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#define HAVE_SYS_STAT_H 1
+
+/* Define to 1 if you have the <sys/sysctl.h> header file. */
+#define HAVE_SYS_SYSCTL_H 1
+
+/* Define to 1 if you have the <sys/sysinfo.h> header file. */
+#define HAVE_SYS_SYSINFO_H 1
+
+/* Define to 1 if you have the <sys/sysmacros.h> header file. */
+#define HAVE_SYS_SYSMACROS_H 1
+
+/* Define to 1 if you have the <sys/sysmp.h> header file. */
+/* #undef HAVE_SYS_SYSMP_H */
+
+/* Define to 1 if you have the <sys/systemcfg.h> header file. */
+/* #undef HAVE_SYS_SYSTEMCFG_H */
+
+/* Define to 1 if you have the <sys/systeminfo.h> header file. */
+/* #undef HAVE_SYS_SYSTEMINFO_H */
+
+/* Define to 1 if you have the <sys/table.h> header file. */
+/* #undef HAVE_SYS_TABLE_H */
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#define HAVE_SYS_TIME_H 1
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#define HAVE_SYS_TYPES_H 1
+
+/* Define to 1 if you have the <sys/ucred.h> header file. */
+/* #undef HAVE_SYS_UCRED_H */
+
+/* Define to 1 if you have the <sys/vfs.h> header file. */
+#define HAVE_SYS_VFS_H 1
+
+/* Define to 1 if you have the <sys/wait.h> header file. */
+#define HAVE_SYS_WAIT_H 1
+
+/* Define to 1 if you have the `table' function. */
+/* #undef HAVE_TABLE */
+
+/* Define to 1 if you have the `tcgetattr' function. */
+#define HAVE_TCGETATTR 1
+
+/* Define to 1 if you have the `tcgetpgrp' function. */
+#define HAVE_TCGETPGRP 1
+
+/* Define to 1 if you have the `tcsetattr' function. */
+#define HAVE_TCSETATTR 1
+
+/* Define to 1 if you have the <termios.h> header file. */
+#define HAVE_TERMIOS_H 1
+
+/* Define if struct tm has the tm_gmtoff member. */
+#define HAVE_TM_GMTOFF 1
+
+/* Define to 1 if your `struct tm' has `tm_zone'. Deprecated, use
+   `HAVE_STRUCT_TM_TM_ZONE' instead. */
+#define HAVE_TM_ZONE 1
+
+/* Define to 1 if you have the `tsearch' function. */
+/* #undef HAVE_TSEARCH */
+
+/* Define to 1 if you don't have `tm_zone' but do have the external array
+   `tzname'. */
+/* #undef HAVE_TZNAME */
+
+/* Define to 1 if you have the `tzset' function. */
+#define HAVE_TZSET 1
+
+/* Define if you have the 'uintmax_t' type in <stdint.h> or <inttypes.h>. */
+#define HAVE_UINTMAX_T 1
+
+/* Define to 1 if you have the `uname' function. */
+#define HAVE_UNAME 1
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#define HAVE_UNISTD_H 1
+
+/* Define to 1 if you have the `unsetenv' function. */
+#define HAVE_UNSETENV 1
+
+/* Define if you have the 'unsigned long long' type. */
+#define HAVE_UNSIGNED_LONG_LONG 1
+
+/* Define if utimes accepts a null argument */
+/* #undef HAVE_UTIMES_NULL */
+
+/* Define to 1 if you have the <utime.h> header file. */
+#define HAVE_UTIME_H 1
+
+/* Define to 1 if `utime(file, NULL)' sets file's timestamp to the present. */
+#define HAVE_UTIME_NULL 1
+
+/* Define to 1 if you have the `utmpname' function. */
+#define HAVE_UTMPNAME 1
+
+/* Define to 1 if you have the `utmpxname' function. */
+#define HAVE_UTMPXNAME 1
+
+/* FIXME */
+#define HAVE_UTMPX_H 1
+
+/* Define to 1 if you have the <utmp.h> header file. */
+#define HAVE_UTMP_H 1
+
+/* FIXME */
+#define HAVE_UT_HOST 1
+
+/* Define to 1 if you have the `vasnprintf' function. */
+/* #undef HAVE_VASNPRINTF */
+
+/* Define to 1 if you have the `vasprintf' function. */
+#define HAVE_VASPRINTF 1
+
+/* Define to 1 if you have the <wchar.h> header file. */
+#define HAVE_WCHAR_H 1
+
+/* Define if you have the 'wchar_t' type. */
+#define HAVE_WCHAR_T 1
+
+/* Define to 1 if you have the `wcrtomb' function. */
+#define HAVE_WCRTOMB 1
+
+/* Define to 1 if you have the `wcscoll' function. */
+#define HAVE_WCSCOLL 1
+
+/* Define to 1 if you have the `wcslen' function. */
+#define HAVE_WCSLEN 1
+
+/* Define to 1 if you have the <wctype.h> header file. */
+#define HAVE_WCTYPE_H 1
+
+/* Define to 1 if you have the `wcwidth' function. */
+#define HAVE_WCWIDTH 1
+
+/* Define if you have the 'wint_t' type. */
+#define HAVE_WINT_T 1
+
+/* Define to 1 if you have the `wmemchr' function. */
+/* #undef HAVE_WMEMCHR */
+
+/* Define to 1 if you have the `wmemcpy' function. */
+/* #undef HAVE_WMEMCPY */
+
+/* Define to 1 if you have the `wmempcpy' function. */
+/* #undef HAVE_WMEMPCPY */
+
+/* Define if utimes works properly. */
+#define HAVE_WORKING_UTIMES 1
+
+/* Define to 1 if the system has the type `_Bool'. */
+#define HAVE__BOOL 1
+
+/* Define to 1 if you have the external variable, _system_configuration with a
+   member named physmem. */
+/* #undef HAVE__SYSTEM_CONFIGURATION */
+
+/* Define to 1 if you have the `__fpending' function. */
+#define HAVE___FPENDING 1
+
+/* Define to 1 if you have the `__fsetlocking' function. */
+#define HAVE___FSETLOCKING 1
+
+/* Define to 1 if you have the `__secure_getenv' function. */
+/* #undef HAVE___SECURE_GETENV */
+
+/* The host operating system. */
+#define HOST_OPERATING_SYSTEM "GNU/Linux"
+
+/* Define as const if the declaration of iconv() needs const. */
+#define ICONV_CONST 
+
+#if FILE_SYSTEM_BACKSLASH_IS_FILE_NAME_SEPARATOR
+# define ISSLASH(C) ((C) == '/' || (C) == '\\')
+#else
+# define ISSLASH(C) ((C) == '/')
+#endif
+
+/* Define if `link(2)' dereferences symbolic links. */
+/* #undef LINK_FOLLOWS_SYMLINKS */
+
+/* FIXME */
+/* #undef LOCALTIME_CACHE */
+
+/* Define to 1 if `lstat' dereferences a symlink specified with a trailing
+   slash. */
+#define LSTAT_FOLLOWS_SLASHED_SYMLINK 1
+
+/* Define to 1 if `major', `minor', and `makedev' are declared in <mkdev.h>.
+   */
+/* #undef MAJOR_IN_MKDEV */
+
+/* Define to 1 if `major', `minor', and `makedev' are declared in
+   <sysmacros.h>. */
+/* #undef MAJOR_IN_SYSMACROS */
+
+/* If malloc(0) is != NULL, define this to 1. Otherwise define this to 0. */
+#define MALLOC_0_IS_NONNULL 1
+
+/* Define if there is no specific function for reading the list of mounted
+   file systems. fread will be used to read /etc/mnttab. (SVR2) */
+/* #undef MOUNTED_FREAD */
+
+/* Define if (like SVR2) there is no specific function for reading the list of
+   mounted file systems, and your system has these header files: <sys/fstyp.h>
+   and <sys/statfs.h>. (SVR3) */
+/* #undef MOUNTED_FREAD_FSTYP */
+
+/* Define if there are functions named next_dev and fs_stat_dev for reading
+   the list of mounted file systems. (BeOS) */
+/* #undef MOUNTED_FS_STAT_DEV */
+
+/* Define if there is a function named getfsstat for reading the list of
+   mounted file systems. (DEC Alpha running OSF/1) */
+/* #undef MOUNTED_GETFSSTAT */
+
+/* Define if there is a function named getmnt for reading the list of mounted
+   file systems. (Ultrix) */
+/* #undef MOUNTED_GETMNT */
+
+/* Define if there is a function named getmntent for reading the list of
+   mounted file systems, and that function takes a single argument. (4.3BSD,
+   SunOS, HP-UX, Dynix, Irix) */
+#define MOUNTED_GETMNTENT1 1
+
+/* Define if there is a function named getmntent for reading the list of
+   mounted file systems, and that function takes two arguments. (SVR4) */
+/* #undef MOUNTED_GETMNTENT2 */
+
+/* Define if there is a function named getmntinfo for reading the list of
+   mounted file systems. (4.4BSD, Darwin) */
+/* #undef MOUNTED_GETMNTINFO */
+
+/* Define if there is a function named listmntent that can be used to list all
+   mounted file systems. (UNICOS) */
+/* #undef MOUNTED_LISTMNTENT */
+
+/* Define if there is a function named mntctl that can be used to read the
+   list of mounted file systems, and there is a system header file that
+   declares `struct vmount.' (AIX) */
+/* #undef MOUNTED_VMOUNT */
+
+/* Define to 1 if assertions should be disabled. */
+/* #undef NDEBUG */
+
+/* Define to 1 if your `struct nlist' has an `n_un' member. Obsolete, depend
+   on `HAVE_STRUCT_NLIST_N_UN_N_NAME */
+/* #undef NLIST_NAME_UNION */
+
+/* Define to 1 if your C compiler doesn't accept -c and -o together. */
+/* #undef NO_MINUS_C_MINUS_O */
+
+/* Name of package */
+#define PACKAGE "coreutils"
+
+/* Define to the address where bug reports for this package should be sent. */
+#define PACKAGE_BUGREPORT "bug-coreutils@gnu.org"
+
+/* Define to the full name of this package. */
+#define PACKAGE_NAME "GNU coreutils"
+
+/* Define to the full name and version of this package. */
+#define PACKAGE_STRING "GNU coreutils 5.97"
+
+/* Define to the one symbol short name of this package. */
+#define PACKAGE_TARNAME "coreutils"
+
+/* Define to the version of this package. */
+#define PACKAGE_VERSION "5.97"
+
+/* the number of pending output bytes on stream `fp' */
+/* #undef PENDING_OUTPUT_N_BYTES */
+
+/* Define this if you prefer euidaccess to return the correct result even if
+   this would make it nonreentrant. Define this only if your entire
+   application is safe even if the uid or gid might temporarily change. If
+   your application uses signal handlers or threads it is probably not safe.
+   */
+#define PREFER_NONREENTRANT_EUIDACCESS 1
+
+/* Define if <inttypes.h> exists and defines unusable PRI* macros. */
+/* #undef PRI_MACROS_BROKEN */
+
+/* Define to 1 if the C compiler supports function prototypes. */
+#define PROTOTYPES 1
+
+/* Define if rename does not work for source file names with a trailing slash,
+   like the one from SunOS 4.1.1_U1. */
+/* #undef RENAME_TRAILING_SLASH_BUG */
+
+/* the value to which errno is set when rmdir fails on a nonempty directory */
+#define RMDIR_ERRNO_NOT_EMPTY 39
+
+/* Define to 1 if the `setvbuf' function takes the buffering type as its
+   second argument and the buffer pointer as the third, as on System V before
+   release 3. */
+/* #undef SETVBUF_REVERSED */
+
+/* If using the C implementation of alloca, define if you know the
+   direction of stack growth for your system; otherwise it will be
+   automatically deduced at runtime.
+	STACK_DIRECTION > 0 => grows toward higher addresses
+	STACK_DIRECTION < 0 => grows toward lower addresses
+	STACK_DIRECTION = 0 => direction of growth unknown */
+/* #undef STACK_DIRECTION */
+
+/* Define if the block counts reported by statfs may be truncated to 2GB and
+   the correct values may be stored in the f_spare array. (SunOS 4.1.2, 4.1.3,
+   and 4.1.3_U1 are reported to have this problem. SunOS 4.1.1 seems not to be
+   affected.) */
+/* #undef STATFS_TRUNCATES_BLOCK_COUNTS */
+
+/* Define to 1 if the `S_IS*' macros in <sys/stat.h> do not work properly. */
+/* #undef STAT_MACROS_BROKEN */
+
+/* Define if there is no specific function for reading file systems usage
+   information and you have the <sys/filsys.h> header file. (SVR2) */
+/* #undef STAT_READ_FILSYS */
+
+/* Define if statfs takes 2 args and struct statfs has a field named f_bsize.
+   (4.3BSD, SunOS 4, HP-UX, AIX PS/2) */
+#define STAT_STATFS2_BSIZE 1
+
+/* Define if statfs takes 2 args and struct statfs has a field named f_fsize.
+   (4.4BSD, NetBSD) */
+/* #undef STAT_STATFS2_FSIZE */
+
+/* Define if statfs takes 2 args and the second argument has type struct
+   fs_data. (Ultrix) */
+/* #undef STAT_STATFS2_FS_DATA */
+
+/* Define if statfs takes 3 args. (DEC Alpha running OSF/1) */
+/* #undef STAT_STATFS3_OSF1 */
+
+/* Define if statfs takes 4 args. (SVR3, Dynix, Irix, Dolphin) */
+/* #undef STAT_STATFS4 */
+
+/* Define if there is a function named statvfs. (SVR4) */
+/* #undef STAT_STATVFS */
+
+/* Define to 1 if you have the ANSI C header files. */
+#define STDC_HEADERS 1
+
+/* Define to 1 if strerror_r returns char *. */
+#define STRERROR_R_CHAR_P 1
+
+/* Define to 1 on System V Release 4. */
+/* #undef SVR4 */
+
+/* FIXME */
+/* #undef TERMIOS_NEEDS_XOPEN_SOURCE */
+
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+#define TIME_WITH_SYS_TIME 1
+
+/* Define to 1 if your <sys/time.h> declares `struct tm'. */
+/* #undef TM_IN_SYS_TIME */
+
+/* Define to 1 if the type of the st_atim member of a struct stat is struct
+   timespec. */
+#define TYPEOF_STRUCT_STAT_ST_ATIM_IS_STRUCT_TIMESPEC 1
+
+/* Define if tzset clobbers localtime's static buffer. */
+/* #undef TZSET_CLOBBERS_LOCALTIME_BUFFER */
+
+/* Define to its maximum value if an unsigned integer type of width exactly 32
+   bits exists and the standard includes do not define UINT32_MAX. */
+/* #undef UINT32_MAX */
+
+/* Define to its maximum value if an unsigned integer type wide enough to hold
+   a pointer exists and the standard includes do not define UINTPTR_MAX. */
+/* #undef UINTPTR_MAX */
+
+/* Define if ULONG_MAX < ULLONG_MAX, even if your compiler does not support
+   ULLONG_MAX. */
+#define ULONG_MAX_LT_ULLONG_MAX 1
+
+/* Define to 1 for Encore UMAX. */
+/* #undef UMAX */
+
+/* Define to 1 for Encore UMAX 4.3 that has <inq_status/cpustats.h> instead of
+   <sys/cpustats.h>. */
+/* #undef UMAX4_3 */
+
+/* Define to 1 if unlink (dir) cannot possibly succeed. */
+#define UNLINK_CANNOT_UNLINK_DIR 1
+
+/* Define if you want access control list support. */
+#define USE_ACL 1
+
+/* Define to 1 if you want getc etc. to use unlocked I/O if available.
+   Unlocked I/O can improve performance in unithreaded apps, but it is not
+   safe for multithreaded apps. */
+#define USE_UNLOCKED_IO 1
+
+/* Version number of package */
+#define VERSION "5.97"
+
+/* Define if unsetenv() returns void, not int. */
+/* #undef VOID_UNSETENV */
+
+/* Define if sys/ptem.h is required for struct winsize. */
+/* #undef WINSIZE_IN_PTEM */
+
+/* Define if you want to use SELINUX */
+#define WITH_SELINUX 1
+
+/* Define to 1 if your processor stores words with the most significant byte
+   first (like Motorola and SPARC, unlike Intel and VAX). */
+/* #undef WORDS_BIGENDIAN */
+
+/* Define to 1 if on AIX 3.
+   System headers sometimes define this.
+   We just want to avoid a redefinition error message.  */
+#ifndef _ALL_SOURCE
+/* # undef _ALL_SOURCE */
+#endif
+
+/* Number of bits in a file offset, on hosts where this is settable. */
+#define _FILE_OFFSET_BITS 64
+
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# define _GNU_SOURCE 1
+#endif
+
+/* Define to 1 to make fseeko visible on some hosts (e.g. glibc 2.2). */
+/* #undef _LARGEFILE_SOURCE */
+
+/* Define for large files, on AIX-style hosts. */
+/* #undef _LARGE_FILES */
+
+/* Define to 1 if on MINIX. */
+/* #undef _MINIX */
+
+/* Define to 2 if the system does not provide POSIX.1 features except with
+   this defined. */
+/* #undef _POSIX_1_SOURCE */
+
+/* Define to 1 if you need to in order for `stat' and other things to work. */
+/* #undef _POSIX_SOURCE */
+
+/* Define if you want regoff_t to be at least as wide POSIX requires. */
+#define _REGEX_LARGE_OFFSETS 1
+
+/* Define for Solaris 2.5.1 so uint32_t typedef from <sys/synch.h>,
+   <pthread.h>, or <semaphore.h> is not used. If the typedef was allowed, the
+   #define below would cause a syntax error. */
+/* #undef _UINT32_T */
+
+/* Enable extensions on Solaris.  */
+#ifndef __EXTENSIONS__
+# define __EXTENSIONS__ 1
+#endif
+#ifndef _POSIX_PTHREAD_SEMANTICS
+# define _POSIX_PTHREAD_SEMANTICS 1
+#endif
+#ifndef _TANDEM_SOURCE
+# define _TANDEM_SOURCE 1
+#endif
+
+/* Define to rpl_ if the getcwd replacement function should be used. */
+/* #undef __GETCWD_PREFIX */
+
+/* Define to rpl_ if the getopt replacement functions and variables should be
+   used. */
+/* #undef __GETOPT_PREFIX */
+
+/* Define to rpl_ if the openat replacement function should be used. */
+#define __OPENAT_PREFIX rpl_
+
+/* Define like PROTOTYPES; this can be used by system headers. */
+#define __PROTOTYPES 1
+
+/* Define to rpl_calloc if the replacement function should be used. */
+/* #undef calloc */
+
+/* Define to rpl_chown if the replacement function should be used. */
+/* #undef chown */
+
+/* Define to empty if `const' does not conform to ANSI C. */
+/* #undef const */
+
+/* Define to a replacement function name for fnmatch(). */
+/* #undef fnmatch */
+
+/* Define to rpl_free if the replacement function should be used. */
+/* #undef free */
+
+/* Define as rpl_getgroups if getgroups doesn't work right. */
+/* #undef getgroups */
+
+/* Define to a replacement function name for getline(). */
+/* #undef getline */
+
+/* Define to a replacement function name for getpass(). */
+#define getpass gnu_getpass
+
+/* Define to rpl_gettimeofday if the replacement function should be used. */
+/* #undef gettimeofday */
+
+/* Define to `int' if <sys/types.h> doesn't define. */
+/* #undef gid_t */
+
+/* Define to rpl_gmtime if the replacement function should be used. */
+/* #undef gmtime */
+
+/* Define to `__inline__' or `__inline' if that's what the C compiler
+   calls it, or to nothing if 'inline' is not supported under any name.  */
+#ifndef __cplusplus
+/* #undef inline */
+#endif
+
+/* Define to `unsigned long int' if <sys/types.h> does not define. */
+/* #undef ino_t */
+
+/* Define to long or long long if <stdint.h> and <inttypes.h> don't define. */
+/* #undef intmax_t */
+
+/* Define to rpl_localtime if the replacement function should be used. */
+/* #undef localtime */
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#define major_t unsigned int
+
+/* Define to rpl_malloc if the replacement function should be used. */
+/* #undef malloc */
+
+/* Define to a type if <wchar.h> does not define. */
+/* #undef mbstate_t */
+
+/* Define to rpl_memcmp if the replacement function should be used. */
+/* #undef memcmp */
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#define minor_t unsigned int
+
+/* Define to rpl_mkdir if the replacement function should be used. */
+/* #undef mkdir */
+
+/* Define to rpl_mkstemp if the replacement function should be used. */
+/* #undef mkstemp */
+
+/* Define to rpl_mktime if the replacement function should be used. */
+/* #undef mktime */
+
+/* Define to `int' if <sys/types.h> does not define. */
+/* #undef mode_t */
+
+/* Define to the name of the strftime replacement function. */
+#define my_strftime nstrftime
+
+/* Define to rpl_nanosleep if the replacement function should be used. */
+/* #undef nanosleep */
+
+/* Define to `long int' if <sys/types.h> does not define. */
+/* #undef off_t */
+
+/* Define to `int' if <sys/types.h> does not define. */
+/* #undef pid_t */
+
+/* Define to rpl_putenv if the replacement function should be used. */
+/* #undef putenv */
+
+/* Define to rpl_re_comp if the replacement should be used. */
+#define re_comp rpl_re_comp
+
+/* Define to rpl_re_compile_fastmap if the replacement should be used. */
+#define re_compile_fastmap rpl_re_compile_fastmap
+
+/* Define to rpl_re_compile_pattern if the replacement should be used. */
+#define re_compile_pattern rpl_re_compile_pattern
+
+/* Define to rpl_re_exec if the replacement should be used. */
+#define re_exec rpl_re_exec
+
+/* Define to rpl_re_match if the replacement should be used. */
+#define re_match rpl_re_match
+
+/* Define to rpl_re_match_2 if the replacement should be used. */
+#define re_match_2 rpl_re_match_2
+
+/* Define to rpl_re_search if the replacement should be used. */
+#define re_search rpl_re_search
+
+/* Define to rpl_re_search_2 if the replacement should be used. */
+#define re_search_2 rpl_re_search_2
+
+/* Define to rpl_re_set_registers if the replacement should be used. */
+#define re_set_registers rpl_re_set_registers
+
+/* Define to rpl_re_set_syntax if the replacement should be used. */
+#define re_set_syntax rpl_re_set_syntax
+
+/* Define to rpl_re_syntax_options if the replacement should be used. */
+#define re_syntax_options rpl_re_syntax_options
+
+/* Define to rpl_realloc if the replacement function should be used. */
+/* #undef realloc */
+
+/* Define to rpl_regcomp if the replacement should be used. */
+#define regcomp rpl_regcomp
+
+/* Define to rpl_regerror if the replacement should be used. */
+#define regerror rpl_regerror
+
+/* Define to rpl_regexec if the replacement should be used. */
+#define regexec rpl_regexec
+
+/* Define to rpl_regfree if the replacement should be used. */
+#define regfree rpl_regfree
+
+/* Define to rpl_rename if the replacement function should be used. */
+/* #undef rename */
+
+/* Define to equivalent of C99 restrict keyword, or to nothing if this is not
+   supported. Do not define if restrict is supported directly. */
+/* #undef restrict */
+
+/* Define to empty if the C compiler doesn't support this keyword. */
+/* #undef signed */
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+/* #undef size_t */
+
+/* Map `socklen_t' to `int' if it is missing. */
+/* #undef socklen_t */
+
+/* Define as a signed type of the same size as size_t. */
+/* #undef ssize_t */
+
+/* Define to rpl_strcasecmp always. */
+#define strcasecmp rpl_strcasecmp
+
+/* Define to rpl_strndup if the replacement function should be used, */
+/* #undef strndup */
+
+/* Define to rpl_strnlen if the replacement function should be used. */
+/* #undef strnlen */
+
+/* Define to rpl_strtod if the replacement function should be used. */
+/* #undef strtod */
+
+/* Define to rpl_tzset if the wrapper function should be used. */
+/* #undef tzset */
+
+/* Define to `int' if <sys/types.h> doesn't define. */
+/* #undef uid_t */
+
+/* Define to the type of a unsigned integer type of width exactly 32 bits if
+   such a type exists and the standard includes do not define it. */
+/* #undef uint32_t */
+
+/* Define to unsigned long or unsigned long long if <stdint.h> and
+   <inttypes.h> don't define. */
+/* #undef uintmax_t */
+
+/* Define to the type of a unsigned integer type wide enough to hold a
+   pointer, if such a type exists. */
+/* #undef uintptr_t */
+
+/* Define to rpl_utime if the replacement function should be used. */
+/* #undef utime */
+
+/* Define to empty if the keyword `volatile' does not work. Warning: valid
+   code using `volatile' can become incorrect without. Disable with care. */
+/* #undef volatile */
+
+
+#include <stdio.h>
+#include <getopt.h>
+#include <sys/types.h>
+
+/* Get mbstate_t, mbrtowc(), wcwidth().  */
+#if HAVE_WCHAR_H
+# include <wchar.h>
+#endif
+
+/* Get iswprint(), iswspace().  */
+#if HAVE_WCTYPE_H
+# include <wctype.h>
+#endif
+#if !defined iswprint && !HAVE_ISWPRINT
+# define iswprint(wc) 1
+#endif
+#if !defined iswspace && !HAVE_ISWSPACE
+# define iswspace(wc) \
+    ((wc) == to_uchar (wc) && ISSPACE (to_uchar (wc)))
+#endif
+
+/* Include this after wctype.h so that we `#undef' ISPRINT
+   (from Solaris's euc.h, from widec.h, from wctype.h) before
+   redefining and using it. */
+/* system-dependent definitions for coreutils
+   Copyright (C) 1989, 1991-2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#include <alloca.h>
+
+/* Include sys/types.h before this file.  */
+
+#if 2 <= __GLIBC__ && 2 <= __GLIBC_MINOR__
+# if ! defined _SYS_TYPES_H
+you must include <sys/types.h> before including this file
+# endif
+#endif
+
+#include <sys/stat.h>
+
+#if !defined HAVE_MKFIFO
+# define mkfifo(name, mode) mknod (name, (mode) | S_IFIFO, 0)
+#endif
+
+#if HAVE_SYS_PARAM_H
+# include <sys/param.h>
+#endif
+
+#include <unistd.h>
+
+#ifndef STDIN_FILENO
+# define STDIN_FILENO 0
+#endif
+
+#ifndef STDOUT_FILENO
+# define STDOUT_FILENO 1
+#endif
+
+#ifndef STDERR_FILENO
+# define STDERR_FILENO 2
+#endif
+
+
+/* limits.h must come before pathmax.h because limits.h on some systems
+   undefs PATH_MAX, whereas pathmax.h sets PATH_MAX.  */
+#include <limits.h>
+
+/* Define PATH_MAX somehow.  Requires sys/types.h.
+   Copyright (C) 1992, 1999, 2001, 2003, 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#ifndef _PATHMAX_H
+# define _PATHMAX_H
+
+# include <unistd.h>
+
+# include <limits.h>
+
+# ifndef _POSIX_PATH_MAX
+#  define _POSIX_PATH_MAX 256
+# endif
+
+# if !defined PATH_MAX && defined _PC_PATH_MAX
+#  define PATH_MAX (pathconf ("/", _PC_PATH_MAX) < 1 ? 1024 \
+		    : pathconf ("/", _PC_PATH_MAX))
+# endif
+
+/* Don't include sys/param.h if it already has been.  */
+# if defined HAVE_SYS_PARAM_H && !defined PATH_MAX && !defined MAXPATHLEN
+#  include <sys/param.h>
+# endif
+
+# if !defined PATH_MAX && defined MAXPATHLEN
+#  define PATH_MAX MAXPATHLEN
+# endif
+
+# ifndef PATH_MAX
+#  define PATH_MAX _POSIX_PATH_MAX
+# endif
+
+#endif /* _PATHMAX_H */
+
+#define LOCALEDIR "/usr/share/locale"
+
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
+#endif
+
+/* Since major is a function on SVR4, we can't use `ifndef major'.  */
+#if MAJOR_IN_MKDEV
+# include <sys/mkdev.h>
+# define HAVE_MAJOR
+#endif
+#if MAJOR_IN_SYSMACROS
+# include <sys/sysmacros.h>
+# define HAVE_MAJOR
+#endif
+#ifdef major			/* Might be defined in sys/types.h.  */
+# define HAVE_MAJOR
+#endif
+
+#ifndef HAVE_MAJOR
+# define major(dev)  (((dev) >> 8) & 0xff)
+# define minor(dev)  ((dev) & 0xff)
+# define makedev(maj, min)  (((maj) << 8) | (min))
+#endif
+#undef HAVE_MAJOR
+
+#if ! defined makedev && defined mkdev
+# define makedev(maj, min)  mkdev (maj, min)
+#endif
+
+/* Don't use bcopy!  Use memmove if source and destination may overlap,
+   memcpy otherwise.  */
+
+#include <string.h>
+
+/* memrchr -- Find the last occurrence of a byte in a memory block.
+
+   Copyright (C) 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#if HAVE_DECL_MEMRCHR
+# include <string.h>
+#else
+# include <stddef.h>
+
+/* Search backwards through a block for a byte (specified as an int).  */
+void *memrchr (void const *, int, size_t);
+
+#endif
+
+
+#include <errno.h>
+
+/* Some systems don't define the following symbols.  */
+#ifndef ENOSYS
+# define ENOSYS (-1)
+#endif
+#ifndef EISDIR
+# define EISDIR (-1)
+#endif
+
+#include <stdbool.h>
+#include <stdlib.h>
+
+/* The following test is to work around the gross typo in
+   systems like Sony NEWS-OS Release 4.0C, whereby EXIT_FAILURE
+   is defined to 0, not 1.  */
+#if !EXIT_FAILURE
+# undef EXIT_FAILURE
+# define EXIT_FAILURE 1
+#endif
+
+#ifndef EXIT_SUCCESS
+# define EXIT_SUCCESS 0
+#endif
+
+/* Exit statuses for programs like 'env' that exec other programs.
+   EXIT_FAILURE might not be 1, so use EXIT_FAIL in such programs.  */
+enum
+{
+  EXIT_FAIL = 1,
+  EXIT_CANNOT_INVOKE = 126,
+  EXIT_ENOENT = 127
+};
+
+/* Failure exit status
+
+   Copyright (C) 2002 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; see the file COPYING.
+   If not, write to the Free Software Foundation,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+extern int volatile exit_failure;
+
+
+/* Set exit_failure to STATUS if that's not the default already.  */
+static inline void
+initialize_exit_failure (int status)
+{
+  if (status != EXIT_FAILURE)
+    exit_failure = status;
+}
+
+#include <fcntl.h>
+
+#if !defined SEEK_SET
+# define SEEK_SET 0
+# define SEEK_CUR 1
+# define SEEK_END 2
+#endif
+#ifndef F_OK
+# define F_OK 0
+# define X_OK 1
+# define W_OK 2
+# define R_OK 4
+#endif
+
+#if !defined O_DIRECT
+# define O_DIRECT 0
+#endif
+
+#if !defined O_DSYNC
+# define O_DSYNC 0
+#endif
+
+#if !defined O_NDELAY
+# define O_NDELAY 0
+#endif
+
+#if !defined O_NONBLOCK
+# define O_NONBLOCK O_NDELAY
+#endif
+
+#if !defined O_NOCTTY
+# define O_NOCTTY 0
+#endif
+
+#if !defined O_NOFOLLOW
+# define O_NOFOLLOW 0
+#endif
+
+#if !defined O_RSYNC
+# define O_RSYNC 0
+#endif
+
+#if !defined O_SYNC
+# define O_SYNC 0
+#endif
+
+/* For systems that distinguish between text and binary I/O.
+   O_BINARY is usually declared in fcntl.h  */
+#if !defined O_BINARY && defined _O_BINARY
+  /* For MSC-compatible compilers.  */
+# define O_BINARY _O_BINARY
+# define O_TEXT _O_TEXT
+#endif
+
+#ifdef __BEOS__
+  /* BeOS 5 has O_BINARY and O_TEXT, but they have no effect.  */
+# undef O_BINARY
+# undef O_TEXT
+#endif
+
+#ifndef O_BINARY
+# define O_BINARY 0
+# define O_TEXT 0
+#endif
+
+#if HAVE_DIRENT_H
+# include <dirent.h>
+# define NLENGTH(direct) (strlen((direct)->d_name))
+#else /* not HAVE_DIRENT_H */
+# define dirent direct
+# define NLENGTH(direct) ((direct)->d_namlen)
+# if HAVE_SYS_NDIR_H
+#  include <sys/ndir.h>
+# endif /* HAVE_SYS_NDIR_H */
+# if HAVE_SYS_DIR_H
+#  include <sys/dir.h>
+# endif /* HAVE_SYS_DIR_H */
+# if HAVE_NDIR_H
+#  include <ndir.h>
+# endif /* HAVE_NDIR_H */
+#endif /* HAVE_DIRENT_H */
+
+#if CLOSEDIR_VOID
+/* Fake a return value. */
+# define CLOSEDIR(d) (closedir (d), 0)
+#else
+# define CLOSEDIR(d) closedir (d)
+#endif
+
+/* Get or fake the disk device blocksize.
+   Usually defined by sys/param.h (if at all).  */
+#if !defined DEV_BSIZE && defined BSIZE
+# define DEV_BSIZE BSIZE
+#endif
+#if !defined DEV_BSIZE && defined BBSIZE /* SGI */
+# define DEV_BSIZE BBSIZE
+#endif
+#ifndef DEV_BSIZE
+# define DEV_BSIZE 4096
+#endif
+
+/* Extract or fake data from a `struct stat'.
+   ST_BLKSIZE: Preferred I/O blocksize for the file, in bytes.
+   ST_NBLOCKS: Number of blocks in the file, including indirect blocks.
+   ST_NBLOCKSIZE: Size of blocks used when calculating ST_NBLOCKS.  */
+#ifndef HAVE_STRUCT_STAT_ST_BLOCKS
+# define ST_BLKSIZE(statbuf) DEV_BSIZE
+# if defined _POSIX_SOURCE || !defined BSIZE /* fileblocks.c uses BSIZE.  */
+#  define ST_NBLOCKS(statbuf) \
+  ((statbuf).st_size / ST_NBLOCKSIZE + ((statbuf).st_size % ST_NBLOCKSIZE != 0))
+# else /* !_POSIX_SOURCE && BSIZE */
+#  define ST_NBLOCKS(statbuf) \
+  (S_ISREG ((statbuf).st_mode) \
+   || S_ISDIR ((statbuf).st_mode) \
+   ? st_blocks ((statbuf).st_size) : 0)
+# endif /* !_POSIX_SOURCE && BSIZE */
+#else /* HAVE_STRUCT_STAT_ST_BLOCKS */
+/* Some systems, like Sequents, return st_blksize of 0 on pipes.
+   Also, when running `rsh hpux11-system cat any-file', cat would
+   determine that the output stream had an st_blksize of 2147421096.
+   So here we arbitrarily limit the `optimal' block size to 4MB.
+   If anyone knows of a system for which the legitimate value for
+   st_blksize can exceed 4MB, please report it as a bug in this code.  */
+# define ST_BLKSIZE(statbuf) ((0 < (statbuf).st_blksize \
+			       && (statbuf).st_blksize <= (1 << 22)) /* 4MB */ \
+			      ? (statbuf).st_blksize : DEV_BSIZE)
+# if defined hpux || defined __hpux__ || defined __hpux
+/* HP-UX counts st_blocks in 1024-byte units.
+   This loses when mixing HP-UX and BSD file systems with NFS.  */
+#  define ST_NBLOCKSIZE 1024
+# else /* !hpux */
+#  if defined _AIX && defined _I386
+/* AIX PS/2 counts st_blocks in 4K units.  */
+#   define ST_NBLOCKSIZE (4 * 1024)
+#  else /* not AIX PS/2 */
+#   if defined _CRAY
+#    define ST_NBLOCKS(statbuf) \
+  (S_ISREG ((statbuf).st_mode) \
+   || S_ISDIR ((statbuf).st_mode) \
+   ? (statbuf).st_blocks * ST_BLKSIZE(statbuf)/ST_NBLOCKSIZE : 0)
+#   endif /* _CRAY */
+#  endif /* not AIX PS/2 */
+# endif /* !hpux */
+#endif /* HAVE_STRUCT_STAT_ST_BLOCKS */
+
+#ifndef ST_NBLOCKS
+# define ST_NBLOCKS(statbuf) ((statbuf).st_blocks)
+#endif
+
+#ifndef ST_NBLOCKSIZE
+# ifdef S_BLKSIZE
+#  define ST_NBLOCKSIZE S_BLKSIZE
+# else
+#  define ST_NBLOCKSIZE 512
+# endif
+#endif
+
+/* Redirection and wildcarding when done by the utility itself.
+   Generally a noop, but used in particular for native VMS. */
+#ifndef initialize_main
+# define initialize_main(ac, av)
+#endif
+
+/* stat-related macros
+
+   Copyright (C) 1993, 1994, 2001, 2002, 2004 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Paul Eggert and Jim Meyering.  */
+
+#ifndef STAT_MACROS_H
+# define STAT_MACROS_H 1
+
+# if ! defined S_ISREG && ! defined S_IFREG
+#  error "you must include <sys/stat.h> before including this file"
+# endif
+
+# ifndef S_IFMT
+#  define S_IFMT 0170000
+# endif
+
+# if STAT_MACROS_BROKEN
+#  undef S_ISBLK
+#  undef S_ISCHR
+#  undef S_ISDIR
+#  undef S_ISDOOR
+#  undef S_ISFIFO
+#  undef S_ISLNK
+#  undef S_ISNAM
+#  undef S_ISMPB
+#  undef S_ISMPC
+#  undef S_ISNWK
+#  undef S_ISREG
+#  undef S_ISSOCK
+# endif
+
+
+# ifndef S_ISBLK
+#  ifdef S_IFBLK
+#   define S_ISBLK(m) (((m) & S_IFMT) == S_IFBLK)
+#  else
+#   define S_ISBLK(m) 0
+#  endif
+# endif
+
+# ifndef S_ISCHR
+#  ifdef S_IFCHR
+#   define S_ISCHR(m) (((m) & S_IFMT) == S_IFCHR)
+#  else
+#   define S_ISCHR(m) 0
+#  endif
+# endif
+
+# ifndef S_ISDIR
+#  ifdef S_IFDIR
+#   define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
+#  else
+#   define S_ISDIR(m) 0
+#  endif
+# endif
+
+# ifndef S_ISDOOR /* Solaris 2.5 and up */
+#  ifdef S_IFDOOR
+#   define S_ISDOOR(m) (((m) & S_IFMT) == S_IFDOOR)
+#  else
+#   define S_ISDOOR(m) 0
+#  endif
+# endif
+
+# ifndef S_ISFIFO
+#  ifdef S_IFIFO
+#   define S_ISFIFO(m) (((m) & S_IFMT) == S_IFIFO)
+#  else
+#   define S_ISFIFO(m) 0
+#  endif
+# endif
+
+# ifndef S_ISLNK
+#  ifdef S_IFLNK
+#   define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
+#  else
+#   define S_ISLNK(m) 0
+#  endif
+# endif
+
+# ifndef S_ISMPB /* V7 */
+#  ifdef S_IFMPB
+#   define S_ISMPB(m) (((m) & S_IFMT) == S_IFMPB)
+#   define S_ISMPC(m) (((m) & S_IFMT) == S_IFMPC)
+#  else
+#   define S_ISMPB(m) 0
+#   define S_ISMPC(m) 0
+#  endif
+# endif
+
+# ifndef S_ISNAM /* Xenix */
+#  ifdef S_IFNAM
+#   define S_ISNAM(m) (((m) & S_IFMT) == S_IFNAM)
+#  else
+#   define S_ISNAM(m) 0
+#  endif
+# endif
+
+# ifndef S_ISNWK /* HP/UX */
+#  ifdef S_IFNWK
+#   define S_ISNWK(m) (((m) & S_IFMT) == S_IFNWK)
+#  else
+#   define S_ISNWK(m) 0
+#  endif
+# endif
+
+# ifndef S_ISREG
+#  ifdef S_IFREG
+#   define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
+#  else
+#   define S_ISREG(m) 0
+#  endif
+# endif
+
+# ifndef S_ISSOCK
+#  ifdef S_IFSOCK
+#   define S_ISSOCK(m) (((m) & S_IFMT) == S_IFSOCK)
+#  else
+#   define S_ISSOCK(m) 0
+#  endif
+# endif
+
+
+# ifndef S_TYPEISMQ
+#  define S_TYPEISMQ(p) 0
+# endif
+
+# ifndef S_TYPEISTMO
+#  define S_TYPEISTMO(p) 0
+# endif
+
+
+# ifndef S_TYPEISSEM
+#  ifdef S_INSEM
+#   define S_TYPEISSEM(p) (S_ISNAM ((p)->st_mode) && (p)->st_rdev == S_INSEM)
+#  else
+#   define S_TYPEISSEM(p) 0
+#  endif
+# endif
+
+# ifndef S_TYPEISSHM
+#  ifdef S_INSHD
+#   define S_TYPEISSHM(p) (S_ISNAM ((p)->st_mode) && (p)->st_rdev == S_INSHD)
+#  else
+#   define S_TYPEISSHM(p) 0
+#  endif
+# endif
+
+/* contiguous */
+# ifndef S_ISCTG
+#  define S_ISCTG(p) 0
+# endif
+
+/* Cray DMF (data migration facility): off line, with data  */
+# ifndef S_ISOFD
+#  define S_ISOFD(p) 0
+# endif
+
+/* Cray DMF (data migration facility): off line, with no data  */
+# ifndef S_ISOFL
+#  define S_ISOFL(p) 0
+# endif
+
+/* If any of the following are undefined,
+   define them to their de facto standard values.  */
+# if !S_ISUID
+#  define S_ISUID 04000
+# endif
+# if !S_ISGID
+#  define S_ISGID 02000
+# endif
+
+/* S_ISVTX is a common extension to POSIX.  */
+# ifndef S_ISVTX
+#  define S_ISVTX 01000
+# endif
+
+# if !S_IRUSR && S_IREAD
+#  define S_IRUSR S_IREAD
+# endif
+# if !S_IRUSR
+#  define S_IRUSR 00400
+# endif
+# if !S_IRGRP
+#  define S_IRGRP (S_IRUSR >> 3)
+# endif
+# if !S_IROTH
+#  define S_IROTH (S_IRUSR >> 6)
+# endif
+
+# if !S_IWUSR && S_IWRITE
+#  define S_IWUSR S_IWRITE
+# endif
+# if !S_IWUSR
+#  define S_IWUSR 00200
+# endif
+# if !S_IWGRP
+#  define S_IWGRP (S_IWUSR >> 3)
+# endif
+# if !S_IWOTH
+#  define S_IWOTH (S_IWUSR >> 6)
+# endif
+
+# if !S_IXUSR && S_IEXEC
+#  define S_IXUSR S_IEXEC
+# endif
+# if !S_IXUSR
+#  define S_IXUSR 00100
+# endif
+# if !S_IXGRP
+#  define S_IXGRP (S_IXUSR >> 3)
+# endif
+# if !S_IXOTH
+#  define S_IXOTH (S_IXUSR >> 6)
+# endif
+
+# if !S_IRWXU
+#  define S_IRWXU (S_IRUSR | S_IWUSR | S_IXUSR)
+# endif
+# if !S_IRWXG
+#  define S_IRWXG (S_IRGRP | S_IWGRP | S_IXGRP)
+# endif
+# if !S_IRWXO
+#  define S_IRWXO (S_IROTH | S_IWOTH | S_IXOTH)
+# endif
+
+/* S_IXUGO is a common extension to POSIX.  */
+# if !S_IXUGO
+#  define S_IXUGO (S_IXUSR | S_IXGRP | S_IXOTH)
+# endif
+
+# ifndef S_IRWXUGO
+#  define S_IRWXUGO (S_IRWXU | S_IRWXG | S_IRWXO)
+# endif
+
+/* All the mode bits that can be affected by chmod.  */
+# define CHMOD_MODE_BITS \
+  (S_ISUID | S_ISGID | S_ISVTX | S_IRWXU | S_IRWXG | S_IRWXO)
+
+#endif /* STAT_MACROS_H */
+
+
+/* timespec -- System time interface
+
+   Copyright (C) 2000, 2002, 2004, 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#if ! defined TIMESPEC_H
+# define TIMESPEC_H
+
+# include <sys/types.h>
+# if TIME_WITH_SYS_TIME
+#  include <sys/time.h>
+#  include <time.h>
+# else
+#  if HAVE_SYS_TIME_H
+#   include <sys/time.h>
+#  else
+#   include <time.h>
+#  endif
+# endif
+
+# if ! HAVE_STRUCT_TIMESPEC
+/* Some systems don't define this struct, e.g., AIX 4.1, Ultrix 4.3.  */
+struct timespec
+{
+  time_t tv_sec;
+  long tv_nsec;
+};
+# endif
+
+/* Return negative, zero, positive if A < B, A == B, A > B, respectively.
+   Assume the nanosecond components are in range, or close to it.  */
+static inline int
+timespec_cmp (struct timespec a, struct timespec b)
+{
+  return (a.tv_sec < b.tv_sec ? -1
+	  : a.tv_sec > b.tv_sec ? 1
+	  : a.tv_nsec - b.tv_nsec);
+}
+
+# if ! HAVE_DECL_NANOSLEEP
+/* Don't specify a prototype here.  Some systems (e.g., OSF) declare
+   nanosleep with a conflicting one (const-less first parameter).  */
+int nanosleep ();
+# endif
+
+void gettime (struct timespec *);
+int settime (struct timespec const *);
+
+#endif
+
+
+#if HAVE_INTTYPES_H
+# include <inttypes.h>
+#endif
+#if HAVE_STDINT_H
+# include <stdint.h>
+#endif
+
+#if ULONG_MAX_LT_ULLONG_MAX
+# define LONGEST_MODIFIER "ll"
+#else
+# define LONGEST_MODIFIER "l"
+#endif
+#if PRI_MACROS_BROKEN
+# undef PRIdMAX
+# undef PRIoMAX
+# undef PRIuMAX
+# undef PRIxMAX
+#endif
+#ifndef PRIdMAX
+# define PRIdMAX LONGEST_MODIFIER "d"
+#endif
+#ifndef PRIoMAX
+# define PRIoMAX LONGEST_MODIFIER "o"
+#endif
+#ifndef PRIuMAX
+# define PRIuMAX LONGEST_MODIFIER "u"
+#endif
+#ifndef PRIxMAX
+# define PRIxMAX LONGEST_MODIFIER "x"
+#endif
+
+#include <ctype.h>
+
+/* Jim Meyering writes:
+
+   "... Some ctype macros are valid only for character codes that
+   isascii says are ASCII (SGI's IRIX-4.0.5 is one such system --when
+   using /bin/cc or gcc but without giving an ansi option).  So, all
+   ctype uses should be through macros like ISPRINT...  If
+   STDC_HEADERS is defined, then autoconf has verified that the ctype
+   macros don't need to be guarded with references to isascii. ...
+   Defining isascii to 1 should let any compiler worth its salt
+   eliminate the && through constant folding."
+
+   Bruno Haible adds:
+
+   "... Furthermore, isupper(c) etc. have an undefined result if c is
+   outside the range -1 <= c <= 255. One is tempted to write isupper(c)
+   with c being of type `char', but this is wrong if c is an 8-bit
+   character >= 128 which gets sign-extended to a negative value.
+   The macro ISUPPER protects against this as well."  */
+
+#if STDC_HEADERS || (!defined isascii && !HAVE_ISASCII)
+# define IN_CTYPE_DOMAIN(c) 1
+#else
+# define IN_CTYPE_DOMAIN(c) isascii(c)
+#endif
+
+#ifdef isblank
+# define ISBLANK(c) (IN_CTYPE_DOMAIN (c) && isblank (c))
+#else
+# define ISBLANK(c) ((c) == ' ' || (c) == '\t')
+#endif
+#ifdef isgraph
+# define ISGRAPH(c) (IN_CTYPE_DOMAIN (c) && isgraph (c))
+#else
+# define ISGRAPH(c) (IN_CTYPE_DOMAIN (c) && isprint (c) && !isspace (c))
+#endif
+
+/* This is defined in <sys/euc.h> on at least Solaris2.6 systems.  */
+#undef ISPRINT
+
+#define ISPRINT(c) (IN_CTYPE_DOMAIN (c) && isprint (c))
+#define ISALNUM(c) (IN_CTYPE_DOMAIN (c) && isalnum (c))
+#define ISALPHA(c) (IN_CTYPE_DOMAIN (c) && isalpha (c))
+#define ISCNTRL(c) (IN_CTYPE_DOMAIN (c) && iscntrl (c))
+#define ISLOWER(c) (IN_CTYPE_DOMAIN (c) && islower (c))
+#define ISPUNCT(c) (IN_CTYPE_DOMAIN (c) && ispunct (c))
+#define ISSPACE(c) (IN_CTYPE_DOMAIN (c) && isspace (c))
+#define ISUPPER(c) (IN_CTYPE_DOMAIN (c) && isupper (c))
+#define ISXDIGIT(c) (IN_CTYPE_DOMAIN (c) && isxdigit (c))
+#define ISDIGIT_LOCALE(c) (IN_CTYPE_DOMAIN (c) && isdigit (c))
+
+#if STDC_HEADERS
+# define TOLOWER(Ch) tolower (Ch)
+# define TOUPPER(Ch) toupper (Ch)
+#else
+# define TOLOWER(Ch) (ISUPPER (Ch) ? tolower (Ch) : (Ch))
+# define TOUPPER(Ch) (ISLOWER (Ch) ? toupper (Ch) : (Ch))
+#endif
+
+/* ISDIGIT differs from ISDIGIT_LOCALE, as follows:
+   - Its arg may be any int or unsigned int; it need not be an unsigned char.
+   - It's guaranteed to evaluate its argument exactly once.
+   - It's typically faster.
+   POSIX says that only '0' through '9' are digits.  Prefer ISDIGIT to
+   ISDIGIT_LOCALE unless it's important to use the locale's definition
+   of `digit' even when the host does not conform to POSIX.  */
+#define ISDIGIT(c) ((unsigned int) (c) - '0' <= 9)
+
+/* Convert a possibly-signed character to an unsigned character.  This is
+   a bit safer than casting to unsigned char, since it catches some type
+   errors that the cast doesn't.  */
+static inline unsigned char to_uchar (char ch) { return ch; }
+
+#include <locale.h>
+
+/* Take care of NLS matters.  */
+
+/* Convenience header for conditional use of GNU <libintl.h>.
+   Copyright (C) 1995-1998, 2000-2002, 2004 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#ifndef _LIBGETTEXT_H
+#define _LIBGETTEXT_H 1
+
+/* NLS can be disabled through the configure --disable-nls option.  */
+#if ENABLE_NLS
+
+/* Get declarations of GNU message catalog functions.  */
+# include <libintl.h>
+
+#else
+
+/* Solaris /usr/include/locale.h includes /usr/include/libintl.h, which
+   chokes if dcgettext is defined as a macro.  So include it now, to make
+   later inclusions of <locale.h> a NOP.  We don't include <libintl.h>
+   as well because people using "gettext.h" will not include <libintl.h>,
+   and also including <libintl.h> would fail on SunOS 4, whereas <locale.h>
+   is OK.  */
+#if defined(__sun)
+# include <locale.h>
+#endif
+
+/* Many header files from the libstdc++ coming with g++ 3.3 or newer include
+   <libintl.h>, which chokes if dcgettext is defined as a macro.  So include
+   it now, to make later inclusions of <libintl.h> a NOP.  */
+#if defined(__cplusplus) && defined(__GNUG__) && (__GNUC__ >= 3)
+# include <cstdlib>
+# if (__GLIBC__ >= 2) || _GLIBCXX_HAVE_LIBINTL_H
+#  include <libintl.h>
+# endif
+#endif
+
+/* Disabled NLS.
+   The casts to 'const char *' serve the purpose of producing warnings
+   for invalid uses of the value returned from these functions.
+   On pre-ANSI systems without 'const', the config.h file is supposed to
+   contain "#define const".  */
+# define gettext(Msgid) ((const char *) (Msgid))
+# define dgettext(Domainname, Msgid) ((const char *) (Msgid))
+# define dcgettext(Domainname, Msgid, Category) ((const char *) (Msgid))
+# define ngettext(Msgid1, Msgid2, N) \
+    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+# define dngettext(Domainname, Msgid1, Msgid2, N) \
+    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+# define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
+    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+# define textdomain(Domainname) ((const char *) (Domainname))
+# define bindtextdomain(Domainname, Dirname) ((const char *) (Dirname))
+# define bind_textdomain_codeset(Domainname, Codeset) ((const char *) (Codeset))
+
+#endif
+
+/* A pseudo function call that serves as a marker for the automated
+   extraction of messages, but does not call gettext().  The run-time
+   translation is done at a different place in the code.
+   The argument, String, should be a literal string.  Concatenated strings
+   and other string expressions won't work.
+   The macro's expansion is not parenthesized, so that it is suitable as
+   initializer for static 'char[]' or 'const char[]' variables.  */
+#define gettext_noop(String) String
+
+#endif /* _LIBGETTEXT_H */
+
+#if ! ENABLE_NLS
+# undef textdomain
+# define textdomain(Domainname) /* empty */
+# undef bindtextdomain
+# define bindtextdomain(Domainname, Dirname) /* empty */
+#endif
+
+#define _(msgid) gettext (msgid)
+#define N_(msgid) msgid
+
+#define STREQ(a, b) (strcmp ((a), (b)) == 0)
+
+#if !HAVE_DECL_FREE
+void free ();
+#endif
+
+#if !HAVE_DECL_MALLOC
+char *malloc ();
+#endif
+
+#if !HAVE_DECL_MEMCHR
+char *memchr ();
+#endif
+
+#if !HAVE_DECL_REALLOC
+char *realloc ();
+#endif
+
+#if !HAVE_DECL_STPCPY
+# ifndef stpcpy
+char *stpcpy ();
+# endif
+#endif
+
+#if !HAVE_DECL_STRNDUP
+char *strndup ();
+#endif
+
+#if !HAVE_DECL_STRSTR
+char *strstr ();
+#endif
+
+#if !HAVE_DECL_GETENV
+char *getenv ();
+#endif
+
+#if !HAVE_DECL_LSEEK
+off_t lseek ();
+#endif
+
+/* This is needed on some AIX systems.  */
+#if !HAVE_DECL_STRTOUL
+unsigned long strtoul ();
+#endif
+
+#if !HAVE_DECL_GETLOGIN
+char *getlogin ();
+#endif
+
+#if !HAVE_DECL_TTYNAME
+char *ttyname ();
+#endif
+
+#if !HAVE_DECL_GETEUID
+uid_t geteuid ();
+#endif
+
+#if !HAVE_DECL_GETPWUID
+struct passwd *getpwuid ();
+#endif
+
+#if !HAVE_DECL_GETGRGID
+struct group *getgrgid ();
+#endif
+
+#if !HAVE_DECL_GETUID
+uid_t getuid ();
+#endif
+
+/* xalloc.h -- malloc with out-of-memory checking
+
+   Copyright (C) 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+   1999, 2000, 2003, 2004 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#ifndef XALLOC_H_
+# define XALLOC_H_
+
+# include <stddef.h>
+
+
+# ifdef __cplusplus
+extern "C" {
+# endif
+
+
+# ifndef __attribute__
+#  if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8) || __STRICT_ANSI__
+#   define __attribute__(x)
+#  endif
+# endif
+
+# ifndef ATTRIBUTE_NORETURN
+#  define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
+# endif
+
+/* This function is always triggered when memory is exhausted.
+   It must be defined by the application, either explicitly
+   or by using gnulib's xalloc-die module.  This is the
+   function to call when one wants the program to die because of a
+   memory allocation failure.  */
+extern void xalloc_die (void) ATTRIBUTE_NORETURN;
+
+void *xmalloc (size_t s);
+void *xnmalloc (size_t n, size_t s);
+void *xzalloc (size_t s);
+void *xcalloc (size_t n, size_t s);
+void *xrealloc (void *p, size_t s);
+void *xnrealloc (void *p, size_t n, size_t s);
+void *x2realloc (void *p, size_t *pn);
+void *x2nrealloc (void *p, size_t *pn, size_t s);
+void *xmemdup (void const *p, size_t s);
+char *xstrdup (char const *str);
+
+/* Return 1 if an array of N objects, each of size S, cannot exist due
+   to size arithmetic overflow.  S must be positive and N must be
+   nonnegative.  This is a macro, not an inline function, so that it
+   works correctly even when SIZE_MAX < N.
+
+   By gnulib convention, SIZE_MAX represents overflow in size
+   calculations, so the conservative dividend to use here is
+   SIZE_MAX - 1, since SIZE_MAX might represent an overflowed value.
+   However, malloc (SIZE_MAX) fails on all known hosts where
+   sizeof (ptrdiff_t) <= sizeof (size_t), so do not bother to test for
+   exactly-SIZE_MAX allocations on such hosts; this avoids a test and
+   branch when S is known to be 1.  */
+# define xalloc_oversized(n, s) \
+    ((size_t) (sizeof (ptrdiff_t) <= sizeof (size_t) ? -1 : -2) / (s) < (n))
+
+# ifdef __cplusplus
+}
+# endif
+
+
+#endif /* !XALLOC_H_ */
+
+/* Compile-time assert-like macros.
+
+   Copyright (C) 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Paul Eggert and Jim Meyering.  */
+
+#ifndef VERIFY_H
+# define VERIFY_H 1
+
+/* Each of these macros verifies that its argument R is a nonzero
+   constant expression.  To be portable, R's type must be integer (or
+   boolean).  Unlike assert, there is no run-time overhead.  */
+
+/* A type that is valid if and only if R is a nonzero constant expression.
+   The symbols verify_type__ and verify_error_if_negative_size__ are
+   private to this header file.  */
+
+# define verify_type__(R) \
+    struct { unsigned int verify_error_if_negative_size__ : (R) ? 1 : -1; }
+
+/* Verify requirement R at compile-time, as a declaration.  */
+
+# define verify(R) \
+    extern int (* verify_function__ (void)) [sizeof (verify_type__ (R))]
+
+/* Verify requirement R at compile-time, as an expression.
+   This macro can be used in some contexts where verify cannot, and vice versa.
+   Return void.  */
+
+# define verify_expr(R) ((void) ((verify_type__ (R) *) 0))
+
+#endif
+
+
+/* This is simply a shorthand for the common case in which
+   the third argument to x2nrealloc would be `sizeof *(P)'.
+   Ensure that sizeof *(P) is *not* 1.  In that case, it'd be
+   better to use X2REALLOC, although not strictly necessary.  */
+#define X2NREALLOC(P, PN) (verify_expr (sizeof *(P) != 1), \
+			   x2nrealloc (P, PN, sizeof *(P)))
+
+/* Using x2realloc (when appropriate) usually makes your code more
+   readable than using x2nrealloc, but it also makes it so your
+   code will malfunction if sizeof *(P) ever becomes 2 or greater.
+   So use this macro instead of using x2realloc directly.  */
+#define X2REALLOC(P, PN) (verify_expr (sizeof *(P) == 1), x2realloc (P, PN))
+
+#if ! defined HAVE_MEMPCPY && ! defined mempcpy
+/* Be CAREFUL that there are no side effects in N.  */
+# define mempcpy(D, S, N) ((void *) ((char *) memcpy (D, S, N) + (N)))
+#endif
+
+/* Include automatically-generated macros for unlocked I/O.  */
+/* Prefer faster, non-thread-safe stdio functions if available.
+
+   Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Jim Meyering.  */
+
+#ifndef UNLOCKED_IO_H
+# define UNLOCKED_IO_H 1
+
+/* These are wrappers for functions/macros from the GNU C library, and
+   from other C libraries supporting POSIX's optional thread-safe functions.
+
+   The standard I/O functions are thread-safe.  These *_unlocked ones are
+   more efficient but not thread-safe.  That they're not thread-safe is
+   fine since all of the applications in this package are single threaded.
+
+   Also, some code that is shared with the GNU C library may invoke
+   the *_unlocked functions directly.  On hosts that lack those
+   functions, invoke the non-thread-safe versions instead.  */
+
+# include <stdio.h>
+
+# if HAVE_DECL_CLEARERR_UNLOCKED
+#  undef clearerr
+#  define clearerr(x) clearerr_unlocked (x)
+# else
+#  define clearerr_unlocked(x) clearerr (x)
+# endif
+
+# if HAVE_DECL_FEOF_UNLOCKED
+#  undef feof
+#  define feof(x) feof_unlocked (x)
+# else
+#  define feof_unlocked(x) feof (x)
+# endif
+
+# if HAVE_DECL_FERROR_UNLOCKED
+#  undef ferror
+#  define ferror(x) ferror_unlocked (x)
+# else
+#  define ferror_unlocked(x) ferror (x)
+# endif
+
+# if HAVE_DECL_FFLUSH_UNLOCKED
+#  undef fflush
+#  define fflush(x) fflush_unlocked (x)
+# else
+#  define fflush_unlocked(x) fflush (x)
+# endif
+
+# if HAVE_DECL_FGETS_UNLOCKED
+#  undef fgets
+#  define fgets(x,y,z) fgets_unlocked (x,y,z)
+# else
+#  define fgets_unlocked(x,y,z) fgets (x,y,z)
+# endif
+
+# if HAVE_DECL_FPUTC_UNLOCKED
+#  undef fputc
+#  define fputc(x,y) fputc_unlocked (x,y)
+# else
+#  define fputc_unlocked(x,y) fputc (x,y)
+# endif
+
+# if HAVE_DECL_FPUTS_UNLOCKED
+#  undef fputs
+#  define fputs(x,y) fputs_unlocked (x,y)
+# else
+#  define fputs_unlocked(x,y) fputs (x,y)
+# endif
+
+# if HAVE_DECL_FREAD_UNLOCKED
+#  undef fread
+#  define fread(w,x,y,z) fread_unlocked (w,x,y,z)
+# else
+#  define fread_unlocked(w,x,y,z) fread (w,x,y,z)
+# endif
+
+# if HAVE_DECL_FWRITE_UNLOCKED
+#  undef fwrite
+#  define fwrite(w,x,y,z) fwrite_unlocked (w,x,y,z)
+# else
+#  define fwrite_unlocked(w,x,y,z) fwrite (w,x,y,z)
+# endif
+
+# if HAVE_DECL_GETC_UNLOCKED
+#  undef getc
+#  define getc(x) getc_unlocked (x)
+# else
+#  define getc_unlocked(x) getc (x)
+# endif
+
+# if HAVE_DECL_GETCHAR_UNLOCKED
+#  undef getchar
+#  define getchar() getchar_unlocked ()
+# else
+#  define getchar_unlocked() getchar ()
+# endif
+
+# if HAVE_DECL_PUTC_UNLOCKED
+#  undef putc
+#  define putc(x,y) putc_unlocked (x,y)
+# else
+#  define putc_unlocked(x,y) putc (x,y)
+# endif
+
+# if HAVE_DECL_PUTCHAR_UNLOCKED
+#  undef putchar
+#  define putchar(x) putchar_unlocked (x)
+# else
+#  define putchar_unlocked(x) putchar (x)
+# endif
+
+# undef flockfile
+# define flockfile(x) ((void) 0)
+
+# undef ftrylockfile
+# define ftrylockfile(x) 0
+
+# undef funlockfile
+# define funlockfile(x) ((void) 0)
+
+#endif /* UNLOCKED_IO_H */
+
+
+#define SAME_INODE(Stat_buf_1, Stat_buf_2) \
+  ((Stat_buf_1).st_ino == (Stat_buf_2).st_ino \
+   && (Stat_buf_1).st_dev == (Stat_buf_2).st_dev)
+
+#define DOT_OR_DOTDOT(Basename) \
+  (Basename[0] == '.' && (Basename[1] == '\0' \
+			  || (Basename[1] == '.' && Basename[2] == '\0')))
+
+/* A wrapper for readdir so that callers don't see entries for `.' or `..'.  */
+static inline struct dirent const *
+readdir_ignoring_dot_and_dotdot (DIR *dirp)
+{
+  while (1)
+    {
+      struct dirent const *dp = readdir (dirp);
+      if (dp == NULL || ! DOT_OR_DOTDOT (dp->d_name))
+	return dp;
+    }
+}
+
+#if SETVBUF_REVERSED
+# define SETVBUF(Stream, Buffer, Type, Size) \
+    setvbuf (Stream, Type, Buffer, Size)
+#else
+# define SETVBUF(Stream, Buffer, Type, Size) \
+    setvbuf (Stream, Buffer, Type, Size)
+#endif
+
+/* Factor out some of the common --help and --version processing code.  */
+
+/* These enum values cannot possibly conflict with the option values
+   ordinarily used by commands, including CHAR_MAX + 1, etc.  Avoid
+   CHAR_MIN - 1, as it may equal -1, the getopt end-of-options value.  */
+enum
+{
+  GETOPT_HELP_CHAR = (CHAR_MIN - 2),
+  GETOPT_VERSION_CHAR = (CHAR_MIN - 3)
+};
+
+#define GETOPT_HELP_OPTION_DECL \
+  "help", no_argument, NULL, GETOPT_HELP_CHAR
+#define GETOPT_VERSION_OPTION_DECL \
+  "version", no_argument, NULL, GETOPT_VERSION_CHAR
+
+#define case_GETOPT_HELP_CHAR			\
+  case GETOPT_HELP_CHAR:			\
+    usage (EXIT_SUCCESS);			\
+    break;
+
+/* Program_name must be a literal string.
+   Usually it is just PROGRAM_NAME.  */
+#define USAGE_BUILTIN_WARNING \
+  _("\n" \
+"NOTE: your shell may have its own version of %s, which usually supersedes\n" \
+"the version described here.  Please refer to your shell's documentation\n" \
+"for details about the options it supports.\n")
+
+#define HELP_OPTION_DESCRIPTION \
+  _("      --help     display this help and exit\n")
+#define VERSION_OPTION_DESCRIPTION \
+  _("      --version  output version information and exit\n")
+
+/* Close standard output.
+
+   Copyright (C) 1998, 2000, 2003, 2004 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#ifndef CLOSEOUT_H
+# define CLOSEOUT_H 1
+
+# ifdef __cplusplus
+extern "C" {
+# endif
+
+void close_stdout_set_file_name (const char *file);
+void close_stdout (void);
+
+# ifdef __cplusplus
+}
+# endif
+
+#endif
+
+/* Utility to help print --version output in a consistent format.
+   Copyright (C) 1999, 2003, 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Jim Meyering. */
+
+#ifndef VERSION_ETC_H
+# define VERSION_ETC_H 1
+
+# include <stdarg.h>
+# include <stdio.h>
+
+extern const char version_etc_copyright[];
+
+extern void version_etc_va (FILE *stream,
+			    const char *command_name, const char *package,
+			    const char *version, va_list authors);
+
+extern void version_etc (FILE *stream,
+			 const char *command_name, const char *package,
+			 const char *version,
+		         /* const char *author1, ...*/ ...);
+
+#endif /* VERSION_ETC_H */
+
+
+#define case_GETOPT_VERSION_CHAR(Program_name, Authors)			\
+  case GETOPT_VERSION_CHAR:						\
+    version_etc (stdout, Program_name, GNU_PACKAGE, VERSION, Authors,	\
+                 (char *) NULL);					\
+    exit (EXIT_SUCCESS);						\
+    break;
+
+#ifndef MAX
+# define MAX(a, b) ((a) > (b) ? (a) : (b))
+#endif
+
+#ifndef MIN
+# define MIN(a,b) (((a) < (b)) ? (a) : (b))
+#endif
+
+/* intprops.h -- properties of integer types
+
+   Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Paul Eggert.  */
+
+#include <limits.h>
+
+/* The extra casts in the following macros work around compiler bugs,
+   e.g., in Cray C 5.0.3.0.  */
+
+/* True if the arithmetic type T is an integer type.  bool counts as
+   an integer.  */
+#define TYPE_IS_INTEGER(t) ((t) 1.5 == 1)
+
+/* True if negative values of the signed integer type T use two's
+   complement, ones' complement, or signed magnitude representation,
+   respectively.  Much GNU code assumes two's complement, but some
+   people like to be portable to all possible C hosts.  */
+#define TYPE_TWOS_COMPLEMENT(t) ((t) ~ (t) 0 == (t) -1)
+#define TYPE_ONES_COMPLEMENT(t) ((t) ~ (t) 0 == 0)
+#define TYPE_SIGNED_MAGNITUDE(t) ((t) ~ (t) 0 < (t) -1)
+
+/* True if the arithmetic type T is signed.  */
+#define TYPE_SIGNED(t) (! ((t) 0 < (t) -1))
+
+/* The maximum and minimum values for the integer type T.  These
+   macros have undefined behavior if T is signed and has padding bits.
+   If this is a problem for you, please let us know how to fix it for
+   your host.  */
+#define TYPE_MINIMUM(t) \
+  ((t) (! TYPE_SIGNED (t) \
+	? (t) 0 \
+	: TYPE_SIGNED_MAGNITUDE (t) \
+	? ~ (t) 0 \
+	: ~ (t) 0 << (sizeof (t) * CHAR_BIT - 1)))
+#define TYPE_MAXIMUM(t) \
+  ((t) (! TYPE_SIGNED (t) \
+	? (t) -1 \
+	: ~ (~ (t) 0 << (sizeof (t) * CHAR_BIT - 1))))
+
+/* Bound on length of the string representing an integer type or expression T.
+   Subtract 1 for the sign bit if t is signed; log10 (2.0) < 146/485;
+   add 1 for integer division truncation; add 1 more for a minus sign
+   if needed.  */
+#define INT_STRLEN_BOUND(t) \
+  ((sizeof (t) * CHAR_BIT - 1) * 146 / 485 + 2)
+
+/* Bound on buffer size needed to represent an integer type or expression T,
+   including the terminating null.  */
+#define INT_BUFSIZE_BOUND(t) (INT_STRLEN_BOUND (t) + 1)
+
+
+#ifndef CHAR_MIN
+# define CHAR_MIN TYPE_MINIMUM (char)
+#endif
+
+#ifndef CHAR_MAX
+# define CHAR_MAX TYPE_MAXIMUM (char)
+#endif
+
+#ifndef SCHAR_MIN
+# define SCHAR_MIN (-1 - SCHAR_MAX)
+#endif
+
+#ifndef SCHAR_MAX
+# define SCHAR_MAX (CHAR_MAX == UCHAR_MAX ? CHAR_MAX / 2 : CHAR_MAX)
+#endif
+
+#ifndef UCHAR_MAX
+# define UCHAR_MAX TYPE_MAXIMUM (unsigned char)
+#endif
+
+#ifndef SHRT_MIN
+# define SHRT_MIN TYPE_MINIMUM (short int)
+#endif
+
+#ifndef SHRT_MAX
+# define SHRT_MAX TYPE_MAXIMUM (short int)
+#endif
+
+#ifndef INT_MAX
+# define INT_MAX TYPE_MAXIMUM (int)
+#endif
+
+#ifndef INT_MIN
+# define INT_MIN TYPE_MINIMUM (int)
+#endif
+
+#ifndef INTMAX_MAX
+# define INTMAX_MAX TYPE_MAXIMUM (intmax_t)
+#endif
+
+#ifndef INTMAX_MIN
+# define INTMAX_MIN TYPE_MINIMUM (intmax_t)
+#endif
+
+#ifndef UINT_MAX
+# define UINT_MAX TYPE_MAXIMUM (unsigned int)
+#endif
+
+#ifndef LONG_MAX
+# define LONG_MAX TYPE_MAXIMUM (long int)
+#endif
+
+#ifndef ULONG_MAX
+# define ULONG_MAX TYPE_MAXIMUM (unsigned long int)
+#endif
+
+#ifndef SIZE_MAX
+# define SIZE_MAX TYPE_MAXIMUM (size_t)
+#endif
+
+#ifndef SSIZE_MAX
+# define SSIZE_MAX TYPE_MAXIMUM (ssize_t)
+#endif
+
+#ifndef UINTMAX_MAX
+# define UINTMAX_MAX TYPE_MAXIMUM (uintmax_t)
+#endif
+
+#ifndef OFF_T_MIN
+# define OFF_T_MIN TYPE_MINIMUM (off_t)
+#endif
+
+#ifndef OFF_T_MAX
+# define OFF_T_MAX TYPE_MAXIMUM (off_t)
+#endif
+
+#ifndef UID_T_MAX
+# define UID_T_MAX TYPE_MAXIMUM (uid_t)
+#endif
+
+#ifndef GID_T_MAX
+# define GID_T_MAX TYPE_MAXIMUM (gid_t)
+#endif
+
+#ifndef PID_T_MAX
+# define PID_T_MAX TYPE_MAXIMUM (pid_t)
+#endif
+
+/* Use this to suppress gcc's `...may be used before initialized' warnings. */
+#ifdef lint
+# define IF_LINT(Code) Code
+#else
+# define IF_LINT(Code) /* empty */
+#endif
+
+#ifndef __attribute__
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8) || __STRICT_ANSI__
+#  define __attribute__(x) /* empty */
+# endif
+#endif
+
+#ifndef ATTRIBUTE_NORETURN
+# define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
+#endif
+
+#ifndef ATTRIBUTE_UNUSED
+# define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
+#endif
+
+#if defined strdupa
+# define ASSIGN_STRDUPA(DEST, S)		\
+  do { DEST = strdupa (S); } while (0)
+#else
+# define ASSIGN_STRDUPA(DEST, S)		\
+  do						\
+    {						\
+      const char *s_ = (S);			\
+      size_t len_ = strlen (s_) + 1;		\
+      char *tmp_dest_ = alloca (len_);		\
+      DEST = memcpy (tmp_dest_, (s_), len_);	\
+    }						\
+  while (0)
+#endif
+
+#ifndef EOVERFLOW
+# define EOVERFLOW EINVAL
+#endif
+
+#if ! HAVE_FSEEKO && ! defined fseeko
+# define fseeko(s, o, w) ((o) == (long int) (o)		\
+			  ? fseek (s, o, w)		\
+			  : (errno = EOVERFLOW, -1))
+#endif
+
+/* Compute the greatest common divisor of U and V using Euclid's
+   algorithm.  U and V must be nonzero.  */
+
+static inline size_t
+gcd (size_t u, size_t v)
+{
+  do
+    {
+      size_t t = u % v;
+      u = v;
+      v = t;
+    }
+  while (v);
+
+  return u;
+}
+
+/* Compute the least common multiple of U and V.  U and V must be
+   nonzero.  There is no overflow checking, so callers should not
+   specify outlandish sizes.  */
+
+static inline size_t
+lcm (size_t u, size_t v)
+{
+  return u * (v / gcd (u, v));
+}
+
+/* Return PTR, aligned upward to the next multiple of ALIGNMENT.
+   ALIGNMENT must be nonzero.  The caller must arrange for ((char *)
+   PTR) through ((char *) PTR + ALIGNMENT - 1) to be addressable
+   locations.  */
+
+static inline void *
+ptr_align (void const *ptr, size_t alignment)
+{
+  char const *p0 = ptr;
+  char const *p1 = p0 + alignment - 1;
+  return (void *) (p1 - (size_t) p1 % alignment);
+}
+
+/* If 10*Accum + Digit_val is larger than the maximum value for Type,
+   then don't update Accum and return false to indicate it would
+   overflow.  Otherwise, set Accum to that new value and return true.
+   Verify at compile-time that Type is Accum's type, and that Type is
+   unsigned.  Accum must be an object, so that we can take its
+   address.  Accum and Digit_val may be evaluated multiple times.
+
+   The "Added check" below is not strictly required, but it causes GCC
+   to return a nonzero exit status instead of merely a warning
+   diagnostic, and that is more useful.  */
+
+#define DECIMAL_DIGIT_ACCUMULATE(Accum, Digit_val, Type)		\
+  (									\
+   (void) (&(Accum) == (Type *) NULL),  /* The type matches.  */	\
+   verify_expr (! TYPE_SIGNED (Type)),  /* The type is unsigned.  */	\
+   verify_expr (sizeof (Accum) == sizeof (Type)),  /* Added check.  */	\
+   (((Type) -1 / 10 < (Accum)						\
+     || (Type) ((Accum) * 10 + (Digit_val)) < (Accum))			\
+    ? false : (((Accum) = (Accum) * 10 + (Digit_val)), true))		\
+  )
+
+
+/* Declaration for error-reporting function
+   Copyright (C) 1995, 1996, 1997, 2003 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#ifndef _ERROR_H
+#define _ERROR_H 1
+
+#ifndef __attribute__
+/* This feature is available in gcc versions 2.5 and later.  */
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 5)
+#  define __attribute__(Spec) /* empty */
+# endif
+/* The __-protected variants of `format' and `printf' attributes
+   are accepted by gcc versions 2.6.4 (effectively 2.7) and later.  */
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 7)
+#  define __format__ format
+#  define __printf__ printf
+# endif
+#endif
+
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
+/* Print a message with `fprintf (stderr, FORMAT, ...)';
+   if ERRNUM is nonzero, follow it with ": " and strerror (ERRNUM).
+   If STATUS is nonzero, terminate the program with `exit (STATUS)'.  */
+
+extern void error (int __status, int __errnum, const char *__format, ...)
+     __attribute__ ((__format__ (__printf__, 3, 4)));
+
+extern void error_at_line (int __status, int __errnum, const char *__fname,
+			   unsigned int __lineno, const char *__format, ...)
+     __attribute__ ((__format__ (__printf__, 5, 6)));
+
+/* If NULL, error will flush stdout, then print on stderr the program
+   name, a colon and a space.  Otherwise, error will call this
+   function without parameters instead.  */
+extern void (*error_print_progname) (void);
+
+/* This variable is incremented each time `error' is called.  */
+extern unsigned int error_message_count;
+
+/* Sometimes we want to have at most one error per line.  This
+   variable controls whether this mode is selected or not.  */
+extern int error_one_per_line;
+
+#ifdef	__cplusplus
+}
+#endif
+
+#endif /* error.h */
+
+/* inttostr.h -- convert integers to printable strings
+
+   Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Paul Eggert */
+
+#if HAVE_INTTYPES_H
+# include <inttypes.h>
+#endif
+#if HAVE_STDINT_H
+# include <stdint.h>
+#endif
+
+#include <sys/types.h>
+
+char *offtostr (off_t, char *);
+char *imaxtostr (intmax_t, char *);
+char *umaxtostr (uintmax_t, char *);
+
+/* An interface to read() that retries after interrupts.
+   Copyright (C) 2002 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#include <stddef.h>
+
+#define SAFE_READ_ERROR ((size_t) -1)
+
+/* Read up to COUNT bytes at BUF from descriptor FD, retrying if interrupted.
+   Return the actual number of bytes read, zero for EOF, or SAFE_READ_ERROR
+   upon error.  */
+extern size_t safe_read (int fd, void *buf, size_t count);
+
+
+#ifndef HAVE_DECL_WCWIDTH
+"this configure-time declaration test was not run"
+#endif
+#if !HAVE_DECL_WCWIDTH
+extern int wcwidth ();
+#endif
+
+/* If wcwidth() doesn't exist, assume all printable characters have
+   width 1.  */
+#if !defined wcwidth && !HAVE_WCWIDTH
+# define wcwidth(wc) ((wc) == 0 ? 0 : iswprint (wc) ? 1 : -1)
+#endif
+
+/* The official name of this program (e.g., no `g' prefix).  */
+#define PROGRAM_NAME "wc"
+
+#define AUTHORS "Paul Rubin", "David MacKenzie"
+
+/* Size of atomic reads. */
+#define BUFFER_SIZE (16 * 1024)
+
+/* The name this program was run with. */
+char *program_name;
+
+/* Cumulative number of lines, words, chars and bytes in all files so far.
+   max_line_length is the maximum over all files processed so far.  */
+static uintmax_t total_lines;
+static uintmax_t total_words;
+static uintmax_t total_chars;
+static uintmax_t total_bytes;
+static uintmax_t max_line_length;
+
+/* Which counts to print. */
+static bool print_lines, print_words, print_chars, print_bytes;
+static bool print_linelength;
+
+/* The print width of each count.  */
+static int number_width;
+
+/* True if we have ever read the standard input. */
+static bool have_read_stdin;
+
+/* The result of calling fstat or stat on a file descriptor or file.  */
+struct fstatus
+{
+  /* If positive, fstat or stat has not been called yet.  Otherwise,
+     this is the value returned from fstat or stat.  */
+  int failed;
+
+  /* If FAILED is zero, this is the file's status.  */
+  struct stat st;
+};
+
+
+static struct option const longopts[] =
+{
+  {"bytes", no_argument, NULL, 'c'},
+  {"chars", no_argument, NULL, 'm'},
+  {"lines", no_argument, NULL, 'l'},
+  {"words", no_argument, NULL, 'w'},
+  {"max-line-length", no_argument, NULL, 'L'},
+  {GETOPT_HELP_OPTION_DECL},
+  {GETOPT_VERSION_OPTION_DECL},
+  {NULL, 0, NULL, 0}
+};
+
+void
+usage (int status)
+{
+  if (status != EXIT_SUCCESS)
+    fprintf (stderr, _("Try `%s --help' for more information.\n"),
+	     program_name);
+  else
+    {
+      printf (_("\
+Usage: %s [OPTION]... [FILE]...\n\
+"),
+	      program_name);
+      fputs (_("\
+Print newline, word, and byte counts for each FILE, and a total line if\n\
+more than one FILE is specified.  With no FILE, or when FILE is -,\n\
+read standard input.\n\
+  -c, --bytes            print the byte counts\n\
+  -m, --chars            print the character counts\n\
+  -l, --lines            print the newline counts\n\
+"), stdout);
+      fputs (_("\
+  -L, --max-line-length  print the length of the longest line\n\
+  -w, --words            print the word counts\n\
+"), stdout);
+      fputs (HELP_OPTION_DESCRIPTION, stdout);
+      fputs (VERSION_OPTION_DESCRIPTION, stdout);
+      printf (_("\nReport bugs to <%s>.\n"), PACKAGE_BUGREPORT);
+    }
+  exit (status);
+}
+
+/* FILE is the name of the file (or NULL for standard input)
+   associated with the specified counters.  */
+static void
+write_counts (uintmax_t lines,
+	      uintmax_t words,
+	      uintmax_t chars,
+	      uintmax_t bytes,
+	      uintmax_t linelength,
+	      const char *file)
+{
+  static char const format_sp_int[] = " %*s";
+  char const *format_int = format_sp_int + 1;
+  char buf[INT_BUFSIZE_BOUND (uintmax_t)];
+
+  if (print_lines)
+    {
+      printf (format_int, number_width, umaxtostr (lines, buf));
+      format_int = format_sp_int;
+    }
+  if (print_words)
+    {
+      printf (format_int, number_width, umaxtostr (words, buf));
+      format_int = format_sp_int;
+    }
+  if (print_chars)
+    {
+      printf (format_int, number_width, umaxtostr (chars, buf));
+      format_int = format_sp_int;
+    }
+  if (print_bytes)
+    {
+      printf (format_int, number_width, umaxtostr (bytes, buf));
+      format_int = format_sp_int;
+    }
+  if (print_linelength)
+    {
+      printf (format_int, number_width, umaxtostr (linelength, buf));
+    }
+  if (file)
+    printf (" %s", file);
+  putchar ('\n');
+}
+
+/* Count words.  FILE_X is the name of the file (or NULL for standard
+   input) that is open on descriptor FD.  *FSTATUS is its status.
+   Return true if successful.  */
+static bool
+wc (int fd, char const *file_x, struct fstatus *fstatus)
+{
+  bool ok = true;
+  char buf[BUFFER_SIZE + 1];
+  size_t bytes_read;
+  uintmax_t lines, words, chars, bytes, linelength;
+  bool count_bytes, count_chars, count_complicated;
+  char const *file = file_x ? file_x : _("standard input");
+
+  lines = words = chars = bytes = linelength = 0;
+
+  /* If in the current locale, chars are equivalent to bytes, we prefer
+     counting bytes, because that's easier.  */
+#if HAVE_MBRTOWC && (MB_LEN_MAX > 1)
+  if (MB_CUR_MAX > 1)
+    {
+      count_bytes = print_bytes;
+      count_chars = print_chars;
+    }
+  else
+#endif
+    {
+      count_bytes = print_bytes | print_chars;
+      count_chars = false;
+    }
+  count_complicated = print_words | print_linelength;
+
+  /* When counting only bytes, save some line- and word-counting
+     overhead.  If FD is a `regular' Unix file, using lseek is enough
+     to get its `size' in bytes.  Otherwise, read blocks of BUFFER_SIZE
+     bytes at a time until EOF.  Note that the `size' (number of bytes)
+     that wc reports is smaller than stats.st_size when the file is not
+     positioned at its beginning.  That's why the lseek calls below are
+     necessary.  For example the command
+     `(dd ibs=99k skip=1 count=0; ./wc -c) < /etc/group'
+     should make wc report `0' bytes.  */
+
+  if (count_bytes & !count_chars & !print_lines & !count_complicated)
+    {
+      off_t current_pos, end_pos;
+
+      if (0 < fstatus->failed)
+	fstatus->failed = fstat (fd, &fstatus->st);
+
+      if (! fstatus->failed && S_ISREG (fstatus->st.st_mode)
+	  && (current_pos = lseek (fd, (off_t) 0, SEEK_CUR)) != -1
+	  && (end_pos = lseek (fd, (off_t) 0, SEEK_END)) != -1)
+	{
+	  /* Be careful here.  The current position may actually be
+	     beyond the end of the file.  As in the example above.  */
+	  bytes = end_pos < current_pos ? 0 : end_pos - current_pos;
+	}
+      else
+	{
+	  while ((bytes_read = safe_read (fd, buf, BUFFER_SIZE)) > 0)
+	    {
+	      if (bytes_read == SAFE_READ_ERROR)
+		{
+		  error (0, errno, "%s", file);
+		  ok = false;
+		  break;
+		}
+	      bytes += bytes_read;
+	    }
+	}
+    }
+  else if (!count_chars & !count_complicated)
+    {
+      /* Use a separate loop when counting only lines or lines and bytes --
+	 but not chars or words.  */
+      while ((bytes_read = safe_read (fd, buf, BUFFER_SIZE)) > 0)
+	{
+	  char *p = buf;
+
+	  if (bytes_read == SAFE_READ_ERROR)
+	    {
+	      error (0, errno, "%s", file);
+	      ok = false;
+	      break;
+	    }
+
+	  FC_ENTER_ENCLOSE_V(3898, lines)
+	  while ((p = memchr (p, '\n', (buf + bytes_read) - p)))
+	    {
+	      ++p;
+	      ++lines;
+	    }
+	  FC_LEAVE_ENCLOSE(3898);
+	  bytes += bytes_read;
+	}
+    }
+#if HAVE_MBRTOWC && (MB_LEN_MAX > 1)
+# define SUPPORT_OLD_MBRTOWC 1
+  else if (MB_CUR_MAX > 1)
+    {
+      bool in_word = false;
+      uintmax_t linepos = 0;
+      mbstate_t state;
+      uintmax_t last_error_line = 0;
+      int last_error_errno = 0;
+# if SUPPORT_OLD_MBRTOWC
+      /* Back-up the state before each multibyte character conversion and
+	 move the last incomplete character of the buffer to the front
+	 of the buffer.  This is needed because we don't know whether
+	 the `mbrtowc' function updates the state when it returns -2, -
+	 this is the ISO C 99 and glibc-2.2 behaviour - or not - amended
+	 ANSI C, glibc-2.1 and Solaris 5.7 behaviour.  We don't have an
+	 autoconf test for this, yet.  */
+      size_t prev = 0; /* number of bytes carried over from previous round */
+# else
+      const size_t prev = 0;
+# endif
+
+      memset (&state, 0, sizeof (mbstate_t));
+      while ((bytes_read = safe_read (fd, buf + prev, BUFFER_SIZE - prev)) > 0)
+	{
+	  const char *p;
+# if SUPPORT_OLD_MBRTOWC
+	  mbstate_t backup_state;
+# endif
+	  if (bytes_read == SAFE_READ_ERROR)
+	    {
+	      error (0, errno, "%s", file);
+	      ok = false;
+	      break;
+	    }
+
+	  bytes += bytes_read;
+	  p = buf;
+	  bytes_read += prev;
+	  do
+	    {
+	      wchar_t wide_char;
+	      size_t n;
+
+# if SUPPORT_OLD_MBRTOWC
+	      backup_state = state;
+# endif
+	      n = mbrtowc (&wide_char, p, bytes_read, &state);
+	      if (n == (size_t) -2)
+		{
+# if SUPPORT_OLD_MBRTOWC
+		  state = backup_state;
+# endif
+		  break;
+		}
+	      if (n == (size_t) -1)
+		{
+		  /* Signal repeated errors only once per line.  */
+		  if (!(lines + 1 == last_error_line
+			&& errno == last_error_errno))
+		    {
+		      char line_number_buf[INT_BUFSIZE_BOUND (uintmax_t)];
+		      last_error_line = lines + 1;
+		      last_error_errno = errno;
+		      error (0, errno, "%s:%s", file,
+			     umaxtostr (last_error_line, line_number_buf));
+		      ok = false;
+		    }
+		  p++;
+		  bytes_read--;
+		}
+	      else
+		{
+		  if (n == 0)
+		    {
+		      wide_char = 0;
+		      n = 1;
+		    }
+		  p += n;
+		  bytes_read -= n;
+		  chars++;
+		  switch (wide_char)
+		    {
+		    case '\n':
+		      lines++;
+		      /* Fall through. */
+		    case '\r':
+		    case '\f':
+		      if (linepos > linelength)
+			linelength = linepos;
+		      linepos = 0;
+		      goto mb_word_separator;
+		    case '\t':
+		      linepos += 8 - (linepos % 8);
+		      goto mb_word_separator;
+		    case ' ':
+		      linepos++;
+		      /* Fall through. */
+		    case '\v':
+		    mb_word_separator:
+		      words += in_word;
+		      in_word = false;
+		      break;
+		    default:
+		      if (iswprint (wide_char))
+			{
+			  int width = wcwidth (wide_char);
+			  if (width > 0)
+			    linepos += width;
+			  if (iswspace (wide_char))
+			    goto mb_word_separator;
+			  in_word = true;
+			}
+		      break;
+		    }
+		}
+	    }
+	  while (bytes_read > 0);
+
+# if SUPPORT_OLD_MBRTOWC
+	  if (bytes_read > 0)
+	    {
+	      if (bytes_read == BUFFER_SIZE)
+		{
+		  /* Encountered a very long redundant shift sequence.  */
+		  p++;
+		  bytes_read--;
+		}
+	      memmove (buf, p, bytes_read);
+	    }
+	  prev = bytes_read;
+# endif
+	}
+      if (linepos > linelength)
+	linelength = linepos;
+      words += in_word;
+    }
+#endif
+  else
+    {
+      bool in_word = false;
+      uintmax_t linepos = 0;
+
+      while ((bytes_read = safe_read (fd, buf, BUFFER_SIZE)) > 0)
+	{
+	  const char *p = buf;
+	  if (bytes_read == SAFE_READ_ERROR)
+	    {
+	      error (0, errno, "%s", file);
+	      ok = false;
+	      break;
+	    }
+
+	  bytes += bytes_read;
+	  FC_ENTER_ENCLOSE_VVVVVV(4062, lines, linelength, linepos,
+				  in_word, words, bytes_read);
+	  do
+	    {
+	      switch (*p++)
+		{
+		case '\n':
+		  lines++;
+		  /* Fall through. */
+		case '\r':
+		case '\f':
+		  if (linepos > linelength)
+		    linelength = linepos;
+		  linepos = 0;
+		  goto word_separator;
+		case '\t':
+		  linepos += 8 - (linepos % 8);
+		  goto word_separator;
+		case ' ':
+		  linepos++;
+		  /* Fall through. */
+		case '\v':
+		word_separator:
+		  words += in_word;
+		  in_word = false;
+		  break;
+		default:
+		  if (ISPRINT (to_uchar (p[-1])))
+		    {
+		      linepos++;
+		      if (ISSPACE (to_uchar (p[-1])))
+			goto word_separator;
+		      in_word = true;
+		    }
+		  break;
+		}
+	    }
+	  while (--bytes_read);
+	  FC_LEAVE_ENCLOSE(4062);
+	}
+      FC_ENTER_ENCLOSE_V(4102, linelength);
+      if (linepos > linelength)
+	linelength = linepos;
+      FC_LEAVE_ENCLOSE(4102);
+      words += in_word;
+    }
+
+  if (count_chars < print_chars)
+    chars = bytes;
+
+#ifdef MORE_PRECISE
+  words &= bound_mask((bytes+1)/2);
+  lines &= bound_mask(words);
+#endif
+
+  write_counts (lines, words, chars, bytes, linelength, file_x);
+  total_lines += lines;
+  total_words += words;
+  total_chars += chars;
+  total_bytes += bytes;
+  FC_ENTER_ENCLOSE_V(4117, max_line_length);
+  if (linelength > max_line_length)
+    max_line_length = linelength;
+  FC_LEAVE_ENCLOSE(4117);
+
+  return ok;
+}
+
+static bool
+wc_file (char const *file, struct fstatus *fstatus)
+{
+  if (! file || STREQ (file, "-"))
+    {
+      have_read_stdin = true;
+      if (O_BINARY && ! isatty (STDIN_FILENO))
+	freopen (NULL, "rb", stdin);
+      return wc (STDIN_FILENO, file, fstatus);
+    }
+  else
+    {
+      int fd = open (file, O_RDONLY | O_BINARY);
+      if (fd == -1)
+	{
+	  error (0, errno, "%s", file);
+	  return false;
+	}
+      else
+	{
+	  bool ok = wc (fd, file, fstatus);
+	  if (close (fd) != 0)
+	    {
+	      error (0, errno, "%s", file);
+	      return false;
+	    }
+	  return ok;
+	}
+    }
+}
+
+/* Return the file status for the NFILES files addressed by FILE.
+   Optimize the case where only one number is printed, for just one
+   file; in that case we can use a print width of 1, so we don't need
+   to stat the file.  */
+
+static struct fstatus *
+get_input_fstatus (int nfiles, char * const *file)
+{
+  struct fstatus *fstatus = xnmalloc (nfiles, sizeof *fstatus);
+
+  if (nfiles == 1
+      && ((print_lines + print_words + print_chars
+	   + print_bytes + print_linelength)
+	  == 1))
+    fstatus[0].failed = 1;
+  else
+    {
+      int i;
+
+      for (i = 0; i < nfiles; i++)
+	fstatus[i].failed = (! file[i] || STREQ (file[i], "-")
+			     ? fstat (STDIN_FILENO, &fstatus[i].st)
+			     : stat (file[i], &fstatus[i].st));
+    }
+
+  return fstatus;
+}
+
+/* Return a print width suitable for the NFILES files whose status is
+   recorded in FSTATUS.  Optimize the same special case that
+   get_input_fstatus optimizes.  */
+
+static int
+compute_number_width (int nfiles, struct fstatus const *fstatus)
+{
+  int width = 1;
+
+  if (fstatus[0].failed <= 0)
+    {
+      int minimum_width = 1;
+      uintmax_t regular_total = 0;
+      int i;
+
+      for (i = 0; i < nfiles; i++)
+	if (! fstatus[i].failed)
+	  {
+	    if (S_ISREG (fstatus[i].st.st_mode))
+	      regular_total += fstatus[i].st.st_size;
+	    else
+	      minimum_width = 7;
+	  }
+
+      for (; 10 <= regular_total; regular_total /= 10)
+	width++;
+      if (width < minimum_width)
+	width = minimum_width;
+    }
+
+  return width;
+}
+
+
+int
+main (int argc, char **argv)
+{
+  int i;
+  bool ok;
+  int optc;
+  int nfiles;
+  struct fstatus *fstatus;
+
+  initialize_main (&argc, &argv);
+  program_name = argv[0];
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
+
+  atexit (close_stdout);
+
+  print_lines = print_words = print_chars = print_bytes = false;
+  print_linelength = false;
+  total_lines = total_words = total_chars = total_bytes = max_line_length = 0;
+
+  while ((optc = getopt_long (argc, argv, "clLmw", longopts, NULL)) != -1)
+    switch (optc)
+      {
+      case 'c':
+	print_bytes = true;
+	break;
+
+      case 'm':
+	print_chars = true;
+	break;
+
+      case 'l':
+	print_lines = true;
+	break;
+
+      case 'w':
+	print_words = true;
+	break;
+
+      case 'L':
+	print_linelength = true;
+	break;
+
+      case_GETOPT_HELP_CHAR;
+
+      case_GETOPT_VERSION_CHAR (PROGRAM_NAME, AUTHORS);
+
+      default:
+	usage (EXIT_FAILURE);
+      }
+
+  if (! (print_lines | print_words | print_chars | print_bytes
+	 | print_linelength))
+    print_lines = print_words = print_bytes = true;
+
+  nfiles = argc - optind;
+  nfiles += (nfiles == 0);
+
+  fstatus = get_input_fstatus (nfiles, argv + optind);
+  number_width = compute_number_width (nfiles, fstatus);
+
+  ok = true;
+  for (i = 0; i < nfiles; i++)
+    ok &= wc_file (argv[optind + i], &fstatus[i]);
+
+  if (1 < nfiles)
+    write_counts (total_lines, total_words, total_chars, total_bytes,
+		  max_line_length, _("total"));
+
+  free (fstatus);
+
+  if (have_read_stdin && close (STDIN_FILENO) != 0)
+    error (EXIT_FAILURE, errno, "-");
+
+  exit (ok ? EXIT_SUCCESS : EXIT_FAILURE);
+}
+
+#define inttostr umaxtostr
+#define inttype uintmax_t
+/* inttostr.c -- convert integers to printable strings
+
+   Copyright (C) 2001 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Paul Eggert */
+
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+/* inttostr.h -- convert integers to printable strings
+
+   Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Paul Eggert */
+
+#if HAVE_INTTYPES_H
+# include <inttypes.h>
+#endif
+#if HAVE_STDINT_H
+# include <stdint.h>
+#endif
+
+#include <sys/types.h>
+
+char *offtostr (off_t, char *);
+char *imaxtostr (intmax_t, char *);
+char *umaxtostr (uintmax_t, char *);
+
+
+/* Convert I to a printable string in BUF, which must be at least
+   INT_BUFSIZE_BOUND (INTTYPE) bytes long.  Return the address of the
+   printable string, which need not start at BUF.  */
+
+char *
+inttostr (inttype i, char *buf)
+{
+  char *p = buf + INT_STRLEN_BOUND (inttype);
+  *p = 0;
+
+  if (i < 0)
+    {
+      do
+	*--p = '0' - i % 10;
+      while ((i /= 10) != 0);
+
+      *--p = '-';
+    }
+  else
+    {
+      do
+	*--p = '0' + i % 10;
+      while ((i /= 10) != 0);
+    }
+
+  return p;
+}
+
+#undef inttostr
+#undef inttype
+
+/* An interface to read and write that retries after interrupts.
+
+   Copyright (C) 1993, 1994, 1998, 2002, 2003, 2004, 2005 Free Software
+   Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+/* Get ssize_t.  */
+#include <sys/types.h>
+#include <unistd.h>
+
+#include <errno.h>
+
+#ifdef EINTR
+# define IS_EINTR(x) ((x) == EINTR)
+#else
+# define IS_EINTR(x) 0
+#endif
+
+#include <limits.h>
+
+#ifdef SAFE_WRITE
+# define safe_rw safe_write
+# define rw write
+# define maybeconst
+#else
+# define safe_rw safe_read
+# define rw read
+# define maybeconst /* empty */
+#endif
+
+/* Read(write) up to COUNT bytes at BUF from(to) descriptor FD, retrying if
+   interrupted.  Return the actual number of bytes read(written), zero for EOF,
+   or SAFE_READ_ERROR(SAFE_WRITE_ERROR) upon error.  */
+size_t
+safe_rw (int fd, void maybeconst *buf, size_t count)
+{
+  /* Work around a bug in Tru64 5.1.  Attempting to read more than
+     INT_MAX bytes fails with errno == EINVAL.  See
+     <http://lists.gnu.org/archive/html/bug-gnu-utils/2002-04/msg00010.html>.
+     When decreasing COUNT, keep it block-aligned.  */
+  enum { BUGGY_READ_MAXIMUM = INT_MAX & ~8191 };
+
+  for (;;)
+    {
+      ssize_t result = rw (fd, buf, count);
+
+      if (0 <= result)
+	return result;
+      else if (IS_EINTR (errno))
+	continue;
+      else if (errno == EINVAL && BUGGY_READ_MAXIMUM < count)
+	count = BUGGY_READ_MAXIMUM;
+      else
+	return result;
+    }
+}
+
+/* xmalloc.c -- malloc with out of memory checking
+
+   Copyright (C) 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+   1999, 2000, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#include <stdlib.h>
+#include <string.h>
+
+#ifndef SIZE_MAX
+# define SIZE_MAX ((size_t) -1)
+#endif
+
+/* 1 if calloc is known to be compatible with GNU calloc.  This
+   matters if we are not also using the calloc module, which defines
+   HAVE_CALLOC and supports the GNU API even on non-GNU platforms.  */
+#if defined HAVE_CALLOC || defined __GLIBC__
+enum { HAVE_GNU_CALLOC = 1 };
+#else
+enum { HAVE_GNU_CALLOC = 0 };
+#endif
+
+/* Allocate an array of N objects, each with S bytes of memory,
+   dynamically, with error checking.  S must be nonzero.  */
+
+static inline void *
+xnmalloc_inline (size_t n, size_t s)
+{
+  void *p;
+  if (xalloc_oversized (n, s) || (! (p = malloc (n * s)) && n != 0))
+    xalloc_die ();
+  return p;
+}
+
+void *
+xnmalloc (size_t n, size_t s)
+{
+  return xnmalloc_inline (n, s);
+}
+
+/* Allocate N bytes of memory dynamically, with error checking.  */
+
+void *
+xmalloc (size_t n)
+{
+  return xnmalloc_inline (n, 1);
+}
+
+/* Change the size of an allocated block of memory P to an array of N
+   objects each of S bytes, with error checking.  S must be nonzero.  */
+
+static inline void *
+xnrealloc_inline (void *p, size_t n, size_t s)
+{
+  if (xalloc_oversized (n, s) || (! (p = realloc (p, n * s)) && n != 0))
+    xalloc_die ();
+  return p;
+}
+
+void *
+xnrealloc (void *p, size_t n, size_t s)
+{
+  return xnrealloc_inline (p, n, s);
+}
+
+/* Change the size of an allocated block of memory P to N bytes,
+   with error checking.  */
+
+void *
+xrealloc (void *p, size_t n)
+{
+  return xnrealloc_inline (p, n, 1);
+}
+
+
+/* If P is null, allocate a block of at least *PN such objects;
+   otherwise, reallocate P so that it contains more than *PN objects
+   each of S bytes.  *PN must be nonzero unless P is null, and S must
+   be nonzero.  Set *PN to the new number of objects, and return the
+   pointer to the new block.  *PN is never set to zero, and the
+   returned pointer is never null.
+
+   Repeated reallocations are guaranteed to make progress, either by
+   allocating an initial block with a nonzero size, or by allocating a
+   larger block.
+
+   In the following implementation, nonzero sizes are doubled so that
+   repeated reallocations have O(N log N) overall cost rather than
+   O(N**2) cost, but the specification for this function does not
+   guarantee that sizes are doubled.
+
+   Here is an example of use:
+
+     int *p = NULL;
+     size_t used = 0;
+     size_t allocated = 0;
+
+     void
+     append_int (int value)
+       {
+	 if (used == allocated)
+	   p = x2nrealloc (p, &allocated, sizeof *p);
+	 p[used++] = value;
+       }
+
+   This causes x2nrealloc to allocate a block of some nonzero size the
+   first time it is called.
+
+   To have finer-grained control over the initial size, set *PN to a
+   nonzero value before calling this function with P == NULL.  For
+   example:
+
+     int *p = NULL;
+     size_t used = 0;
+     size_t allocated = 0;
+     size_t allocated1 = 1000;
+
+     void
+     append_int (int value)
+       {
+	 if (used == allocated)
+	   {
+	     p = x2nrealloc (p, &allocated1, sizeof *p);
+	     allocated = allocated1;
+	   }
+	 p[used++] = value;
+       }
+
+   */
+
+static inline void *
+x2nrealloc_inline (void *p, size_t *pn, size_t s)
+{
+  size_t n = *pn;
+
+  if (! p)
+    {
+      if (! n)
+	{
+	  /* The approximate size to use for initial small allocation
+	     requests, when the invoking code specifies an old size of
+	     zero.  64 bytes is the largest "small" request for the
+	     GNU C library malloc.  */
+	  enum { DEFAULT_MXFAST = 64 };
+
+	  n = DEFAULT_MXFAST / s;
+	  n += !n;
+	}
+    }
+  else
+    {
+      if (SIZE_MAX / 2 / s < n)
+	xalloc_die ();
+      n *= 2;
+    }
+
+  *pn = n;
+  return xrealloc (p, n * s);
+}
+
+void *
+x2nrealloc (void *p, size_t *pn, size_t s)
+{
+  return x2nrealloc_inline (p, pn, s);
+}
+
+/* If P is null, allocate a block of at least *PN bytes; otherwise,
+   reallocate P so that it contains more than *PN bytes.  *PN must be
+   nonzero unless P is null.  Set *PN to the new block's size, and
+   return the pointer to the new block.  *PN is never set to zero, and
+   the returned pointer is never null.  */
+
+void *
+x2realloc (void *p, size_t *pn)
+{
+  return x2nrealloc_inline (p, pn, 1);
+}
+
+/* Allocate S bytes of zeroed memory dynamically, with error checking.
+   There's no need for xnzalloc (N, S), since it would be equivalent
+   to xcalloc (N, S).  */
+
+void *
+xzalloc (size_t s)
+{
+  return memset (xmalloc (s), 0, s);
+}
+
+/* Allocate zeroed memory for N elements of S bytes, with error
+   checking.  S must be nonzero.  */
+
+void *
+xcalloc (size_t n, size_t s)
+{
+  void *p;
+  /* Test for overflow, since some calloc implementations don't have
+     proper overflow checks.  But omit overflow and size-zero tests if
+     HAVE_GNU_CALLOC, since GNU calloc catches overflow and never
+     returns NULL if successful.  */
+  if ((! HAVE_GNU_CALLOC && xalloc_oversized (n, s))
+      || (! (p = calloc (n, s)) && (HAVE_GNU_CALLOC || n != 0)))
+    xalloc_die ();
+  return p;
+}
+
+/* Clone an object P of size S, with error checking.  There's no need
+   for xnmemdup (P, N, S), since xmemdup (P, N * S) works without any
+   need for an arithmetic overflow check.  */
+
+void *
+xmemdup (void const *p, size_t s)
+{
+  return memcpy (xmalloc (s), p, s);
+}
+
+/* Clone STRING.  */
+
+char *
+xstrdup (char const *string)
+{
+  return xmemdup (string, strlen (string) + 1);
+}
+
+/* Report a memory allocation failure and exit.
+
+   Copyright (C) 1997, 1998, 1999, 2000, 2002, 2003, 2004 Free
+   Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+void
+xalloc_die (void)
+{
+  error (exit_failure, 0, "%s", _("memory exhausted"));
+
+  /* The `noreturn' cannot be given to error, since it may return if
+     its first argument is 0.  To help compilers understand the
+     xalloc_die does not return, call abort.  Also, the abort is a
+     safety feature if exit_failure is 0 (which shouldn't happen).  */
+  abort ();
+}
+
+/* closeout.c - close standard output
+
+   Copyright (C) 1998, 1999, 2000, 2001, 2002, 2004 Free Software
+   Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <errno.h>
+
+/* quotearg.h - quote arguments for output
+
+   Copyright (C) 1998, 1999, 2000, 2001, 2002, 2004 Free Software
+   Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Paul Eggert <eggert@twinsun.com> */
+
+#ifndef QUOTEARG_H_
+# define QUOTEARG_H_ 1
+
+# include <stddef.h>
+
+/* Basic quoting styles.  */
+enum quoting_style
+  {
+    /* Output names as-is (ls --quoting-style=literal).  */
+    literal_quoting_style,
+
+    /* Quote names for the shell if they contain shell metacharacters
+       or would cause ambiguous output (ls --quoting-style=shell).  */
+    shell_quoting_style,
+
+    /* Quote names for the shell, even if they would normally not
+       require quoting (ls --quoting-style=shell-always).  */
+    shell_always_quoting_style,
+
+    /* Quote names as for a C language string (ls --quoting-style=c).  */
+    c_quoting_style,
+
+    /* Like c_quoting_style except omit the surrounding double-quote
+       characters (ls --quoting-style=escape).  */
+    escape_quoting_style,
+
+    /* Like clocale_quoting_style, but quote `like this' instead of
+       "like this" in the default C locale (ls --quoting-style=locale).  */
+    locale_quoting_style,
+
+    /* Like c_quoting_style except use quotation marks appropriate for
+       the locale (ls --quoting-style=clocale).  */
+    clocale_quoting_style
+  };
+
+/* For now, --quoting-style=literal is the default, but this may change.  */
+# ifndef DEFAULT_QUOTING_STYLE
+#  define DEFAULT_QUOTING_STYLE literal_quoting_style
+# endif
+
+/* Names of quoting styles and their corresponding values.  */
+extern char const *const quoting_style_args[];
+extern enum quoting_style const quoting_style_vals[];
+
+struct quoting_options;
+
+/* The functions listed below set and use a hidden variable
+   that contains the default quoting style options.  */
+
+/* Allocate a new set of quoting options, with contents initially identical
+   to O if O is not null, or to the default if O is null.
+   It is the caller's responsibility to free the result.  */
+struct quoting_options *clone_quoting_options (struct quoting_options *o);
+
+/* Get the value of O's quoting style.  If O is null, use the default.  */
+enum quoting_style get_quoting_style (struct quoting_options *o);
+
+/* In O (or in the default if O is null),
+   set the value of the quoting style to S.  */
+void set_quoting_style (struct quoting_options *o, enum quoting_style s);
+
+/* In O (or in the default if O is null),
+   set the value of the quoting options for character C to I.
+   Return the old value.  Currently, the only values defined for I are
+   0 (the default) and 1 (which means to quote the character even if
+   it would not otherwise be quoted).  */
+int set_char_quoting (struct quoting_options *o, char c, int i);
+
+/* Place into buffer BUFFER (of size BUFFERSIZE) a quoted version of
+   argument ARG (of size ARGSIZE), using O to control quoting.
+   If O is null, use the default.
+   Terminate the output with a null character, and return the written
+   size of the output, not counting the terminating null.
+   If BUFFERSIZE is too small to store the output string, return the
+   value that would have been returned had BUFFERSIZE been large enough.
+   If ARGSIZE is -1, use the string length of the argument for ARGSIZE.  */
+size_t quotearg_buffer (char *buffer, size_t buffersize,
+			char const *arg, size_t argsize,
+			struct quoting_options const *o);
+
+/* Like quotearg_buffer, except return the result in a newly allocated
+   buffer.  It is the caller's responsibility to free the result.  */
+char *quotearg_alloc (char const *arg, size_t argsize,
+		      struct quoting_options const *o);
+
+/* Use storage slot N to return a quoted version of the string ARG.
+   Use the default quoting options.
+   The returned value points to static storage that can be
+   reused by the next call to this function with the same value of N.
+   N must be nonnegative.  */
+char *quotearg_n (int n, char const *arg);
+
+/* Equivalent to quotearg_n (0, ARG).  */
+char *quotearg (char const *arg);
+
+/* Use style S and storage slot N to return a quoted version of the string ARG.
+   This is like quotearg_n (N, ARG), except that it uses S with no other
+   options to specify the quoting method.  */
+char *quotearg_n_style (int n, enum quoting_style s, char const *arg);
+
+/* Use style S and storage slot N to return a quoted version of the
+   argument ARG of size ARGSIZE.  This is like quotearg_n_style
+   (N, S, ARG), except it can quote null bytes.  */
+char *quotearg_n_style_mem (int n, enum quoting_style s,
+			    char const *arg, size_t argsize);
+
+/* Equivalent to quotearg_n_style (0, S, ARG).  */
+char *quotearg_style (enum quoting_style s, char const *arg);
+
+/* Like quotearg (ARG), except also quote any instances of CH.  */
+char *quotearg_char (char const *arg, char ch);
+
+/* Equivalent to quotearg_char (ARG, ':').  */
+char *quotearg_colon (char const *arg);
+
+#endif /* !QUOTEARG_H_ */
+
+#include <stddef.h>
+#include <stdio.h>
+
+#if HAVE_STDIO_EXT_H
+# include <stdio_ext.h>
+#endif
+
+#ifndef HAVE_DECL___FPENDING
+"this configure-time declaration test was not run"
+#endif
+#if !HAVE_DECL___FPENDING
+size_t __fpending (FILE *);
+#endif
+
+static const char *file_name;
+
+/* Set the file name to be reported in the event an error is detected
+   by close_stdout.  */
+void
+close_stdout_set_file_name (const char *file)
+{
+  file_name = file;
+}
+
+/* Close standard output, exiting with status 'exit_failure' on failure.
+   If a program writes *anything* to stdout, that program should close
+   stdout and make sure that it succeeds before exiting.  Otherwise,
+   suppose that you go to the extreme of checking the return status
+   of every function that does an explicit write to stdout.  The last
+   printf can succeed in writing to the internal stream buffer, and yet
+   the fclose(stdout) could still fail (due e.g., to a disk full error)
+   when it tries to write out that buffered data.  Thus, you would be
+   left with an incomplete output file and the offending program would
+   exit successfully.  Even calling fflush is not always sufficient,
+   since some file systems (NFS and CODA) buffer written/flushed data
+   until an actual close call.
+
+   Besides, it's wasteful to check the return value from every call
+   that writes to stdout -- just let the internal stream state record
+   the failure.  That's what the ferror test is checking below.
+
+   It's important to detect such failures and exit nonzero because many
+   tools (most notably `make' and other build-management systems) depend
+   on being able to detect failure in other tools via their exit status.  */
+
+void
+close_stdout (void)
+{
+  bool prev_fail = ferror (stdout);
+  bool none_pending = (0 == __fpending (stdout));
+  bool fclose_fail = fclose (stdout);
+
+  if (prev_fail || fclose_fail)
+    {
+      int e = fclose_fail ? errno : 0;
+      char const *write_error;
+
+      /* If ferror returned zero, no data remains to be flushed, and we'd
+	 otherwise fail with EBADF due to a failed fclose, then assume that
+	 it's ok to ignore the fclose failure.  That can happen when a
+	 program like cp is invoked like this `cp a b >&-' (i.e., with
+	 stdout closed) and doesn't generate any output (hence no previous
+	 error and nothing to be flushed).  */
+      if (e == EBADF && !prev_fail && none_pending)
+	return;
+
+      write_error = _("write error");
+      if (file_name)
+	error (exit_failure, e, "%s: %s", quotearg_colon (file_name),
+	       write_error);
+      else
+	error (exit_failure, e, "%s", write_error);
+    }
+}
+
+/* Utility to help print --version output in a consistent format.
+   Copyright (C) 1999-2006 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Jim Meyering. */
+
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+enum { COPYRIGHT_YEAR = 2006 };
+
+/* Like version_etc, below, but with the NULL-terminated author list
+   provided via a variable of type va_list.  */
+void
+version_etc_va (FILE *stream,
+		const char *command_name, const char *package,
+		const char *version, va_list authors)
+{
+  size_t n_authors;
+
+  /* Count the number of authors.  */
+  {
+    va_list tmp_authors;
+
+#ifdef __va_copy
+    __va_copy (tmp_authors, authors);
+#else
+    tmp_authors = authors;
+#endif
+
+    n_authors = 0;
+    while (va_arg (tmp_authors, const char *) != NULL)
+      ++n_authors;
+  }
+
+  if (command_name)
+    fprintf (stream, "%s (%s) %s\n", command_name, package, version);
+  else
+    fprintf (stream, "%s %s\n", package, version);
+
+  /* TRANSLATORS: Translate "(C)" to the copyright symbol
+     (C-in-a-circle), if this symbol is available in the user's
+     locale.  Otherwise, do not translate "(C)"; leave it as-is.  */
+  fprintf (stream, version_etc_copyright, _("(C)"), COPYRIGHT_YEAR);
+
+  fputs (_("\
+\n\
+This is free software.  You may redistribute copies of it under the terms of\n\
+the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.\n\
+There is NO WARRANTY, to the extent permitted by law.\n\
+\n\
+"),
+	 stream);
+
+  switch (n_authors)
+    {
+    case 0:
+      /* The caller must provide at least one author name.  */
+      abort ();
+    case 1:
+      /* TRANSLATORS: %s denotes an author name.  */
+      vfprintf (stream, _("Written by %s.\n"), authors);
+      break;
+    case 2:
+      /* TRANSLATORS: Each %s denotes an author name.  */
+      vfprintf (stream, _("Written by %s and %s.\n"), authors);
+      break;
+    case 3:
+      /* TRANSLATORS: Each %s denotes an author name.  */
+      vfprintf (stream, _("Written by %s, %s, and %s.\n"), authors);
+      break;
+    case 4:
+      /* TRANSLATORS: Each %s denotes an author name.
+	 You can use line breaks, estimating that each author name occupies
+	 ca. 16 screen columns and that a screen line has ca. 80 columns.  */
+      vfprintf (stream, _("Written by %s, %s, %s,\nand %s.\n"), authors);
+      break;
+    case 5:
+      /* TRANSLATORS: Each %s denotes an author name.
+	 You can use line breaks, estimating that each author name occupies
+	 ca. 16 screen columns and that a screen line has ca. 80 columns.  */
+      vfprintf (stream, _("Written by %s, %s, %s,\n%s, and %s.\n"), authors);
+      break;
+    case 6:
+      /* TRANSLATORS: Each %s denotes an author name.
+	 You can use line breaks, estimating that each author name occupies
+	 ca. 16 screen columns and that a screen line has ca. 80 columns.  */
+      vfprintf (stream, _("Written by %s, %s, %s,\n%s, %s, and %s.\n"),
+		authors);
+      break;
+    case 7:
+      /* TRANSLATORS: Each %s denotes an author name.
+	 You can use line breaks, estimating that each author name occupies
+	 ca. 16 screen columns and that a screen line has ca. 80 columns.  */
+      vfprintf (stream, _("Written by %s, %s, %s,\n%s, %s, %s, and %s.\n"),
+		authors);
+      break;
+    case 8:
+      /* TRANSLATORS: Each %s denotes an author name.
+	 You can use line breaks, estimating that each author name occupies
+	 ca. 16 screen columns and that a screen line has ca. 80 columns.  */
+      vfprintf (stream, _("\
+Written by %s, %s, %s,\n%s, %s, %s, %s,\nand %s.\n"),
+		authors);
+      break;
+    case 9:
+      /* TRANSLATORS: Each %s denotes an author name.
+	 You can use line breaks, estimating that each author name occupies
+	 ca. 16 screen columns and that a screen line has ca. 80 columns.  */
+      vfprintf (stream, _("\
+Written by %s, %s, %s,\n%s, %s, %s, %s,\n%s, and %s.\n"),
+		authors);
+      break;
+    default:
+      /* 10 or more authors.  Use an abbreviation, since the human reader
+	 will probably not want to read the entire list anyway.  */
+      /* TRANSLATORS: Each %s denotes an author name.
+	 You can use line breaks, estimating that each author name occupies
+	 ca. 16 screen columns and that a screen line has ca. 80 columns.  */
+      vfprintf (stream, _("\
+Written by %s, %s, %s,\n%s, %s, %s, %s,\n%s, %s, and others.\n"),
+		authors);
+      break;
+    }
+  va_end (authors);
+}
+
+
+/* Display the --version information the standard way.
+
+   If COMMAND_NAME is NULL, the PACKAGE is asumed to be the name of
+   the program.  The formats are therefore:
+
+   PACKAGE VERSION
+
+   or
+
+   COMMAND_NAME (PACKAGE) VERSION.
+
+   The author names are passed as separate arguments, with an additional
+   NULL argument at the end.  */
+void
+version_etc (FILE *stream,
+	     const char *command_name, const char *package,
+	     const char *version, /* const char *author1, ...*/ ...)
+{
+  va_list authors;
+
+  va_start (authors, version);
+  version_etc_va (stream, command_name, package, version, authors);
+}
+
+/* Variable with FSF copyright information, for version-etc.
+   Copyright (C) 1999-2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Jim Meyering. */
+
+/* Default copyright goes to the FSF. */
+
+const char version_etc_copyright[] =
+  /* Do *not* mark this string for translation.  %s is a copyright
+     symbol suitable for this locale, and %d is the copyright
+     year.  */
+  "Copyright %s %d Free Software Foundation, Inc.";
+
+
+/* quotearg.c - quote arguments for output
+
+   Copyright (C) 1998, 1999, 2000, 2001, 2002, 2004, 2005 Free Software
+   Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+/* Written by Paul Eggert <eggert@twinsun.com> */
+
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#include <ctype.h>
+#include <errno.h>
+#include <limits.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+
+#if HAVE_WCHAR_H
+
+/* BSD/OS 4.1 wchar.h requires FILE and struct tm to be declared.  */
+# include <stdio.h>
+# include <time.h>
+
+# include <wchar.h>
+#endif
+
+#if !HAVE_MBRTOWC
+/* Disable multibyte processing entirely.  Since MB_CUR_MAX is 1, the
+   other macros are defined only for documentation and to satisfy C
+   syntax.  */
+# undef MB_CUR_MAX
+# define MB_CUR_MAX 1
+# define mbrtowc(pwc, s, n, ps) ((*(pwc) = *(s)) != 0)
+# define iswprint(wc) isprint ((unsigned char) (wc))
+# undef HAVE_MBSINIT
+#endif
+
+#if !defined mbsinit && !HAVE_MBSINIT
+# define mbsinit(ps) 1
+#endif
+
+#ifndef iswprint
+# if HAVE_WCTYPE_H
+#  include <wctype.h>
+# endif
+# if !defined iswprint && !HAVE_ISWPRINT
+#  define iswprint(wc) 1
+# endif
+#endif
+
+#ifndef SIZE_MAX
+# define SIZE_MAX ((size_t) -1)
+#endif
+
+#define INT_BITS (sizeof (int) * CHAR_BIT)
+
+struct quoting_options
+{
+  /* Basic quoting style.  */
+  enum quoting_style style;
+
+  /* Quote the characters indicated by this bit vector even if the
+     quoting style would not normally require them to be quoted.  */
+  unsigned int quote_these_too[(UCHAR_MAX / INT_BITS) + 1];
+};
+
+/* Names of quoting styles.  */
+char const *const quoting_style_args[] =
+{
+  "literal",
+  "shell",
+  "shell-always",
+  "c",
+  "escape",
+  "locale",
+  "clocale",
+  0
+};
+
+/* Correspondences to quoting style names.  */
+enum quoting_style const quoting_style_vals[] =
+{
+  literal_quoting_style,
+  shell_quoting_style,
+  shell_always_quoting_style,
+  c_quoting_style,
+  escape_quoting_style,
+  locale_quoting_style,
+  clocale_quoting_style
+};
+
+/* The default quoting options.  */
+static struct quoting_options default_quoting_options;
+
+/* Allocate a new set of quoting options, with contents initially identical
+   to O if O is not null, or to the default if O is null.
+   It is the caller's responsibility to free the result.  */
+struct quoting_options *
+clone_quoting_options (struct quoting_options *o)
+{
+  int e = errno;
+  struct quoting_options *p = xmalloc (sizeof *p);
+  *p = *(o ? o : &default_quoting_options);
+  errno = e;
+  return p;
+}
+
+/* Get the value of O's quoting style.  If O is null, use the default.  */
+enum quoting_style
+get_quoting_style (struct quoting_options *o)
+{
+  return (o ? o : &default_quoting_options)->style;
+}
+
+/* In O (or in the default if O is null),
+   set the value of the quoting style to S.  */
+void
+set_quoting_style (struct quoting_options *o, enum quoting_style s)
+{
+  (o ? o : &default_quoting_options)->style = s;
+}
+
+/* In O (or in the default if O is null),
+   set the value of the quoting options for character C to I.
+   Return the old value.  Currently, the only values defined for I are
+   0 (the default) and 1 (which means to quote the character even if
+   it would not otherwise be quoted).  */
+int
+set_char_quoting (struct quoting_options *o, char c, int i)
+{
+  unsigned char uc = c;
+  unsigned int *p =
+    (o ? o : &default_quoting_options)->quote_these_too + uc / INT_BITS;
+  int shift = uc % INT_BITS;
+  int r = (*p >> shift) & 1;
+  *p ^= ((i & 1) ^ r) << shift;
+  return r;
+}
+
+/* MSGID approximates a quotation mark.  Return its translation if it
+   has one; otherwise, return either it or "\"", depending on S.  */
+static char const *
+gettext_quote (char const *msgid, enum quoting_style s)
+{
+  char const *translation = _(msgid);
+  if (translation == msgid && s == clocale_quoting_style)
+    translation = "\"";
+  return translation;
+}
+
+/* Place into buffer BUFFER (of size BUFFERSIZE) a quoted version of
+   argument ARG (of size ARGSIZE), using QUOTING_STYLE and the
+   non-quoting-style part of O to control quoting.
+   Terminate the output with a null character, and return the written
+   size of the output, not counting the terminating null.
+   If BUFFERSIZE is too small to store the output string, return the
+   value that would have been returned had BUFFERSIZE been large enough.
+   If ARGSIZE is SIZE_MAX, use the string length of the argument for ARGSIZE.
+
+   This function acts like quotearg_buffer (BUFFER, BUFFERSIZE, ARG,
+   ARGSIZE, O), except it uses QUOTING_STYLE instead of the quoting
+   style specified by O, and O may not be null.  */
+
+static size_t
+quotearg_buffer_restyled (char *buffer, size_t buffersize,
+			  char const *arg, size_t argsize,
+			  enum quoting_style quoting_style,
+			  struct quoting_options const *o)
+{
+  size_t i;
+  size_t len = 0;
+  char const *quote_string = 0;
+  size_t quote_string_len = 0;
+  bool backslash_escapes = false;
+  bool unibyte_locale = MB_CUR_MAX == 1;
+
+#define STORE(c) \
+    do \
+      { \
+	if (len < buffersize) \
+	  buffer[len] = (c); \
+	len++; \
+      } \
+    while (0)
+
+  switch (quoting_style)
+    {
+    case c_quoting_style:
+      STORE ('"');
+      backslash_escapes = true;
+      quote_string = "\"";
+      quote_string_len = 1;
+      break;
+
+    case escape_quoting_style:
+      backslash_escapes = true;
+      break;
+
+    case locale_quoting_style:
+    case clocale_quoting_style:
+      {
+	/* TRANSLATORS:
+	   Get translations for open and closing quotation marks.
+
+	   The message catalog should translate "`" to a left
+	   quotation mark suitable for the locale, and similarly for
+	   "'".  If the catalog has no translation,
+	   locale_quoting_style quotes `like this', and
+	   clocale_quoting_style quotes "like this".
+
+	   For example, an American English Unicode locale should
+	   translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+	   should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+	   MARK).  A British English Unicode locale should instead
+	   translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+	   U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+
+	   If you don't know what to put here, please see
+	   <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
+	   and use glyphs suitable for your language.  */
+
+	char const *left = gettext_quote (N_("`"), quoting_style);
+	char const *right = gettext_quote (N_("'"), quoting_style);
+	for (quote_string = left; *quote_string; quote_string++)
+	  STORE (*quote_string);
+	backslash_escapes = true;
+	quote_string = right;
+	quote_string_len = strlen (quote_string);
+      }
+      break;
+
+    case shell_always_quoting_style:
+      STORE ('\'');
+      quote_string = "'";
+      quote_string_len = 1;
+      break;
+
+    default:
+      break;
+    }
+
+  for (i = 0;  ! (argsize == SIZE_MAX ? arg[i] == '\0' : i == argsize);  i++)
+    {
+      unsigned char c;
+      unsigned char esc;
+
+      if (backslash_escapes
+	  && quote_string_len
+	  && i + quote_string_len <= argsize
+	  && memcmp (arg + i, quote_string, quote_string_len) == 0)
+	STORE ('\\');
+
+      c = arg[i];
+      switch (c)
+	{
+	case '\0':
+	  if (backslash_escapes)
+	    {
+	      STORE ('\\');
+	      STORE ('0');
+	      STORE ('0');
+	      c = '0';
+	    }
+	  break;
+
+	case '?':
+	  switch (quoting_style)
+	    {
+	    case shell_quoting_style:
+	      goto use_shell_always_quoting_style;
+
+	    case c_quoting_style:
+	      if (i + 2 < argsize && arg[i + 1] == '?')
+		switch (arg[i + 2])
+		  {
+		  case '!': case '\'':
+		  case '(': case ')': case '-': case '/':
+		  case '<': case '=': case '>':
+		    /* Escape the second '?' in what would otherwise be
+		       a trigraph.  */
+		    c = arg[i + 2];
+		    i += 2;
+		    STORE ('?');
+		    STORE ('\\');
+		    STORE ('?');
+		    break;
+		  }
+	      break;
+
+	    default:
+	      break;
+	    }
+	  break;
+
+	case '\a': esc = 'a'; goto c_escape;
+	case '\b': esc = 'b'; goto c_escape;
+	case '\f': esc = 'f'; goto c_escape;
+	case '\n': esc = 'n'; goto c_and_shell_escape;
+	case '\r': esc = 'r'; goto c_and_shell_escape;
+	case '\t': esc = 't'; goto c_and_shell_escape;
+	case '\v': esc = 'v'; goto c_escape;
+	case '\\': esc = c; goto c_and_shell_escape;
+
+	c_and_shell_escape:
+	  if (quoting_style == shell_quoting_style)
+	    goto use_shell_always_quoting_style;
+	c_escape:
+	  if (backslash_escapes)
+	    {
+	      c = esc;
+	      goto store_escape;
+	    }
+	  break;
+
+	case '{': case '}': /* sometimes special if isolated */
+	  if (! (argsize == SIZE_MAX ? arg[1] == '\0' : argsize == 1))
+	    break;
+	  /* Fall through.  */
+	case '#': case '~':
+	  if (i != 0)
+	    break;
+	  /* Fall through.  */
+	case ' ':
+	case '!': /* special in bash */
+	case '"': case '$': case '&':
+	case '(': case ')': case '*': case ';':
+	case '<':
+	case '=': /* sometimes special in 0th or (with "set -k") later args */
+	case '>': case '[':
+	case '^': /* special in old /bin/sh, e.g. SunOS 4.1.4 */
+	case '`': case '|':
+	  /* A shell special character.  In theory, '$' and '`' could
+	     be the first bytes of multibyte characters, which means
+	     we should check them with mbrtowc, but in practice this
+	     doesn't happen so it's not worth worrying about.  */
+	  if (quoting_style == shell_quoting_style)
+	    goto use_shell_always_quoting_style;
+	  break;
+
+	case '\'':
+	  switch (quoting_style)
+	    {
+	    case shell_quoting_style:
+	      goto use_shell_always_quoting_style;
+
+	    case shell_always_quoting_style:
+	      STORE ('\'');
+	      STORE ('\\');
+	      STORE ('\'');
+	      break;
+
+	    default:
+	      break;
+	    }
+	  break;
+
+	case '%': case '+': case ',': case '-': case '.': case '/':
+	case '0': case '1': case '2': case '3': case '4': case '5':
+	case '6': case '7': case '8': case '9': case ':':
+	case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+	case 'G': case 'H': case 'I': case 'J': case 'K': case 'L':
+	case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
+	case 'S': case 'T': case 'U': case 'V': case 'W': case 'X':
+	case 'Y': case 'Z': case ']': case '_': case 'a': case 'b':
+	case 'c': case 'd': case 'e': case 'f': case 'g': case 'h':
+	case 'i': case 'j': case 'k': case 'l': case 'm': case 'n':
+	case 'o': case 'p': case 'q': case 'r': case 's': case 't':
+	case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+	  /* These characters don't cause problems, no matter what the
+	     quoting style is.  They cannot start multibyte sequences.  */
+	  break;
+
+	default:
+	  /* If we have a multibyte sequence, copy it until we reach
+	     its end, find an error, or come back to the initial shift
+	     state.  For C-like styles, if the sequence has
+	     unprintable characters, escape the whole sequence, since
+	     we can't easily escape single characters within it.  */
+	  {
+	    /* Length of multibyte sequence found so far.  */
+	    size_t m;
+
+	    bool printable;
+
+	    if (unibyte_locale)
+	      {
+		m = 1;
+		printable = isprint (c) != 0;
+	      }
+	    else
+	      {
+		mbstate_t mbstate;
+		memset (&mbstate, 0, sizeof mbstate);
+
+		m = 0;
+		printable = true;
+		if (argsize == SIZE_MAX)
+		  argsize = strlen (arg);
+
+		do
+		  {
+		    wchar_t w;
+		    size_t bytes = mbrtowc (&w, &arg[i + m],
+					    argsize - (i + m), &mbstate);
+		    if (bytes == 0)
+		      break;
+		    else if (bytes == (size_t) -1)
+		      {
+			printable = false;
+			break;
+		      }
+		    else if (bytes == (size_t) -2)
+		      {
+			printable = false;
+			while (i + m < argsize && arg[i + m])
+			  m++;
+			break;
+		      }
+		    else
+		      {
+			/* Work around a bug with older shells that "see" a '\'
+			   that is really the 2nd byte of a multibyte character.
+			   In practice the problem is limited to ASCII
+			   chars >= '@' that are shell special chars.  */
+			if ('[' == 0x5b && quoting_style == shell_quoting_style)
+			  {
+			    size_t j;
+			    for (j = 1; j < bytes; j++)
+			      switch (arg[i + m + j])
+				{
+				case '[': case '\\': case '^':
+				case '`': case '|':
+				  goto use_shell_always_quoting_style;
+				}
+			  }
+
+			if (! iswprint (w))
+			  printable = false;
+			m += bytes;
+		      }
+		  }
+		while (! mbsinit (&mbstate));
+	      }
+
+	    if (1 < m || (backslash_escapes && ! printable))
+	      {
+		/* Output a multibyte sequence, or an escaped
+		   unprintable unibyte character.  */
+		size_t ilim = i + m;
+
+		for (;;)
+		  {
+		    if (backslash_escapes && ! printable)
+		      {
+			STORE ('\\');
+			STORE ('0' + (c >> 6));
+			STORE ('0' + ((c >> 3) & 7));
+			c = '0' + (c & 7);
+		      }
+		    if (ilim <= i + 1)
+		      break;
+		    STORE (c);
+		    c = arg[++i];
+		  }
+
+		goto store_c;
+	      }
+	  }
+	}
+
+      if (! (backslash_escapes
+	     && o->quote_these_too[c / INT_BITS] & (1 << (c % INT_BITS))))
+	goto store_c;
+
+    store_escape:
+      STORE ('\\');
+
+    store_c:
+      STORE (c);
+    }
+
+  if (i == 0 && quoting_style == shell_quoting_style)
+    goto use_shell_always_quoting_style;
+
+  if (quote_string)
+    for (; *quote_string; quote_string++)
+      STORE (*quote_string);
+
+  if (len < buffersize)
+    buffer[len] = '\0';
+  return len;
+
+ use_shell_always_quoting_style:
+  return quotearg_buffer_restyled (buffer, buffersize, arg, argsize,
+				   shell_always_quoting_style, o);
+}
+
+/* Place into buffer BUFFER (of size BUFFERSIZE) a quoted version of
+   argument ARG (of size ARGSIZE), using O to control quoting.
+   If O is null, use the default.
+   Terminate the output with a null character, and return the written
+   size of the output, not counting the terminating null.
+   If BUFFERSIZE is too small to store the output string, return the
+   value that would have been returned had BUFFERSIZE been large enough.
+   If ARGSIZE is SIZE_MAX, use the string length of the argument for
+   ARGSIZE.  */
+size_t
+quotearg_buffer (char *buffer, size_t buffersize,
+		 char const *arg, size_t argsize,
+		 struct quoting_options const *o)
+{
+  struct quoting_options const *p = o ? o : &default_quoting_options;
+  int e = errno;
+  size_t r = quotearg_buffer_restyled (buffer, buffersize, arg, argsize,
+				       p->style, p);
+  errno = e;
+  return r;
+}
+
+/* Like quotearg_buffer (..., ARG, ARGSIZE, O), except return newly
+   allocated storage containing the quoted string.  */
+char *
+quotearg_alloc (char const *arg, size_t argsize,
+		struct quoting_options const *o)
+{
+  int e = errno;
+  size_t bufsize = quotearg_buffer (0, 0, arg, argsize, o) + 1;
+  char *buf = xmalloc (bufsize);
+  quotearg_buffer (buf, bufsize, arg, argsize, o);
+  errno = e;
+  return buf;
+}
+
+/* Use storage slot N to return a quoted version of argument ARG.
+   ARG is of size ARGSIZE, but if that is SIZE_MAX, ARG is a
+   null-terminated string.
+   OPTIONS specifies the quoting options.
+   The returned value points to static storage that can be
+   reused by the next call to this function with the same value of N.
+   N must be nonnegative.  N is deliberately declared with type "int"
+   to allow for future extensions (using negative values).  */
+static char *
+quotearg_n_options (int n, char const *arg, size_t argsize,
+		    struct quoting_options const *options)
+{
+  int e = errno;
+
+  /* Preallocate a slot 0 buffer, so that the caller can always quote
+     one small component of a "memory exhausted" message in slot 0.  */
+  static char slot0[256];
+  static unsigned int nslots = 1;
+  unsigned int n0 = n;
+  struct slotvec
+    {
+      size_t size;
+      char *val;
+    };
+  static struct slotvec slotvec0 = {sizeof slot0, slot0};
+  static struct slotvec *slotvec = &slotvec0;
+
+  if (n < 0)
+    abort ();
+
+  if (nslots <= n0)
+    {
+      /* FIXME: technically, the type of n1 should be `unsigned int',
+	 but that evokes an unsuppressible warning from gcc-4.0.1 and
+	 older.  If gcc ever provides an option to suppress that warning,
+	 revert to the original type, so that the test in xalloc_oversized
+	 is once again performed only at compile time.  */
+      size_t n1 = n0 + 1;
+
+      if (xalloc_oversized (n1, sizeof *slotvec))
+	xalloc_die ();
+
+      if (slotvec == &slotvec0)
+	{
+	  slotvec = xmalloc (sizeof *slotvec);
+	  *slotvec = slotvec0;
+	}
+      slotvec = xrealloc (slotvec, n1 * sizeof *slotvec);
+      memset (slotvec + nslots, 0, (n1 - nslots) * sizeof *slotvec);
+      nslots = n1;
+    }
+
+  {
+    size_t size = slotvec[n].size;
+    char *val = slotvec[n].val;
+    size_t qsize = quotearg_buffer (val, size, arg, argsize, options);
+
+    if (size <= qsize)
+      {
+	slotvec[n].size = size = qsize + 1;
+	if (val != slot0)
+	  free (val);
+	slotvec[n].val = val = xmalloc (size);
+	quotearg_buffer (val, size, arg, argsize, options);
+      }
+
+    errno = e;
+    return val;
+  }
+}
+
+char *
+quotearg_n (int n, char const *arg)
+{
+  return quotearg_n_options (n, arg, SIZE_MAX, &default_quoting_options);
+}
+
+char *
+quotearg (char const *arg)
+{
+  return quotearg_n (0, arg);
+}
+
+/* Return quoting options for STYLE, with no extra quoting.  */
+static struct quoting_options
+quoting_options_from_style (enum quoting_style style)
+{
+  struct quoting_options o;
+  o.style = style;
+  memset (o.quote_these_too, 0, sizeof o.quote_these_too);
+  return o;
+}
+
+char *
+quotearg_n_style (int n, enum quoting_style s, char const *arg)
+{
+  struct quoting_options const o = quoting_options_from_style (s);
+  return quotearg_n_options (n, arg, SIZE_MAX, &o);
+}
+
+char *
+quotearg_n_style_mem (int n, enum quoting_style s,
+		      char const *arg, size_t argsize)
+{
+  struct quoting_options const o = quoting_options_from_style (s);
+  return quotearg_n_options (n, arg, argsize, &o);
+}
+
+char *
+quotearg_style (enum quoting_style s, char const *arg)
+{
+  return quotearg_n_style (0, s, arg);
+}
+
+char *
+quotearg_char (char const *arg, char ch)
+{
+  struct quoting_options options;
+  options = default_quoting_options;
+  set_char_quoting (&options, ch, 1);
+  return quotearg_n_options (0, arg, SIZE_MAX, &options);
+}
+
+char *
+quotearg_colon (char const *arg)
+{
+  return quotearg_char (arg, ':');
+}
+
+/* Failure exit status
+
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; see the file COPYING.
+   If not, write to the Free Software Foundation,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+
+int volatile exit_failure = EXIT_FAILURE;
