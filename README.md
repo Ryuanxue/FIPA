@@ -159,11 +159,6 @@ python3 scripts/get_statement_linerange.py --project_root examples/chage --compi
 
 ### Step 2: Quantitative Information Flow Tracking
 
-This step involves two main parts:
-1. **FlowCheck information flow tracking in Docker**
-2. **Pin dynamic instrumentation and edge collection**
-
-#### FlowCheck Tracking (chage example)
 - Start Docker:
   ```bash
   cd FIPA
@@ -176,19 +171,17 @@ This step involves two main parts:
 - Run FlowCheck with different inputs to generate trace files:
   ```bash
   valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/chage --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/chage/input/chage_32 -M 3 nobody 2>examples/chage/output/temp/chageoutput1.fc
+  
   valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/chage --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/chage/input/chage_32 -l nobody 2>examples/chage/output/temp/chageoutput2.fc
   ```
 - Merge multiple `.fc` trace files and map the quantitative information to statements using a script. Inputs: all `.fc` files and `statement_range.xml`. Output: `statement_quantities.xml` (recommended name).
 
 ### Step 3: Collect Edge Information
 
-This step also involves two main parts:
-1. **Run Pin with different inputs to generate `.pinout` files in the temp directory**
-2. **Merge all `.pinout` files to produce the final edge information file**
-
-- Example Pin usage:
+-  Pin usage:
   ```bash
   pin -t /path/to/funcgvrelation.so -o examples/chage/output/temp/chage.pinout1 -- ./examples/chage/input/chage_64 -M 3 nobody
+  
   pin -t /path/to/funcgvrelation.so -o examples/chage/output/temp/chage.pinout2 -- ./examples/chage/input/chage_64 -l nobody
   ```
 - Merge all `.pinout` files using a script to produce `edge_info_output.txt` (recommended name) in the output directory.
