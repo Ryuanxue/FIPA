@@ -29,9 +29,9 @@ Applicable for security research, code optimization, and privacy protection.
 
 This project consists of several independent submodules that must be compiled and installed in order. 
 - Sliver has been tested on Ubuntu 20.04.
-- Install llvm-12,clang-12-dev:
+- Install llvm-12,clang-12-dev, llvm-12-dev:
 ```bash
-sudo apt install llvm-12 clang-12-dev
+sudo apt install llvm-12 clang-12-dev llvm-12-dev
 ```
 - To install Docker, please refer to: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
 
