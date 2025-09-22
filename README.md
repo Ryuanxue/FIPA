@@ -29,9 +29,9 @@ Applicable for security research, code optimization, and privacy protection.
 
 This project consists of several independent submodules that must be compiled and installed in order. 
 - Sliver has been tested on Ubuntu 20.04.
-- Install llvm-12,libclang-12-dev, llvm-12-dev, libtinyxml2-dev,zlib1g, zlib1g-dev:
+- Install llvm-12,libclang-12-dev, llvm-12-dev, libtinyxml2-dev,zlib1g, zlib1g-dev, libpugixml-dev:
 ```bash
-sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev
+sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev libpugixml-dev
 ```
 - To install Docker, please refer to: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
 
@@ -49,7 +49,7 @@ cd src/statement_range
 mkdir build && cd build
 cmake ..
 make
-sudo make install  # Optional: install to system path path/QuanStatementFlowPartitioner/bin
+sudo make install  
 ```
 
 #### **Step 3: Install "Flowchek Extension" Module (C & Docker)**
@@ -91,7 +91,8 @@ Before running the partitioning workflow, you must preprocess your target projec
 - If the sensitive source is not a file, annotate it directly in the source code using the FlowCheck API, such as `FC_TAINT_WORLD()`. For example, in `telnet`, sensitive sources are annotated in code using this API.
 
  
-**Example**: Preprocessing for `chage` (from `shadow-utils`)
+**Example: Preprocessing for `chage` (from `shadow-utils`)**
+
 `chage` is an application within the `shadow-utils` project. To preprocess it for partitioning, follow these steps:
 1. **Compile the entire `shadow-utils` project (not just chage):**
    - Navigate to the source directory:
@@ -118,7 +119,7 @@ Before running the partitioning workflow, you must preprocess your target projec
      ```
    - Rebuild with bitcode flags:
      ```bash
-     make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8
+     make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8 # If you encounter linker errors, you can safely ignore them
      cd src
      clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -o chage.bc chage.o
      ```

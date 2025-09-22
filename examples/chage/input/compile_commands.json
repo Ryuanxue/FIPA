@@ -1,5 +1,5 @@
 [
-	{
+	  {
         "arguments": [
             "gcc",
             "-c",
@@ -16,7 +16,7 @@
             "chage.o",
             "chage.c"
         ],
-        "directory": "/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src",
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src",
         "file": "chage.c"
     }
    ]
