@@ -42,7 +42,7 @@ git clone git@github.com:Ryuanxue/FIPA.git
 cd FIPA
 ```
 
-#### **Step 2: Install "Source Statement Line Range" Module (C++)**
+#### **Step 2: Install "Statement Ranges " Module (C++)**
 
 ```bash
 cd src/statement_range
