@@ -34,14 +34,7 @@ Makefile.in
 /stamp-h1
 /ylwrap
 
-/po/*.header
-/po/*.sed
-/po/*.sin
-/po/Makefile.in.in
-/po/Makevars.template
-/po/POTFILES
-/po/Rules-quot
-/po/stamp-po
+
 
 /shadow.spec
 /libmisc/getdate.c
