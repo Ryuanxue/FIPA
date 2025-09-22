@@ -675,11 +675,6 @@ static void update_age (/*@null@*/const struct spwd *sp,
 	 * password transferred from the normal password file along with the
 	 * aging information.
 	 */
-
-	 if (NULL == pw) {
-        fprintf(stderr, _("%s: null passwd pointer\n"), Prog);
-        fail_exit(E_NOPERM);
-    }
 	if (NULL == sp) {
 		struct passwd pwent = *pw;
 
