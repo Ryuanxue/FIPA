@@ -27,8 +27,7 @@ Applicable for security research, code optimization, and privacy protection.
 
 ## **Installation Guide**
 
-This project consists of several independent submodules that must be compiled and installed in order. Please ensure your system has **`g++`**, **`make`**, **`cmake`**, and **`docker`** installed. llvm-12
-#### Dependencies
+This project consists of several independent submodules that must be compiled and installed in order. 
 - Sliver has been tested on Ubuntu 20.04.
 - Install llvm-12,clang-12-dev:
 ```bash
