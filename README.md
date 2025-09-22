@@ -28,19 +28,11 @@ Applicable for security research, code optimization, and privacy protection.
 ## **Installation Guide**
 
 This project consists of several independent submodules that must be compiled and installed in order. Please ensure your system has **`g++`**, **`make`**, **`cmake`**, and **`docker`** installed. llvm-12
-#### Prerequisites
+#### Dependencies
 - Sliver has been tested on Ubuntu 20.04.
-- Dependencies:
-  - C++: Clang/LLVM 10+, CMake 3.10+
-  - Python: 3.8+ (pip install -r requirements.txt)
-  - Tools: Intel Pin (download from Intel website), FlowCheck (clone and extend from its repository)
-  - Docker: For FlowCheck 32-bit environment
-  
-Install dependencies:
+- Install llvm-12,clang-12-dev,docker:
 ```bash
-sudo apt update
-sudo apt install clang llvm cmake docker.io
-pip install -r requirements.txt  # e.g., clang-python bindings
+sudo apt install llvm-12 clang-12-dev docker.io
 ```
 
 #### **Step 1: Clone the Project Repository**
