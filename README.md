@@ -29,7 +29,7 @@ Applicable for security research, code optimization, and privacy protection.
 
 This project consists of several independent submodules that must be compiled and installed in order. Please ensure your system has **`g++`**, **`make`**, **`cmake`**, and **`docker`** installed. llvm-12
 #### Prerequisites
-- OS: Linux (Recommended Ubuntu 18.04+)
+- Sliver has been tested on Ubuntu 20.04.
 - Dependencies:
   - C++: Clang/LLVM 10+, CMake 3.10+
   - Python: 3.8+ (pip install -r requirements.txt)
