@@ -25,27 +25,26 @@ Before running the partitioning workflow, generate the following artifacts:
      cd examples/chsh/input/source_code/shadow-utils
      ./autogen.sh
      bear make -j8
+     cd src
+     mv chsh ../../../chsh_64
      ```
-   - Copy the `chsh` executable from `src/` to `examples/chsh/input/` and rename to `chsh_64`.
 
 2. **Compilation Database**
-   - Manually create `examples/chsh/input/compile_commands.json`.
-   - Copy the relevant entry for `chsh.c` from the generated database.
+   - Locate the full `compile_commands.json` generated in `examples/chsh/input/source_code/shadow-utils`.
+   - Find the entry corresponding to `chsh.c`.Copy only the `chsh.c` entry into a new file at `examples/chsh/input/compile_commands.json`.This ensures that only the source code for `chsh.c` is partitioned in subsequent steps.
 
 3. **LLVM Bitcode File (.bc)**
-   - Clean previous builds:
-     ```bash
-     make clean
-     ```
    - Rebuild with bitcode flags:
      ```bash
+     make clean
      make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8
      cd src
      clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -o chsh.bc chsh.o
+     mv chsh.bc ../../../chsh.bc
+     cd ../
+     make clean
      ```
-   - Move `chsh.bc` to `examples/chsh/input/`.
-   - Run `make clean` again.
-
+    
 4. **32-bit Executable (for FlowCheck)**
    - In `autogen.sh`, add `-m32` to CFLAGS.
    - Start Docker:
@@ -56,27 +55,55 @@ Before running the partitioning workflow, generate the following artifacts:
      ./autogen.sh
      make -j8
      cd src
+     mv chsh ../../../chsh_32
+     exit
      ```
-   - Copy the generated `chsh` binary to `examples/chsh/input/chsh_32`.
 
 ## Partitioning Workflow Steps
 
 1. **Extract Statement Ranges**
    ```bash
-   python3 scripts/step1_extract_statement_linerange.py --project_root examples/chsh --compile_db examples/chsh/input/compile_commands.json --output_dir examples/chsh/output/
+   python3 scripts/extract_statement_linerange.py --project_root examples/chsh --compile_db examples/chsh/input/compile_commands.json --output_dir examples/chsh/output/
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+        Start Docker and set file permissions:
+        ```bash
+        docker run -it -v .:/Desktop flowcheck-image
+        chmod o-r /etc/passwd /etc/shadow
+        ```
+
+        Run FlowCheck with different inputs to generate trace files:
+        ```bash
+        valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/chsh --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/chsh/input/chsh_32 -s /bin/sh nobody 2>examples/chsh/output/temp/chshoutput1.fc
+        ```
+        For interactive execution (e.g., changing root's shell), run:
+        ```bash
+        valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/chsh --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/chsh/input/chsh_32 2>examples/chsh/output/temp/chshoutput2.fc
+        ```
+        During interactive mode, you will be prompted to enter the desired shell for root, such as `/bin/bash`, `/bin/sh`, or `/bin/dash`.
+
    - Merge traces and map quantitative info to statements:
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/chsh
      ```
 3. **Collect Edge Information**
-   - Run Pin with different inputs to generate `.pinout` files.
+   - Run Pin with different inputs to generate `.pinout` files:
+        ```bash
+        cd FIPA
+        su root
+        ```
+        Run Pin for different test cases:
+        ```bash
+        src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/chsh/output/temp/chsh1.pinout -- ./examples/chsh/input/chsh_64 -s /bin/bash nobody
+
+        src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/chsh/output/temp/chsh2.pinout -- ./examples/chsh/input/chsh_64
+        ```
+        For interactive execution, you will be prompted to enter the desired shell for root, such as `/bin/bash`, `/bin/sh`, or `/bin/dash`.
+
    - Replace addresses with symbol names and merge edges:
      ```bash
-     python3 scripts/sub_global.py examples/chsh
-     python3 scripts/merge_pinout_and_generate_stmt_edges.py examples/chsh
+     python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/chsh
      ```
 4. **Build Graph and Solve**
    ```bash

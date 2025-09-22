@@ -17,7 +17,7 @@
     <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
         <stmt dec="ReturnStmt:47:47" />
     </function>
-    <function name="fail_exit" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="fail_exit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="IfStmt:225:232" />
         <stmt dec="IfStmt:234:246" />
         <stmt dec="IfStmt:247:259" />
@@ -28,7 +28,7 @@
         <stmt dec="DoStmt:323:323" />
         <stmt dec="CallExpr:324:324" />
     </function>
-    <function name="get_defaults" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="get_defaults" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:338:338" />
         <stmt dec="DeclStmt:339:339" />
         <stmt dec="DeclStmt:340:340" />
@@ -37,7 +37,7 @@
         <stmt dec="WhileStmt:355:444" />
         <stmt dec="CStyleCastExpr:445:445" />
     </function>
-    <function name="show_defaults" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="show_defaults" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="CallExpr:456:456" />
         <stmt dec="CallExpr:457:457" />
         <stmt dec="CallExpr:458:458" />
@@ -46,7 +46,7 @@
         <stmt dec="CallExpr:461:461" />
         <stmt dec="CallExpr:462:462" />
     </function>
-    <function name="set_defaults" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="set_defaults" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:474:474" />
         <stmt dec="DeclStmt:475:475" />
         <stmt dec="DeclStmt:476:476" />
@@ -86,7 +86,7 @@
         <stmt dec="DoStmt:630:630" />
         <stmt dec="ReturnStmt:636:636" />
     </function>
-    <function name="get_groups" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="get_groups" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:648:648" />
         <stmt dec="DeclStmt:649:649" />
         <stmt dec="DeclStmt:650:650" />
@@ -97,7 +97,7 @@
         <stmt dec="IfStmt:730:732" />
         <stmt dec="ReturnStmt:734:734" />
     </function>
-    <function name="usage" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="usage" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:742:742" />
         <stmt dec="CStyleCastExpr:743:749" />
         <stmt dec="CStyleCastExpr:750:751" />
@@ -126,7 +126,7 @@
         <stmt dec="CStyleCastExpr:781:781" />
         <stmt dec="CallExpr:782:782" />
     </function>
-    <function name="new_pwent" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="new_pwent" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="CallExpr:793:793" />
         <stmt dec="BinaryOperator:794:794" />
         <stmt dec="IfStmt:795:799" />
@@ -136,11 +136,11 @@
         <stmt dec="BinaryOperator:804:804" />
         <stmt dec="BinaryOperator:805:805" />
     </function>
-    <function name="scale_age" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="scale_age" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="IfStmt:810:812" />
         <stmt dec="ReturnStmt:814:814" />
     </function>
-    <function name="new_spent" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="new_spent" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="CallExpr:825:825" />
         <stmt dec="BinaryOperator:826:826" />
         <stmt dec="BinaryOperator:827:827" />
@@ -149,7 +149,7 @@
         <stmt dec="IfStmt:833:845" />
         <stmt dec="BinaryOperator:846:846" />
     </function>
-    <function name="grp_update" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="grp_update" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:862:862" />
         <stmt dec="DeclStmt:863:863" />
         <stmt dec="DeclStmt:866:866" />
@@ -158,7 +158,7 @@
         <stmt dec="IfStmt:935:936" />
         <stmt dec="ForStmt:943:1007" />
     </function>
-    <function name="process_flags" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="process_flags" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:1020:1020" />
         <stmt dec="DeclStmt:1021:1021" />
         <stmt dec="DeclStmt:1022:1022" />
@@ -177,7 +177,7 @@
         <stmt dec="IfStmt:1376:1382" />
         <stmt dec="IfStmt:1384:1387" />
     </function>
-    <function name="close_files" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="close_files" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="IfStmt:1398:1402" />
         <stmt dec="IfStmt:1403:1408" />
         <stmt dec="IfStmt:1409:1425" />
@@ -192,7 +192,7 @@
         <stmt dec="IfStmt:1495:1508" />
         <stmt dec="IfStmt:1509:1522" />
     </function>
-    <function name="open_files" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="open_files" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="IfStmt:1533:1538" />
         <stmt dec="BinaryOperator:1539:1539" />
         <stmt dec="IfStmt:1540:1543" />
@@ -203,13 +203,13 @@
         <stmt dec="IfStmt:1579:1593" />
         <stmt dec="IfStmt:1594:1608" />
     </function>
-    <function name="open_shadow" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="open_shadow" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="IfStmt:1614:1616" />
         <stmt dec="IfStmt:1617:1622" />
         <stmt dec="BinaryOperator:1623:1623" />
         <stmt dec="IfStmt:1624:1629" />
     </function>
-    <function name="faillog_reset" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="faillog_reset" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:1742:1742" />
         <stmt dec="DeclStmt:1743:1743" />
         <stmt dec="DeclStmt:1744:1744" />
@@ -218,7 +218,7 @@
         <stmt dec="BinaryOperator:1752:1752" />
         <stmt dec="IfStmt:1753:1763" />
     </function>
-    <function name="lastlog_reset" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="lastlog_reset" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:1768:1768" />
         <stmt dec="DeclStmt:1769:1769" />
         <stmt dec="DeclStmt:1770:1770" />
@@ -227,7 +227,7 @@
         <stmt dec="BinaryOperator:1778:1778" />
         <stmt dec="IfStmt:1779:1789" />
     </function>
-    <function name="usr_update" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="usr_update" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:1800:1800" />
         <stmt dec="DeclStmt:1801:1801" />
         <stmt dec="CallExpr:1807:1807" />
@@ -240,27 +240,27 @@
         <stmt dec="IfStmt:1864:1870" />
         <stmt dec="IfStmt:1882:1884" />
     </function>
-    <function name="create_home" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="create_home" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="IfStmt:1896:1931" />
     </function>
-    <function name="create_mail" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="create_mail" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="IfStmt:1943:1981" />
     </function>
-    <function name="new_grent" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="new_grent" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="CallExpr:1643:1643" />
         <stmt dec="BinaryOperator:1644:1644" />
         <stmt dec="IfStmt:1646:1652" />
         <stmt dec="BinaryOperator:1653:1653" />
         <stmt dec="BinaryOperator:1654:1654" />
     </function>
-    <function name="new_sgent" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="new_sgent" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="CallExpr:1667:1667" />
         <stmt dec="BinaryOperator:1668:1668" />
         <stmt dec="BinaryOperator:1669:1669" />
         <stmt dec="BinaryOperator:1670:1670" />
         <stmt dec="BinaryOperator:1671:1671" />
     </function>
-    <function name="grp_add" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="grp_add" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="DeclStmt:1684:1684" />
         <stmt dec="DeclStmt:1687:1687" />
         <stmt dec="CallExpr:1693:1693" />
@@ -270,7 +270,7 @@
         <stmt dec="DoStmt:1730:1730" />
         <stmt dec="BinaryOperator:1737:1737" />
     </function>
-    <function name="main" dir="/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src/useradd.c">
+    <function name="main" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c">
         <stmt dec="BinaryOperator:1999:1999" />
         <stmt dec="CStyleCastExpr:2001:2001" />
         <stmt dec="CStyleCastExpr:2002:2002" />

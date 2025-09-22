@@ -1,5 +1,5 @@
 [
-{
+ {
         "arguments": [
             "gcc",
             "-c",
@@ -16,7 +16,7 @@
             "passwd.o",
             "passwd.c"
         ],
-        "directory": "/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src",
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src",
         "file": "passwd.c"
     }
     ]

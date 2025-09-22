@@ -16,7 +16,7 @@
             "useradd.o",
             "useradd.c"
         ],
-        "directory": "/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src",
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src",
         "file": "useradd.c"
     }
     ]

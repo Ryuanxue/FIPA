@@ -16,7 +16,7 @@
             "chsh.o",
             "chsh.c"
         ],
-        "directory": "/home/raoxue/Desktop/IF-driver-partition/QuanStatementFlowPartitioner/examples/shadow-utils/src",
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src",
         "file": "chsh.c"
     }
     ]

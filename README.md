@@ -151,17 +151,40 @@ sudo apt install -y libsemanage-dev libselinux1-dev
 
 This process ensures you have all required artifacts (64-bit binary, 32-bit binary, compilation database, bitcode file) for the partitioning workflow. Adjust paths and filenames as needed for your own project.
 
+## Subproject Documentation
+
+The `examples` directory contains partitioning workflows for ten representative applications. Each subproject has its own README.md with detailed instructions for annotation, compilation, usage, and partitioning. Click the links below for step-by-step guides:
+
+- [chage](./examples/chage/READEME.md): Partitioning the password expiry utility from shadow-utils.
+- [chsh](./examples/chsh/READEME.md): Partitioning the shell change utility from shadow-utils.
+- [passwd](./examples/passwd/READEME.md): Partitioning the password change utility from shadow-utils.
+- [useradd](./examples/useradd/READEME.md): Partitioning the user account creation utility from shadow-utils.
+- [mavlink-client](./examples/mavlink-client/READEME.md): Partitioning a MAVLink protocol client.
+- [mavlink-server](./examples/mavlink-server/READEME.md): Partitioning a MAVLink protocol server.
+- [telnet](./examples/telnet/READEME.md): Partitioning the telnet client from inetutils.
+- [thttpd](./examples/thttpd/READEME.md): Partitioning the lightweight web server thttpd.
+- [wget](./examples/wget/READEME.md): Partitioning the network download utility wget.
+- [nginx](./examples/nginx/READEME.md): Partitioning the high-performance web server nginx.
+
+Each README covers:
+- Sensitive source annotation strategy
+- Preprocessing and compilation steps
+- Partitioning workflow and usage pipeline
+- Project-specific notes and troubleshooting
+
+Refer to these documents for reproducible partitioning of each application.
+
 ## Usage
 
-Below we use `chage` as an example. For other partitioned projects (a total of ten), see the README.md files under each project in the `examples` directory for details on annotation, compilation, usage, and partitioning. [See examples/README.md](./examples/) for links to each subproject's documentation.
+Below we use `chage` as an example. For other partitioned projects, see the subproject documentation above for details on annotation, compilation, usage, and partitioning.
 
 The usage pipeline consists of 5 steps:
 
 ### Step 1: Extract Statement Ranges
 ```bash
-python3 scripts/step1_extract_statement_linerange.py --project_root /path/to/my_project --compile_db /path/to/my_project/input/compile_commands.json --output_dir /path/to/my_project/output/
+python3 scripts/extract_statement_linerange.py --project_root /path/to/my_project --compile_db /path/to/my_project/input/compile_commands.json --output_dir /path/to/my_project/output/
 
-python3 scripts/step1_extract_statement_linerange.py --project_root examples/chage --compile_db examples/chage/input/compile_commands.json --output_dir examples/chage/output/
+python3 scripts/extract_statement_linerange.py --project_root examples/chage --compile_db examples/chage/input/compile_commands.json --output_dir examples/chage/output/
 ```
 
 ### Step 2: Quantitative Information Flow Tracking
@@ -169,7 +192,7 @@ python3 scripts/step1_extract_statement_linerange.py --project_root examples/cha
 - Start Docker:
   ```bash
   cd FIPA
-  docker run -it -v .:/Desktop flowcheck-image
+  docker run -it -v .:/Desktop flowchek-image
   ```
 - Modify permissions for sensitive files (if applicable):
   ```bash
@@ -223,9 +246,8 @@ python scripts/refactor_code.py --policy output/partition_policies.txt --source 
 See complete examples and project-specific instructions in the `examples/` directory. Each subproject's README.md provides details for annotation, compilation, and usage.
 
 ## Examples
-1. Download `examples/input/sample.cpp`.
-2. Generate `compile_commands.json` (using bear tool).
-3. Run the full pipeline and check partitioned code in `output/`.
+
+See the subproject documentation above for complete, real-world partitioning workflows. Each subproject's README.md provides details for annotation, compilation, and usage.
 
 ## Contributing
 PRs are welcome! Please fork the repo, create a branch, and add tests. Use Issues for bug reports or feature requests.

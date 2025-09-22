@@ -232,6 +232,7 @@ class CallGraphIO:
                 else:
                     filepath = os.path.abspath(filepath)
                 # 记录行号顺序
+                # print(filepath)
                 line_numbers[func_name].append(int(line_number))
                 # 更新敏感地址
                 if is_sensitive:

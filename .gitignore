@@ -3,3 +3,14 @@ IF-driver-partition/
 src/program-dependence-graph-main/build/*
 examples/chage/input/aa.txt
 **/temp/
+*.7z
+*.zip
+*.rar
+*.tar
+*.tar.xz
+*.gz
+*.bz2
+*.xz
+*.tgz
+*.tbz2
+*.txz
