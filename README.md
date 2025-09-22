@@ -32,7 +32,7 @@ This project consists of several independent submodules that must be compiled an
 - Sliver has been tested on Ubuntu 20.04.
 - Install llvm-12,clang-12-dev:
 ```bash
-sudo apt install llvm-12 clang-12-dev docker.io
+sudo apt install llvm-12 clang-12-dev
 ```
 - To install Docker, please refer to: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
 
