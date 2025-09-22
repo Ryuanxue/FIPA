@@ -194,11 +194,21 @@ python3 scripts/step1_extract_statement_linerange.py --project_root examples/cha
 
 -  Pin usage:
   ```bash
-  pin -t /path/to/funcgvrelation.so -o examples/chage/output/temp/chage.pinout1 -- ./examples/chage/input/chage_64 -M 3 nobody
+  cd FIPA
+  su root
 
-  pin -t /path/to/funcgvrelation.so -o examples/chage/output/temp/chage.pinout2 -- ./examples/chage/input/chage_64 -l nobody
+  src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/chage/output/temp/chage1.pinout -- ./examples/chage/input/chage_64 -M 3 nobody
+
+  src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/chage/output/temp/chage2.pinout -- ./examples/chage/input/chage_64 -l nobody
   ```
-- Merge all `.pinout` files using a script to produce `edge_info_output.txt` (recommended name) in the output directory.
+- Merge all .pinout files and generate statement-level edge execution counts using the following script:
+  ```bash
+  python3 scripts/merge_pinout_and_generate_stmt_edges.py <project_dir>
+  ```
+  For example:
+  ```bash
+  python3 scripts/merge_pinout_and_generate_stmt_edges.py examples/chage
+  ```
 
 ### Step 4: Build Graph and Solve
 ```bash

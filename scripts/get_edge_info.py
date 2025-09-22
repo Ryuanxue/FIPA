@@ -32,6 +32,57 @@
 import xml.etree.ElementTree as ET
 func_names = set()
 fun_statement_dict = dict()
+
+
+SymTbl = dict()
+GlobRanges = list()
+GlobObjs = dict()
+
+def process_symtbl(symtbl_file):
+    with open(symtbl_file, 'r') as f:
+        for line in f:
+            if 'OBJECT' in line:
+                ObjName = line.strip().split()[7]
+                ObjLopc = int(line.strip().split()[1], 16)
+                ObjSize = 0
+                if "0x" in line.strip().split()[2]:
+                    ObjSize = int(line.strip().split()[2], 16)
+                else:
+                    ObjSize = int(line.strip().split()[2], 10)
+                GlobObjs[ObjLopc] = (ObjName, ObjLopc+ObjSize)
+                GlobRanges.append((ObjLopc,ObjSize))
+
+def sub_addr_with_name(pinout_file):
+    with open(pinout_file, 'r') as fin:
+        with open(pinout_file.replace('.pinout', '.pinout_new'), 'w') as fout:
+            for line in fin:
+                From = line.strip().split()[0]
+                To = line.strip().split()[1]
+                if "0x" in From:
+                    FromValue = int(From,16)
+                    if FromValue in GlobObjs:
+                        From = GlobObjs[FromValue][0]
+                    else:
+                        for (start, size) in GlobRanges:
+                            if FromValue > start and FromValue < start+size:
+                                From = GlobObjs[start][0]
+                                break
+                    if not "0x" in From:
+                        fout.write('$'+From+' '+To+'\n')
+                elif "0x" in To:
+                    ToValue = int(To,16)
+                    if ToValue in GlobObjs:
+                        To = GlobObjs[ToValue][0]
+                    else:
+                        for (start, size) in GlobRanges:
+                            if ToValue > start and ToValue < start+size:
+                                To = GlobObjs[start][0]
+                                break
+                    if not "0x" in To:
+                        fout.write(From+' $'+To+'\n')
+                else:
+                    fout.write(line)
+
 def extract_function_names(xml_path):
     tree = ET.parse(xml_path)
     root = tree.getroot()
@@ -45,6 +96,7 @@ def extract_function_names(xml_path):
 
 
 import os
+import subprocess
 class CallGraphIO:
     def __init__(self, filename):
         self.filename = filename
@@ -187,62 +239,66 @@ def write_stmt_edges(exec_count, merged_edge_line_dict, output_file):
                 f.write(f"{stmtN},{stmt_call},{count}\n")
         
 
+import sys
 # 使用示例
 if __name__ == "__main__":
-    # sys.argv[1]输出项目名
-    project_name = sys.argv[1]
-    print(f"Project Name: {project_name}")
+    import sys
+    import glob
+    import os
+    if len(sys.argv) < 2:
+        print("Usage: python get_edge_info.py <project_dir>")
+        sys.exit(1)
+    project_dir = sys.argv[1]
+    print(f"Project Dir: {project_dir}")
+    output_dir = os.path.join(project_dir, "output")
+    temp_dir = os.path.join(output_dir, "temp")
 
 
-    # xml_file = "project_statements_ranges.xml"
-    # result = extract_function_names(xml_file)
-    # # 自动识别当前目录下所有包含pinout_new的文件
-    # import glob
-    # pinout_files = glob.glob("chage.pinout_new*")
-    # print(pinout_files)
-    # merged_edge_dict = dict()  #记录每个函数被调用的最大次数
-    # merged_edge_line_dict = dict()  # 记录每个函数callee在同一个调用点被调用的最大次数
-    # for fname in pinout_files:
-    #     call_graph_io = CallGraphIO(fname)
-    #     edge_dict, edge_line_dict = call_graph_io.process_file()
-    #     for key, count in edge_dict.items():
-    #         if key in merged_edge_dict:
-    #             merged_edge_dict[key] = max(merged_edge_dict[key], count)
-    #         else:
-    #             merged_edge_dict[key] = count
-    #     for key, count in edge_line_dict.items():
-    #         if key in merged_edge_line_dict:
-    #             merged_edge_line_dict[key] = max(merged_edge_line_dict[key], count)
-    #         else:
-    #             merged_edge_line_dict[key] = count
-    #  # 统计每个函数的总执行次数
-    # exec_count = count_function_executions(merged_edge_dict) # 统计每个函数的总执行次数
-
-    # extract_func_stmt_info(xml_file)
-
-    # write_stmt_edges(exec_count, merged_edge_line_dict, "edge_info_output.txt")
-    
+    # 自动生成.symtbl文件
+    input_dir = os.path.join(project_dir, "input")
+    # 查找64位可执行文件
+    exe_files = glob.glob(os.path.join(input_dir, "*_64"))
+    if not exe_files:
+        print("No 64-bit executable found in input directory.")
+        sys.exit(1)
+    exe_file = exe_files[0]
+    symtbl_file = os.path.join(temp_dir, os.path.basename(exe_file).replace('_64', '') + ".symtbl")
+    print(f"Generating symtbl: readelf --dyn-syms {exe_file} > {symtbl_file}")
+    subprocess.run(["readelf", "--dyn-syms", exe_file], stdout=open(symtbl_file, "w"))
+    process_symtbl(symtbl_file)
+    # 处理所有.pinout文件
+    pinout_files = glob.glob(os.path.join(temp_dir, "*.pinout"))
+    for pinout_file in pinout_files:
+        sub_addr_with_name(pinout_file)
 
 
+    # 读取 statements_ranges.xml
+    xml_file = os.path.join(output_dir, os.path.basename(project_dir) + "_statements_ranges.xml")
+    result = extract_function_names(xml_file)
+    # 自动识别所有 pinout_new 文件
+    pinout_files = glob.glob(os.path.join(temp_dir, "*.pinout_new"))
+    print(pinout_files)
+    merged_edge_dict = dict()
+    merged_edge_line_dict = dict()
+    for fname in pinout_files:
+        call_graph_io = CallGraphIO(fname)
+        edge_dict, edge_line_dict = call_graph_io.process_file()
+        for key, count in edge_dict.items():
+            if key in merged_edge_dict:
+                merged_edge_dict[key] = max(merged_edge_dict[key], count)
+            else:
+                merged_edge_dict[key] = count
+        for key, count in edge_line_dict.items():
+            if key in merged_edge_line_dict:
+                merged_edge_line_dict[key] = max(merged_edge_line_dict[key], count)
+            else:
+                merged_edge_line_dict[key] = count
+    exec_count = count_function_executions(merged_edge_dict)
+    extract_func_stmt_info(xml_file)
+    write_stmt_edges(exec_count, merged_edge_line_dict, os.path.join(output_dir, "edge_info_output.txt"))
 
 
 
-
-
-
-    # for (caller, callee), count in merged_edge_dict.items():
-    #     print(f"Caller: {caller}, Callee: {callee}, Count: {count}")
-
-    # print()
-    # for (caller, callee, line_num), count in merged_edge_line_dict.items():
-    #     print(f"Caller: {caller}, Callee: {callee}, Line: {line_num}, Count: {count}")
-
-    # print("\n每个函数的总执行次数：")
-    # for func, cnt in exec_count.items():
-    #     print(f"Function: {func}, Total Executions: {cnt}")
-
-
-    
 
 
 
