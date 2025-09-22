@@ -148,7 +148,8 @@ combined_root = ET.Element('root')
 for func in unique_functions.values():
     combined_root.append(func)
 combined_tree = ET.ElementTree(combined_root)
-final_xml_path = os.path.join(output_dir, 'project_statements_ranges.xml')
+proname = os.path.basename(project_root.rstrip('/'))
+final_xml_path = os.path.join(output_dir, f"{proname}_statements_ranges.xml")
 combined_tree.write(final_xml_path, encoding='utf-8', xml_declaration=True)
 print(f"合并后的 XML 文件已生成: {final_xml_path}")
 

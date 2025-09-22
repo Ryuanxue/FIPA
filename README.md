@@ -93,7 +93,14 @@ Before running the partitioning workflow, you must preprocess your target projec
  
 **Example: Preprocessing for `chage` (from `shadow-utils`)**
 
+Before compiling `shadow-utils`, make sure the following dependencies are installed:
+```bash
+sudo apt-get install autoconf autopoint gettext
+sudo apt install -y libsemanage-dev libselinux1-dev
+```
+
 `chage` is an application within the `shadow-utils` project. To preprocess it for partitioning, follow these steps:
+
 1. **Compile the entire `shadow-utils` project (not just chage):**
    - Navigate to the source directory:
      ```bash
@@ -152,9 +159,9 @@ The usage pipeline consists of 5 steps:
 
 ### Step 1: Extract Statement Ranges
 ```bash
-python3 scripts/step1_extract_statements.py --project_root /path/to/my_project --compile_db /path/to/my_project/input/compile_commands.json --output_dir /path/to/my_project/output/
+python3 scripts/step1_extract_statement_linerange.py --project_root /path/to/my_project --compile_db /path/to/my_project/input/compile_commands.json --output_dir /path/to/my_project/output/
 
-python3 scripts/get_statement_linerange.py --project_root examples/chage --compile_db examples/chage/input/compile_commands.json --output_dir examples/chage/output/
+python3 scripts/step1_extract_statement_linerange.py --project_root examples/chage --compile_db examples/chage/input/compile_commands.json --output_dir examples/chage/output/
 ```
 
 ### Step 2: Quantitative Information Flow Tracking
@@ -174,14 +181,21 @@ python3 scripts/get_statement_linerange.py --project_root examples/chage --compi
   
   valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/chage --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/chage/input/chage_32 -l nobody 2>examples/chage/output/temp/chageoutput2.fc
   ```
-- Merge multiple `.fc` trace files and map the quantitative information to statements using a script. Inputs: all `.fc` files and `statement_range.xml`. Output: `statement_quantities.xml` (recommended name).
+- Merge FlowCheck Trace  and Map Quantitative Information to Statements. 
+  ```bash
+  python3 scripts/merge_fc_and_map_statements.py <project_dir>
+  ```
+  For example:
+  ```bash
+  python3 scripts/merge_fc_and_map_statements.py examples/chage
+  ```
 
 ### Step 3: Collect Edge Information
 
 -  Pin usage:
   ```bash
   pin -t /path/to/funcgvrelation.so -o examples/chage/output/temp/chage.pinout1 -- ./examples/chage/input/chage_64 -M 3 nobody
-  
+
   pin -t /path/to/funcgvrelation.so -o examples/chage/output/temp/chage.pinout2 -- ./examples/chage/input/chage_64 -l nobody
   ```
 - Merge all `.pinout` files using a script to produce `edge_info_output.txt` (recommended name) in the output directory.
