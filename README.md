@@ -85,18 +85,12 @@ Before running the partitioning workflow, you must preprocess your target projec
 4. **Annotate the source code** for sensitive data sources as needed (see annotation methods below).
 5. **Use Docker to compile the annotated source into a 32-bit binary** (add `-m32 -g` flags during compilation).
 
-For example, see the workflow in `examples/telnet`:
-- Compile the source to 64-bit and 32-bit binaries as required.
-- Generate `compile_commands.json` for the project.
-- Build the `.bc` file using Clang/LLVM.
-- Annotate sensitive sources in the code.
-- Use the provided Docker environment to build the 32-bit binary for FlowCheck analysis.
 
 **Sensitive Source Annotation Methods:**
 - If the sensitive source is a file (e.g., `/etc/passwd` in `chage`), you do not need to annotate the source code. Instead, modify the file's permissions in Docker (e.g., `chmod o-r /etc/passwd`).
 - If the sensitive source is not a file, annotate it directly in the source code using the FlowCheck API, such as `FC_TAINT_WORLD()`. For example, in `telnet`, sensitive sources are annotated in code using this API.
 
-### Example: Preprocessing for `chage` (from `shadow-utils`)
+- Example: Preprocessing for `chage` (from `shadow-utils`)
 
 `chage` is an application within the `shadow-utils` project. To preprocess it for partitioning, follow these steps:
 
