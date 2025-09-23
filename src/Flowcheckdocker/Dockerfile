@@ -22,6 +22,9 @@ RUN dpkg --add-architecture i386 && \
     autopoint \
     libselinux1-dev:i386 \
     libsemanage1-dev:i386 \
+    pkg-config:i386 \
+    libgnutls28-dev:i386 \
+    zlib1g-dev:i386 libpsl-dev:i386 \
     build-essential \
     libc6-dbg libc6-dbg:i386 \
     vim \
