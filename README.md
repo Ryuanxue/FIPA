@@ -52,11 +52,11 @@ make
 sudo make install  
 ```
 
-#### **Step 3: Install "Flowchek Extension" Module (C & Docker)**
+#### **Step 3: Install "flowcheck Extension" Module (C & Docker)**
 
 ```bash
 cd src/Flowcheckdocker
-docker build -t flowchek-image .
+docker build -t flowcheck-image .
 ```
 
 #### **Step 4: Install "Pin" Module (C++)**
@@ -192,7 +192,7 @@ python3 scripts/extract_statement_linerange.py --project_root examples/chage --c
 - Start Docker:
   ```bash
   cd FIPA
-  docker run -it -v .:/Desktop flowchek-image
+  docker run -it -v .:/Desktop flowcheck-image
   ```
 - Modify permissions for sensitive files (if applicable):
   ```bash
@@ -226,11 +226,11 @@ python3 scripts/extract_statement_linerange.py --project_root examples/chage --c
   ```
 - Merge all .pinout files and generate statement-level edge execution counts using the following script:
   ```bash
-  python3 scripts/merge_pinout_and_generate_stmt_edges.py <project_dir>
+  python3 scripts/merge_pinout_and_generate_stmt_edge.py <project_dir>
   ```
   For example:
   ```bash
-  python3 scripts/merge_pinout_and_generate_stmt_edges.py examples/chage
+  python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/chage
   ```
 
 ### Step 4: Build Graph and Solve
