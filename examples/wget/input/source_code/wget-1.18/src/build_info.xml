@@ -1,0 +1,117 @@
+<root>
+    <function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39"/>
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54"/>
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35"/>
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47"/>
+    </function>
+    <function name="pgettext_aux" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:152:152"/>
+        <stmt dec="IfStmt:153:156"/>
+    </function>
+    <function name="npgettext_aux" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:172:173"/>
+        <stmt dec="IfStmt:174:177"/>
+    </function>
+    <function name="dcpgettext_expr" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:214:214"/>
+        <stmt dec="DeclStmt:215:215"/>
+        <stmt dec="DeclStmt:216:216"/>
+        <stmt dec="DeclStmt:218:218"/>
+        <stmt dec="CompoundStmt:227:238"/>
+        <stmt dec="ReturnStmt:239:239"/>
+    </function>
+    <function name="dcnpgettext_expr" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:260:260"/>
+        <stmt dec="DeclStmt:261:261"/>
+        <stmt dec="DeclStmt:262:262"/>
+        <stmt dec="DeclStmt:264:264"/>
+        <stmt dec="CompoundStmt:273:284"/>
+        <stmt dec="ReturnStmt:285:285"/>
+    </function>
+    <function name="c_isalnum" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:171:179"/>
+    </function>
+    <function name="c_isalpha" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:185:192"/>
+    </function>
+    <function name="c_isascii" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:200:211"/>
+    </function>
+    <function name="c_isblank" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="ReturnStmt:217:217"/>
+    </function>
+    <function name="c_iscntrl" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:223:229"/>
+    </function>
+    <function name="c_isdigit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:235:241"/>
+    </function>
+    <function name="c_isgraph" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:247:256"/>
+    </function>
+    <function name="c_islower" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:262:268"/>
+    </function>
+    <function name="c_isprint" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:274:284"/>
+    </function>
+    <function name="c_ispunct" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:290:296"/>
+    </function>
+    <function name="c_isspace" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:302:308"/>
+    </function>
+    <function name="c_isupper" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:314:320"/>
+    </function>
+    <function name="c_isxdigit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:326:333"/>
+    </function>
+    <function name="c_tolower" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:339:345"/>
+    </function>
+    <function name="c_toupper" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:351:357"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:106:107"/>
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:106:107"/>
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:119:120"/>
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:119:120"/>
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="x2nrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="DeclStmt:181:181"/>
+        <stmt dec="IfStmt:183:206"/>
+        <stmt dec="BinaryOperator:208:208"/>
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="ReturnStmt:220:220"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="ReturnStmt:220:220"/>
+    </function>
+</root>

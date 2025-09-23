@@ -1,0 +1,563 @@
+<root>
+    <function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39"/>
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54"/>
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35"/>
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47"/>
+    </function>
+    <function name="pgettext_aux" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:152:152"/>
+        <stmt dec="IfStmt:153:156"/>
+    </function>
+    <function name="npgettext_aux" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:172:173"/>
+        <stmt dec="IfStmt:174:177"/>
+    </function>
+    <function name="dcpgettext_expr" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:214:214"/>
+        <stmt dec="DeclStmt:215:215"/>
+        <stmt dec="DeclStmt:216:216"/>
+        <stmt dec="DeclStmt:218:218"/>
+        <stmt dec="CompoundStmt:227:238"/>
+        <stmt dec="ReturnStmt:239:239"/>
+    </function>
+    <function name="dcnpgettext_expr" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:260:260"/>
+        <stmt dec="DeclStmt:261:261"/>
+        <stmt dec="DeclStmt:262:262"/>
+        <stmt dec="DeclStmt:264:264"/>
+        <stmt dec="CompoundStmt:273:284"/>
+        <stmt dec="ReturnStmt:285:285"/>
+    </function>
+    <function name="c_isalnum" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:171:179"/>
+    </function>
+    <function name="c_isalpha" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:185:192"/>
+    </function>
+    <function name="c_isascii" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:200:211"/>
+    </function>
+    <function name="c_isblank" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="ReturnStmt:217:217"/>
+    </function>
+    <function name="c_iscntrl" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:223:229"/>
+    </function>
+    <function name="c_isdigit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:235:241"/>
+    </function>
+    <function name="c_isgraph" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:247:256"/>
+    </function>
+    <function name="c_islower" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:262:268"/>
+    </function>
+    <function name="c_isprint" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:274:284"/>
+    </function>
+    <function name="c_ispunct" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:290:296"/>
+    </function>
+    <function name="c_isspace" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:302:308"/>
+    </function>
+    <function name="c_isupper" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:314:320"/>
+    </function>
+    <function name="c_isxdigit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:326:333"/>
+    </function>
+    <function name="c_tolower" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:339:345"/>
+    </function>
+    <function name="c_toupper" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:351:357"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:106:107"/>
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:106:107"/>
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:119:120"/>
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:119:120"/>
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="x2nrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="DeclStmt:181:181"/>
+        <stmt dec="IfStmt:183:206"/>
+        <stmt dec="BinaryOperator:208:208"/>
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="ReturnStmt:220:220"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="ReturnStmt:220:220"/>
+    </function>
+    <function name="warc_init" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="BinaryOperator:1130:1130"/>
+        <stmt dec="IfStmt:1132:1181"/>
+    </function>
+    <function name="warc_close" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:1237:1242"/>
+        <stmt dec="IfStmt:1243:1244"/>
+        <stmt dec="IfStmt:1245:1249"/>
+    </function>
+    <function name="warc_uuid_str" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:713:713"/>
+        <stmt dec="DeclStmt:714:714"/>
+        <stmt dec="ForStmt:723:724"/>
+        <stmt dec="BinaryOperator:728:728"/>
+        <stmt dec="BinaryOperator:732:732"/>
+        <stmt dec="CallExpr:734:739"/>
+    </function>
+    <function name="warc_timestamp" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:607:607"/>
+        <stmt dec="DeclStmt:608:608"/>
+        <stmt dec="IfStmt:610:611"/>
+        <stmt dec="ReturnStmt:613:613"/>
+    </function>
+    <function name="warc_tempfile" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1258:1258"/>
+        <stmt dec="DeclStmt:1259:1259"/>
+        <stmt dec="IfStmt:1261:1262"/>
+        <stmt dec="BinaryOperator:1279:1279"/>
+        <stmt dec="IfStmt:1280:1281"/>
+        <stmt dec="IfStmt:1284:1288"/>
+        <stmt dec="ReturnStmt:1291:1291"/>
+    </function>
+    <function name="warc_write_request_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="CallExpr:1309:1309"/>
+        <stmt dec="CallExpr:1310:1310"/>
+        <stmt dec="CallExpr:1311:1311"/>
+        <stmt dec="CallExpr:1312:1312"/>
+        <stmt dec="CallExpr:1313:1313"/>
+        <stmt dec="CallExpr:1314:1314"/>
+        <stmt dec="CallExpr:1315:1315"/>
+        <stmt dec="CallExpr:1316:1316"/>
+        <stmt dec="CallExpr:1317:1317"/>
+        <stmt dec="CallExpr:1318:1318"/>
+        <stmt dec="CallExpr:1319:1319"/>
+        <stmt dec="CallExpr:1321:1321"/>
+        <stmt dec="ReturnStmt:1323:1323"/>
+    </function>
+    <function name="warc_write_response_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1449:1449"/>
+        <stmt dec="DeclStmt:1450:1450"/>
+        <stmt dec="DeclStmt:1451:1451"/>
+        <stmt dec="DeclStmt:1452:1452"/>
+        <stmt dec="DeclStmt:1453:1453"/>
+        <stmt dec="DeclStmt:1454:1454"/>
+        <stmt dec="IfStmt:1456:1494"/>
+        <stmt dec="CallExpr:1498:1498"/>
+        <stmt dec="CallExpr:1500:1500"/>
+        <stmt dec="BinaryOperator:1501:1501"/>
+        <stmt dec="CallExpr:1503:1503"/>
+        <stmt dec="CallExpr:1504:1504"/>
+        <stmt dec="CallExpr:1505:1505"/>
+        <stmt dec="CallExpr:1506:1506"/>
+        <stmt dec="CallExpr:1507:1507"/>
+        <stmt dec="CallExpr:1508:1508"/>
+        <stmt dec="CallExpr:1509:1509"/>
+        <stmt dec="CallExpr:1510:1510"/>
+        <stmt dec="CallExpr:1511:1511"/>
+        <stmt dec="CallExpr:1512:1512"/>
+        <stmt dec="CallExpr:1513:1513"/>
+        <stmt dec="CallExpr:1514:1514"/>
+        <stmt dec="CallExpr:1515:1515"/>
+        <stmt dec="CallExpr:1517:1517"/>
+        <stmt dec="IfStmt:1519:1525"/>
+        <stmt dec="ReturnStmt:1527:1527"/>
+    </function>
+    <function name="warc_write_resource_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="ReturnStmt:1595:1597"/>
+    </function>
+    <function name="warc_write_metadata_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="ReturnStmt:1617:1619"/>
+    </function>
+    <function name="warc_start_new_file" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:824:824"/>
+        <stmt dec="DeclStmt:829:829"/>
+        <stmt dec="DeclStmt:830:830"/>
+        <stmt dec="IfStmt:832:833"/>
+        <stmt dec="IfStmt:835:836"/>
+        <stmt dec="BinaryOperator:838:838"/>
+        <stmt dec="DoStmt:839:839"/>
+        <stmt dec="UnaryOperator:841:841"/>
+        <stmt dec="BinaryOperator:843:843"/>
+        <stmt dec="BinaryOperator:845:845"/>
+        <stmt dec="BinaryOperator:847:847"/>
+        <stmt dec="IfStmt:850:858"/>
+        <stmt dec="CallExpr:860:860"/>
+        <stmt dec="BinaryOperator:863:863"/>
+        <stmt dec="IfStmt:864:869"/>
+        <stmt dec="IfStmt:871:872"/>
+        <stmt dec="IfStmt:875:876"/>
+        <stmt dec="ReturnStmt:878:878"/>
+    </function>
+    <function name="warc_hash_sha1_digest" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:128:128"/>
+        <stmt dec="CallExpr:129:129"/>
+        <stmt dec="ReturnStmt:130:130"/>
+    </function>
+    <function name="warc_cmp_sha1_digest" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="ReturnStmt:136:136"/>
+    </function>
+    <function name="warc_write_buffer" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:148:155"/>
+    </function>
+    <function name="warc_write_string" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:164:164"/>
+        <stmt dec="IfStmt:166:167"/>
+        <stmt dec="BinaryOperator:169:169"/>
+        <stmt dec="IfStmt:170:171"/>
+        <stmt dec="ReturnStmt:173:173"/>
+    </function>
+    <function name="warc_write_start_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:194:195"/>
+        <stmt dec="CallExpr:197:197"/>
+        <stmt dec="IfStmt:198:199"/>
+        <stmt dec="IfStmt:203:226"/>
+        <stmt dec="CallExpr:229:229"/>
+        <stmt dec="ReturnStmt:230:230"/>
+    </function>
+    <function name="warc_write_header" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:239:245"/>
+        <stmt dec="ReturnStmt:246:246"/>
+    </function>
+    <function name="warc_write_header_uri" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:255:261"/>
+        <stmt dec="ReturnStmt:262:262"/>
+    </function>
+    <function name="warc_write_block_from_file" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:273:273"/>
+        <stmt dec="DeclStmt:274:274"/>
+        <stmt dec="DeclStmt:275:275"/>
+        <stmt dec="CallExpr:277:277"/>
+        <stmt dec="CallExpr:278:278"/>
+        <stmt dec="CallExpr:279:279"/>
+        <stmt dec="CallExpr:282:282"/>
+        <stmt dec="IfStmt:284:285"/>
+        <stmt dec="WhileStmt:288:292"/>
+        <stmt dec="ReturnStmt:294:294"/>
+    </function>
+    <function name="warc_write_end_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="CallExpr:306:306"/>
+        <stmt dec="IfStmt:310:396"/>
+        <stmt dec="ReturnStmt:399:399"/>
+    </function>
+    <function name="warc_write_date_header" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:409:409"/>
+        <stmt dec="ReturnStmt:411:412"/>
+    </function>
+    <function name="warc_write_ip_header" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:421:424"/>
+    </function>
+    <function name="warc_sha1_stream_with_payload" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:445:445"/>
+        <stmt dec="DeclStmt:446:446"/>
+        <stmt dec="DeclStmt:447:447"/>
+        <stmt dec="DeclStmt:448:448"/>
+        <stmt dec="DeclStmt:450:450"/>
+        <stmt dec="CallExpr:453:453"/>
+        <stmt dec="IfStmt:454:455"/>
+        <stmt dec="BinaryOperator:457:457"/>
+        <stmt dec="WhileStmt:460:520"/>
+        <stmt dec="LabelStmt:522:522"/>
+        <stmt dec="IfStmt:525:540"/>
+        <stmt dec="CallExpr:543:543"/>
+        <stmt dec="IfStmt:544:545"/>
+        <stmt dec="DoStmt:546:546"/>
+        <stmt dec="ReturnStmt:547:547"/>
+    </function>
+    <function name="warc_base32_sha1_digest" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:557:564"/>
+        <stmt dec="ReturnStmt:566:566"/>
+    </function>
+    <function name="warc_write_digest_headers" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:577:596"/>
+    </function>
+    <function name="warc_timestamp" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:607:607"/>
+        <stmt dec="DeclStmt:608:608"/>
+        <stmt dec="IfStmt:610:611"/>
+        <stmt dec="ReturnStmt:613:613"/>
+    </function>
+    <function name="warc_uuid_str" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:713:713"/>
+        <stmt dec="DeclStmt:714:714"/>
+        <stmt dec="ForStmt:723:724"/>
+        <stmt dec="BinaryOperator:728:728"/>
+        <stmt dec="BinaryOperator:732:732"/>
+        <stmt dec="CallExpr:734:739"/>
+    </function>
+    <function name="warc_write_warcinfo_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:748:748"/>
+        <stmt dec="DeclStmt:749:749"/>
+        <stmt dec="DeclStmt:750:750"/>
+        <stmt dec="CallExpr:755:755"/>
+        <stmt dec="CallExpr:757:757"/>
+        <stmt dec="BinaryOperator:759:759"/>
+        <stmt dec="CallExpr:761:761"/>
+        <stmt dec="CallExpr:762:762"/>
+        <stmt dec="CallExpr:763:763"/>
+        <stmt dec="CallExpr:764:764"/>
+        <stmt dec="CallExpr:765:765"/>
+        <stmt dec="CallExpr:766:766"/>
+        <stmt dec="DoStmt:768:768"/>
+        <stmt dec="BinaryOperator:771:771"/>
+        <stmt dec="IfStmt:772:775"/>
+        <stmt dec="CallExpr:777:777"/>
+        <stmt dec="CallExpr:778:778"/>
+        <stmt dec="CallExpr:779:780"/>
+        <stmt dec="CallExpr:781:781"/>
+        <stmt dec="CallExpr:782:782"/>
+        <stmt dec="IfStmt:784:789"/>
+        <stmt dec="CallExpr:790:790"/>
+        <stmt dec="CallExpr:792:792"/>
+        <stmt dec="CallExpr:793:793"/>
+        <stmt dec="CallExpr:794:794"/>
+        <stmt dec="IfStmt:796:797"/>
+        <stmt dec="CallExpr:799:799"/>
+        <stmt dec="ReturnStmt:800:800"/>
+    </function>
+    <function name="warc_start_new_file" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:824:824"/>
+        <stmt dec="DeclStmt:829:829"/>
+        <stmt dec="DeclStmt:830:830"/>
+        <stmt dec="IfStmt:832:833"/>
+        <stmt dec="IfStmt:835:836"/>
+        <stmt dec="BinaryOperator:838:838"/>
+        <stmt dec="DoStmt:839:839"/>
+        <stmt dec="UnaryOperator:841:841"/>
+        <stmt dec="BinaryOperator:843:843"/>
+        <stmt dec="BinaryOperator:845:845"/>
+        <stmt dec="BinaryOperator:847:847"/>
+        <stmt dec="IfStmt:850:858"/>
+        <stmt dec="CallExpr:860:860"/>
+        <stmt dec="BinaryOperator:863:863"/>
+        <stmt dec="IfStmt:864:869"/>
+        <stmt dec="IfStmt:871:872"/>
+        <stmt dec="IfStmt:875:876"/>
+        <stmt dec="ReturnStmt:878:878"/>
+    </function>
+    <function name="warc_start_cdx_file" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:885:885"/>
+        <stmt dec="DeclStmt:886:886"/>
+        <stmt dec="CallExpr:887:887"/>
+        <stmt dec="CallExpr:888:888"/>
+        <stmt dec="BinaryOperator:889:889"/>
+        <stmt dec="IfStmt:890:891"/>
+        <stmt dec="CallExpr:906:906"/>
+        <stmt dec="CallExpr:907:907"/>
+        <stmt dec="ReturnStmt:909:909"/>
+    </function>
+    <function name="warc_parse_cdx_header" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:920:920"/>
+        <stmt dec="DeclStmt:921:921"/>
+        <stmt dec="BinaryOperator:923:923"/>
+        <stmt dec="BinaryOperator:924:924"/>
+        <stmt dec="BinaryOperator:925:925"/>
+        <stmt dec="BinaryOperator:927:927"/>
+        <stmt dec="IfStmt:929:952"/>
+        <stmt dec="ReturnStmt:954:956"/>
+    </function>
+    <function name="warc_process_cdx_line" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:964:964"/>
+        <stmt dec="DeclStmt:965:965"/>
+        <stmt dec="DeclStmt:966:966"/>
+        <stmt dec="DeclStmt:967:967"/>
+        <stmt dec="DeclStmt:968:968"/>
+        <stmt dec="DeclStmt:969:969"/>
+        <stmt dec="BinaryOperator:972:972"/>
+        <stmt dec="WhileStmt:973:990"/>
+        <stmt dec="IfStmt:992:1026"/>
+    </function>
+    <function name="warc_load_cdx_dedup_file" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1034:1034"/>
+        <stmt dec="DeclStmt:1035:1035"/>
+        <stmt dec="DeclStmt:1036:1036"/>
+        <stmt dec="DeclStmt:1037:1037"/>
+        <stmt dec="DeclStmt:1038:1038"/>
+        <stmt dec="DeclStmt:1039:1039"/>
+        <stmt dec="DeclStmt:1040:1040"/>
+        <stmt dec="BinaryOperator:1042:1042"/>
+        <stmt dec="IfStmt:1043:1044"/>
+        <stmt dec="BinaryOperator:1051:1051"/>
+        <stmt dec="IfStmt:1052:1054"/>
+        <stmt dec="IfStmt:1057:1097"/>
+        <stmt dec="DoStmt:1099:1099"/>
+        <stmt dec="CallExpr:1100:1100"/>
+        <stmt dec="ReturnStmt:1102:1102"/>
+    </function>
+    <function name="warc_find_duplicate_cdx_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1112:1112"/>
+        <stmt dec="IfStmt:1114:1115"/>
+        <stmt dec="BinaryOperator:1117:1117"/>
+        <stmt dec="IfStmt:1119:1122"/>
+    </function>
+    <function name="warc_init" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="BinaryOperator:1130:1130"/>
+        <stmt dec="IfStmt:1132:1181"/>
+    </function>
+    <function name="warc_write_metadata" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1188:1188"/>
+        <stmt dec="DeclStmt:1189:1189"/>
+        <stmt dec="IfStmt:1192:1193"/>
+        <stmt dec="CallExpr:1195:1195"/>
+        <stmt dec="CallExpr:1197:1197"/>
+        <stmt dec="CallExpr:1198:1201"/>
+        <stmt dec="BinaryOperator:1204:1204"/>
+        <stmt dec="IfStmt:1205:1209"/>
+        <stmt dec="CallExpr:1210:1210"/>
+        <stmt dec="CallExpr:1211:1211"/>
+        <stmt dec="CallExpr:1213:1216"/>
+        <stmt dec="IfStmt:1219:1229"/>
+    </function>
+    <function name="warc_close" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:1237:1242"/>
+        <stmt dec="IfStmt:1243:1244"/>
+        <stmt dec="IfStmt:1245:1249"/>
+    </function>
+    <function name="warc_tempfile" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1258:1258"/>
+        <stmt dec="DeclStmt:1259:1259"/>
+        <stmt dec="IfStmt:1261:1262"/>
+        <stmt dec="BinaryOperator:1279:1279"/>
+        <stmt dec="IfStmt:1280:1281"/>
+        <stmt dec="IfStmt:1284:1288"/>
+        <stmt dec="ReturnStmt:1291:1291"/>
+    </function>
+    <function name="warc_write_request_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="CallExpr:1309:1309"/>
+        <stmt dec="CallExpr:1310:1310"/>
+        <stmt dec="CallExpr:1311:1311"/>
+        <stmt dec="CallExpr:1312:1312"/>
+        <stmt dec="CallExpr:1313:1313"/>
+        <stmt dec="CallExpr:1314:1314"/>
+        <stmt dec="CallExpr:1315:1315"/>
+        <stmt dec="CallExpr:1316:1316"/>
+        <stmt dec="CallExpr:1317:1317"/>
+        <stmt dec="CallExpr:1318:1318"/>
+        <stmt dec="CallExpr:1319:1319"/>
+        <stmt dec="CallExpr:1321:1321"/>
+        <stmt dec="ReturnStmt:1323:1323"/>
+    </function>
+    <function name="warc_write_cdx_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1346:1346"/>
+        <stmt dec="DeclStmt:1347:1347"/>
+        <stmt dec="DeclStmt:1348:1348"/>
+        <stmt dec="CallExpr:1350:1350"/>
+        <stmt dec="CallExpr:1351:1351"/>
+        <stmt dec="CallExpr:1352:1352"/>
+        <stmt dec="CallExpr:1353:1353"/>
+        <stmt dec="CallExpr:1354:1354"/>
+        <stmt dec="CallExpr:1355:1355"/>
+        <stmt dec="BinaryOperator:1356:1356"/>
+        <stmt dec="IfStmt:1359:1362"/>
+        <stmt dec="IfStmt:1364:1365"/>
+        <stmt dec="IfStmt:1366:1367"/>
+        <stmt dec="CallExpr:1369:1369"/>
+        <stmt dec="CallExpr:1372:1375"/>
+        <stmt dec="CallExpr:1376:1376"/>
+        <stmt dec="ReturnStmt:1378:1378"/>
+    </function>
+    <function name="warc_write_revisit_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1399:1399"/>
+        <stmt dec="DeclStmt:1400:1400"/>
+        <stmt dec="DeclStmt:1401:1401"/>
+        <stmt dec="CallExpr:1403:1403"/>
+        <stmt dec="CallExpr:1405:1405"/>
+        <stmt dec="CallExpr:1406:1406"/>
+        <stmt dec="CallExpr:1408:1408"/>
+        <stmt dec="CallExpr:1409:1409"/>
+        <stmt dec="CallExpr:1410:1410"/>
+        <stmt dec="CallExpr:1411:1411"/>
+        <stmt dec="CallExpr:1412:1412"/>
+        <stmt dec="CallExpr:1413:1413"/>
+        <stmt dec="CallExpr:1414:1414"/>
+        <stmt dec="CallExpr:1415:1415"/>
+        <stmt dec="CallExpr:1416:1416"/>
+        <stmt dec="CallExpr:1417:1417"/>
+        <stmt dec="CallExpr:1418:1418"/>
+        <stmt dec="CallExpr:1419:1419"/>
+        <stmt dec="CallExpr:1420:1420"/>
+        <stmt dec="CallExpr:1421:1421"/>
+        <stmt dec="CallExpr:1422:1422"/>
+        <stmt dec="CallExpr:1423:1423"/>
+        <stmt dec="CallExpr:1425:1425"/>
+        <stmt dec="ReturnStmt:1427:1427"/>
+    </function>
+    <function name="warc_write_response_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="DeclStmt:1449:1449"/>
+        <stmt dec="DeclStmt:1450:1450"/>
+        <stmt dec="DeclStmt:1451:1451"/>
+        <stmt dec="DeclStmt:1452:1452"/>
+        <stmt dec="DeclStmt:1453:1453"/>
+        <stmt dec="DeclStmt:1454:1454"/>
+        <stmt dec="IfStmt:1456:1494"/>
+        <stmt dec="CallExpr:1498:1498"/>
+        <stmt dec="CallExpr:1500:1500"/>
+        <stmt dec="BinaryOperator:1501:1501"/>
+        <stmt dec="CallExpr:1503:1503"/>
+        <stmt dec="CallExpr:1504:1504"/>
+        <stmt dec="CallExpr:1505:1505"/>
+        <stmt dec="CallExpr:1506:1506"/>
+        <stmt dec="CallExpr:1507:1507"/>
+        <stmt dec="CallExpr:1508:1508"/>
+        <stmt dec="CallExpr:1509:1509"/>
+        <stmt dec="CallExpr:1510:1510"/>
+        <stmt dec="CallExpr:1511:1511"/>
+        <stmt dec="CallExpr:1512:1512"/>
+        <stmt dec="CallExpr:1513:1513"/>
+        <stmt dec="CallExpr:1514:1514"/>
+        <stmt dec="CallExpr:1515:1515"/>
+        <stmt dec="CallExpr:1517:1517"/>
+        <stmt dec="IfStmt:1519:1525"/>
+        <stmt dec="ReturnStmt:1527:1527"/>
+    </function>
+    <function name="warc_write_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="IfStmt:1549:1555"/>
+        <stmt dec="IfStmt:1557:1558"/>
+        <stmt dec="CallExpr:1560:1560"/>
+        <stmt dec="CallExpr:1561:1561"/>
+        <stmt dec="CallExpr:1562:1562"/>
+        <stmt dec="CallExpr:1563:1563"/>
+        <stmt dec="CallExpr:1564:1564"/>
+        <stmt dec="CallExpr:1565:1565"/>
+        <stmt dec="CallExpr:1566:1566"/>
+        <stmt dec="CallExpr:1567:1567"/>
+        <stmt dec="CallExpr:1568:1568"/>
+        <stmt dec="CallExpr:1569:1569"/>
+        <stmt dec="CallExpr:1570:1570"/>
+        <stmt dec="CallExpr:1571:1571"/>
+        <stmt dec="CallExpr:1573:1573"/>
+        <stmt dec="ReturnStmt:1575:1575"/>
+    </function>
+    <function name="warc_write_resource_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="ReturnStmt:1595:1597"/>
+    </function>
+    <function name="warc_write_metadata_record" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/warc.c">
+        <stmt dec="ReturnStmt:1617:1619"/>
+    </function>
+</root>

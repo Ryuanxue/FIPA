@@ -1,0 +1,769 @@
+<root>
+    <function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39"/>
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54"/>
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35"/>
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47"/>
+    </function>
+    <function name="__cmsg_nxthdr" dir="/usr/include/x86_64-linux-gnu/bits/socket.h">
+        <stmt dec="IfStmt:314:316"/>
+        <stmt dec="BinaryOperator:318:319"/>
+        <stmt dec="IfStmt:320:325"/>
+        <stmt dec="ReturnStmt:326:326"/>
+    </function>
+    <function name="__cmsg_nxthdr" dir="/usr/include/x86_64-linux-gnu/bits/socket.h">
+        <stmt dec="IfStmt:314:316"/>
+        <stmt dec="BinaryOperator:318:319"/>
+        <stmt dec="IfStmt:320:325"/>
+        <stmt dec="ReturnStmt:326:326"/>
+    </function>
+    <function name="tolower" dir="/usr/include/ctype.h"/>
+    <function name="tolower" dir="/usr/include/ctype.h">
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="toupper" dir="/usr/include/ctype.h"/>
+    <function name="toupper" dir="/usr/include/ctype.h">
+        <stmt dec="ReturnStmt:215:215"/>
+    </function>
+    <function name="tolower" dir="/usr/include/ctype.h">
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="toupper" dir="/usr/include/ctype.h">
+        <stmt dec="ReturnStmt:215:215"/>
+    </function>
+    <function name="atof" dir="/usr/include/x86_64-linux-gnu/bits/stdlib-float.h">
+        <stmt dec="ReturnStmt:27:27"/>
+    </function>
+    <function name="atoi" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:363:363"/>
+    </function>
+    <function name="atol" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:368:368"/>
+    </function>
+    <function name="atoll" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:375:375"/>
+    </function>
+    <function name="atoi" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:363:363"/>
+    </function>
+    <function name="atol" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:368:368"/>
+    </function>
+    <function name="atoll" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:375:375"/>
+    </function>
+    <function name="bsearch" dir="/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h">
+        <stmt dec="DeclStmt:23:23"/>
+        <stmt dec="DeclStmt:24:24"/>
+        <stmt dec="DeclStmt:25:25"/>
+        <stmt dec="BinaryOperator:27:27"/>
+        <stmt dec="BinaryOperator:28:28"/>
+        <stmt dec="WhileStmt:29:40"/>
+        <stmt dec="ReturnStmt:42:42"/>
+    </function>
+    <function name="bsearch" dir="/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h">
+        <stmt dec="DeclStmt:23:23"/>
+        <stmt dec="DeclStmt:24:24"/>
+        <stmt dec="DeclStmt:25:25"/>
+        <stmt dec="BinaryOperator:27:27"/>
+        <stmt dec="BinaryOperator:28:28"/>
+        <stmt dec="WhileStmt:29:40"/>
+        <stmt dec="ReturnStmt:42:42"/>
+    </function>
+    <function name="atof" dir="/usr/include/x86_64-linux-gnu/bits/stdlib-float.h">
+        <stmt dec="ReturnStmt:27:27"/>
+    </function>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h"/>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="getchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:49:49"/>
+    </function>
+    <function name="getc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:68:68"/>
+    </function>
+    <function name="getchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="fgetc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:58:58"/>
+    </function>
+    <function name="putchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:84:84"/>
+    </function>
+    <function name="fputc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:93:93"/>
+    </function>
+    <function name="putc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:103:103"/>
+    </function>
+    <function name="putchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:110:110"/>
+    </function>
+    <function name="feof_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:130:130"/>
+    </function>
+    <function name="ferror_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:137:137"/>
+    </function>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="getchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:49:49"/>
+    </function>
+    <function name="fgetc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:58:58"/>
+    </function>
+    <function name="getc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:68:68"/>
+    </function>
+    <function name="getchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="putchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:84:84"/>
+    </function>
+    <function name="fputc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:93:93"/>
+    </function>
+    <function name="putc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:103:103"/>
+    </function>
+    <function name="putchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:110:110"/>
+    </function>
+    <function name="feof_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:130:130"/>
+    </function>
+    <function name="ferror_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:137:137"/>
+    </function>
+    <function name="command" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2943:2943"/>
+        <stmt dec="CallExpr:2945:2945"/>
+        <stmt dec="IfStmt:2946:2955"/>
+        <stmt dec="ForStmt:2957:3016"/>
+        <stmt dec="IfStmt:3017:3031"/>
+    </function>
+    <function name="set_escape_char" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="IfStmt:1052:1061"/>
+    </function>
+    <function name="tn" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2451:2451"/>
+        <stmt dec="DeclStmt:2452:2452"/>
+        <stmt dec="DeclStmt:2453:2453"/>
+        <stmt dec="DeclStmt:2454:2454"/>
+        <stmt dec="DeclStmt:2456:2456"/>
+        <stmt dec="DeclStmt:2457:2457"/>
+        <stmt dec="DeclStmt:2458:2458"/>
+        <stmt dec="CallExpr:2467:2467"/>
+        <stmt dec="IfStmt:2470:2474"/>
+        <stmt dec="IfStmt:2475:2488"/>
+        <stmt dec="BinaryOperator:2489:2489"/>
+        <stmt dec="UnaryOperator:2490:2490"/>
+        <stmt dec="UnaryOperator:2491:2491"/>
+        <stmt dec="WhileStmt:2492:2548"/>
+        <stmt dec="IfStmt:2549:2550"/>
+        <stmt dec="IfStmt:2552:2585"/>
+        <stmt dec="CallExpr:2587:2587"/>
+        <stmt dec="BinaryOperator:2588:2588"/>
+        <stmt dec="IfStmt:2589:2595"/>
+        <stmt dec="BinaryOperator:2702:2702"/>
+        <stmt dec="IfStmt:2703:2721"/>
+        <stmt dec="BinaryOperator:2723:2723"/>
+        <stmt dec="IfStmt:2724:2735"/>
+        <stmt dec="CallExpr:2737:2737"/>
+        <stmt dec="DoStmt:2738:2789"/>
+        <stmt dec="CallExpr:2792:2792"/>
+        <stmt dec="IfStmt:2798:2810"/>
+        <stmt dec="IfStmt:2811:2815"/>
+        <stmt dec="CallExpr:2816:2816"/>
+        <stmt dec="BinaryOperator:2817:2817"/>
+        <stmt dec="IfStmt:2818:2821"/>
+        <stmt dec="CallExpr:2823:2823"/>
+        <stmt dec="CallExpr:2824:2824"/>
+        <stmt dec="ReturnStmt:2826:2826"/>
+    </function>
+    <function name="env_init" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1880:1880"/>
+        <stmt dec="DeclStmt:1881:1881"/>
+        <stmt dec="DeclStmt:1882:1882"/>
+        <stmt dec="DeclStmt:1884:1884"/>
+        <stmt dec="ForStmt:1887:1897"/>
+        <stmt dec="IfStmt:1903:1917"/>
+        <stmt dec="IfStmt:1923:1927"/>
+        <stmt dec="CallExpr:1928:1928"/>
+        <stmt dec="CallExpr:1929:1929"/>
+    </function>
+    <function name="quit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="CallExpr:1655:1655"/>
+        <stmt dec="CallExpr:1656:1656"/>
+        <stmt dec="ReturnStmt:1657:1657"/>
+    </function>
+    <function name="env_default" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2028:2028"/>
+        <stmt dec="IfStmt:2030:2034"/>
+        <stmt dec="IfStmt:2035:2042"/>
+        <stmt dec="ReturnStmt:2043:2043"/>
+    </function>
+    <function name="env_getvalue" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2049:2049"/>
+        <stmt dec="IfStmt:2050:2051"/>
+        <stmt dec="ReturnStmt:2052:2052"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/xalloc.h">
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/xalloc.h">
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="x2nrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/xalloc.h">
+        <stmt dec="DeclStmt:181:181"/>
+        <stmt dec="IfStmt:183:206"/>
+        <stmt dec="BinaryOperator:208:208"/>
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/xalloc.h"/>
+    <function name="call" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2916:2916"/>
+        <stmt dec="DeclStmt:2917:2917"/>
+        <stmt dec="DeclStmt:2918:2918"/>
+        <stmt dec="CallExpr:2920:2920"/>
+        <stmt dec="WhileStmt:2921:2924"/>
+        <stmt dec="CallExpr:2925:2925"/>
+        <stmt dec="ReturnStmt:2926:2926"/>
+    </function>
+    <function name="makeargv" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:143:143"/>
+        <stmt dec="DeclStmt:144:144"/>
+        <stmt dec="BinaryOperator:146:146"/>
+        <stmt dec="BinaryOperator:147:147"/>
+        <stmt dec="IfStmt:148:154"/>
+        <stmt dec="WhileStmt:155:200"/>
+        <stmt dec="BinaryOperator:201:201"/>
+    </function>
+    <function name="special" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:213:213"/>
+        <stmt dec="DeclStmt:214:214"/>
+        <stmt dec="SwitchStmt:216:232"/>
+        <stmt dec="ReturnStmt:233:233"/>
+    </function>
+    <function name="control" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:243:243"/>
+        <stmt dec="DeclStmt:251:251"/>
+        <stmt dec="IfStmt:253:254"/>
+        <stmt dec="IfStmt:255:258"/>
+        <stmt dec="IfStmt:259:277"/>
+        <stmt dec="ReturnStmt:278:278"/>
+    </function>
+    <function name="send_esc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="CompoundStmt:436:436"/>
+        <stmt dec="NullStmt:436:436"/>
+        <stmt dec="ReturnStmt:437:437"/>
+    </function>
+    <function name="send_help" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:546:546"/>
+        <stmt dec="ForStmt:547:551"/>
+        <stmt dec="ReturnStmt:552:552"/>
+    </function>
+    <function name="send_docmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:522:522"/>
+    </function>
+    <function name="send_dontcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:528:528"/>
+    </function>
+    <function name="send_willcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:534:534"/>
+    </function>
+    <function name="send_wontcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:540:540"/>
+    </function>
+    <function name="sendcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:342:342"/>
+        <stmt dec="DeclStmt:343:343"/>
+        <stmt dec="DeclStmt:344:344"/>
+        <stmt dec="DeclStmt:345:345"/>
+        <stmt dec="DeclStmt:346:346"/>
+        <stmt dec="IfStmt:348:353"/>
+        <stmt dec="BinaryOperator:360:360"/>
+        <stmt dec="ForStmt:361:392"/>
+        <stmt dec="IfStmt:393:398"/>
+        <stmt dec="IfStmt:400:407"/>
+        <stmt dec="BinaryOperator:409:409"/>
+        <stmt dec="ForStmt:410:429"/>
+        <stmt dec="ReturnStmt:430:430"/>
+    </function>
+    <function name="send_esc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="CompoundStmt:436:436"/>
+        <stmt dec="NullStmt:436:436"/>
+        <stmt dec="ReturnStmt:437:437"/>
+    </function>
+    <function name="send_tncmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:443:443"/>
+        <stmt dec="DeclStmt:445:445"/>
+        <stmt dec="DeclStmt:447:447"/>
+        <stmt dec="IfStmt:449:471"/>
+        <stmt dec="BinaryOperator:472:472"/>
+        <stmt dec="IfStmt:473:478"/>
+        <stmt dec="IfStmt:479:509"/>
+        <stmt dec="IfStmt:510:514"/>
+        <stmt dec="CallExpr:515:515"/>
+        <stmt dec="ReturnStmt:516:516"/>
+    </function>
+    <function name="send_docmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:522:522"/>
+    </function>
+    <function name="send_dontcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:528:528"/>
+    </function>
+    <function name="send_willcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:534:534"/>
+    </function>
+    <function name="send_wontcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:540:540"/>
+    </function>
+    <function name="send_help" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:546:546"/>
+        <stmt dec="ForStmt:547:551"/>
+        <stmt dec="ReturnStmt:552:552"/>
+    </function>
+    <function name="lclchars" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="BinaryOperator:563:563"/>
+        <stmt dec="ReturnStmt:564:564"/>
+    </function>
+    <function name="togdebug" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="IfStmt:571:574"/>
+        <stmt dec="ReturnStmt:584:584"/>
+    </function>
+    <function name="togcrlf" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="IfStmt:591:598"/>
+        <stmt dec="ReturnStmt:599:599"/>
+    </function>
+    <function name="togbinary" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="BinaryOperator:607:607"/>
+        <stmt dec="IfStmt:609:626"/>
+        <stmt dec="IfStmt:628:653"/>
+        <stmt dec="ReturnStmt:654:654"/>
+    </function>
+    <function name="togrbinary" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="BinaryOperator:660:660"/>
+        <stmt dec="IfStmt:662:663"/>
+        <stmt dec="IfStmt:665:688"/>
+        <stmt dec="ReturnStmt:689:689"/>
+    </function>
+    <function name="togxbinary" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="BinaryOperator:695:695"/>
+        <stmt dec="IfStmt:697:698"/>
+        <stmt dec="IfStmt:700:723"/>
+        <stmt dec="ReturnStmt:724:724"/>
+    </function>
+    <function name="togglehelp" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:878:878"/>
+        <stmt dec="ForStmt:880:889"/>
+        <stmt dec="CallExpr:890:890"/>
+        <stmt dec="CallExpr:891:891"/>
+        <stmt dec="ReturnStmt:892:892"/>
+    </function>
+    <function name="togglehelp" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:878:878"/>
+        <stmt dec="ForStmt:880:889"/>
+        <stmt dec="CallExpr:890:890"/>
+        <stmt dec="CallExpr:891:891"/>
+        <stmt dec="ReturnStmt:892:892"/>
+    </function>
+    <function name="settogglehelp" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:898:898"/>
+        <stmt dec="ForStmt:900:910"/>
+    </function>
+    <function name="toggle" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:919:919"/>
+        <stmt dec="DeclStmt:920:920"/>
+        <stmt dec="DeclStmt:921:921"/>
+        <stmt dec="IfStmt:923:928"/>
+        <stmt dec="UnaryOperator:929:929"/>
+        <stmt dec="UnaryOperator:930:930"/>
+        <stmt dec="WhileStmt:931:963"/>
+        <stmt dec="ReturnStmt:964:964"/>
+    </function>
+    <function name="getset" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:1045:1046"/>
+    </function>
+    <function name="set_escape_char" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="IfStmt:1052:1061"/>
+    </function>
+    <function name="setcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1067:1067"/>
+        <stmt dec="DeclStmt:1068:1068"/>
+        <stmt dec="DeclStmt:1069:1069"/>
+        <stmt dec="IfStmt:1071:1075"/>
+        <stmt dec="IfStmt:1076:1084"/>
+        <stmt dec="BinaryOperator:1086:1086"/>
+        <stmt dec="IfStmt:1087:1151"/>
+        <stmt dec="CallExpr:1152:1152"/>
+        <stmt dec="ReturnStmt:1153:1153"/>
+    </function>
+    <function name="unsetcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1159:1159"/>
+        <stmt dec="DeclStmt:1160:1160"/>
+        <stmt dec="DeclStmt:1161:1161"/>
+        <stmt dec="IfStmt:1163:1168"/>
+        <stmt dec="IfStmt:1169:1177"/>
+        <stmt dec="UnaryOperator:1179:1179"/>
+        <stmt dec="UnaryOperator:1180:1180"/>
+        <stmt dec="WhileStmt:1181:1231"/>
+        <stmt dec="ReturnStmt:1232:1232"/>
+    </function>
+    <function name="dokludgemode" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="BinaryOperator:1245:1245"/>
+        <stmt dec="CallExpr:1246:1246"/>
+        <stmt dec="CallExpr:1247:1247"/>
+        <stmt dec="CallExpr:1248:1248"/>
+        <stmt dec="ReturnStmt:1249:1249"/>
+    </function>
+    <function name="dolinemode" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="IfStmt:1257:1258"/>
+        <stmt dec="CallExpr:1260:1260"/>
+        <stmt dec="CallExpr:1261:1261"/>
+        <stmt dec="ReturnStmt:1262:1262"/>
+    </function>
+    <function name="docharmode" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="IfStmt:1269:1273"/>
+        <stmt dec="CallExpr:1274:1274"/>
+        <stmt dec="ReturnStmt:1275:1275"/>
+    </function>
+    <function name="dolmmode" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1281:1281"/>
+        <stmt dec="DeclStmt:1282:1282"/>
+        <stmt dec="IfStmt:1284:1289"/>
+        <stmt dec="IfStmt:1291:1294"/>
+        <stmt dec="CallExpr:1295:1295"/>
+        <stmt dec="ReturnStmt:1296:1296"/>
+    </function>
+    <function name="set_mode" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:1302:1302"/>
+    </function>
+    <function name="clear_mode" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:1308:1308"/>
+    </function>
+    <function name="modehelp" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1359:1359"/>
+        <stmt dec="CallExpr:1361:1361"/>
+        <stmt dec="ForStmt:1362:1371"/>
+        <stmt dec="ReturnStmt:1372:1372"/>
+    </function>
+    <function name="modehelp" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1359:1359"/>
+        <stmt dec="CallExpr:1361:1361"/>
+        <stmt dec="ForStmt:1362:1371"/>
+        <stmt dec="ReturnStmt:1372:1372"/>
+    </function>
+    <function name="modecmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1381:1381"/>
+        <stmt dec="IfStmt:1383:1404"/>
+        <stmt dec="ReturnStmt:1405:1405"/>
+    </function>
+    <function name="display" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1416:1416"/>
+        <stmt dec="DeclStmt:1417:1417"/>
+        <stmt dec="IfStmt:1435:1477"/>
+        <stmt dec="CallExpr:1478:1478"/>
+        <stmt dec="ReturnStmt:1482:1482"/>
+    </function>
+    <function name="setescape" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1498:1498"/>
+        <stmt dec="DeclStmt:1499:1499"/>
+        <stmt dec="CallExpr:1501:1502"/>
+        <stmt dec="IfStmt:1503:1514"/>
+        <stmt dec="IfStmt:1515:1516"/>
+        <stmt dec="IfStmt:1517:1520"/>
+        <stmt dec="CallExpr:1521:1521"/>
+        <stmt dec="ReturnStmt:1522:1522"/>
+    </function>
+    <function name="togcrmod" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="BinaryOperator:1528:1528"/>
+        <stmt dec="CallExpr:1529:1529"/>
+        <stmt dec="CallExpr:1530:1530"/>
+        <stmt dec="CallExpr:1531:1531"/>
+        <stmt dec="ReturnStmt:1532:1532"/>
+    </function>
+    <function name="suspend" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="CallExpr:1539:1539"/>
+        <stmt dec="CompoundStmt:1540:1555"/>
+        <stmt dec="CallExpr:1557:1557"/>
+        <stmt dec="CallExpr:1558:1558"/>
+        <stmt dec="ReturnStmt:1562:1562"/>
+    </function>
+    <function name="shell" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1569:1569"/>
+        <stmt dec="CallExpr:1571:1571"/>
+        <stmt dec="BinaryOperator:1573:1573"/>
+        <stmt dec="SwitchStmt:1574:1614"/>
+        <stmt dec="ReturnStmt:1615:1615"/>
+    </function>
+    <function name="bye" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1627:1627"/>
+        <stmt dec="IfStmt:1629:1644"/>
+        <stmt dec="IfStmt:1645:1648"/>
+        <stmt dec="ReturnStmt:1649:1649"/>
+    </function>
+    <function name="quit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="CallExpr:1655:1655"/>
+        <stmt dec="CallExpr:1656:1656"/>
+        <stmt dec="ReturnStmt:1657:1657"/>
+    </function>
+    <function name="logout" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="CallExpr:1663:1663"/>
+        <stmt dec="CallExpr:1664:1664"/>
+        <stmt dec="ReturnStmt:1665:1665"/>
+    </function>
+    <function name="slc_help" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1698:1698"/>
+        <stmt dec="ForStmt:1700:1709"/>
+    </function>
+    <function name="slc_help" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1698:1698"/>
+        <stmt dec="ForStmt:1700:1709"/>
+    </function>
+    <function name="getslc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:1715:1716"/>
+    </function>
+    <function name="slccmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1722:1722"/>
+        <stmt dec="IfStmt:1724:1729"/>
+        <stmt dec="BinaryOperator:1730:1730"/>
+        <stmt dec="IfStmt:1731:1736"/>
+        <stmt dec="IfStmt:1737:1742"/>
+        <stmt dec="CallExpr:1743:1743"/>
+        <stmt dec="CallExpr:1744:1744"/>
+        <stmt dec="ReturnStmt:1745:1745"/>
+    </function>
+    <function name="env_define" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1935:1935"/>
+        <stmt dec="IfStmt:1936:1949"/>
+        <stmt dec="BinaryOperator:1950:1950"/>
+        <stmt dec="BinaryOperator:1951:1951"/>
+        <stmt dec="BinaryOperator:1952:1952"/>
+        <stmt dec="BinaryOperator:1953:1953"/>
+        <stmt dec="ReturnStmt:1954:1954"/>
+    </function>
+    <function name="env_undefine" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1960:1960"/>
+        <stmt dec="IfStmt:1961:1969"/>
+    </function>
+    <function name="env_export" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1975:1975"/>
+        <stmt dec="IfStmt:1976:1977"/>
+    </function>
+    <function name="env_unexport" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1983:1983"/>
+        <stmt dec="IfStmt:1984:1985"/>
+    </function>
+    <function name="env_send" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1991:1991"/>
+        <stmt dec="IfStmt:1993:2002"/>
+        <stmt dec="BinaryOperator:2003:2003"/>
+        <stmt dec="IfStmt:2004:2008"/>
+        <stmt dec="CallExpr:2009:2009"/>
+        <stmt dec="CallExpr:2010:2010"/>
+        <stmt dec="CallExpr:2011:2011"/>
+    </function>
+    <function name="env_list" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2017:2017"/>
+        <stmt dec="ForStmt:2019:2022"/>
+    </function>
+    <function name="env_help" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1795:1795"/>
+        <stmt dec="ForStmt:1797:1806"/>
+    </function>
+    <function name="env_help" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1795:1795"/>
+        <stmt dec="ForStmt:1797:1806"/>
+    </function>
+    <function name="getenvcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="ReturnStmt:1812:1813"/>
+    </function>
+    <function name="env_cmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1819:1819"/>
+        <stmt dec="IfStmt:1821:1826"/>
+        <stmt dec="BinaryOperator:1827:1827"/>
+        <stmt dec="IfStmt:1828:1833"/>
+        <stmt dec="IfStmt:1834:1839"/>
+        <stmt dec="IfStmt:1840:1847"/>
+        <stmt dec="CallExpr:1848:1848"/>
+        <stmt dec="ReturnStmt:1849:1849"/>
+    </function>
+    <function name="env_find" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1867:1867"/>
+        <stmt dec="ForStmt:1869:1873"/>
+        <stmt dec="ReturnStmt:1874:1874"/>
+    </function>
+    <function name="env_init" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1880:1880"/>
+        <stmt dec="DeclStmt:1881:1881"/>
+        <stmt dec="DeclStmt:1882:1882"/>
+        <stmt dec="DeclStmt:1884:1884"/>
+        <stmt dec="ForStmt:1887:1897"/>
+        <stmt dec="IfStmt:1903:1917"/>
+        <stmt dec="IfStmt:1923:1927"/>
+        <stmt dec="CallExpr:1928:1928"/>
+        <stmt dec="CallExpr:1929:1929"/>
+    </function>
+    <function name="env_define" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1935:1935"/>
+        <stmt dec="IfStmt:1936:1949"/>
+        <stmt dec="BinaryOperator:1950:1950"/>
+        <stmt dec="BinaryOperator:1951:1951"/>
+        <stmt dec="BinaryOperator:1952:1952"/>
+        <stmt dec="BinaryOperator:1953:1953"/>
+        <stmt dec="ReturnStmt:1954:1954"/>
+    </function>
+    <function name="env_undefine" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1960:1960"/>
+        <stmt dec="IfStmt:1961:1969"/>
+    </function>
+    <function name="env_export" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1975:1975"/>
+        <stmt dec="IfStmt:1976:1977"/>
+    </function>
+    <function name="env_unexport" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1983:1983"/>
+        <stmt dec="IfStmt:1984:1985"/>
+    </function>
+    <function name="env_send" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:1991:1991"/>
+        <stmt dec="IfStmt:1993:2002"/>
+        <stmt dec="BinaryOperator:2003:2003"/>
+        <stmt dec="IfStmt:2004:2008"/>
+        <stmt dec="CallExpr:2009:2009"/>
+        <stmt dec="CallExpr:2010:2010"/>
+        <stmt dec="CallExpr:2011:2011"/>
+    </function>
+    <function name="env_list" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2017:2017"/>
+        <stmt dec="ForStmt:2019:2022"/>
+    </function>
+    <function name="env_default" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2028:2028"/>
+        <stmt dec="IfStmt:2030:2034"/>
+        <stmt dec="IfStmt:2035:2042"/>
+        <stmt dec="ReturnStmt:2043:2043"/>
+    </function>
+    <function name="env_getvalue" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2049:2049"/>
+        <stmt dec="IfStmt:2050:2051"/>
+        <stmt dec="ReturnStmt:2052:2052"/>
+    </function>
+    <function name="status" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="IfStmt:2351:2391"/>
+        <stmt dec="CallExpr:2393:2393"/>
+        <stmt dec="CallExpr:2394:2394"/>
+        <stmt dec="ReturnStmt:2428:2428"/>
+    </function>
+    <function name="cmdrc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:3072:3072"/>
+        <stmt dec="DeclStmt:3073:3073"/>
+        <stmt dec="DeclStmt:3074:3074"/>
+        <stmt dec="DeclStmt:3075:3075"/>
+        <stmt dec="DeclStmt:3076:3076"/>
+        <stmt dec="IfStmt:3078:3079"/>
+        <stmt dec="IfStmt:3081:3088"/>
+        <stmt dec="IfStmt:3090:3093"/>
+        <stmt dec="ForStmt:3095:3147"/>
+        <stmt dec="CallExpr:3148:3148"/>
+    </function>
+    <function name="tn" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2451:2451"/>
+        <stmt dec="DeclStmt:2452:2452"/>
+        <stmt dec="DeclStmt:2453:2453"/>
+        <stmt dec="DeclStmt:2454:2454"/>
+        <stmt dec="DeclStmt:2456:2456"/>
+        <stmt dec="DeclStmt:2457:2457"/>
+        <stmt dec="DeclStmt:2458:2458"/>
+        <stmt dec="CallExpr:2467:2467"/>
+        <stmt dec="IfStmt:2470:2474"/>
+        <stmt dec="IfStmt:2475:2488"/>
+        <stmt dec="BinaryOperator:2489:2489"/>
+        <stmt dec="UnaryOperator:2490:2490"/>
+        <stmt dec="UnaryOperator:2491:2491"/>
+        <stmt dec="WhileStmt:2492:2548"/>
+        <stmt dec="IfStmt:2549:2550"/>
+        <stmt dec="IfStmt:2552:2585"/>
+        <stmt dec="CallExpr:2587:2587"/>
+        <stmt dec="BinaryOperator:2588:2588"/>
+        <stmt dec="IfStmt:2589:2595"/>
+        <stmt dec="BinaryOperator:2702:2702"/>
+        <stmt dec="IfStmt:2703:2721"/>
+        <stmt dec="BinaryOperator:2723:2723"/>
+        <stmt dec="IfStmt:2724:2735"/>
+        <stmt dec="CallExpr:2737:2737"/>
+        <stmt dec="DoStmt:2738:2789"/>
+        <stmt dec="CallExpr:2792:2792"/>
+        <stmt dec="IfStmt:2798:2810"/>
+        <stmt dec="IfStmt:2811:2815"/>
+        <stmt dec="CallExpr:2816:2816"/>
+        <stmt dec="BinaryOperator:2817:2817"/>
+        <stmt dec="IfStmt:2818:2821"/>
+        <stmt dec="CallExpr:2823:2823"/>
+        <stmt dec="CallExpr:2824:2824"/>
+        <stmt dec="ReturnStmt:2826:2826"/>
+    </function>
+    <function name="help" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:3040:3040"/>
+        <stmt dec="IfStmt:3042:3051"/>
+        <stmt dec="WhileStmt:3052:3063"/>
+        <stmt dec="ReturnStmt:3064:3064"/>
+    </function>
+    <function name="call" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2916:2916"/>
+        <stmt dec="DeclStmt:2917:2917"/>
+        <stmt dec="DeclStmt:2918:2918"/>
+        <stmt dec="CallExpr:2920:2920"/>
+        <stmt dec="WhileStmt:2921:2924"/>
+        <stmt dec="CallExpr:2925:2925"/>
+        <stmt dec="ReturnStmt:2926:2926"/>
+    </function>
+    <function name="getcmd" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2933:2933"/>
+        <stmt dec="IfStmt:2935:2936"/>
+        <stmt dec="ReturnStmt:2937:2937"/>
+    </function>
+    <function name="command" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:2943:2943"/>
+        <stmt dec="CallExpr:2945:2945"/>
+        <stmt dec="IfStmt:2946:2955"/>
+        <stmt dec="ForStmt:2957:3016"/>
+        <stmt dec="IfStmt:3017:3031"/>
+    </function>
+    <function name="help" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:3040:3040"/>
+        <stmt dec="IfStmt:3042:3051"/>
+        <stmt dec="WhileStmt:3052:3063"/>
+        <stmt dec="ReturnStmt:3064:3064"/>
+    </function>
+    <function name="cmdrc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c">
+        <stmt dec="DeclStmt:3072:3072"/>
+        <stmt dec="DeclStmt:3073:3073"/>
+        <stmt dec="DeclStmt:3074:3074"/>
+        <stmt dec="DeclStmt:3075:3075"/>
+        <stmt dec="DeclStmt:3076:3076"/>
+        <stmt dec="IfStmt:3078:3079"/>
+        <stmt dec="IfStmt:3081:3088"/>
+        <stmt dec="IfStmt:3090:3093"/>
+        <stmt dec="ForStmt:3095:3147"/>
+        <stmt dec="CallExpr:3148:3148"/>
+    </function>
+</root>

@@ -6,8 +6,8 @@
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., file-based (e.g., `/etc/passwd`, `/etc/shadow`) or code annotation using `FC_TAINT_WORLD()`]
-- Annotation method: [File permission modification or source code annotation, as appropriate]
+- Sensitive sources: `/etc/passwd` and `/etc/shadow`
+- Annotation method: Modify the permissions of `/etc/passwd` and `/etc/shadow` to restrict access.
 
 ## Preprocessing Steps
 
@@ -65,18 +65,17 @@ Before running the partitioning workflow, generate the following artifacts:
    python3 scripts/extract_statement_linerange.py --project_root examples/useradd --compile_db examples/useradd/input/compile_commands.json --output_dir examples/useradd/output/
    ```
 2. **Quantitative Information Flow Tracking**
-   - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+   - Run FlowCheck in Docker with different inputs to generate `.fc` trace files:
         Start Docker and set file permissions:
         ```bash
         docker run -it -v .:/Desktop flowcheck-image
         chmod o-r /etc/passwd /etc/shadow
         ```
-
-        Run FlowCheck with different inputs to generate trace files:
+        Run FlowCheck for different test cases:
         ```bash
-        valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/useradd/input/source_code/shadow-utils/src --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/useradd/input/useradd_32 -m -s /bin/zsh rawuser1 2>examples/useradd/output/temp/useraddoutput1.fc
-        
-        valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/useradd/input/source_code/shadow-utils/src --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/useradd/input/useradd_32 -m -p '$6$hashedpassword' -e 2025-12-31 rawuser2 2>examples/useradd/output/temp/useraddoutput2.fc
+        valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/useradd --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/useradd/input/useradd_32 -m -s /bin/zsh rawuser1 2>examples/useradd/output/temp/useraddoutput1.fc
+
+        valgrind --tool=exp-flowcheck --private-files-are-secret=yes --project-name=examples/useradd --fullpath-after= --folding-level=0 --trace-secret-graph=yes ./examples/useradd/input/useradd_32 -m -p '$6$hashedpassword' -e 2025-12-31 rawuser2 2>examples/useradd/output/temp/useraddoutput2.fc
         ```
    - Merge traces and map quantitative info to statements:
      ```bash

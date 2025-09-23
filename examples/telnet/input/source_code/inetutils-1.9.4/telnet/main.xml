@@ -1,0 +1,187 @@
+<root>
+    <function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39"/>
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54"/>
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35"/>
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47"/>
+    </function>
+    <function name="atof" dir="/usr/include/x86_64-linux-gnu/bits/stdlib-float.h">
+        <stmt dec="ReturnStmt:27:27"/>
+    </function>
+    <function name="atoi" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:363:363"/>
+    </function>
+    <function name="atol" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:368:368"/>
+    </function>
+    <function name="atoll" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:375:375"/>
+    </function>
+    <function name="atoi" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:363:363"/>
+    </function>
+    <function name="atol" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:368:368"/>
+    </function>
+    <function name="atoll" dir="/usr/include/stdlib.h">
+        <stmt dec="ReturnStmt:375:375"/>
+    </function>
+    <function name="bsearch" dir="/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h">
+        <stmt dec="DeclStmt:23:23"/>
+        <stmt dec="DeclStmt:24:24"/>
+        <stmt dec="DeclStmt:25:25"/>
+        <stmt dec="BinaryOperator:27:27"/>
+        <stmt dec="BinaryOperator:28:28"/>
+        <stmt dec="WhileStmt:29:40"/>
+        <stmt dec="ReturnStmt:42:42"/>
+    </function>
+    <function name="bsearch" dir="/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h">
+        <stmt dec="DeclStmt:23:23"/>
+        <stmt dec="DeclStmt:24:24"/>
+        <stmt dec="DeclStmt:25:25"/>
+        <stmt dec="BinaryOperator:27:27"/>
+        <stmt dec="BinaryOperator:28:28"/>
+        <stmt dec="WhileStmt:29:40"/>
+        <stmt dec="ReturnStmt:42:42"/>
+    </function>
+    <function name="atof" dir="/usr/include/x86_64-linux-gnu/bits/stdlib-float.h">
+        <stmt dec="ReturnStmt:27:27"/>
+    </function>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h"/>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="getchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:49:49"/>
+    </function>
+    <function name="getc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:68:68"/>
+    </function>
+    <function name="getchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="fgetc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:58:58"/>
+    </function>
+    <function name="putchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:84:84"/>
+    </function>
+    <function name="fputc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:93:93"/>
+    </function>
+    <function name="putc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:103:103"/>
+    </function>
+    <function name="putchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:110:110"/>
+    </function>
+    <function name="feof_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:130:130"/>
+    </function>
+    <function name="ferror_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:137:137"/>
+    </function>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="getchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:49:49"/>
+    </function>
+    <function name="fgetc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:58:58"/>
+    </function>
+    <function name="getc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:68:68"/>
+    </function>
+    <function name="getchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="putchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:84:84"/>
+    </function>
+    <function name="fputc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:93:93"/>
+    </function>
+    <function name="putc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:103:103"/>
+    </function>
+    <function name="putchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:110:110"/>
+    </function>
+    <function name="feof_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:130:130"/>
+    </function>
+    <function name="ferror_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:137:137"/>
+    </function>
+    <function name="tninit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c">
+        <stmt dec="CallExpr:93:93"/>
+        <stmt dec="CallExpr:95:95"/>
+        <stmt dec="CallExpr:97:97"/>
+        <stmt dec="CallExpr:99:99"/>
+    </function>
+    <function name="tolower" dir="/usr/include/ctype.h"/>
+    <function name="tolower" dir="/usr/include/ctype.h">
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="toupper" dir="/usr/include/ctype.h"/>
+    <function name="toupper" dir="/usr/include/ctype.h">
+        <stmt dec="ReturnStmt:215:215"/>
+    </function>
+    <function name="tolower" dir="/usr/include/ctype.h">
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="toupper" dir="/usr/include/ctype.h">
+        <stmt dec="ReturnStmt:215:215"/>
+    </function>
+    <function name="argp_usage" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/argp.h">
+        <stmt dec="CallExpr:619:619"/>
+    </function>
+    <function name="_option_is_short" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/argp.h">
+        <stmt dec="IfStmt:625:631"/>
+    </function>
+    <function name="_option_is_end" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/argp.h">
+        <stmt dec="ReturnStmt:637:637"/>
+    </function>
+    <function name="tninit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c">
+        <stmt dec="CallExpr:93:93"/>
+        <stmt dec="CallExpr:95:95"/>
+        <stmt dec="CallExpr:97:97"/>
+        <stmt dec="CallExpr:99:99"/>
+    </function>
+    <function name="parse_opt" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c">
+        <stmt dec="SwitchStmt:203:317"/>
+        <stmt dec="ReturnStmt:319:319"/>
+    </function>
+    <function name="main" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c">
+        <stmt dec="DeclStmt:337:337"/>
+        <stmt dec="CallExpr:339:339"/>
+        <stmt dec="CallExpr:345:345"/>
+        <stmt dec="CallExpr:350:350"/>
+        <stmt dec="IfStmt:352:355"/>
+        <stmt dec="BinaryOperator:357:357"/>
+        <stmt dec="BinaryOperator:359:359"/>
+        <stmt dec="BinaryOperator:360:360"/>
+        <stmt dec="BinaryOperator:363:363"/>
+        <stmt dec="NullStmt:363:363"/>
+        <stmt dec="CallExpr:364:364"/>
+        <stmt dec="IfStmt:366:367"/>
+        <stmt dec="CompoundAssignOperator:369:369"/>
+        <stmt dec="CompoundAssignOperator:370:370"/>
+        <stmt dec="IfStmt:372:403"/>
+        <stmt dec="CallExpr:406:406"/>
+        <stmt dec="ForStmt:407:415"/>
+    </function>
+</root>

@@ -1,0 +1,352 @@
+<root>
+    <function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39"/>
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54"/>
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35"/>
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47"/>
+    </function>
+    <function name="pgettext_aux" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:152:152"/>
+        <stmt dec="IfStmt:153:156"/>
+    </function>
+    <function name="npgettext_aux" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:172:173"/>
+        <stmt dec="IfStmt:174:177"/>
+    </function>
+    <function name="dcpgettext_expr" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:214:214"/>
+        <stmt dec="DeclStmt:215:215"/>
+        <stmt dec="DeclStmt:216:216"/>
+        <stmt dec="DeclStmt:218:218"/>
+        <stmt dec="CompoundStmt:227:238"/>
+        <stmt dec="ReturnStmt:239:239"/>
+    </function>
+    <function name="dcnpgettext_expr" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:260:260"/>
+        <stmt dec="DeclStmt:261:261"/>
+        <stmt dec="DeclStmt:262:262"/>
+        <stmt dec="DeclStmt:264:264"/>
+        <stmt dec="CompoundStmt:273:284"/>
+        <stmt dec="ReturnStmt:285:285"/>
+    </function>
+    <function name="c_isalnum" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:171:179"/>
+    </function>
+    <function name="c_isalpha" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:185:192"/>
+    </function>
+    <function name="c_isascii" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:200:211"/>
+    </function>
+    <function name="c_isblank" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="ReturnStmt:217:217"/>
+    </function>
+    <function name="c_iscntrl" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:223:229"/>
+    </function>
+    <function name="c_isdigit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:235:241"/>
+    </function>
+    <function name="c_isgraph" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:247:256"/>
+    </function>
+    <function name="c_islower" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:262:268"/>
+    </function>
+    <function name="c_isprint" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:274:284"/>
+    </function>
+    <function name="c_ispunct" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:290:296"/>
+    </function>
+    <function name="c_isspace" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:302:308"/>
+    </function>
+    <function name="c_isupper" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:314:320"/>
+    </function>
+    <function name="c_isxdigit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:326:333"/>
+    </function>
+    <function name="c_tolower" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:339:345"/>
+    </function>
+    <function name="c_toupper" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:351:357"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:106:107"/>
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:106:107"/>
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:119:120"/>
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:119:120"/>
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="x2nrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="DeclStmt:181:181"/>
+        <stmt dec="IfStmt:183:206"/>
+        <stmt dec="BinaryOperator:208:208"/>
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="ReturnStmt:220:220"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="ReturnStmt:220:220"/>
+    </function>
+    <function name="hash_table_new" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:274:274"/>
+        <stmt dec="DeclStmt:275:275"/>
+        <stmt dec="BinaryOperator:277:277"/>
+        <stmt dec="BinaryOperator:278:278"/>
+        <stmt dec="BinaryOperator:282:282"/>
+        <stmt dec="BinaryOperator:286:286"/>
+        <stmt dec="BinaryOperator:287:287"/>
+        <stmt dec="BinaryOperator:288:288"/>
+        <stmt dec="BinaryOperator:289:289"/>
+        <stmt dec="BinaryOperator:292:292"/>
+        <stmt dec="CallExpr:296:296"/>
+        <stmt dec="BinaryOperator:298:298"/>
+        <stmt dec="ReturnStmt:300:300"/>
+    </function>
+    <function name="hash_table_destroy" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DoStmt:308:308"/>
+        <stmt dec="DoStmt:309:309"/>
+    </function>
+    <function name="hash_table_get" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:340:340"/>
+        <stmt dec="IfStmt:341:344"/>
+    </function>
+    <function name="hash_table_get_pair" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:354:354"/>
+        <stmt dec="IfStmt:355:364"/>
+    </function>
+    <function name="hash_table_contains" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:372:372"/>
+        <stmt dec="ReturnStmt:373:373"/>
+    </function>
+    <function name="hash_table_put" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:425:425"/>
+        <stmt dec="IfStmt:426:432"/>
+        <stmt dec="IfStmt:436:440"/>
+        <stmt dec="UnaryOperator:443:443"/>
+        <stmt dec="BinaryOperator:444:444"/>
+        <stmt dec="BinaryOperator:445:445"/>
+    </function>
+    <function name="hash_table_remove" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:454:454"/>
+        <stmt dec="IfStmt:455:492"/>
+    </function>
+    <function name="hash_table_clear" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="CallExpr:502:502"/>
+        <stmt dec="BinaryOperator:503:503"/>
+    </function>
+    <function name="hash_table_for_each" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:521:521"/>
+        <stmt dec="DeclStmt:522:522"/>
+        <stmt dec="ForStmt:524:535"/>
+    </function>
+    <function name="hash_table_iterate" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="BinaryOperator:551:551"/>
+        <stmt dec="BinaryOperator:552:552"/>
+    </function>
+    <function name="hash_table_iter_next" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:567:567"/>
+        <stmt dec="DeclStmt:568:568"/>
+        <stmt dec="ForStmt:569:576"/>
+        <stmt dec="ReturnStmt:577:577"/>
+    </function>
+    <function name="hash_table_count" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:587:587"/>
+    </function>
+    <function name="make_string_hash_table" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:665:665"/>
+    </function>
+    <function name="make_nocase_string_hash_table" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:703:703"/>
+    </function>
+    <function name="hash_pointer" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:717:717"/>
+        <stmt dec="CompoundAssignOperator:718:718"/>
+        <stmt dec="CompoundAssignOperator:719:719"/>
+        <stmt dec="CompoundAssignOperator:720:720"/>
+        <stmt dec="CompoundAssignOperator:721:721"/>
+        <stmt dec="CompoundAssignOperator:722:722"/>
+        <stmt dec="CompoundAssignOperator:723:723"/>
+        <stmt dec="CompoundAssignOperator:724:724"/>
+        <stmt dec="CompoundAssignOperator:725:725"/>
+        <stmt dec="CompoundAssignOperator:727:727"/>
+        <stmt dec="CompoundAssignOperator:728:728"/>
+        <stmt dec="CompoundAssignOperator:729:729"/>
+        <stmt dec="CompoundAssignOperator:730:730"/>
+        <stmt dec="CompoundAssignOperator:731:731"/>
+        <stmt dec="CompoundAssignOperator:732:732"/>
+        <stmt dec="CompoundAssignOperator:733:733"/>
+        <stmt dec="CompoundAssignOperator:734:734"/>
+        <stmt dec="ReturnStmt:736:736"/>
+    </function>
+    <function name="prime_size" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:215:225"/>
+        <stmt dec="DeclStmt:226:226"/>
+        <stmt dec="ForStmt:228:238"/>
+        <stmt dec="CallExpr:240:240"/>
+    </function>
+    <function name="cmp_pointer" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:742:742"/>
+    </function>
+    <function name="hash_table_new" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:274:274"/>
+        <stmt dec="DeclStmt:275:275"/>
+        <stmt dec="BinaryOperator:277:277"/>
+        <stmt dec="BinaryOperator:278:278"/>
+        <stmt dec="BinaryOperator:282:282"/>
+        <stmt dec="BinaryOperator:286:286"/>
+        <stmt dec="BinaryOperator:287:287"/>
+        <stmt dec="BinaryOperator:288:288"/>
+        <stmt dec="BinaryOperator:289:289"/>
+        <stmt dec="BinaryOperator:292:292"/>
+        <stmt dec="CallExpr:296:296"/>
+        <stmt dec="BinaryOperator:298:298"/>
+        <stmt dec="ReturnStmt:300:300"/>
+    </function>
+    <function name="hash_table_destroy" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DoStmt:308:308"/>
+        <stmt dec="DoStmt:309:309"/>
+    </function>
+    <function name="find_cell" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:319:319"/>
+        <stmt dec="DeclStmt:320:320"/>
+        <stmt dec="DeclStmt:321:321"/>
+        <stmt dec="DeclStmt:322:322"/>
+        <stmt dec="ForStmt:324:326"/>
+        <stmt dec="ReturnStmt:327:327"/>
+    </function>
+    <function name="hash_table_get" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:340:340"/>
+        <stmt dec="IfStmt:341:344"/>
+    </function>
+    <function name="hash_table_get_pair" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:354:354"/>
+        <stmt dec="IfStmt:355:364"/>
+    </function>
+    <function name="hash_table_contains" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:372:372"/>
+        <stmt dec="ReturnStmt:373:373"/>
+    </function>
+    <function name="grow_hash_table" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:382:382"/>
+        <stmt dec="DeclStmt:383:383"/>
+        <stmt dec="DeclStmt:384:384"/>
+        <stmt dec="DeclStmt:385:385"/>
+        <stmt dec="DeclStmt:386:386"/>
+        <stmt dec="BinaryOperator:388:388"/>
+        <stmt dec="BinaryOperator:396:396"/>
+        <stmt dec="BinaryOperator:397:397"/>
+        <stmt dec="BinaryOperator:399:399"/>
+        <stmt dec="CallExpr:400:400"/>
+        <stmt dec="BinaryOperator:401:401"/>
+        <stmt dec="ForStmt:403:414"/>
+        <stmt dec="DoStmt:416:416"/>
+    </function>
+    <function name="hash_table_put" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:425:425"/>
+        <stmt dec="IfStmt:426:432"/>
+        <stmt dec="IfStmt:436:440"/>
+        <stmt dec="UnaryOperator:443:443"/>
+        <stmt dec="BinaryOperator:444:444"/>
+        <stmt dec="BinaryOperator:445:445"/>
+    </function>
+    <function name="hash_table_remove" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:454:454"/>
+        <stmt dec="IfStmt:455:492"/>
+    </function>
+    <function name="hash_table_clear" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="CallExpr:502:502"/>
+        <stmt dec="BinaryOperator:503:503"/>
+    </function>
+    <function name="hash_table_for_each" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:521:521"/>
+        <stmt dec="DeclStmt:522:522"/>
+        <stmt dec="ForStmt:524:535"/>
+    </function>
+    <function name="hash_table_iterate" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="BinaryOperator:551:551"/>
+        <stmt dec="BinaryOperator:552:552"/>
+    </function>
+    <function name="hash_table_iter_next" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:567:567"/>
+        <stmt dec="DeclStmt:568:568"/>
+        <stmt dec="ForStmt:569:576"/>
+        <stmt dec="ReturnStmt:577:577"/>
+    </function>
+    <function name="hash_table_count" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:587:587"/>
+    </function>
+    <function name="hash_string" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:641:641"/>
+        <stmt dec="DeclStmt:642:642"/>
+        <stmt dec="IfStmt:644:646"/>
+        <stmt dec="ReturnStmt:648:648"/>
+    </function>
+    <function name="cmp_string" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:656:656"/>
+    </function>
+    <function name="make_string_hash_table" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:665:665"/>
+    </function>
+    <function name="hash_string_nocase" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:679:679"/>
+        <stmt dec="DeclStmt:680:680"/>
+        <stmt dec="IfStmt:682:684"/>
+        <stmt dec="ReturnStmt:686:686"/>
+    </function>
+    <function name="string_cmp_nocase" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:694:694"/>
+    </function>
+    <function name="make_nocase_string_hash_table" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:703:703"/>
+    </function>
+    <function name="hash_pointer" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="DeclStmt:717:717"/>
+        <stmt dec="CompoundAssignOperator:718:718"/>
+        <stmt dec="CompoundAssignOperator:719:719"/>
+        <stmt dec="CompoundAssignOperator:720:720"/>
+        <stmt dec="CompoundAssignOperator:721:721"/>
+        <stmt dec="CompoundAssignOperator:722:722"/>
+        <stmt dec="CompoundAssignOperator:723:723"/>
+        <stmt dec="CompoundAssignOperator:724:724"/>
+        <stmt dec="CompoundAssignOperator:725:725"/>
+        <stmt dec="CompoundAssignOperator:727:727"/>
+        <stmt dec="CompoundAssignOperator:728:728"/>
+        <stmt dec="CompoundAssignOperator:729:729"/>
+        <stmt dec="CompoundAssignOperator:730:730"/>
+        <stmt dec="CompoundAssignOperator:731:731"/>
+        <stmt dec="CompoundAssignOperator:732:732"/>
+        <stmt dec="CompoundAssignOperator:733:733"/>
+        <stmt dec="CompoundAssignOperator:734:734"/>
+        <stmt dec="ReturnStmt:736:736"/>
+    </function>
+    <function name="cmp_pointer" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/hash.c">
+        <stmt dec="ReturnStmt:742:742"/>
+    </function>
+</root>

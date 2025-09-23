@@ -1,0 +1,43 @@
+diff -r -u wget-1.18/src/connect.c wget-1.18_anno/src/connect.c
+--- wget-1.18/src/connect.c	2025-07-18 15:21:34.000000000 +0800
++++ wget-1.18_anno/src/connect.c	2025-09-23 15:13:36.555499000 +0800
+@@ -30,7 +30,7 @@
+ as that of the covered work.  */
+ 
+ #include "wget.h"
+-
++#include <valgrind/flowcheck.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+@@ -306,7 +306,7 @@
+   sockaddr_set_data (sa, ip, port);
+ 
+   /* Create the socket of the family appropriate for the address.  */
+-  sock = socket (sa->sa_family, SOCK_STREAM, 0);
++  sock = socket (sa->sa_family, SOCK_STREAM, 0); FC_TAINT_WORD(&sock);
+   if (sock < 0)
+     goto err;
+ 
+@@ -466,7 +466,7 @@
+   void *setopt_ptr = (void *)&setopt_val;
+   socklen_t setopt_size = sizeof (setopt_val);
+ 
+-  sock = socket (bind_address->family, SOCK_STREAM, 0);
++  sock = socket (bind_address->family, SOCK_STREAM, 0); FC_TAINT_WORD(&sock);
+   if (sock < 0)
+     return -1;
+ 
+@@ -764,9 +764,9 @@
+ sock_read (int fd, char *buf, int bufsize)
+ {
+   int res;
+-  do
+-    res = read (fd, buf, bufsize);
+-  while (res == -1 && errno == EINTR);
++  do{
++    res = read (fd, buf, bufsize);int temp=res/4;for(int i=0;i<temp;i++){FC_TAINT_WORD(buf+4*i);} FC_TAINT_WORD(&res);
++  }while (res == -1 && errno == EINTR);
+   return res;
+ }
+ 

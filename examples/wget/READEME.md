@@ -6,50 +6,72 @@
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., network packets, configuration files, or code annotation using `FC_TAINT_WORLD()`]
-- Annotation method: [File permission modification or source code annotation, as appropriate]
+- Sensitive sources:  Data from internet.
+- Annotation method: Annotate sensitive sources in the code using `FC_TAINT_WORLD`. For details, refer to `source_input/diff.patch`.
 
 ## Preprocessing Steps
 
 Before running the partitioning workflow, generate the following artifacts:
 
 1. **64-bit Executable**
-   - Compile the `wget` project (configure may be optional).
    - Ensure dependencies are installed as required by your project.
    - Navigate to the source directory:
      ```bash
      cd examples/wget/input/source_code/wget-1.8
      ./configure   # (sometimes not needed)
+     bear make CFLAGS+="-g -O0" -j8 
+     cd src
+     mv wget ../../../wget_64
+     cd ..
      make clean
-     make -j8
      ```
-   - Copy the `wget` executable from the build directory to `examples/wget/input/` and rename to `wget_64`.
 
 2. **Compilation Database**
    - Locate the full `compile_commands.json` generated in `examples/wget/input/source_code/wget-1.8` (if available).
-   - Find the entry corresponding to `wget.c`. Copy only the `wget.c` entry into a new file at `examples/wget/input/compile_commands.json`. This ensures that only the source code for `wget.c` is partitioned in subsequent steps.
+   - In `examples/wget/input`, create a new `compile_commands.json` file.
+   - From the original compilation database, copy all entries where the `"directory"` field contains the substring `examples/wget/input/source_code/wget-1.8/src` (i.e., any entry whose source file is under the `src` subdirectory). Paste these entries into the new file. This ensures only the `wget` source files are included for partitioning.
 
 3. **LLVM Bitcode File (.bc)**
-   - Clean previous builds:
+   - Set environment variables for bitcode compilation:
+     ```bash
+     export CC=clang
+     export LDFLAGS="-flto -fuse-ld=lld"
+     export CFLAGS="-flto -g -O0 -fno-discard-value-names -fembed-bitcode"
+     ```
+   - Clean previous builds and config cache to ensure environment variables take effect:
      ```bash
      make clean
+     rm -f config.cache
+     ./configure
+     make -j8 V=1   # V=1 shows full compilation commands
      ```
-   - Rebuild with bitcode flags:
+   - All generated `.o` files will be LLVM bitcode objects.
+   - Locate the final link command for the `wget` executable (e.g., starting with `clang ... -o wget ...`).
+   - Modify the link command by adding `-Wl,--plugin-opt=emit-llvm` and changing the output to `wget.bc`, for example:
      ```bash
-     make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8
      cd src
-     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -o wget.bc wget.o
+     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -flto -fuse-ld=lld -o wget.bc connect.o convert.o cookies.o ftp.o css_.o css-url.o ftp-basic.o ftp-ls.o hash.o host.o hsts.o html-parse.o html-url.o http.o init.o log.o main.o netrc.o progress.o ptimer.o recur.o res.o retr.o spider.o url.o warc.o utils.o exits.o build_info.o   version.o ftp-opie.o gnutls.o http-ntlm.o
+     mv wget.bc ../../../wget.bc
+     cd ..
+     make clean
      ```
-   - After completing the above steps, `wget.bc` will be generated in the `examples/wget/input/source_code/wget-1.8/src` directory. Move `wget.bc` to `examples/wget/input/`.
-   - Run `make clean` again.
 
 4. **32-bit Executable (for FlowCheck)**
-   - In your build configuration, add `-m32` to CFLAGS and include FlowCheck headers:
+   - Navigate to the source directory:
      ```bash
-     cd examples/wget/input/source_code/wget-1.8
-     ./configure   # (sometimes not needed)
-     make clean
-     make CPPFLAGS+="-I/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/include" CFLAGS+="-g -O0 -m32"
+     cd examples/wget/input/source_code/
+     cp -r wget-1.18 wget-1.18_back
+     patch -d wget-1.18 -p1 < diff.patch
+     cp FIPA
+     docker run -it -v .:/Desktop flowcheck-image
+     cd examples/wget/input/source_code/wget-1.18
+     rm -f config.cache
+     ./configure   
+     make CFLAGS+="-g -O0 -m32 -I/flowcheck/include"
+     cd src
+     mv wget ../../../wget_32
+     exit
+
      ```
    - Copy the generated `wget` binary from `examples/wget/input/source_code/wget-1.8/src` to `examples/wget/input/` and rename it to `wget_32`.
 
@@ -57,7 +79,7 @@ Before running the partitioning workflow, generate the following artifacts:
 
 1. **Extract Statement Ranges**
    ```bash
-   python3 scripts/step1_extract_statement_linerange.py --project_root examples/wget --compile_db examples/wget/input/compile_commands.json --output_dir examples/wget/output/
+   python3 scripts/extract_statement_linerange.py --project_root examples/wget --compile_db examples/wget/input/compile_commands.json --output_dir examples/wget/output/
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.

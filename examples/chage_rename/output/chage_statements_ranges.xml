@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root><function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39" />
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54" />
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75" />
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35" />
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41" />
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47" />
+    </function>
+    <function name="usage" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="DeclStmt:143:143" />
+        <stmt dec="CStyleCastExpr:144:148" />
+        <stmt dec="CStyleCastExpr:149:149" />
+        <stmt dec="CStyleCastExpr:150:150" />
+        <stmt dec="CStyleCastExpr:151:151" />
+        <stmt dec="CStyleCastExpr:152:153" />
+        <stmt dec="CStyleCastExpr:154:154" />
+        <stmt dec="CStyleCastExpr:155:156" />
+        <stmt dec="CStyleCastExpr:157:158" />
+        <stmt dec="CStyleCastExpr:159:159" />
+        <stmt dec="CStyleCastExpr:160:160" />
+        <stmt dec="CStyleCastExpr:161:161" />
+        <stmt dec="CallExpr:162:162" />
+    </function>
+    <function name="date_to_str" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="DeclStmt:167:167" />
+        <stmt dec="BinaryOperator:169:169" />
+        <stmt dec="CStyleCastExpr:171:171" />
+    </function>
+    <function name="new_fields" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="DeclStmt:189:189" />
+        <stmt dec="CStyleCastExpr:191:191" />
+        <stmt dec="CStyleCastExpr:192:192" />
+        <stmt dec="CStyleCastExpr:194:194" />
+        <stmt dec="CallExpr:195:195" />
+        <stmt dec="IfStmt:196:199" />
+        <stmt dec="CStyleCastExpr:201:201" />
+        <stmt dec="CallExpr:202:202" />
+        <stmt dec="IfStmt:203:206" />
+        <stmt dec="IfStmt:208:212" />
+        <stmt dec="CallExpr:214:214" />
+        <stmt dec="IfStmt:216:223" />
+        <stmt dec="CStyleCastExpr:225:225" />
+        <stmt dec="CallExpr:226:226" />
+        <stmt dec="IfStmt:227:230" />
+        <stmt dec="CStyleCastExpr:232:232" />
+        <stmt dec="CallExpr:233:233" />
+        <stmt dec="IfStmt:234:237" />
+        <stmt dec="IfStmt:239:243" />
+        <stmt dec="CallExpr:245:246" />
+        <stmt dec="IfStmt:248:255" />
+        <stmt dec="ReturnStmt:257:257" />
+    </function>
+    <function name="print_date" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="DeclStmt:263:263" />
+        <stmt dec="DeclStmt:264:264" />
+        <stmt dec="BinaryOperator:266:266" />
+        <stmt dec="IfStmt:267:272" />
+    </function>
+    <function name="list_fields" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="DeclStmt:298:298" />
+        <stmt dec="DeclStmt:299:299" />
+        <stmt dec="CStyleCastExpr:305:305" />
+        <stmt dec="IfStmt:306:313" />
+        <stmt dec="CStyleCastExpr:319:319" />
+        <stmt dec="IfStmt:320:329" />
+        <stmt dec="CStyleCastExpr:337:337" />
+        <stmt dec="IfStmt:338:348" />
+        <stmt dec="CStyleCastExpr:354:354" />
+        <stmt dec="IfStmt:355:360" />
+        <stmt dec="CallExpr:369:370" />
+        <stmt dec="CallExpr:371:372" />
+        <stmt dec="CallExpr:373:374" />
+    </function>
+    <function name="process_flags" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="DeclStmt:387:387" />
+        <stmt dec="DeclStmt:388:399" />
+        <stmt dec="WhileStmt:401:475" />
+        <stmt dec="CallExpr:477:477" />
+    </function>
+    <function name="check_flags" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="IfStmt:492:494" />
+        <stmt dec="IfStmt:496:501" />
+    </function>
+    <function name="check_perms" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="IfStmt:534:537" />
+    </function>
+    <function name="open_files" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="IfStmt:586:594" />
+        <stmt dec="IfStmt:595:599" />
+        <stmt dec="IfStmt:607:615" />
+        <stmt dec="IfStmt:616:621" />
+    </function>
+    <function name="close_files" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="IfStmt:633:638" />
+        <stmt dec="IfStmt:644:648" />
+        <stmt dec="IfStmt:649:653" />
+        <stmt dec="BinaryOperator:654:654" />
+        <stmt dec="IfStmt:655:659" />
+        <stmt dec="BinaryOperator:660:660" />
+    </function>
+    <function name="fail_exit" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="IfStmt:111:117" />
+        <stmt dec="IfStmt:118:124" />
+        <stmt dec="CallExpr:125:125" />
+        <stmt dec="CallExpr:135:135" />
+    </function>
+    <function name="update_age" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="DeclStmt:671:671" />
+        <stmt dec="IfStmt:678:696" />
+        <stmt dec="BinaryOperator:703:703" />
+        <stmt dec="BinaryOperator:704:704" />
+        <stmt dec="BinaryOperator:705:705" />
+        <stmt dec="BinaryOperator:706:706" />
+        <stmt dec="BinaryOperator:707:707" />
+        <stmt dec="BinaryOperator:708:708" />
+        <stmt dec="IfStmt:710:714" />
+    </function>
+    <function name="get_defaults" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="IfStmt:727:769" />
+    </function>
+    <function name="main" dir="/home/test/Code/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
+        <stmt dec="DeclStmt:795:795" />
+        <stmt dec="DeclStmt:796:796" />
+        <stmt dec="DeclStmt:797:797" />
+        <stmt dec="DeclStmt:798:798" />
+        <stmt dec="BinaryOperator:803:803" />
+        <stmt dec="CallExpr:805:805" />
+        <stmt dec="CStyleCastExpr:806:806" />
+        <stmt dec="CStyleCastExpr:807:807" />
+        <stmt dec="CStyleCastExpr:808:808" />
+        <stmt dec="CallExpr:810:810" />
+        <stmt dec="CallExpr:815:815" />
+        <stmt dec="BinaryOperator:817:817" />
+        <stmt dec="BinaryOperator:818:818" />
+        <stmt dec="BinaryOperator:819:819" />
+        <stmt dec="IfStmt:821:823" />
+        <stmt dec="CallExpr:826:826" />
+        <stmt dec="CallExpr:828:828" />
+        <stmt dec="IfStmt:830:837" />
+        <stmt dec="CallExpr:839:839" />
+        <stmt dec="IfStmt:841:846" />
+        <stmt dec="BinaryOperator:848:848" />
+        <stmt dec="IfStmt:849:854" />
+        <stmt dec="ParenExpr:856:856" />
+        <stmt dec="BinaryOperator:862:862" />
+        <stmt dec="BinaryOperator:864:864" />
+        <stmt dec="CallExpr:865:865" />
+        <stmt dec="IfStmt:871:883" />
+        <stmt dec="IfStmt:889:937" />
+        <stmt dec="CallExpr:939:939" />
+        <stmt dec="CallExpr:941:941" />
+        <stmt dec="DoStmt:943:943" />
+        <stmt dec="CallExpr:945:945" />
+        <stmt dec="CallExpr:946:946" />
+    </function>
+</root>

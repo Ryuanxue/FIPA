@@ -1,0 +1,5 @@
+pam_pass.o: pam_pass.c /usr/include/stdc-predef.h ../config.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:

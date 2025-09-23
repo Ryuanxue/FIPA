@@ -1,0 +1,6 @@
+pam_pass_non_interractive.o: pam_pass_non_interractive.c \
+ /usr/include/stdc-predef.h ../config.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:

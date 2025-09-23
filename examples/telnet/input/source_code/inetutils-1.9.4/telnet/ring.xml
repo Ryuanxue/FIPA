@@ -1,0 +1,185 @@
+<root>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h"/>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="getchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:49:49"/>
+    </function>
+    <function name="getc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:68:68"/>
+    </function>
+    <function name="getchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="fgetc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:58:58"/>
+    </function>
+    <function name="putchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:84:84"/>
+    </function>
+    <function name="fputc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:93:93"/>
+    </function>
+    <function name="putc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:103:103"/>
+    </function>
+    <function name="putchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:110:110"/>
+    </function>
+    <function name="feof_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:130:130"/>
+    </function>
+    <function name="ferror_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:137:137"/>
+    </function>
+    <function name="vprintf" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="getchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:49:49"/>
+    </function>
+    <function name="fgetc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:58:58"/>
+    </function>
+    <function name="getc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:68:68"/>
+    </function>
+    <function name="getchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="putchar" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:84:84"/>
+    </function>
+    <function name="fputc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:93:93"/>
+    </function>
+    <function name="putc_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:103:103"/>
+    </function>
+    <function name="putchar_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:110:110"/>
+    </function>
+    <function name="feof_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:130:130"/>
+    </function>
+    <function name="ferror_unlocked" dir="/usr/include/x86_64-linux-gnu/bits/stdio.h">
+        <stmt dec="ReturnStmt:137:137"/>
+    </function>
+    <function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39"/>
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54"/>
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35"/>
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47"/>
+    </function>
+    <function name="__cmsg_nxthdr" dir="/usr/include/x86_64-linux-gnu/bits/socket.h">
+        <stmt dec="IfStmt:314:316"/>
+        <stmt dec="BinaryOperator:318:319"/>
+        <stmt dec="IfStmt:320:325"/>
+        <stmt dec="ReturnStmt:326:326"/>
+    </function>
+    <function name="__cmsg_nxthdr" dir="/usr/include/x86_64-linux-gnu/bits/socket.h">
+        <stmt dec="IfStmt:314:316"/>
+        <stmt dec="BinaryOperator:318:319"/>
+        <stmt dec="IfStmt:320:325"/>
+        <stmt dec="ReturnStmt:326:326"/>
+    </function>
+    <function name="ring_init" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="CallExpr:121:121"/>
+        <stmt dec="BinaryOperator:123:123"/>
+        <stmt dec="BinaryOperator:125:125"/>
+        <stmt dec="BinaryOperator:127:127"/>
+        <stmt dec="ReturnStmt:133:133"/>
+    </function>
+    <function name="ring_supply_data" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="DeclStmt:318:318"/>
+        <stmt dec="WhileStmt:320:327"/>
+    </function>
+    <function name="ring_supplied" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="BinaryOperator:181:181"/>
+        <stmt dec="BinaryOperator:182:182"/>
+    </function>
+    <function name="ring_consumed" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:191:192"/>
+        <stmt dec="IfStmt:194:197"/>
+        <stmt dec="BinaryOperator:206:206"/>
+        <stmt dec="BinaryOperator:207:207"/>
+        <stmt dec="IfStmt:211:214"/>
+    </function>
+    <function name="ring_empty_count" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:226:233"/>
+    </function>
+    <function name="ring_empty_consecutive" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:240:254"/>
+    </function>
+    <function name="ring_full_count" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:264:278"/>
+    </function>
+    <function name="ring_full_consecutive" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:288:309"/>
+    </function>
+    <function name="ring_clear_mark" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="BinaryOperator:172:172"/>
+    </function>
+    <function name="ring_mark" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="BinaryOperator:145:145"/>
+    </function>
+    <function name="ring_at_mark" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:155:162"/>
+    </function>
+    <function name="ring_init" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="CallExpr:121:121"/>
+        <stmt dec="BinaryOperator:123:123"/>
+        <stmt dec="BinaryOperator:125:125"/>
+        <stmt dec="BinaryOperator:127:127"/>
+        <stmt dec="ReturnStmt:133:133"/>
+    </function>
+    <function name="ring_mark" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="BinaryOperator:145:145"/>
+    </function>
+    <function name="ring_at_mark" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:155:162"/>
+    </function>
+    <function name="ring_clear_mark" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="BinaryOperator:172:172"/>
+    </function>
+    <function name="ring_supplied" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="BinaryOperator:181:181"/>
+        <stmt dec="BinaryOperator:182:182"/>
+    </function>
+    <function name="ring_consumed" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:191:192"/>
+        <stmt dec="IfStmt:194:197"/>
+        <stmt dec="BinaryOperator:206:206"/>
+        <stmt dec="BinaryOperator:207:207"/>
+        <stmt dec="IfStmt:211:214"/>
+    </function>
+    <function name="ring_empty_count" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:226:233"/>
+    </function>
+    <function name="ring_empty_consecutive" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:240:254"/>
+    </function>
+    <function name="ring_full_count" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:264:278"/>
+    </function>
+    <function name="ring_full_consecutive" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="IfStmt:288:309"/>
+    </function>
+    <function name="ring_supply_data" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c">
+        <stmt dec="DeclStmt:318:318"/>
+        <stmt dec="WhileStmt:320:327"/>
+    </function>
+</root>

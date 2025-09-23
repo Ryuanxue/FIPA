@@ -6,8 +6,8 @@
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., file-based (e.g., `/etc/passwd`) or code annotation using `FC_TAINT_WORLD()`]
-- Annotation method: [File permission modification or source code annotation, as appropriate]
+- Sensitive sources: `/etc/passwd` and `/etc/shadow`
+- Annotation method: Modify the permissions of `/etc/passwd` and `/etc/shadow` to restrict access.
 
 ## Preprocessing Steps
 

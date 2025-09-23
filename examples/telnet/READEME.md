@@ -6,8 +6,8 @@
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., network packets, configuration files, or code annotation using `FC_TAINT_WORLD()`]
-- Annotation method: [File permission modification or source code annotation, as appropriate]
+- Sensitive sources:  Data from internet.
+- Annotation method: Annotate sensitive sources in the code using `FC_TAINT_WORLD`. For details, refer to `source_input/diff.patch`.
 
 ## Preprocessing Steps
 
@@ -15,51 +15,61 @@ Before running the partitioning workflow, generate the following artifacts:
 
 1. **64-bit Executable**
    - Compile the `inetutils` project with only the `telnet` client enabled.
-   - Ensure dependencies are installed as required by your project.
+   - Ensure all required dependencies are installed.
    - Navigate to the source directory:
      ```bash
      cd examples/telnet/input/source_code/inetutils-1.9.4
      ./configure --disable-servers --disable-clients --enable-telnet
-     make -j8
+     # Edit the Makefile: locate the CFLAGS option and change `-O2` to `-O0` for debugging.
+     bear make -j8
+     cd telnet
+     mv telnet ../../../telnet_64
      ```
-   - Copy the `telnet` executable from `telnet/` to `examples/telnet/input/` and rename to `telnet_64`.
 
 2. **Compilation Database**
    - Locate the full `compile_commands.json` generated in `examples/telnet/input/source_code/inetutils-1.9.4` (if available).
-   - Find the entry corresponding to `telnet.c`. Copy only the `telnet.c` entry into a new file at `examples/telnet/input/compile_commands.json`. This ensures that only the source code for `telnet.c` is partitioned in subsequent steps.
+   - In `examples/telnet/input`, create a new `compile_commands.json` file.
+   - From the original compilation database, copy all entries where the `"directory"` field contains the substring `examples/telnet/input/source_code/inetutils-1.9.4/telnet` (i.e., any entry whose source file is under the `telnet` subdirectory). Paste these entries into the new file. This ensures only the `telnet` source files are included for partitioning.
 
 3. **LLVM Bitcode File (.bc)**
-   - Clean previous builds:
-     ```bash
-     make clean
-     ```
    - Rebuild with bitcode flags:
      ```bash
-     make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8
-     cd telnet
-     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -o telnet.bc telnet.o
+     make clean
+     ./configure --disable-servers --disable-clients --enable-telnet CC=clang CFLAGS="-flto -g -O0 -fno-discard-value-names -fembed-bitcode " LDFLAGS="-flto -fuse-ld=lld"
+     make -j8 V=1
      ```
-   - After completing the above steps, `telnet.bc` will be generated in the `examples/telnet/input/source_code/inetutils-1.9.4/telnet` directory. Move `telnet.bc` to `examples/telnet/input/`.
-   - Run `make clean` again.
+   - Locate the  link command (e.g., starting with `clang ... -o telnet ...`).
+   - Modify the command by adding `-Wl,--plugin-opt=emit-llvm`, changing `-o telnet` to `-o telnet.bc`, so it looks like:
+     ```bash
+     cd telnet
+     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -flto -fuse-ld=lld -o telnet.bc authenc.o commands.o main.o network.o ring.o sys_bsd.o telnet.o terminal.o tn3270.o utilities.o ../libtelnet/libtelnet.a ../libinetutils/libinetutils.a ../lib/libgnu.a -ltermcap -lcrypt
+     mv telnet.bc ../../../telnet.bc
+     cd ..
+     make clean
+     ```
 
 4. **32-bit Executable (for FlowCheck)**
    - In your build configuration, add `-m32` to CFLAGS.
    - Start Docker:
      ```bash
+     cd FIPA/examples/telnet/input/source_code
+     cp -r inetutils-1.9.4 inetutils-1.9.4_back
+     patch -d inetutils-1.9.4 -p1 < diff.patch
      cd FIPA
      docker run -it -v .:/Desktop flowcheck-image
      cd examples/telnet/input/source_code/inetutils-1.9.4
-     ./configure --disable-servers --disable-clients --enable-telnet
+     ./configure --disable-servers --disable-clients --enable-telnet CFLAGS="-g -O0 -m32  -I/flowcheck/include/"
      make -j8
      cd telnet
+     mv telnet ../../../telnet_32
+     exit
      ```
-   - Copy the generated `telnet` binary from `examples/telnet/input/source_code/inetutils-1.9.4/telnet` to `examples/telnet/input/` and rename it to `telnet_32`.
 
 ## Partitioning Workflow Steps
 
 1. **Extract Statement Ranges**
    ```bash
-   python3 scripts/step1_extract_statement_linerange.py --project_root examples/telnet --compile_db examples/telnet/input/compile_commands.json --output_dir examples/telnet/output/
+   python3 scripts/extract_statement_linerange.py --project_root examples/telnet --compile_db examples/telnet/input/compile_commands.json --output_dir examples/telnet/output/
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.

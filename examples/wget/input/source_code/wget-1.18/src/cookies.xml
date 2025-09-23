@@ -1,0 +1,442 @@
+<root>
+    <function name="__bswap_16" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:39:39"/>
+    </function>
+    <function name="__bswap_32" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:54:54"/>
+    </function>
+    <function name="__bswap_64" dir="/usr/include/x86_64-linux-gnu/bits/byteswap.h">
+        <stmt dec="ReturnStmt:75:75"/>
+    </function>
+    <function name="__uint16_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:35:35"/>
+    </function>
+    <function name="__uint32_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:41:41"/>
+    </function>
+    <function name="__uint64_identity" dir="/usr/include/x86_64-linux-gnu/bits/uintn-identity.h">
+        <stmt dec="ReturnStmt:47:47"/>
+    </function>
+    <function name="pgettext_aux" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:152:152"/>
+        <stmt dec="IfStmt:153:156"/>
+    </function>
+    <function name="npgettext_aux" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:172:173"/>
+        <stmt dec="IfStmt:174:177"/>
+    </function>
+    <function name="dcpgettext_expr" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:214:214"/>
+        <stmt dec="DeclStmt:215:215"/>
+        <stmt dec="DeclStmt:216:216"/>
+        <stmt dec="DeclStmt:218:218"/>
+        <stmt dec="CompoundStmt:227:238"/>
+        <stmt dec="ReturnStmt:239:239"/>
+    </function>
+    <function name="dcnpgettext_expr" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/gettext.h">
+        <stmt dec="DeclStmt:260:260"/>
+        <stmt dec="DeclStmt:261:261"/>
+        <stmt dec="DeclStmt:262:262"/>
+        <stmt dec="DeclStmt:264:264"/>
+        <stmt dec="CompoundStmt:273:284"/>
+        <stmt dec="ReturnStmt:285:285"/>
+    </function>
+    <function name="c_isalnum" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:171:179"/>
+    </function>
+    <function name="c_isalpha" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:185:192"/>
+    </function>
+    <function name="c_isascii" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:200:211"/>
+    </function>
+    <function name="c_isblank" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="ReturnStmt:217:217"/>
+    </function>
+    <function name="c_iscntrl" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:223:229"/>
+    </function>
+    <function name="c_isdigit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:235:241"/>
+    </function>
+    <function name="c_isgraph" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:247:256"/>
+    </function>
+    <function name="c_islower" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:262:268"/>
+    </function>
+    <function name="c_isprint" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:274:284"/>
+    </function>
+    <function name="c_ispunct" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:290:296"/>
+    </function>
+    <function name="c_isspace" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:302:308"/>
+    </function>
+    <function name="c_isupper" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:314:320"/>
+    </function>
+    <function name="c_isxdigit" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:326:333"/>
+    </function>
+    <function name="c_tolower" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:339:345"/>
+    </function>
+    <function name="c_toupper" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/c-ctype.h">
+        <stmt dec="SwitchStmt:351:357"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:106:107"/>
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnmalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:106:107"/>
+        <stmt dec="ReturnStmt:108:108"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:119:120"/>
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="xnrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="IfStmt:119:120"/>
+        <stmt dec="ReturnStmt:121:121"/>
+    </function>
+    <function name="x2nrealloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="DeclStmt:181:181"/>
+        <stmt dec="IfStmt:183:206"/>
+        <stmt dec="BinaryOperator:208:208"/>
+        <stmt dec="ReturnStmt:209:209"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="ReturnStmt:220:220"/>
+    </function>
+    <function name="xcharalloc" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/lib/xalloc.h">
+        <stmt dec="ReturnStmt:220:220"/>
+    </function>
+    <function name="cookie_jar_new" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:92:92"/>
+        <stmt dec="BinaryOperator:93:93"/>
+        <stmt dec="BinaryOperator:94:94"/>
+        <stmt dec="ReturnStmt:95:95"/>
+    </function>
+    <function name="cookie_jar_delete" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1363:1363"/>
+        <stmt dec="ForStmt:1364:1375"/>
+        <stmt dec="CallExpr:1376:1376"/>
+        <stmt dec="DoStmt:1377:1377"/>
+    </function>
+    <function name="cookie_handle_set_cookie" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:712:712"/>
+        <stmt dec="BinaryOperator:713:713"/>
+        <stmt dec="DoStmt:718:718"/>
+        <stmt dec="BinaryOperator:720:720"/>
+        <stmt dec="IfStmt:721:722"/>
+        <stmt dec="IfStmt:726:746"/>
+        <stmt dec="IfStmt:748:768"/>
+        <stmt dec="IfStmt:773:777"/>
+        <stmt dec="CallExpr:779:779"/>
+        <stmt dec="ReturnStmt:780:780"/>
+        <stmt dec="LabelStmt:782:784"/>
+    </function>
+    <function name="cookie_header" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1016:1016"/>
+        <stmt dec="DeclStmt:1017:1017"/>
+        <stmt dec="DeclStmt:1019:1019"/>
+        <stmt dec="DeclStmt:1020:1020"/>
+        <stmt dec="DeclStmt:1021:1021"/>
+        <stmt dec="DeclStmt:1022:1022"/>
+        <stmt dec="DeclStmt:1023:1023"/>
+        <stmt dec="DoStmt:1024:1024"/>
+        <stmt dec="BinaryOperator:1031:1031"/>
+        <stmt dec="BinaryOperator:1032:1032"/>
+        <stmt dec="IfStmt:1035:1036"/>
+        <stmt dec="BinaryOperator:1038:1038"/>
+        <stmt dec="BinaryOperator:1045:1045"/>
+        <stmt dec="ForStmt:1046:1049"/>
+        <stmt dec="IfStmt:1050:1051"/>
+        <stmt dec="BinaryOperator:1054:1054"/>
+        <stmt dec="BinaryOperator:1058:1058"/>
+        <stmt dec="ForStmt:1059:1069"/>
+        <stmt dec="ParenExpr:1070:1070"/>
+        <stmt dec="BinaryOperator:1074:1074"/>
+        <stmt dec="CallExpr:1078:1078"/>
+        <stmt dec="BinaryOperator:1081:1081"/>
+        <stmt dec="ForStmt:1082:1087"/>
+        <stmt dec="BinaryOperator:1093:1093"/>
+        <stmt dec="BinaryOperator:1094:1094"/>
+        <stmt dec="BinaryOperator:1095:1095"/>
+        <stmt dec="ForStmt:1096:1112"/>
+        <stmt dec="BinaryOperator:1113:1113"/>
+        <stmt dec="ParenExpr:1114:1114"/>
+        <stmt dec="ReturnStmt:1115:1115"/>
+    </function>
+    <function name="cookie_jar_load" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1184:1184"/>
+        <stmt dec="DeclStmt:1185:1185"/>
+        <stmt dec="DeclStmt:1187:1187"/>
+        <stmt dec="IfStmt:1188:1193"/>
+        <stmt dec="BinaryOperator:1195:1195"/>
+        <stmt dec="WhileStmt:1197:1290"/>
+        <stmt dec="DoStmt:1292:1292"/>
+        <stmt dec="CallExpr:1293:1293"/>
+    </function>
+    <function name="cookie_jar_save" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1301:1301"/>
+        <stmt dec="DeclStmt:1302:1302"/>
+        <stmt dec="DoStmt:1304:1304"/>
+        <stmt dec="BinaryOperator:1306:1306"/>
+        <stmt dec="BinaryOperator:1308:1308"/>
+        <stmt dec="IfStmt:1309:1314"/>
+        <stmt dec="CallExpr:1316:1316"/>
+        <stmt dec="CallExpr:1317:1317"/>
+        <stmt dec="CallExpr:1318:1318"/>
+        <stmt dec="ForStmt:1320:1345"/>
+        <stmt dec="LabelStmt:1346:1349"/>
+        <stmt dec="IfStmt:1350:1352"/>
+        <stmt dec="DoStmt:1354:1354"/>
+    </function>
+    <function name="cookie_jar_new" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:92:92"/>
+        <stmt dec="BinaryOperator:93:93"/>
+        <stmt dec="BinaryOperator:94:94"/>
+        <stmt dec="ReturnStmt:95:95"/>
+    </function>
+    <function name="cookie_new" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:132:132"/>
+        <stmt dec="BinaryOperator:138:138"/>
+        <stmt dec="ReturnStmt:139:139"/>
+    </function>
+    <function name="cookie_expired_p" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="ReturnStmt:148:148"/>
+    </function>
+    <function name="delete_cookie" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DoStmt:156:156"/>
+        <stmt dec="DoStmt:157:157"/>
+        <stmt dec="DoStmt:158:158"/>
+        <stmt dec="DoStmt:159:159"/>
+        <stmt dec="DoStmt:160:160"/>
+    </function>
+    <function name="find_matching_cookie" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:181:181"/>
+        <stmt dec="BinaryOperator:183:183"/>
+        <stmt dec="IfStmt:184:185"/>
+        <stmt dec="BinaryOperator:187:187"/>
+        <stmt dec="ForStmt:188:195"/>
+        <stmt dec="LabelStmt:197:198"/>
+        <stmt dec="ReturnStmt:199:199"/>
+    </function>
+    <function name="store_cookie" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:214:214"/>
+        <stmt dec="DeclStmt:215:215"/>
+        <stmt dec="IfStmt:217:258"/>
+        <stmt dec="CallExpr:260:260"/>
+        <stmt dec="UnaryOperator:261:261"/>
+        <stmt dec="IfStmt:263:274"/>
+    </function>
+    <function name="discard_matching_cookie" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:286:286"/>
+        <stmt dec="IfStmt:288:290"/>
+        <stmt dec="BinaryOperator:292:292"/>
+        <stmt dec="IfStmt:293:325"/>
+    </function>
+    <function name="parse_set_cookie" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:355:355"/>
+        <stmt dec="DeclStmt:356:356"/>
+        <stmt dec="DeclStmt:357:357"/>
+        <stmt dec="IfStmt:359:360"/>
+        <stmt dec="IfStmt:361:362"/>
+        <stmt dec="IfStmt:365:366"/>
+        <stmt dec="IfStmt:367:368"/>
+        <stmt dec="BinaryOperator:370:370"/>
+        <stmt dec="BinaryOperator:371:371"/>
+        <stmt dec="WhileStmt:373:446"/>
+        <stmt dec="IfStmt:447:449"/>
+        <stmt dec="ReturnStmt:452:452"/>
+        <stmt dec="LabelStmt:454:459"/>
+        <stmt dec="CallExpr:460:460"/>
+        <stmt dec="ReturnStmt:461:461"/>
+    </function>
+    <function name="numeric_address_p" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:493:493"/>
+        <stmt dec="DoStmt:495:495"/>
+        <stmt dec="DoStmt:496:496"/>
+        <stmt dec="DoStmt:497:497"/>
+        <stmt dec="DoStmt:498:498"/>
+        <stmt dec="DoStmt:499:499"/>
+        <stmt dec="DoStmt:500:500"/>
+        <stmt dec="DoStmt:501:501"/>
+        <stmt dec="IfStmt:503:504"/>
+        <stmt dec="ReturnStmt:505:505"/>
+    </function>
+    <function name="check_domain_match" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:528:528"/>
+        <stmt dec="DeclStmt:529:529"/>
+        <stmt dec="DeclStmt:530:530"/>
+        <stmt dec="DeclStmt:531:531"/>
+        <stmt dec="DoStmt:533:533"/>
+        <stmt dec="IfStmt:534:539"/>
+        <stmt dec="IfStmt:541:551"/>
+        <stmt dec="DoStmt:553:553"/>
+        <stmt dec="DoStmt:554:554"/>
+        <stmt dec="ReturnStmt:556:556"/>
+        <stmt dec="LabelStmt:558:560"/>
+        <stmt dec="DoStmt:561:561"/>
+        <stmt dec="DoStmt:565:565"/>
+        <stmt dec="IfStmt:568:569"/>
+        <stmt dec="DoStmt:571:571"/>
+        <stmt dec="IfStmt:574:575"/>
+        <stmt dec="CompoundStmt:602:660"/>
+        <stmt dec="DoStmt:662:662"/>
+        <stmt dec="IfStmt:666:675"/>
+        <stmt dec="DoStmt:677:677"/>
+        <stmt dec="ReturnStmt:679:679"/>
+    </function>
+    <function name="path_matches" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:861:861"/>
+        <stmt dec="IfStmt:863:865"/>
+        <stmt dec="ReturnStmt:868:868"/>
+    </function>
+    <function name="check_path_match" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="ReturnStmt:689:689"/>
+    </function>
+    <function name="cookie_handle_set_cookie" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:712:712"/>
+        <stmt dec="BinaryOperator:713:713"/>
+        <stmt dec="DoStmt:718:718"/>
+        <stmt dec="BinaryOperator:720:720"/>
+        <stmt dec="IfStmt:721:722"/>
+        <stmt dec="IfStmt:726:746"/>
+        <stmt dec="IfStmt:748:768"/>
+        <stmt dec="IfStmt:773:777"/>
+        <stmt dec="CallExpr:779:779"/>
+        <stmt dec="ReturnStmt:780:780"/>
+        <stmt dec="LabelStmt:782:784"/>
+    </function>
+    <function name="count_char" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:796:796"/>
+        <stmt dec="DeclStmt:797:797"/>
+        <stmt dec="ForStmt:798:800"/>
+        <stmt dec="ReturnStmt:801:801"/>
+    </function>
+    <function name="find_chains_of_host" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:820:820"/>
+        <stmt dec="DeclStmt:821:821"/>
+        <stmt dec="IfStmt:824:825"/>
+        <stmt dec="IfStmt:827:834"/>
+        <stmt dec="BinaryOperator:836:836"/>
+        <stmt dec="WhileStmt:842:850"/>
+        <stmt dec="ReturnStmt:852:852"/>
+    </function>
+    <function name="path_matches" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:861:861"/>
+        <stmt dec="IfStmt:863:865"/>
+        <stmt dec="ReturnStmt:868:868"/>
+    </function>
+    <function name="cookie_matches_url" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:883:883"/>
+        <stmt dec="IfStmt:885:891"/>
+        <stmt dec="IfStmt:893:895"/>
+        <stmt dec="IfStmt:896:897"/>
+        <stmt dec="IfStmt:902:904"/>
+        <stmt dec="BinaryOperator:906:906"/>
+        <stmt dec="IfStmt:907:908"/>
+        <stmt dec="IfStmt:910:914"/>
+        <stmt dec="ReturnStmt:915:915"/>
+    </function>
+    <function name="equality_comparator" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:934:934"/>
+        <stmt dec="DeclStmt:935:935"/>
+        <stmt dec="DeclStmt:937:937"/>
+        <stmt dec="DeclStmt:938:938"/>
+        <stmt dec="ReturnStmt:942:942"/>
+    </function>
+    <function name="eliminate_dups" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:952:952"/>
+        <stmt dec="DeclStmt:953:953"/>
+        <stmt dec="DeclStmt:954:954"/>
+        <stmt dec="CallExpr:960:960"/>
+        <stmt dec="ForStmt:966:983"/>
+        <stmt dec="ReturnStmt:984:984"/>
+    </function>
+    <function name="goodness_comparator" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:992:992"/>
+        <stmt dec="DeclStmt:993:993"/>
+        <stmt dec="DeclStmt:997:997"/>
+        <stmt dec="DeclStmt:998:998"/>
+        <stmt dec="ReturnStmt:1003:1003"/>
+    </function>
+    <function name="cookie_header" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1016:1016"/>
+        <stmt dec="DeclStmt:1017:1017"/>
+        <stmt dec="DeclStmt:1019:1019"/>
+        <stmt dec="DeclStmt:1020:1020"/>
+        <stmt dec="DeclStmt:1021:1021"/>
+        <stmt dec="DeclStmt:1022:1022"/>
+        <stmt dec="DeclStmt:1023:1023"/>
+        <stmt dec="DoStmt:1024:1024"/>
+        <stmt dec="BinaryOperator:1031:1031"/>
+        <stmt dec="BinaryOperator:1032:1032"/>
+        <stmt dec="IfStmt:1035:1036"/>
+        <stmt dec="BinaryOperator:1038:1038"/>
+        <stmt dec="BinaryOperator:1045:1045"/>
+        <stmt dec="ForStmt:1046:1049"/>
+        <stmt dec="IfStmt:1050:1051"/>
+        <stmt dec="BinaryOperator:1054:1054"/>
+        <stmt dec="BinaryOperator:1058:1058"/>
+        <stmt dec="ForStmt:1059:1069"/>
+        <stmt dec="ParenExpr:1070:1070"/>
+        <stmt dec="BinaryOperator:1074:1074"/>
+        <stmt dec="CallExpr:1078:1078"/>
+        <stmt dec="BinaryOperator:1081:1081"/>
+        <stmt dec="ForStmt:1082:1087"/>
+        <stmt dec="BinaryOperator:1093:1093"/>
+        <stmt dec="BinaryOperator:1094:1094"/>
+        <stmt dec="BinaryOperator:1095:1095"/>
+        <stmt dec="ForStmt:1096:1112"/>
+        <stmt dec="BinaryOperator:1113:1113"/>
+        <stmt dec="ParenExpr:1114:1114"/>
+        <stmt dec="ReturnStmt:1115:1115"/>
+    </function>
+    <function name="domain_port" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1155:1155"/>
+        <stmt dec="DeclStmt:1156:1156"/>
+        <stmt dec="DeclStmt:1157:1157"/>
+        <stmt dec="IfStmt:1158:1159"/>
+        <stmt dec="ForStmt:1160:1161"/>
+        <stmt dec="IfStmt:1162:1164"/>
+        <stmt dec="BinaryOperator:1165:1165"/>
+        <stmt dec="ReturnStmt:1166:1166"/>
+    </function>
+    <function name="cookie_jar_load" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1184:1184"/>
+        <stmt dec="DeclStmt:1185:1185"/>
+        <stmt dec="DeclStmt:1187:1187"/>
+        <stmt dec="IfStmt:1188:1193"/>
+        <stmt dec="BinaryOperator:1195:1195"/>
+        <stmt dec="WhileStmt:1197:1290"/>
+        <stmt dec="DoStmt:1292:1292"/>
+        <stmt dec="CallExpr:1293:1293"/>
+    </function>
+    <function name="cookie_jar_save" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1301:1301"/>
+        <stmt dec="DeclStmt:1302:1302"/>
+        <stmt dec="DoStmt:1304:1304"/>
+        <stmt dec="BinaryOperator:1306:1306"/>
+        <stmt dec="BinaryOperator:1308:1308"/>
+        <stmt dec="IfStmt:1309:1314"/>
+        <stmt dec="CallExpr:1316:1316"/>
+        <stmt dec="CallExpr:1317:1317"/>
+        <stmt dec="CallExpr:1318:1318"/>
+        <stmt dec="ForStmt:1320:1345"/>
+        <stmt dec="LabelStmt:1346:1349"/>
+        <stmt dec="IfStmt:1350:1352"/>
+        <stmt dec="DoStmt:1354:1354"/>
+    </function>
+    <function name="cookie_jar_delete" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/wget/input/source_code/wget-1.18/src/cookies.c">
+        <stmt dec="DeclStmt:1363:1363"/>
+        <stmt dec="ForStmt:1364:1375"/>
+        <stmt dec="CallExpr:1376:1376"/>
+        <stmt dec="DoStmt:1377:1377"/>
+    </function>
+</root>
