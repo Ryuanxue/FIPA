@@ -45,6 +45,7 @@ import os
 import sys
 import argparse
 import glob
+from time import sleep
 import xml.etree.ElementTree as ET
 
 def parse_args():
@@ -115,6 +116,7 @@ for element in compile_commands:
         except subprocess.CalledProcessError as e:
             print(f"Error running command: {e}")
 
+sleep(1)  # 等待所有命令执行完毕
 # 合并 XML 文件
 unique_functions = {}
 for element in compile_commands:
