@@ -1,0 +1,16 @@
+prefix=/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/valgrind-r15939+flowcheck/..
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/valgrind
+arch=x86
+os=linux
+platform=x86-linux
+valt_load_address=0x38000000
+
+Name: Valgrind
+Description: A dynamic binary instrumentation framework
+Version: 3.12.0.SVN
+Requires:
+Libs: -L${libdir}/valgrind -lcoregrind-x86-linux -lvex-x86-linux -lgcc
+Cflags: -I${includedir}
+
