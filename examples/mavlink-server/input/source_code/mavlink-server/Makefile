@@ -2,9 +2,9 @@
 
 # 编译器设置
 CC = gcc
-CFLAGS = -g -O0 -Igenerated/include
-FLOWCHECK_PATH = /home/raoxue/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/include
-FLOWCHECK_PATH_DOCKER=/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/include
+CFLAGS = -g -O0 -Igenerated/include 
+#FLOWCHECK_PATH = /home/raoxue/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/include
+FLOWCHECK_PATH_DOCKER=/flowcheck/include
 
 # 目标文件
 CLIENT = mavlink_client
@@ -18,11 +18,11 @@ all: $(CLIENT) $(SERVER)
 
 # 客户端目标
 $(CLIENT): mavlink_client.c
-	$(CC) $(CFLAGS) -I$(FLOWCHECK_PATH) -o $@ $<
+	$(CC) $(CFLAGS)  -o $@ $<
 
 # 服务器目标
 $(SERVER): mavlink_server.c
-	$(CC) $(CFLAGS) -I$(FLOWCHECK_PATH) -o $@ $<
+	$(CC) $(CFLAGS)  -o $@ $<
 
 # 32位客户端目标(用于docker)
 $(CLIENT_32): mavlink_client.c

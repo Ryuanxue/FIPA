@@ -2,12 +2,12 @@
 
 ## Project Overview
 
-`mavlink-server` is a server utility for interacting with MAVLink-based systems. This project demonstrates fine-grained partitioning of the `mavlink-server` program using the FIPA toolchain.
+`mavlink-server` is a utility designed to receive heartbeat messages sent from MAVLink clients. 
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., network packets, configuration files, or code annotation using `FC_TAINT_WORLD()`]
-- Annotation method: [File permission modification or source code annotation, as appropriate]
+- Sensitive sources: Data from internet.
+- Annotation method: Annotated using FlowCheck's API, `FC_TAINT_WORLD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
 
 ## Preprocessing Steps
 
@@ -19,39 +19,36 @@ Before running the partitioning workflow, generate the following artifacts:
    - Navigate to the source directory:
      ```bash
      cd examples/mavlink-server/input/source_code/mavlink-server
-     make -j8
-     ```
-   - Copy the `mavlink-server` executable from `src/` to `examples/mavlink-server/input/` and rename to `mavlink-server_64`.
-
-2. **Compilation Database**
-   - Locate the full `compile_commands.json` generated in `examples/mavlink-server/input/source_code/mavlink-server` (if available).
-   - Find the entry corresponding to `mavlink-server.c`. Copy only the `mavlink-server.c` entry into a new file at `examples/mavlink-server/input/compile_commands.json`. This ensures that only the source code for `mavlink-server.c` is partitioned in subsequent steps.
-
-3. **LLVM Bitcode File (.bc)**
-   - Clean previous builds:
-     ```bash
+     bear make mavlink_server
+     mv mavlink_server ../../mavlink_server_64
+     mv compile_commands.json ../../
      make clean
      ```
+2. **Compilation Database**
+    - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory.
+
+3. **LLVM Bitcode File (.ll)**
    - Rebuild with bitcode flags:
      ```bash
-     make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8
-     cd src
-     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -o mavlink-server.bc mavlink-server.o
+     
+     clang -g -S -emit-llvm -O0 -Igenerated/include  -g -O0 -fno-discard-value-names  mavlink_server.c
+     mv mavlink_server.ll ../../
      ```
-   - After completing the above steps, `mavlink-server.bc` will be generated in the `examples/mavlink-server/input/source_code/mavlink-server/src` directory. Move `mavlink-server.bc` to `examples/mavlink-server/input/`.
-   - Run `make clean` again.
 
 4. **32-bit Executable (for FlowCheck)**
-   - In your build configuration, add `-m32` to CFLAGS.
    - Start Docker:
      ```bash
+     cd examples/mavlink-server/input/source_code
+     cp -r  mavlink-server mavlink-server_back
+     patch -d mavlink-server -p1 < diff.patch
      cd FIPA
      docker run -it -v .:/Desktop flowcheck-image
      cd examples/mavlink-server/input/source_code/mavlink-server
-     make -j8
-     cd src
+     make mavlink_server_32
+     mv mavlink_server ../../mavlink_server_32
+     make clean
+     exit
      ```
-   - Copy the generated `mavlink-server` binary from `examples/mavlink-server/input/source_code/mavlink-server/src` to `examples/mavlink-server/input/` and rename it to `mavlink-server_32`.
 
 ## Partitioning Workflow Steps
 

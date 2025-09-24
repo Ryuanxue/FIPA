@@ -19,7 +19,7 @@ Before running the partitioning workflow, generate the following artifacts:
    - Navigate to the source directory:
      ```bash
      cd examples/mavlink-client/input/source_code/mavlink-client
-     bear make 
+     bear make mavlink_client
      mv mavlink_client ../../mavlink_client_64
      mv compile_commands.json ../../
      make clean

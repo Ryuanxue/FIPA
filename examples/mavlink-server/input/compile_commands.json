@@ -1,0 +1,16 @@
+[
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-g",
+            "-O0",
+            "-Igenerated/include",
+            "-o",
+            "mavlink_server",
+            "mavlink_server.c"
+        ],
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/mavlink-server/input/source_code/mavlink",
+        "file": "mavlink_server.c"
+    }
+]
