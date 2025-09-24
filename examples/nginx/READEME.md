@@ -40,30 +40,7 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
    - Configure the project:
      ```bash
-     ./configure \
-       --prefix=/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/output/temp/nginx_install_64 \
-       --without-http_rewrite_module \
-       --without-http_gzip_module \
-       --without-http_charset_module \
-       --without-http_ssi_module \
-       --without-http_userid_module \
-       --without-http_access_module \
-       --without-http_autoindex_module \
-       --without-http_geo_module \
-       --without-http_map_module \
-       --without-http_split_clients_module \
-       --without-http_referer_module \
-       --without-http_proxy_module \
-       --without-http_fastcgi_module \
-       --without-http_uwsgi_module \
-       --without-http_scgi_module \
-       --without-http_memcached_module \
-       --without-http_limit_conn_module \
-       --without-http_limit_req_module \
-       --without-http_empty_gif_module \
-       --without-http_browser_module \
-       --without-http_upstream_ip_hash_module \
-       --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=sign-compare -Wno-error=cast-function-type "
+     ./configure --prefix=/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/output/temp/nginx_install_64 --without-http_rewrite_module --without-http_gzip_module  --without-http_charset_module   --without-http_ssi_module  --without-http_userid_module  --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module  --without-http_split_clients_module  --without-http_referer_module --without-http_proxy_module  --without-http_fastcgi_module  --without-http_uwsgi_module   --without-http_scgi_module  --without-http_memcached_module  --without-http_limit_conn_module  --without-http_limit_req_module   --without-http_empty_gif_module   --without-http_browser_module   --without-http_upstream_ip_hash_module  --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=sign-compare -Wno-error=cast-function-type "
      ```
    - Build the project (compilation errors may occur, but the bitcode file is the only required artifact):
      ```bash
@@ -71,11 +48,7 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
    - Manually link all object files to generate the complete bitcode file:
      ```bash
-     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -flto -fuse-ld=lld -o objs/nginx.bc \
-     objs/src/core/nginx.o \
-        objs/src/core/ngx_log.o \
-        objs/src/core/ngx_palloc.o \
-        objs/src/core/ngx_array.o \
+     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -flto -fuse-ld=lld -o objs/nginx.bc  objs/src/core/nginx.o  objs/src/core/ngx_log.o   objs/src/core/ngx_palloc.o   objs/src/core/ngx_array.o \
         objs/src/core/ngx_list.o \
         objs/src/core/ngx_hash.o \
         objs/src/core/ngx_buf.o \
