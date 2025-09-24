@@ -6,8 +6,8 @@
 
 ## Annotation Strategy
 
-- Sensitive sources:  Data from internet.
-- Annotation method: Annotate sensitive sources in the code using `FC_TAINT_WORLD`. For details, refer to `source_input/diff.patch`.
+- Sensitive sources: Data from internet.
+- Annotation method: Annotate sensitive sources in the code using `FC_TAINT_WORLD`. For details, refer to the patch file `diff.patch` under `source_code`.
 
 ## Preprocessing Steps
 
@@ -49,7 +49,6 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
 
 4. **32-bit Executable (for FlowCheck)**
-   - In your build configuration, add `-m32` to CFLAGS.
    - Start Docker:
      ```bash
      cd FIPA/examples/telnet/input/source_code
@@ -73,6 +72,7 @@ Before running the partitioning workflow, generate the following artifacts:
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+    docker run  -it --network=host -v .:/Desktop/ flowcheck-image
    - Merge traces and map quantitative info to statements:
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/telnet

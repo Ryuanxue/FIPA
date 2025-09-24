@@ -6,21 +6,210 @@
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., network packets, configuration files, or code annotation using `FC_TAINT_WORLD()`]
-- Annotation method: [File permission modification or source code annotation, as appropriate]
+- Sensitive sources: Authentication files. nginx specifies the authentication method and the location of the authentication file in its configuration. In this experiment, the authentication file is assumed to be located at `nginx/auth` and named `.htpasswd`. The file contains a user `testuser` with password `123456`.
+- Annotation method: Although the sensitive data originates from the authentication file, nginx reads this data using `pread`, which is not modeled as a sensitive API in FlowCheck. Therefore, the annotation method uses FlowCheck's API, `FC_TAINT_WORLD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
 
 ## Preprocessing Steps
 
 Before running the partitioning workflow, generate the following artifacts:
 
-1. **32-bit Executable (for FlowCheck and analysis)**
+1. **64-bit Executable**
    - Compile the `nginx` project with minimal modules and 32-bit flags.
    - Ensure dependencies are installed as required by your project.
    - Navigate to the source directory:
      ```bash
      cd examples/nginx/input/source_code/nginx-1.15.5
      ./configure \
-       --prefix=/Desktop/IF-driver-partition/partitioned_software/nginx-1.15.5/1_sense-annotation-code/nginx-1.15.5/nginx_install \
+       --prefix=/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/output/temp/nginx_install_64 \ #Please replace with the absolute path where you want to install nginx
+       --without-http_rewrite_module \
+       --without-http_gzip_module \
+       --without-http_charset_module \
+       --without-http_ssi_module \
+       --without-http_userid_module \
+       --without-http_access_module \
+       --without-http_autoindex_module \
+       --without-http_geo_module \
+       --without-http_map_module \
+       --without-http_split_clients_module \
+       --without-http_referer_module \
+       --without-http_proxy_module \
+       --without-http_fastcgi_module \
+       --without-http_uwsgi_module \
+       --without-http_scgi_module \
+       --without-http_memcached_module \
+       --without-http_limit_conn_module \
+       --without-http_limit_req_module \
+       --without-http_empty_gif_module \
+       --without-http_browser_module \
+       --without-http_upstream_ip_hash_module \
+       --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=sign-compare -Wno-error=cast-function-type "
+     make -j8
+     make install
+     mv objs/nginx ../../nginx_64
+     mv compile_commands.json ../../
+     make clean
+     ```
+
+2. **Compilation Database**
+   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory.
+
+3. **LLVM Bitcode File (.bc)**
+   - Set environment variables for bitcode generation:
+     ```bash
+     export CC=clang
+     export LDFLAGS="-flto -fuse-ld=lld"
+     export CFLAGS="-flto -g -O0 -fno-discard-value-names -fembed-bitcode"
+     ```
+   - Configure the project:
+     ```bash
+     ./configure \
+       --prefix=/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/output/temp/nginx_install_64 \
+       --without-http_rewrite_module \
+       --without-http_gzip_module \
+       --without-http_charset_module \
+       --without-http_ssi_module \
+       --without-http_userid_module \
+       --without-http_access_module \
+       --without-http_autoindex_module \
+       --without-http_geo_module \
+       --without-http_map_module \
+       --without-http_split_clients_module \
+       --without-http_referer_module \
+       --without-http_proxy_module \
+       --without-http_fastcgi_module \
+       --without-http_uwsgi_module \
+       --without-http_scgi_module \
+       --without-http_memcached_module \
+       --without-http_limit_conn_module \
+       --without-http_limit_req_module \
+       --without-http_empty_gif_module \
+       --without-http_browser_module \
+       --without-http_upstream_ip_hash_module \
+       --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=sign-compare -Wno-error=cast-function-type "
+     ```
+   - Build the project (compilation errors may occur, but the bitcode file is the only required artifact):
+     ```bash
+     make -j8
+     ```
+   - Manually link all object files to generate the complete bitcode file:
+     ```bash
+     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -flto -fuse-ld=lld -o objs/nginx.bc \
+     objs/src/core/nginx.o \
+        objs/src/core/ngx_log.o \
+        objs/src/core/ngx_palloc.o \
+        objs/src/core/ngx_array.o \
+        objs/src/core/ngx_list.o \
+        objs/src/core/ngx_hash.o \
+        objs/src/core/ngx_buf.o \
+        objs/src/core/ngx_queue.o \
+        objs/src/core/ngx_output_chain.o \
+        objs/src/core/ngx_string.o \
+        objs/src/core/ngx_parse.o \
+        objs/src/core/ngx_parse_time.o \
+        objs/src/core/ngx_inet.o \
+        objs/src/core/ngx_file.o \
+        objs/src/core/ngx_crc32.o \
+        objs/src/core/ngx_murmurhash.o \
+        objs/src/core/ngx_md5.o \
+        objs/src/core/ngx_sha1.o \
+        objs/src/core/ngx_rbtree.o \
+        objs/src/core/ngx_radix_tree.o \
+        objs/src/core/ngx_slab.o \
+        objs/src/core/ngx_times.o \
+        objs/src/core/ngx_shmtx.o \
+        objs/src/core/ngx_connection.o \
+        objs/src/core/ngx_cycle.o \
+        objs/src/core/ngx_spinlock.o \
+        objs/src/core/ngx_rwlock.o \
+        objs/src/core/ngx_cpuinfo.o \
+        objs/src/core/ngx_conf_file.o \
+        objs/src/core/ngx_module.o \
+        objs/src/core/ngx_resolver.o \
+        objs/src/core/ngx_open_file_cache.o \
+        objs/src/core/ngx_crypt.o \
+        objs/src/core/ngx_proxy_protocol.o \
+        objs/src/core/ngx_syslog.o \
+        objs/src/event/ngx_event.o \
+        objs/src/event/ngx_event_timer.o \
+        objs/src/event/ngx_event_posted.o \
+        objs/src/event/ngx_event_accept.o \
+        objs/src/event/ngx_event_udp.o \
+        objs/src/event/ngx_event_connect.o \
+        objs/src/event/ngx_event_pipe.o \
+        objs/src/os/unix/ngx_time.o \
+        objs/src/os/unix/ngx_errno.o \
+        objs/src/os/unix/ngx_alloc.o \
+        objs/src/os/unix/ngx_files.o \
+        objs/src/os/unix/ngx_socket.o \
+        objs/src/os/unix/ngx_recv.o \
+        objs/src/os/unix/ngx_readv_chain.o \
+        objs/src/os/unix/ngx_udp_recv.o \
+        objs/src/os/unix/ngx_send.o \
+        objs/src/os/unix/ngx_writev_chain.o \
+        objs/src/os/unix/ngx_udp_send.o \
+        objs/src/os/unix/ngx_udp_sendmsg_chain.o \
+        objs/src/os/unix/ngx_channel.o \
+        objs/src/os/unix/ngx_shmem.o \
+        objs/src/os/unix/ngx_process.o \
+        objs/src/os/unix/ngx_daemon.o \
+        objs/src/os/unix/ngx_setaffinity.o \
+        objs/src/os/unix/ngx_setproctitle.o \
+        objs/src/os/unix/ngx_posix_init.o \
+        objs/src/os/unix/ngx_user.o \
+        objs/src/os/unix/ngx_dlopen.o \
+        objs/src/os/unix/ngx_process_cycle.o \
+        objs/src/os/unix/ngx_linux_init.o \
+        objs/src/event/modules/ngx_epoll_module.o \
+        objs/src/os/unix/ngx_linux_sendfile_chain.o \
+        objs/src/http/ngx_http.o \
+        objs/src/http/ngx_http_core_module.o \
+        objs/src/http/ngx_http_special_response.o \
+        objs/src/http/ngx_http_request.o \
+        objs/src/http/ngx_http_parse.o \
+        objs/src/http/modules/ngx_http_log_module.o \
+        objs/src/http/ngx_http_request_body.o \
+        objs/src/http/ngx_http_variables.o \
+        objs/src/http/ngx_http_script.o \
+        objs/src/http/ngx_http_upstream.o \
+        objs/src/http/ngx_http_upstream_round_robin.o \
+        objs/src/http/ngx_http_file_cache.o \
+        objs/src/http/ngx_http_write_filter_module.o \
+        objs/src/http/ngx_http_header_filter_module.o \
+        objs/src/http/modules/ngx_http_chunked_filter_module.o \
+        objs/src/http/modules/ngx_http_range_filter_module.o \
+        objs/src/http/modules/ngx_http_headers_filter_module.o \
+        objs/src/http/ngx_http_copy_filter_module.o \
+        objs/src/http/modules/ngx_http_not_modified_filter_module.o \
+        objs/src/http/modules/ngx_http_static_module.o \
+        objs/src/http/modules/ngx_http_index_module.o \
+        objs/src/http/modules/ngx_http_mirror_module.o \
+        objs/src/http/modules/ngx_http_try_files_module.o \
+        objs/src/http/modules/ngx_http_auth_basic_module.o \
+        objs/src/http/modules/ngx_http_upstream_hash_module.o \
+        objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
+        objs/src/http/modules/ngx_http_upstream_random_module.o \
+        objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
+        objs/src/http/modules/ngx_http_upstream_zone_module.o \
+        objs/ngx_modules.o
+
+        mv objs/nginx.bc ../../nginx.bc
+        make clean
+     ```
+
+4. **32-bit Executable (for FlowCheck)**
+
+   - Start a Docker container for FlowCheck:
+     ```bash
+     docker run -it -v .:/Desktop flowcheck-image
+     ```
+   - Navigate to the nginx source directory:
+     ```bash
+     cd examples/nginx/input/source_code/nginx-1.15.5
+     ```
+   - Configure for 32-bit build with minimal modules:
+     ```bash
+     ./configure \
+       --prefix=/Desktop/examples/nginx/output/temp/nginx_install_32 \
        --without-http_rewrite_module \
        --without-http_gzip_module \
        --without-http_charset_module \
@@ -44,28 +233,20 @@ Before running the partitioning workflow, generate the following artifacts:
        --without-http_upstream_ip_hash_module \
        --with-cc-opt="-m32 -O0 -g -Wno-implicit-fallthrough -I/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/include" \
        --with-ld-opt="-m32"
+     ```
+   - Build and install:
+     ```bash
      make -j8
      make install
      ```
-   - Copy the generated `nginx` binary from the install directory to `examples/nginx/input/` and rename to `nginx_32`.
-
-2. **Compilation Database**
-   - Locate the full `compile_commands.json` generated in `examples/nginx/input/source_code/nginx-1.15.5` (if available).
-   - Find the entry corresponding to `nginx.c`. Copy only the `nginx.c` entry into a new file at `examples/nginx/input/compile_commands.json`. This ensures that only the source code for `nginx.c` is partitioned in subsequent steps.
-
-3. **LLVM Bitcode File (.bc)**
-   - Clean previous builds:
+   - Move the generated 32-bit nginx binary to the input directory:
+     ```bash
+     mv objs/nginx ../../nginx_32
+     ```
+   - Clean up build artifacts:
      ```bash
      make clean
      ```
-   - Rebuild with bitcode flags:
-     ```bash
-     make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8
-     cd src
-     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -o nginx.bc nginx.o
-     ```
-   - After completing the above steps, `nginx.bc` will be generated in the `examples/nginx/input/source_code/nginx-1.15.5/src` directory. Move `nginx.bc` to `examples/nginx/input/`.
-   - Run `make clean` again.
 
 ## Partitioning Workflow Steps
 

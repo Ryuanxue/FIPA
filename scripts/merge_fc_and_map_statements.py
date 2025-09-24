@@ -285,8 +285,8 @@ def match_statements_with_sense_info(statements, sense_data):
         stmt_type, start_line, end_line = stmt_desc.split(":")
         start_line, end_line = int(start_line), int(end_line)
 
-        if "/Desktop" not in file_path:
-            continue
+        # if "/Desktop" not in file_path:
+        #     continue
 
         total_addresses = set()
         # 只累积从第一个敏感地址行开始的后续行
@@ -428,13 +428,21 @@ if __name__ == "__main__":
                 pre_sense_data[key] = value
 
 
-    # print("敏感信息结果")
+    # # print("敏感信息结果")
     # for key, value in pre_sense_data.items():
     #     print(f"{key} : {value}")
     # print(statements)
+    # print()
+
+    # print("语句列表")
+    # for stmt in statements:
+    #     print(stmt)
+
 
     print("合并后")
     results = match_statements_with_sense_info(statements, pre_sense_data)
+
+
     write_results_to_file(results, output_file)
     print("# 以下是信息量不为0的语句：")
     for result in results:

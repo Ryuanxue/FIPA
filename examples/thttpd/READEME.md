@@ -6,8 +6,12 @@
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., network packets, configuration files, or code annotation using `FC_TAINT_WORLD()`]
-- Annotation method: [File permission modification or source code annotation, as appropriate]
+thttpd is a lightweight server for serving static files. When starting thttpd, you specify a root directory that clients can access. Resources are placed under this root, and subdirectories can have different protection levels. Any directory containing a `.htpasswd` file requires authentication for access. To protect multiple directories, place `.htpasswd` files in each directory you wish to secure.
+
+In our example, the client-accessible root directory is `thttpd/html`, and the subdirectory `thttpd/html/protected` is protected. The `.htpasswd` file in `thttpd/html/protected` contains a user `testuser` with password `123456`.
+
+- Sensitive sources: The `.htpasswd` file in `thttpd/html/protected`.
+- Annotation method: Use `chmod` to modify the permissions of `.htpasswd` files.
 
 ## Preprocessing Steps
 
@@ -20,40 +24,44 @@ Before running the partitioning workflow, generate the following artifacts:
      ```bash
      cd examples/thttpd/input/source_code/thttpd-2.27
      ./configure
-     make -j8
-     ```
-   - Copy the `thttpd` executable from the build directory to `examples/thttpd/input/` and rename to `thttpd_64`.
-
-2. **Compilation Database**
-   - Locate the full `compile_commands.json` generated in `examples/thttpd/input/source_code/thttpd-2.27` (if available).
-   - Find the entry corresponding to `thttpd.c`. Copy only the `thttpd.c` entry into a new file at `examples/thttpd/input/compile_commands.json`. This ensures that only the source code for `thttpd.c` is partitioned in subsequent steps.
-
-3. **LLVM Bitcode File (.bc)**
-   - Clean previous builds:
-     ```bash
+     bear make -j8
+     mv thttpd ../../thttpd_64
+     mv compile_commands.json ../../
      make clean
      ```
-   - Rebuild with bitcode flags:
+
+2. **Compilation Database**
+   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory.
+
+3. **LLVM Bitcode File (.bc)**
+   - Edit the `Makefile`:
+     - Change `CC` from `gcc` to `clang`.
+     - Add `-flto -g -O0 -fno-discard-value-names -fembed-bitcode` to `CCOPT`.
+   - Compile the project:
      ```bash
-     make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8
-     cd src
-     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -o thttpd.bc thttpd.o
+     make
      ```
-   - After completing the above steps, `thttpd.bc` will be generated in the `examples/thttpd/input/source_code/thttpd-2.27/src` directory. Move `thttpd.bc` to `examples/thttpd/input/`.
-   - Run `make clean` again.
+   - Locate the final link command for `thttpd` and modify it as follows to generate the bitcode file:
+     ```bash
+     clang -Wl,--plugin-opt=emit-llvm -O0 -g -flto -g -O0 -fno-discard-value-names -fembed-bitcode -DHAVE__PROGNAME=1 -DHAVE_FCNTL_H=1 -DHAVE_GRP_H=1 -DHAVE_MEMORY_H=1 -DHAVE_PATHS_H=1 -DHAVE_POLL_H=1 -DHAVE_SYS_POLL_H=1 -DTIME_WITH_SYS_TIME=1 -DHAVE_DIRENT_H=1 -DHAVE_LIBCRYPT=1 -DHAVE_STRERROR=1 -DHAVE_WAITPID=1 -DHAVE_VSNPRINTF=1 -DHAVE_DAEMON=1 -DHAVE_SETSID=1 -DHAVE_GETADDRINFO=1 -DHAVE_GETNAMEINFO=1 -DHAVE_GAI_STRERROR=1 -DHAVE_SIGSET=1 -DHAVE_ATOLL=1 -DHAVE_UNISTD_H=1 -DHAVE_GETPAGESIZE=1 -DHAVE_MMAP=1 -DHAVE_SELECT=1 -DHAVE_POLL=1 -DHAVE_TM_GMTOFF=1 -DHAVE_INT64T=1 -DHAVE_SOCKLENT=1  -I.  -o thttpd.bc thttpd.o libhttpd.o fdwatch.o mmc.o timers.o match.o tdate_parse.o  -lcrypt
+
+     mv thttpd.bc ../../thttpd.bc
+     make clean
+     ```
 
 4. **32-bit Executable (for FlowCheck)**
-   - In your build configuration, add `-m32` to CFLAGS.
    - Start Docker:
      ```bash
      cd FIPA
      docker run -it -v .:/Desktop flowcheck-image
      cd examples/thttpd/input/source_code/thttpd-2.27
      ./configure
+     # Edit the Makefile: set CC to gcc and CCOPT to "-O0 -g -m32" for 32-bit compilation.
      make -j8
-     cd src
+     mv thttpd ../../thttpd_32
+     make clean
+    exit
      ```
-   - Copy the generated `thttpd` binary from `examples/thttpd/input/source_code/thttpd-2.27/src` to `examples/thttpd/input/` and rename it to `thttpd_32`.
 
 ## Partitioning Workflow Steps
 

@@ -6,8 +6,8 @@
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., network packets, configuration files, or code annotation using `FC_TAINT_WORLD()`]
-- Annotation method: [File permission modification or source code annotation, as appropriate]
+- Sensitive sources: Heartbeat packet data.
+- Annotation method: Annotated using FlowCheck's API, `FC_TAINT_WORLD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
 
 ## Preprocessing Steps
 
@@ -19,27 +19,21 @@ Before running the partitioning workflow, generate the following artifacts:
    - Navigate to the source directory:
      ```bash
      cd examples/mavlink-client/input/source_code/mavlink-client
-     make -j8
-     ```
-   - Copy the `mavlink-client` executable from `src/` to `examples/mavlink-client/input/` and rename to `mavlink-client_64`.
-
-2. **Compilation Database**
-   - Locate the full `compile_commands.json` generated in `examples/mavlink-client/input/source_code/mavlink-client` (if available).
-   - Find the entry corresponding to `mavlink-client.c`. Copy only the `mavlink-client.c` entry into a new file at `examples/mavlink-client/input/compile_commands.json`. This ensures that only the source code for `mavlink-client.c` is partitioned in subsequent steps.
-
-3. **LLVM Bitcode File (.bc)**
-   - Clean previous builds:
-     ```bash
+     bear make 
+     mv mavlink_client ../../mavlink_client_64
+     mv compile_commands.json ../../
      make clean
      ```
+2. **Compilation Database**
+    - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory.
+
+3. **LLVM Bitcode File (.ll)**
    - Rebuild with bitcode flags:
      ```bash
-     make CC=clang CFLAGS+="-flto -g -O0 -fno-discard-value-names -fembed-bitcode" -j8
-     cd src
-     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -o mavlink-client.bc mavlink-client.o
+     
+     clang -g -S -emit-llvm -O0 -Igenerated/include  -g -O0 -fno-discard-value-names  mavlink_client.c
+     mv mavlink_client.ll ../../
      ```
-   - After completing the above steps, `mavlink-client.bc` will be generated in the `examples/mavlink-client/input/source_code/mavlink-client/src` directory. Move `mavlink-client.bc` to `examples/mavlink-client/input/`.
-   - Run `make clean` again.
 
 4. **32-bit Executable (for FlowCheck)**
    - In your build configuration, add `-m32` to CFLAGS.
