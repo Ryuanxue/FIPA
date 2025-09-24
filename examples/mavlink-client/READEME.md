@@ -36,16 +36,19 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
 
 4. **32-bit Executable (for FlowCheck)**
-   - In your build configuration, add `-m32` to CFLAGS.
    - Start Docker:
      ```bash
+     cd examples/mavlink-client/input/source_code
+     cp -r  mavlink-client mavlink-client_back
+     patch -d mavlink-client -p1 < diff.patch
      cd FIPA
      docker run -it -v .:/Desktop flowcheck-image
      cd examples/mavlink-client/input/source_code/mavlink-client
-     make -j8
-     cd src
+     make mavlink_client_32
+     mv mavlink_client ../../mavlink_client_32
+     make clean
+     exit
      ```
-   - Copy the generated `mavlink-client` binary from `examples/mavlink-client/input/source_code/mavlink-client/src` to `examples/mavlink-client/input/` and rename it to `mavlink-client_32`.
 
 ## Partitioning Workflow Steps
 
