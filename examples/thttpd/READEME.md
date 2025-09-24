@@ -23,6 +23,7 @@ Before running the partitioning workflow, generate the following artifacts:
    - Navigate to the source directory:
      ```bash
      cd examples/thttpd/input/source_code/thttpd-2.27
+     #將此目錄下的壓縮包thttp-2.2.7.tar.xz解壓到此處
      ./configure
      bear make -j8
      mv thttpd ../../thttpd_64
@@ -60,17 +61,41 @@ Before running the partitioning workflow, generate the following artifacts:
      make -j8
      mv thttpd ../../thttpd_32
      make clean
-    exit
+     exit
      ```
 
 ## Partitioning Workflow Steps
 
 1. **Extract Statement Ranges**
    ```bash
-   python3 scripts/step1_extract_statement_linerange.py --project_root examples/thttpd --compile_db examples/thttpd/input/compile_commands.json --output_dir examples/thttpd/output/
+   python3 scripts/extract_statement_linerange.py --project_root examples/thttpd --compile_db examples/thttpd/input/compile_commands.json --output_dir examples/thttpd/output/
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+
+     To allow the host to access the thttpd service running in Docker, map the container port to the host port:
+     ```bash
+     docker run -it -p 8080:8080 -v .:/Desktop flowcheck-image
+     ```
+     In Docker, modify the permissions of the `.htpasswd` file:
+     ```bash
+     chmod o-r examples/thttpd/html/protected/.htpasswd
+     ```
+     Add a user in the container:
+     ```bash
+     groupadd -g 1000 testthttpd
+     useradd -u 1000 -g 1000 testthttpd
+     ```
+     Start thttpd with the `-D` option to keep it in the foreground for Valgrind tracing:
+     ```bash
+     valgrind --trace-children=yes --tool=exp-flowcheck --sigill-diagnostics=yes --fullpath-after= --folding-level=0 --project-name=thttpd --private-files-are-secret=yes --trace-secret-graph=yes --graph-file=temp.g ./examples/thttpd/input/thttpd_32 -D -u testthttpd -p 8080 -d examples/thttpd/html/ 2>examples/thttpd/output/temp/thttpdoutput1.fc
+     ```
+     On the host, use curl to download from the protected directory:
+     ```bash
+     curl -u testuser:123456 http://localhost:8080/protected/
+     ```
+     After confirming the download is successful, stop thttpd in Docker by pressing Ctrl+C.
+
    - Merge traces and map quantitative info to statements:
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/thttpd

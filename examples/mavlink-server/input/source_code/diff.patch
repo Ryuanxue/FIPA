@@ -1,13 +1,12 @@
-Only in mavlink-server-anno/: compile_commands.json
 diff -r -u mavlink-server/mavlink_server.c mavlink-server-anno/mavlink_server.c
---- mavlink-server/mavlink_server.c	2025-09-24 11:45:29.137479718 +0800
-+++ mavlink-server-anno/mavlink_server.c	2025-09-05 15:37:18.073480000 +0800
+--- mavlink-server/mavlink_server.c	2025-09-24 11:45:29.000000000 +0800
++++ mavlink-server-anno/mavlink_server.c	2025-09-25 03:33:13.922261904 +0800
 @@ -10,7 +10,7 @@
  
  // 假设 MAVLink 头文件已生成并位于此路径
  #include "mavlink/v2.0/common/mavlink.h"
 -
-+// #include <valgrind/flowcheck.h>
++ #include <valgrind/flowcheck.h>
  #define BUFFER_LENGTH 2041 // MAVLink 最大缓冲区大小
  #define UDP_PORT 14550     // 监听的 UDP 端口
  
@@ -16,7 +15,7 @@ diff -r -u mavlink-server/mavlink_server.c mavlink-server-anno/mavlink_server.c
  
      recsize = recvfrom(sock, buf, BUFFER_LENGTH, 0, (struct sockaddr *)&src_addr, &addrlen);
 -    int len= recsize/sizeof(uint8_t);
-+    int len= recsize/sizeof(uint8_t); //for(int i=0; i<len; i++) FC_TAINT_WORD(&buf[i]);
++    int len= recsize/sizeof(uint8_t); for(int i=0; i<len; i++) FC_TAINT_WORD(&buf[i]);
      
      if (recsize > 0) {
          mavlink_message_t msg;
@@ -27,3 +26,4 @@ diff -r -u mavlink-server/mavlink_server.c mavlink-server-anno/mavlink_server.c
          for (int i = 0; i < recsize; i++) {
              if (mavlink_parse_char(MAVLINK_COMM_0, buf[i], &msg, &status)) {
                  // 成功解析一条消息
+Only in mavlink-server-anno/: mavlink_server.xml

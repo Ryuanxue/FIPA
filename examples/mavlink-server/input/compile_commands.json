@@ -10,7 +10,7 @@
             "mavlink_server",
             "mavlink_server.c"
         ],
-        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/mavlink-server/input/source_code/mavlink",
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/mavlink-server/input/source_code/mavlink-server",
         "file": "mavlink_server.c"
     }
 ]

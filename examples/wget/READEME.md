@@ -16,6 +16,7 @@ Before running the partitioning workflow, generate the following artifacts:
 1. **64-bit Executable**
    - Ensure dependencies are installed as required by your project.
         ```
+        apt-get install pkg-config
         apt-get install libgnutls28-dev
         ```
    - Navigate to the source directory:

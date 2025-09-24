@@ -6,12 +6,11 @@
             "-g",
             "-O0",
             "-Igenerated/include",
-            "-I/home/raoxue/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/include",
             "-o",
             "mavlink_client",
             "mavlink_client.c"
         ],
-        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/mavlink-client/input/source_code/mavlink",
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/mavlink-client/input/source_code/mavlink-client",
         "file": "mavlink_client.c"
     }
 ]

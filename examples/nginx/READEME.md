@@ -62,6 +62,7 @@ Before running the partitioning workflow, generate the following artifacts:
      cd examples/nginx/input/source_code
      cp -r  nginx-1.15.5 nginx-1.15.5_back
      patch -d nginx-1.15.5 -p1 < diff.patch
+     cd FIPA
      docker run -it -v .:/Desktop flowcheck-image
      cd examples/nginx/input/source_code/nginx-1.15.5
      ```
@@ -81,10 +82,36 @@ Before running the partitioning workflow, generate the following artifacts:
 
 1. **Extract Statement Ranges**
    ```bash
-   python3 scripts/step1_extract_statement_linerange.py --project_root examples/nginx --compile_db examples/nginx/input/compile_commands.json --output_dir examples/nginx/output/
+   python3 scripts/extract_statement_linerange.py --project_root examples/nginx --compile_db examples/nginx/input/compile_commands.json --output_dir examples/nginx/output/
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+
+        To allow the host to access the nginx service running in Docker, map the container port to the host port:
+        ```bash
+        docker run -it -p 8080:8080 -v .:/Desktop flowcheck-image
+        ```
+
+        In the nginx_32 installation directory (the path specified by --prefix during configure), locate the conf/nginx.conf file. Configure authentication, port, and the location of the authentication file in the server block, for example:
+        ```nginx
+        listen       8080;
+        server_name  localhost;
+        auth_basic "Experiment";
+        auth_basic_user_file "/Desktop/examples/nginx/auth/.htpasswd";
+        ```
+        The .htpasswd file should be prepared in advance and placed in the /Desktop/examples/nginx/auth/ directory.
+
+        Start the nginx service in the foreground (for Valgrind tracing):
+        ```bash
+        valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx/input/nginx_32 -g "daemon off;" 2>examples/nginx/output/temp/nginxoutput1.fc
+        ```
+
+        On the host, use curl to test authenticated download:
+        ```bash
+        curl --user testuser:123456 http://localhost:8080
+        ```
+        After confirming the download is successful, stop the nginx service in Docker by pressing Ctrl+C. This process may take several minutes, please be patient.
+
    - Merge traces and map quantitative info to statements:
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/nginx

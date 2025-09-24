@@ -54,20 +54,52 @@ Before running the partitioning workflow, generate the following artifacts:
 
 1. **Extract Statement Ranges**
    ```bash
-   python3 scripts/step1_extract_statement_linerange.py --project_root examples/mavlink-client --compile_db examples/mavlink-client/input/compile_commands.json --output_dir examples/mavlink-client/output/
+   python3 scripts/extract_statement_linerange.py --project_root examples/mavlink-client --compile_db examples/mavlink-client/input/compile_commands.json --output_dir examples/mavlink-client/output/
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+
+     In the project root (FIPA), start Docker with host networking:
+     ```bash
+     docker run --network host -it -v .:/Desktop flowcheck-image
+     ```
+
+     On the host, first start the mavlink_server_64 program (from the mavlink-server project):
+     ```bash
+     ./examples/mavlink-server/input/mavlink_server_64
+     ```
+
+     In Docker, run FlowCheck on the 32-bit client executable:
+     ```bash
+     valgrind --tool=exp-flowcheck --private-files-are-secret=yes --fullpath-after= --folding-level=0 --project-name=mavlink-client --trace-secret-graph=yes --graph-file=temp.g ./examples/mavlink-client/input/mavlink_client_32 2>examples/mavlink-client/output/temp/mavlink-clientoutput1.fc
+     ```
+
+     After observing the transmission of several heartbeat packets (e.g., 3-4), stop both the Docker mavlink_client_32 and the host mavlink_server_64 by pressing Ctrl+C in each terminal.
+
    - Merge traces and map quantitative info to statements:
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/mavlink-client
      ```
 3. **Collect Edge Information**
    - Run Pin with different inputs to generate `.pinout` files.
+
+     On the host, start the mavlink_server_64 program (from the mavlink-server project):
+     ```bash
+     cd FIPA
+     ./examples/mavlink-server/input/mavlink_server_64
+     ```
+
+     In a separate terminal, use Pin to trace the 64-bit client executable with different inputs:
+     ```bash
+     cd FIPA
+     src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/mavlink-client/output/temp/mavlink-client1.pinout -- ./examples/mavlink-client/input/mavlink_client_64
+     ```
+
+     After observing the transmission of several heartbeat packets (e.g., 3-4), stop both the mavlink_client_64 and the host mavlink_server_64 by pressing Ctrl+C in each terminal.
+
    - Replace addresses with symbol names and merge edges:
      ```bash
-     python3 scripts/sub_global.py examples/mavlink-client
-     python3 scripts/merge_pinout_and_generate_stmt_edges.py examples/mavlink-client
+     python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/mavlink-client
      ```
 4. **Build Graph and Solve**
    ```bash

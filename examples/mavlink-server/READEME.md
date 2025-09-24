@@ -54,20 +54,51 @@ Before running the partitioning workflow, generate the following artifacts:
 
 1. **Extract Statement Ranges**
    ```bash
-   python3 scripts/step1_extract_statement_linerange.py --project_root examples/mavlink-server --compile_db examples/mavlink-server/input/compile_commands.json --output_dir examples/mavlink-server/output/
+   python3 scripts/extract_statement_linerange.py --project_root examples/mavlink-server --compile_db examples/mavlink-server/input/compile_commands.json --output_dir examples/mavlink-server/output/
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+
+     ```bash
+     cd FIPA
+     docker run --network host -it -v .:/Desktop flowcheck-image
+     ```
+
+     In Docker, use Valgrind to start the 32-bit server executable:
+     ```bash
+     valgrind --tool=exp-flowcheck --private-files-are-secret=yes --fullpath-after= --folding-level=0 --project-name=mavlink-server --trace-secret-graph=yes --graph-file=temp.g ./examples/mavlink-server/input/mavlink_server_32 2>examples/mavlink-server/output/temp/mavlink-serveroutput1.fc
+     ```
+
+     On the host, start the mavlink_client_64 program:
+     ```bash
+     ./examples/mavlink-client/input/mavlink_client_64
+     ```
+
+     After observing the reception of heartbeat packets in Docker, stop both the Docker mavlink_server_32 and the host mavlink_client_64 by pressing Ctrl+C in each terminal.
+
    - Merge traces and map quantitative info to statements:
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/mavlink-server
      ```
 3. **Collect Edge Information**
    - Run Pin with different inputs to generate `.pinout` files.
+
+     In terminal, use Pin to trace the 64-bit server executable with different inputs:
+     ```bash
+     cd FIPA
+     src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/mavlink-server/output/temp/mavlink-server1.pinout -- ./examples/mavlink-server/input/mavlink_server_64
+     # You can run additional tests with different arguments or input files as needed
+     ```
+
+     On anoter terminal, start the mavlink_client_64 program (from the mavlink-client project):
+     ```bash
+     cd FIPA
+     ./examples/mavlink-client/input/mavlink_client_64
+     ```
+
    - Replace addresses with symbol names and merge edges:
      ```bash
-     python3 scripts/sub_global.py examples/mavlink-server
-     python3 scripts/merge_pinout_and_generate_stmt_edges.py examples/mavlink-server
+     python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/mavlink-server
      ```
 4. **Build Graph and Solve**
    ```bash
