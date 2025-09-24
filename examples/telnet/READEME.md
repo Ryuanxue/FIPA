@@ -72,7 +72,24 @@ Before running the partitioning workflow, generate the following artifacts:
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
-    docker run  -it --network=host -v .:/Desktop/ flowcheck-image
+
+     By default, the host and Docker container are network-isolated. To allow the container to use the host's network stack, add `--network=host` when starting Docker:
+     ```bash
+     cd FIPA
+     docker run -it --network=host -v .:/Desktop flowcheck-image
+     ```
+     Example FlowCheck usage:
+     - For local connection (requires running `nc -l 8081` in any terminal to allow telnet to connect):
+       ```bash
+       ./Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./partitioned_software/telnet/1_sense-annotation-code/inetutils-1.9.4/telnet/telnet localhost 8081 2>partitioned_software/telnet/2_flowcheck_result/telnetoutput1.txt
+       # In another terminal:
+       nc -l 8081
+       ```
+     - For external connection:
+       ```bash
+       ./Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./partitioned_software/telnet/1_sense-annotation-code/inetutils-1.9.4/telnet/telnet www.baidu.com 80 2>partitioned_software/telnet/2_flowcheck_result/telnetoutput2.txt
+       ```
+     These commands perform quantitative information flow tracking in Docker. The first test case requires a local listener (`nc -l 8081`) for telnet to connect.
    - Merge traces and map quantitative info to statements:
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/telnet
