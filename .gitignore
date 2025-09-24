@@ -3,3 +3,13 @@ IF-driver-partition/
 src/program-dependence-graph-main/build/*
 examples/chage/input/aa.txt
 **/temp/
+examples/nginx/input/source_code/nginx-1.15.5/
+examples/thttpd/input/source_code/httpd-2.27/
+examples/mavlink-client/input/source_code/mavlink-client/
+examples/mavlink-server/input/source_code/mavlink-server/
+examples/wget/input/source_code/wget-1.18/
+examples/telnet/input/source_code/inetutils-1.9.4/
+examples/chage/input/source_code/shadow-utils/
+examples/passwd/input/source_code/shadow-utils/
+examples/chsh/input/source_code/shadow-utils/
+examples/passwd/input/source_code/shadow-utils/
