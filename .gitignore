@@ -7,7 +7,6 @@ examples/chage/input/aa.txt
 *.zip
 *.rar
 *.tar
-*.tar.xz
 *.gz
 *.bz2
 *.xz
