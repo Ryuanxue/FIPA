@@ -20,6 +20,7 @@ Before running the partitioning workflow, generate the following artifacts:
      ```bash
      cd examples/nginx/input/source_code/nginx-1.15.5
      ./configure --prefix=/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/output/temp/nginx_install_64 --without-http_rewrite_module --without-http_gzip_module --without-http_charset_module --without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_autoindex_module    --without-http_geo_module --without-http_map_module --without-http_split_clients_module --without-http_referer_module --without-http_proxy_module --without-http_fastcgi_module --without-http_uwsgi_module --without-http_scgi_module  --without-http_memcached_module  --without-http_limit_conn_module  --without-http_limit_req_module  --without-http_empty_gif_module   --without-http_browser_module  --without-http_upstream_ip_hash_module  --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=sign-compare -Wno-error=cast-function-type "
+     # Please replace the --prefix value above with your own installation path
      
      make -j8
      make install
@@ -41,6 +42,7 @@ Before running the partitioning workflow, generate the following artifacts:
    - Configure the project:
      ```bash
      ./configure --prefix=/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/output/temp/nginx_install_64 --without-http_rewrite_module --without-http_gzip_module  --without-http_charset_module   --without-http_ssi_module  --without-http_userid_module  --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module  --without-http_split_clients_module  --without-http_referer_module --without-http_proxy_module  --without-http_fastcgi_module  --without-http_uwsgi_module   --without-http_scgi_module  --without-http_memcached_module  --without-http_limit_conn_module  --without-http_limit_req_module   --without-http_empty_gif_module   --without-http_browser_module   --without-http_upstream_ip_hash_module  --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=sign-compare -Wno-error=cast-function-type "
+      # Please replace the --prefix value above with your own installation path
      ```
    - Build the project (compilation errors may occur, but the bitcode file is the only required artifact):
      ```bash
@@ -48,100 +50,7 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
    - Manually link all object files to generate the complete bitcode file:
      ```bash
-     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -flto -fuse-ld=lld -o objs/nginx.bc  objs/src/core/nginx.o  objs/src/core/ngx_log.o   objs/src/core/ngx_palloc.o   objs/src/core/ngx_array.o \
-        objs/src/core/ngx_list.o \
-        objs/src/core/ngx_hash.o \
-        objs/src/core/ngx_buf.o \
-        objs/src/core/ngx_queue.o \
-        objs/src/core/ngx_output_chain.o \
-        objs/src/core/ngx_string.o \
-        objs/src/core/ngx_parse.o \
-        objs/src/core/ngx_parse_time.o \
-        objs/src/core/ngx_inet.o \
-        objs/src/core/ngx_file.o \
-        objs/src/core/ngx_crc32.o \
-        objs/src/core/ngx_murmurhash.o \
-        objs/src/core/ngx_md5.o \
-        objs/src/core/ngx_sha1.o \
-        objs/src/core/ngx_rbtree.o \
-        objs/src/core/ngx_radix_tree.o \
-        objs/src/core/ngx_slab.o \
-        objs/src/core/ngx_times.o \
-        objs/src/core/ngx_shmtx.o \
-        objs/src/core/ngx_connection.o \
-        objs/src/core/ngx_cycle.o \
-        objs/src/core/ngx_spinlock.o \
-        objs/src/core/ngx_rwlock.o \
-        objs/src/core/ngx_cpuinfo.o \
-        objs/src/core/ngx_conf_file.o \
-        objs/src/core/ngx_module.o \
-        objs/src/core/ngx_resolver.o \
-        objs/src/core/ngx_open_file_cache.o \
-        objs/src/core/ngx_crypt.o \
-        objs/src/core/ngx_proxy_protocol.o \
-        objs/src/core/ngx_syslog.o \
-        objs/src/event/ngx_event.o \
-        objs/src/event/ngx_event_timer.o \
-        objs/src/event/ngx_event_posted.o \
-        objs/src/event/ngx_event_accept.o \
-        objs/src/event/ngx_event_udp.o \
-        objs/src/event/ngx_event_connect.o \
-        objs/src/event/ngx_event_pipe.o \
-        objs/src/os/unix/ngx_time.o \
-        objs/src/os/unix/ngx_errno.o \
-        objs/src/os/unix/ngx_alloc.o \
-        objs/src/os/unix/ngx_files.o \
-        objs/src/os/unix/ngx_socket.o \
-        objs/src/os/unix/ngx_recv.o \
-        objs/src/os/unix/ngx_readv_chain.o \
-        objs/src/os/unix/ngx_udp_recv.o \
-        objs/src/os/unix/ngx_send.o \
-        objs/src/os/unix/ngx_writev_chain.o \
-        objs/src/os/unix/ngx_udp_send.o \
-        objs/src/os/unix/ngx_udp_sendmsg_chain.o \
-        objs/src/os/unix/ngx_channel.o \
-        objs/src/os/unix/ngx_shmem.o \
-        objs/src/os/unix/ngx_process.o \
-        objs/src/os/unix/ngx_daemon.o \
-        objs/src/os/unix/ngx_setaffinity.o \
-        objs/src/os/unix/ngx_setproctitle.o \
-        objs/src/os/unix/ngx_posix_init.o \
-        objs/src/os/unix/ngx_user.o \
-        objs/src/os/unix/ngx_dlopen.o \
-        objs/src/os/unix/ngx_process_cycle.o \
-        objs/src/os/unix/ngx_linux_init.o \
-        objs/src/event/modules/ngx_epoll_module.o \
-        objs/src/os/unix/ngx_linux_sendfile_chain.o \
-        objs/src/http/ngx_http.o \
-        objs/src/http/ngx_http_core_module.o \
-        objs/src/http/ngx_http_special_response.o \
-        objs/src/http/ngx_http_request.o \
-        objs/src/http/ngx_http_parse.o \
-        objs/src/http/modules/ngx_http_log_module.o \
-        objs/src/http/ngx_http_request_body.o \
-        objs/src/http/ngx_http_variables.o \
-        objs/src/http/ngx_http_script.o \
-        objs/src/http/ngx_http_upstream.o \
-        objs/src/http/ngx_http_upstream_round_robin.o \
-        objs/src/http/ngx_http_file_cache.o \
-        objs/src/http/ngx_http_write_filter_module.o \
-        objs/src/http/ngx_http_header_filter_module.o \
-        objs/src/http/modules/ngx_http_chunked_filter_module.o \
-        objs/src/http/modules/ngx_http_range_filter_module.o \
-        objs/src/http/modules/ngx_http_headers_filter_module.o \
-        objs/src/http/ngx_http_copy_filter_module.o \
-        objs/src/http/modules/ngx_http_not_modified_filter_module.o \
-        objs/src/http/modules/ngx_http_static_module.o \
-        objs/src/http/modules/ngx_http_index_module.o \
-        objs/src/http/modules/ngx_http_mirror_module.o \
-        objs/src/http/modules/ngx_http_try_files_module.o \
-        objs/src/http/modules/ngx_http_auth_basic_module.o \
-        objs/src/http/modules/ngx_http_upstream_hash_module.o \
-        objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
-        objs/src/http/modules/ngx_http_upstream_random_module.o \
-        objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
-        objs/src/http/modules/ngx_http_upstream_zone_module.o \
-        objs/ngx_modules.o
+     clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -flto -fuse-ld=lld -o objs/nginx.bc objs/src/core/nginx.o objs/src/core/ngx_log.o objs/src/core/ngx_palloc.o objs/src/core/ngx_array.o objs/src/core/ngx_list.o objs/src/core/ngx_hash.o objs/src/core/ngx_buf.o objs/src/core/ngx_queue.o objs/src/core/ngx_output_chain.o objs/src/core/ngx_string.o objs/src/core/ngx_parse.o objs/src/core/ngx_parse_time.o objs/src/core/ngx_inet.o objs/src/core/ngx_file.o objs/src/core/ngx_crc32.o objs/src/core/ngx_murmurhash.o objs/src/core/ngx_md5.o objs/src/core/ngx_sha1.o objs/src/core/ngx_rbtree.o objs/src/core/ngx_radix_tree.o objs/src/core/ngx_slab.o objs/src/core/ngx_times.o objs/src/core/ngx_shmtx.o objs/src/core/ngx_connection.o objs/src/core/ngx_cycle.o objs/src/core/ngx_spinlock.o objs/src/core/ngx_rwlock.o objs/src/core/ngx_cpuinfo.o objs/src/core/ngx_conf_file.o objs/src/core/ngx_module.o objs/src/core/ngx_resolver.o objs/src/core/ngx_open_file_cache.o objs/src/core/ngx_crypt.o objs/src/core/ngx_proxy_protocol.o objs/src/core/ngx_syslog.o objs/src/event/ngx_event.o objs/src/event/ngx_event_timer.o objs/src/event/ngx_event_posted.o objs/src/event/ngx_event_accept.o objs/src/event/ngx_event_udp.o objs/src/event/ngx_event_connect.o objs/src/event/ngx_event_pipe.o objs/src/os/unix/ngx_time.o objs/src/os/unix/ngx_errno.o objs/src/os/unix/ngx_alloc.o objs/src/os/unix/ngx_files.o objs/src/os/unix/ngx_socket.o objs/src/os/unix/ngx_recv.o objs/src/os/unix/ngx_readv_chain.o objs/src/os/unix/ngx_udp_recv.o objs/src/os/unix/ngx_send.o objs/src/os/unix/ngx_writev_chain.o objs/src/os/unix/ngx_udp_send.o objs/src/os/unix/ngx_udp_sendmsg_chain.o objs/src/os/unix/ngx_channel.o objs/src/os/unix/ngx_shmem.o objs/src/os/unix/ngx_process.o objs/src/os/unix/ngx_daemon.o objs/src/os/unix/ngx_setaffinity.o objs/src/os/unix/ngx_setproctitle.o objs/src/os/unix/ngx_posix_init.o objs/src/os/unix/ngx_user.o objs/src/os/unix/ngx_dlopen.o objs/src/os/unix/ngx_process_cycle.o objs/src/os/unix/ngx_linux_init.o objs/src/event/modules/ngx_epoll_module.o objs/src/os/unix/ngx_linux_sendfile_chain.o objs/src/http/ngx_http.o objs/src/http/ngx_http_core_module.o objs/src/http/ngx_http_special_response.o objs/src/http/ngx_http_request.o objs/src/http/ngx_http_parse.o objs/src/http/modules/ngx_http_log_module.o objs/src/http/ngx_http_request_body.o objs/src/http/ngx_http_variables.o objs/src/http/ngx_http_script.o objs/src/http/ngx_http_upstream.o objs/src/http/ngx_http_upstream_round_robin.o objs/src/http/ngx_http_file_cache.o objs/src/http/ngx_http_write_filter_module.o objs/src/http/ngx_http_header_filter_module.o objs/src/http/modules/ngx_http_chunked_filter_module.o objs/src/http/modules/ngx_http_range_filter_module.o objs/src/http/modules/ngx_http_headers_filter_module.o objs/src/http/ngx_http_copy_filter_module.o objs/src/http/modules/ngx_http_not_modified_filter_module.o objs/src/http/modules/ngx_http_static_module.o objs/src/http/modules/ngx_http_index_module.o objs/src/http/modules/ngx_http_mirror_module.o objs/src/http/modules/ngx_http_try_files_module.o objs/src/http/modules/ngx_http_auth_basic_module.o objs/src/http/modules/ngx_http_upstream_hash_module.o objs/src/http/modules/ngx_http_upstream_least_conn_module.o objs/src/http/modules/ngx_http_upstream_random_module.o objs/src/http/modules/ngx_http_upstream_keepalive_module.o objs/src/http/modules/ngx_http_upstream_zone_module.o objs/ngx_modules.o
 
         mv objs/nginx.bc ../../nginx.bc
         make clean
@@ -158,31 +67,7 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
    - Configure for 32-bit build with minimal modules:
      ```bash
-     ./configure \
-       --prefix=/Desktop/examples/nginx/output/temp/nginx_install_32 \
-       --without-http_rewrite_module \
-       --without-http_gzip_module \
-       --without-http_charset_module \
-       --without-http_ssi_module \
-       --without-http_userid_module \
-       --without-http_access_module \
-       --without-http_autoindex_module \
-       --without-http_geo_module \
-       --without-http_map_module \
-       --without-http_split_clients_module \
-       --without-http_referer_module \
-       --without-http_proxy_module \
-       --without-http_fastcgi_module \
-       --without-http_uwsgi_module \
-       --without-http_scgi_module \
-       --without-http_memcached_module \
-       --without-http_limit_conn_module \
-       --without-http_limit_req_module \
-       --without-http_empty_gif_module \
-       --without-http_browser_module \
-       --without-http_upstream_ip_hash_module \
-       --with-cc-opt="-m32 -O0 -g -Wno-implicit-fallthrough -I/flowcheck/include" \
-       --with-ld-opt="-m32"
+     ./configure --prefix=/Desktop/examples/nginx/output/temp/nginx_install_32 --without-http_rewrite_module --without-http_gzip_module --without-http_charset_module --without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module --without-http_split_clients_module --without-http_referer_module --without-http_proxy_module --without-http_fastcgi_module --without-http_uwsgi_module --without-http_scgi_module --without-http_memcached_module --without-http_limit_conn_module --without-http_limit_req_module --without-http_empty_gif_module --without-http_browser_module --without-http_upstream_ip_hash_module --with-cc-opt="-m32 -O0 -g -Wno-implicit-fallthrough -I/flowcheck/include" --with-ld-opt="-m32"
      ```
    - Build and install:
      ```bash
