@@ -198,12 +198,11 @@ Before running the partitioning workflow, generate the following artifacts:
 
 4. **32-bit Executable (for FlowCheck)**
 
-   - Start a Docker container for FlowCheck:
      ```bash
+     cd examples/nginx/input/source_code
+     cp -r  nginx-1.15.5 nginx-1.15.5_back
+     patch -d nginx-1.15.5 -p1 < diff.patch
      docker run -it -v .:/Desktop flowcheck-image
-     ```
-   - Navigate to the nginx source directory:
-     ```bash
      cd examples/nginx/input/source_code/nginx-1.15.5
      ```
    - Configure for 32-bit build with minimal modules:
@@ -231,20 +230,14 @@ Before running the partitioning workflow, generate the following artifacts:
        --without-http_empty_gif_module \
        --without-http_browser_module \
        --without-http_upstream_ip_hash_module \
-       --with-cc-opt="-m32 -O0 -g -Wno-implicit-fallthrough -I/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/include" \
+       --with-cc-opt="-m32 -O0 -g -Wno-implicit-fallthrough -I/flowcheck/include" \
        --with-ld-opt="-m32"
      ```
    - Build and install:
      ```bash
      make -j8
      make install
-     ```
-   - Move the generated 32-bit nginx binary to the input directory:
-     ```bash
      mv objs/nginx ../../nginx_32
-     ```
-   - Clean up build artifacts:
-     ```bash
      make clean
      ```
 

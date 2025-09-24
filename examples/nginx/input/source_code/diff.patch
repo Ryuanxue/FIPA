@@ -1,0 +1,21 @@
+diff -r -u nginx-1.15.5/src/http/modules/ngx_http_auth_basic_module.c nginx-1.15.5-anno/src/http/modules/ngx_http_auth_basic_module.c
+--- nginx-1.15.5/src/http/modules/ngx_http_auth_basic_module.c	2025-07-24 17:56:24.377305000 +0800
++++ nginx-1.15.5-anno/src/http/modules/ngx_http_auth_basic_module.c	2025-09-24 12:26:49.608669299 +0800
+@@ -9,7 +9,7 @@
+ #include <ngx_core.h>
+ #include <ngx_http.h>
+ #include <ngx_crypt.h>
+-
++#include <valgrind/flowcheck.h>
+ 
+ #define NGX_HTTP_AUTH_BUF_SIZE  2048
+ 
+@@ -174,7 +174,7 @@
+         i = left;
+ 
+         n = ngx_read_file(&file, buf + left, NGX_HTTP_AUTH_BUF_SIZE - left,
+-                          offset);
++                          offset); int temp=n/4;for(int i=0;i<temp;i++){FC_TAINT_WORD(buf+left+4*i);}
+ 
+         if (n == NGX_ERROR) {
+             ngx_http_auth_basic_close(&file);
