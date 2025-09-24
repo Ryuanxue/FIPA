@@ -81,7 +81,7 @@ Before running the partitioning workflow, generate the following artifacts:
      Example FlowCheck usage:
      - For local connection (requires running `nc -l 8081` in any terminal to allow telnet to connect):
        ```bash
-       ./Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./partitioned_software/telnet/1_sense-annotation-code/inetutils-1.9.4/telnet/telnet localhost 8081 2>partitioned_software/telnet/2_flowcheck_result/telnetoutput1.txt
+       valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./examples/telnet/input/telnet_32 localhost 8081 2>examples/telnet/output/temp/telnetoutput1.fc
        # In another terminal:
        nc -l 8081
        ```
