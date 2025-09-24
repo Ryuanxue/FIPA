@@ -1,30 +1,5 @@
 # FIPA: Fine-Grained Information-Flow-Driven Program Partitioning
 
-## Project Overview
-
- **FIPA** is an innovative open-source tool designed for automatic statement-level partitioning of large monolithic programs. Unlike traditional function-level partitioning tools, this project provides finer-grained analysis to accurately identify and extract code fragments, offering new solutions for microservice transformation, code reuse, and performance optimization of legacy systems.
-
- **FIPA** is an open-source tool that partitions monolithic programs into sensitive and non-sensitive parts based on quantitative information flow analysis, reducing potential information leakage. The project involves Clang AST, FlowCheck extensions, Intel Pin, LLVM, and Python automation, supporting C++ programs.
-
-
-## **Key Advantages**
-
-This project offers unique statement-level analysis with the following core benefits:
-
-  * **Finer-grained code splitting**: Breaks function boundaries, allowing different logic within a single function to be split into different services for more flexible architecture refactoring.
-  * **Reduced code redundancy**: Precisely extracts and reuses core code fragments, avoiding duplication of entire functions across microservices and significantly lowering maintenance costs.
-  * **Efficient code reuse**: Packages common statement sets into independently deployable components, promoting efficient code reuse.
-  
-## Key Features:
-- Extracts backbone statement line numbers.
-- Quantitative information flow tracking.
-- Function call frequency analysis.
-- Builds SQG graphs and solves integer programming.
-- AST-based code refactoring and RPC interface generation.
-
-Applicable for security research, code optimization, and privacy protection.
-
-
 ## **Installation Guide**
 
 This project consists of several independent submodules that must be compiled and installed in order. 
