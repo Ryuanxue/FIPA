@@ -7,7 +7,7 @@
 ## Annotation Strategy
 
 - Sensitive sources: Data from internet.
-- Annotation method: Annotated using FlowCheck's API, `FC_TAINT_WORLD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
+- Annotation method: Annotated using FlowCheck's API, `FC_TAINT_WORD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
 
 ## Preprocessing Steps
 

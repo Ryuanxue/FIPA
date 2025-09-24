@@ -15,6 +15,9 @@ Before running the partitioning workflow, generate the following artifacts:
 
 1. **64-bit Executable**
    - Ensure dependencies are installed as required by your project.
+        ```
+        apt-get install libgnutls28-dev
+        ```
    - Navigate to the source directory:
      ```bash
      cd examples/wget/input/source_code/wget-1.8
@@ -83,16 +86,57 @@ Before running the partitioning workflow, generate the following artifacts:
    ```
 2. **Quantitative Information Flow Tracking**
    - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+
+     Start Docker:
+     ```bash
+     docker run -it -v .:/Desktop flowcheck-image
+     ```
+     Example 1: Test HTTP redirect
+     ```bash
+     valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=wget-1.18/src --trace-secret-graph=yes --graph-file=temp.g ./examples/wget/input/wget_32 http://httpbin.org/redirect/1 2>examples/wget/output/temp/wgetoutput1.fc
+     # Note: This command may take some time to complete. Please wait patiently.
+     ```
+     Example 2: Download a local file via HTTP
+     - On the host, in the directory containing `test.txt` (e.g., `wget/input`), start an HTTP server:
+       ```bash
+       python3 -m http.server 8000
+       ```
+     - In Docker, run FlowCheck to download the file:
+       ```bash
+       valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=wget-1.18/src --trace-secret-graph=yes --graph-file=temp.g ./examples/wget/input//wget_32 http://localhost:8000/test.txt 2>examples/wget/output/temp/wgetoutput2.fc
+        # Note: This command may take some time to complete. Please wait patiently.
+       ```
    - Merge traces and map quantitative info to statements:
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/wget
      ```
 3. **Collect Edge Information**
-   - Run Pin with different inputs to generate `.pinout` files.
+   - Run Pin with different inputs to generate `.pinout` files. For example:
+        
+        Example 1: Test HTTP redirect
+        ```bash
+        src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin \
+        -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so \
+        -o examples/wget/output/temp/wgetoutput1.pinout -- ./examples/wget/input/wget_64 http://httpbin.org/redirect/1
+
+        ```
+
+        Example 2: Download a local file via HTTP
+        - On the host, in the directory containing `test.txt` (e.g., `wget/input`), start an HTTP server:
+        ```bash
+        python3 -m http.server 8000
+        ```
+        - In your main terminal, run Pin to download the file:
+        ```bash
+            cd FIPA
+            src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin \
+            -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so \
+            -o examples/wget/output/temp/wgetoutput2.pinout -- ./examples/wget/input/wget_64 http://localhost:8000/test.txt
+        ```
    - Replace addresses with symbol names and merge edges:
      ```bash
      python3 scripts/sub_global.py examples/wget
-     python3 scripts/merge_pinout_and_generate_stmt_edges.py examples/wget
+     python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/wget
      ```
 4. **Build Graph and Solve**
    ```bash
