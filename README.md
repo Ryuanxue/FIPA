@@ -63,7 +63,7 @@ Before running the partitioning workflow, you must preprocess your target projec
 
 **Sensitive Source Annotation Methods:**
 - If the sensitive source is a file (e.g., `/etc/passwd` in `chage`), you do not need to annotate the source code. Instead, modify the file's permissions in Docker (e.g., `chmod o-r /etc/passwd`).
-- If the sensitive source is not a file, annotate it directly in the source code using the FlowCheck API, such as `FC_TAINT_WORLD()`. For example, in `telnet`, sensitive sources are annotated in code using this API.
+- If the sensitive source is not a file, annotate it directly in the source code using the FlowCheck API, such as `FC_TAINT_WORD()`. For example, in `telnet`, sensitive sources are annotated in code using this API.
 
  
 **Example: Preprocessing for `chage` (from `shadow-utils`)**

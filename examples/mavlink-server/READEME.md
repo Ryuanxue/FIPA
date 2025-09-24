@@ -25,7 +25,7 @@ Before running the partitioning workflow, generate the following artifacts:
      make clean
      ```
 2. **Compilation Database**
-    - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory.
+    - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `mavlink-server/input` directory.
 
 3. **LLVM Bitcode File (.ll)**
    - Rebuild with bitcode flags:

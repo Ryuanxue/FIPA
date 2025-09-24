@@ -7,7 +7,7 @@
 ## Annotation Strategy
 
 - Sensitive sources: Data from internet.
-- Annotation method: Annotate sensitive sources in the code using `FC_TAINT_WORLD`. For details, refer to the patch file `diff.patch` under `source_code`.
+- Annotation method: Annotate sensitive sources in the code using `FC_TAINT_WORD`. For details, refer to the patch file `diff.patch` under `source_code`.
 
 ## Preprocessing Steps
 
@@ -79,27 +79,41 @@ Before running the partitioning workflow, generate the following artifacts:
      docker run -it --network=host -v .:/Desktop flowcheck-image
      ```
      Example FlowCheck usage:
-     - For local connection (requires running `nc -l 8081` in any terminal to allow telnet to connect):
+     - For local connection (requires running `nc -l 8081` in any terminal on the host, not inside Docker):
        ```bash
-       valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./examples/telnet/input/telnet_32 localhost 8081 2>examples/telnet/output/temp/telnetoutput1.fc
-       # In another terminal:
+       # On the host (not in Docker), start a listener:
        nc -l 8081
+       # In Docker, run FlowCheck:
+       valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./examples/telnet/input/telnet_32 localhost 8081 2>examples/telnet/output/temp/telnetoutput1.fc
+       # When you see "Escape character is '^]'", type "hello" and press Enter, then press Ctrl+], type q and press Enter to exit.
        ```
      - For external connection:
        ```bash
-       ./Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./partitioned_software/telnet/1_sense-annotation-code/inetutils-1.9.4/telnet/telnet www.baidu.com 80 2>partitioned_software/telnet/2_flowcheck_result/telnetoutput2.txt
+       valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./examples/telnet/input/telnet_32 www.baidu.com 80 2>examples/telnet/output/temp/telnetoutput2.fc
+       # When you see "Escape character is '^]'", press Ctrl+], type q and press Enter to exit.
+       eixt
        ```
-     These commands perform quantitative information flow tracking in Docker. The first test case requires a local listener (`nc -l 8081`) for telnet to connect.
-   - Merge traces and map quantitative info to statements:
+   - Merge traces and map quantitative info to statements (run this step on the host, not in Docker):
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/telnet
      ```
 3. **Collect Edge Information**
-   - Run Pin with different inputs to generate `.pinout` files.
+   - Run Pin in the host environment with different inputs to generate `.pinout` files. For example:
+     ```bash
+     # Example 1: Connect to a local listener
+     # On the host (not in Docker), open another terminal and run:
+     nc -l 8081
+     # Then, in your main terminal, run Pin:
+     src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/telnet/output/temp/telnetoutput1.pinout -- ./examples/telnet/input/telnet_64 localhost 8081
+     # When you see "Escape character is '^]'", type "hello" and press Enter, then press Ctrl+], type q and press Enter to exit.
+
+     # Example 2: Connect to an external server
+     src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/telnet/output/temp/telnetoutput2.pinout -- ./examples/telnet/input/telnet_64 www.baidu.com 80
+     # When you see "Escape character is '^]'", press Ctrl+], type q and press Enter to exit.
+     ```
    - Replace addresses with symbol names and merge edges:
      ```bash
-     python3 scripts/sub_global.py examples/telnet
-     python3 scripts/merge_pinout_and_generate_stmt_edges.py examples/telnet
+     python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/telnet
      ```
 4. **Build Graph and Solve**
    ```bash

@@ -7,7 +7,7 @@
 ## Annotation Strategy
 
 - Sensitive sources: Heartbeat packet data.
-- Annotation method: Annotated using FlowCheck's API, `FC_TAINT_WORLD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
+- Annotation method: Annotated using FlowCheck's API, `FC_TAINT_WORD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
 
 ## Preprocessing Steps
 
@@ -25,7 +25,7 @@ Before running the partitioning workflow, generate the following artifacts:
      make clean
      ```
 2. **Compilation Database**
-    - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory.
+    - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `mavlink-client/input` directory.
 
 3. **LLVM Bitcode File (.ll)**
    - Rebuild with bitcode flags:

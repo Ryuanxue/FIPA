@@ -1,6 +1,7 @@
-diff -r -u inetutils-1.9.4/telnet/commands.c inetutils-1.9.4_anno/telnet/commands.c
+Only in inetutils-1.9.4-anno/telnet: authenc.xml
+diff -u -r inetutils-1.9.4/telnet/commands.c inetutils-1.9.4-anno/telnet/commands.c
 --- inetutils-1.9.4/telnet/commands.c	2025-07-08 06:14:44.000000000 +0800
-+++ inetutils-1.9.4_anno/telnet/commands.c	2025-04-07 09:15:46.936163000 +0800
++++ inetutils-1.9.4-anno/telnet/commands.c	2025-09-24 15:34:51.639113000 +0800
 @@ -92,7 +92,7 @@
  #include "xalloc.h"
  #include "xvasprintf.h"
@@ -15,7 +16,7 @@ diff -r -u inetutils-1.9.4/telnet/commands.c inetutils-1.9.4_anno/telnet/command
        printf ("Trying %s...\n", buf);
  
 -      net = socket (aip->ai_family, SOCK_STREAM, 0);
-+      net = socket (aip->ai_family, SOCK_STREAM, 0); FC_TAINT_WORD(net);
++      net = socket (aip->ai_family, SOCK_STREAM, 0); FC_TAINT_WORD(&net);
        if (net < 0)
  	{
  	  perror ("telnet: socket");
@@ -24,7 +25,7 @@ diff -r -u inetutils-1.9.4/telnet/commands.c inetutils-1.9.4_anno/telnet/command
  	}
  
 -      err = connect (net, (struct sockaddr *) aip->ai_addr, aip->ai_addrlen);
-+      err = connect (net, (struct sockaddr *) aip->ai_addr, aip->ai_addrlen); FC_TAINT_WORD(err);
++      err = connect (net, (struct sockaddr *) aip->ai_addr, aip->ai_addrlen); FC_TAINT_WORD(&err);
        if (err < 0)
  	{
  	  if (aip->ai_next)
@@ -33,13 +34,17 @@ diff -r -u inetutils-1.9.4/telnet/commands.c inetutils-1.9.4_anno/telnet/command
    do
      {
 -      net = socket (AF_INET, SOCK_STREAM, 0);
-+      net = socket (AF_INET, SOCK_STREAM, 0); FC_TAINT_WORD(net);
++      net = socket (AF_INET, SOCK_STREAM, 0); FC_TAINT_WORD(&net);
        if (net < 0)
  	{
  	  perror ("telnet: socket");
-diff -r -u inetutils-1.9.4/telnet/sys_bsd.c inetutils-1.9.4_anno/telnet/sys_bsd.c
+Only in inetutils-1.9.4-anno/telnet: commands.xml
+Only in inetutils-1.9.4-anno/telnet: main.xml
+Only in inetutils-1.9.4-anno/telnet: network.xml
+Only in inetutils-1.9.4-anno/telnet: ring.xml
+diff -u -r inetutils-1.9.4/telnet/sys_bsd.c inetutils-1.9.4-anno/telnet/sys_bsd.c
 --- inetutils-1.9.4/telnet/sys_bsd.c	2015-03-31 23:40:50.000000000 +0800
-+++ inetutils-1.9.4_anno/telnet/sys_bsd.c	2025-04-07 09:15:14.787295000 +0800
++++ inetutils-1.9.4-anno/telnet/sys_bsd.c	2025-09-24 15:32:41.878385000 +0800
 @@ -70,7 +70,7 @@
  #include "defines.h"
  #include "externs.h"
@@ -100,3 +105,21 @@ diff -r -u inetutils-1.9.4/telnet/sys_bsd.c inetutils-1.9.4_anno/telnet/sys_bsd.
  #endif /* !defined(SO_OOBINLINE) */
        if (c < 0 && errno == EWOULDBLOCK)
  	{
+Only in inetutils-1.9.4-anno/telnet: sys_bsd.xml
+Only in inetutils-1.9.4-anno/telnet: telnet.xml
+Only in inetutils-1.9.4-anno/telnet: terminal.xml
+Only in inetutils-1.9.4-anno/telnet: tn3270.xml
+Only in inetutils-1.9.4-anno/telnet: utilities.xml
+diff -u -r inetutils-1.9.4/.vscode/settings.json inetutils-1.9.4-anno/.vscode/settings.json
+--- inetutils-1.9.4/.vscode/settings.json	2025-07-19 15:13:49.000000000 +0800
++++ inetutils-1.9.4-anno/.vscode/settings.json	2025-09-24 14:37:23.187458556 +0800
+@@ -21,6 +21,7 @@
+         "type_traits": "c",
+         "typeinfo": "c",
+         "numeric": "c",
+-        "algorithm": "c"
++        "algorithm": "c",
++        "stdarg.h": "c"
+     }
+ }
+\ No newline at end of file

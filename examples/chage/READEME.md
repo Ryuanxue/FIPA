@@ -6,7 +6,7 @@
 
 ## Annotation Strategy
 
-- Sensitive sources: [Describe here, e.g., file-based (e.g., `/etc/shadow`) or code annotation using `FC_TAINT_WORLD()`]
+- Sensitive sources: [Describe here, e.g., file-based (e.g., `/etc/shadow`) or code annotation using `FC_TAINT_WORD()`]
 - Annotation method: [File permission modification or source code annotation, as appropriate]
 
 ## Preprocessing Steps

@@ -7,7 +7,7 @@
 ## Annotation Strategy
 
 - Sensitive sources:  Data from internet.
-- Annotation method: Annotate sensitive sources in the code using `FC_TAINT_WORLD`. For details, refer to `source_input/diff.patch`.
+- Annotation method: Annotate sensitive sources in the code using `FC_TAINT_WORD`. For details, refer to `source_input/diff.patch`.
 
 ## Preprocessing Steps
 

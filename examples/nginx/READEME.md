@@ -7,7 +7,7 @@
 ## Annotation Strategy
 
 - Sensitive sources: Authentication files. nginx specifies the authentication method and the location of the authentication file in its configuration. In this experiment, the authentication file is assumed to be located at `nginx/auth` and named `.htpasswd`. The file contains a user `testuser` with password `123456`.
-- Annotation method: Although the sensitive data originates from the authentication file, nginx reads this data using `pread`, which is not modeled as a sensitive API in FlowCheck. Therefore, the annotation method uses FlowCheck's API, `FC_TAINT_WORLD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
+- Annotation method: Although the sensitive data originates from the authentication file, nginx reads this data using `pread`, which is not modeled as a sensitive API in FlowCheck. Therefore, the annotation method uses FlowCheck's API, `FC_TAINT_WORD`. For details, refer to the patch file `diff.patch` in the `source_code` directory.
 
 ## Preprocessing Steps
 
@@ -51,7 +51,7 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
 
 2. **Compilation Database**
-   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory.
+   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `nginx/input` directory.
 
 3. **LLVM Bitcode File (.bc)**
    - Set environment variables for bitcode generation:
