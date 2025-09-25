@@ -119,3 +119,48 @@ Before running the partitioning workflow, generate the following artifacts:
 ## Notes
 - For details on each step, refer to the main FIPA README.md in the project root.
 - Adjust paths and filenames as needed for your own environment.
+
+## Running the  Partitioned Program
+
+The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
+
+### 1. Compilation
+
+First, decompress the two archives in `examples/thttpd/output/finally_partition/`.
+
+Then, compile the client and server components similarly to the 64-bit executable in the preprocessing stage.
+
+**Compile thttpd_client:**
+```bash
+cd examples/thttpd/output/finally_partition/thttpd_client/thttpd-2.27
+./configure
+make -j8
+# The thttpd_client executable will be generated in the current directory.
+```
+
+**Compile thttpd_server:**
+```bash
+cd examples/thttpd/output/finally_partition/thttpd_server/thttpd-2.27
+./configure
+make -j8
+# The thttpd_server executable will be generated in the current directory.
+```
+
+### 2. Execution
+
+Run the client and server in two separate terminals.
+
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/thttpd/output/finally_partition/thttpd_server/thttpd-2.27/thttpd_server
+  ```
+- **Terminal 2 (Client):**
+  ```bash
+  ./examples/thttpd/output/finally_partition/thttpd_client/thttpd-2.27/thttpd_client -D  -p 8080 -d examples/thttpd/html/
+  ```
+- **Terminal 3 (On host):**
+  ```bash
+  curl -u testuser:123456 http://localhost:8080/protected/
+  ```
+After confirming the download is successful, you can stop the client and server by pressing Ctrl+C in their respective terminals.
+

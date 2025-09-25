@@ -132,6 +132,55 @@ Before running the partitioning workflow, generate the following artifacts:
    python3 scripts/refactor_code.py --policy examples/nginx/output/partition_policies.txt --source examples/nginx/input/nginx.c --bc examples/nginx/input/nginx.bc --output examples/nginx/output/refactored/
    ```
 
+## Running the Partitioned Program
+
+The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
+
+### 1. Compilation
+
+First, decompress the two archives in `examples/nginx/output/finally_partition/`.
+
+Then, compile the client and server components.
+
+**Compile `nginx_server`:**
+```bash
+cd examples/nginx/output/finally_partition/nginx_server/nginx-1.15.5
+./configure --prefix=`pwd`/nginx_install --without-http_rewrite_module --without-http_gzip_module --without-http_charset_module --without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module --without-http_split_clients_module --without-http_referer_module --without-http_proxy_module --without-http_fastcgi_module --without-http_uwsgi_module --without-http_scgi_module --without-http_memcached_module --without-http_limit_conn_module --without-http_limit_req_module --without-http_empty_gif_module --without-http_browser_module --without-http_upstream_ip_hash_module --with-cc-opt="-O0 -g"
+make -j8
+make install
+# The nginx_server executable will be in the objs/ directory and nginx_install/sbin/ directory.
+```
+
+**Compile `nginx_client`:**
+```bash
+cd examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5
+./configure --prefix=`pwd`/nginx_install --without-http_rewrite_module --without-http_gzip_module --without-http_charset_module --without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module --without-http_split_clients_module --without-http_referer_module --without-http_proxy_module --without-http_fastcgi_module --without-http_uwsgi_module --without-http_scgi_module --without-http_memcached_module --without-http_limit_conn_module --without-http_limit_req_module --without-http_empty_gif_module --without-http_browser_module --without-http_upstream_ip_hash_module --with-cc-opt="-O0 -g"
+make -j8
+make install
+# The nginx_client executable will be in the objs/ directory and nginx_install/sbin/ directory.
+```
+
+### 2. Execution
+
+- **Terminal 1 (Server):** Start the server program. It will wait for a connection from the client.
+  ```bash
+  cd examples/nginx/output/finally_partition/nginx_server/nginx-1.15.5
+  ./objs/nginx_server
+  ```
+- **Terminal 2 (Client):** Start the client program. It will handle incoming HTTP requests and communicate with the server for sensitive operations.
+  ```bash
+  cd examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5
+  ./objs/nginx_client -g "daemon off;"
+  ```
+
+### 3. Testing
+
+- On the host, use `curl` to test the authenticated access. The client part of nginx will handle the request and interact with the server part for authentication.
+  ```bash
+  curl --user testuser:123456 http://localhost:8080
+  ```
+- The server terminal will print "Authentication successful" upon successful verification.
+
 ## Notes
 - For details on each step, refer to the main FIPA README.md in the project root.
 - Adjust paths and filenames as needed for your own environment.

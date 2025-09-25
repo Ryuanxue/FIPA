@@ -148,6 +148,57 @@ Before running the partitioning workflow, generate the following artifacts:
    python3 scripts/refactor_code.py --policy examples/wget/output/partition_policies.txt --source examples/wget/input/wget.c --bc examples/wget/input/wget.bc --output examples/wget/output/refactored/
    ```
 
-## Notes
-- For details on each step, refer to the main FIPA README.md in the project root.
-- Adjust paths and filenames as needed for your own environment.
+## Running the  Partitioned Program
+
+The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
+
+### 1. Compilation
+
+First, decompress the two archives in `examples/wget/output/finally_partition/`.
+
+Then, compile the client and server components similarly to the 64-bit executable in the preprocessing stage.
+
+**Compile wget_client:**
+```bash
+cd examples/wget/output/finally_partition/wget_client/wget-1.18
+./configure
+make CFLAGS+="-g -O0" -j8
+# The wget executable will be generated in the src/ directory.
+```
+
+**Compile wget_server:**
+```bash
+cd examples/wget/output/finally_partition/wget_server/wget-1.18
+./configure
+make CFLAGS+="-g -O0" -j8
+# The wget executable will be generated in the src/ directory.
+```
+
+### 2. Execution
+
+Run the client and server in two separate terminals.
+
+**Example 1: Test HTTP redirect**
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/wget/output/finally_partition/wget_server/wget-1.18/src/wget
+  ```
+- **Terminal 2 (Client):**
+  ```bash
+  ./examples/wget/output/finally_partition/wget_client/wget-1.18/src/wget www.baidu.com 80
+  ```
+
+**Example 2: Download a local file via HTTP**
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/wget/output/finally_partition/wget_server/wget-1.18/src/wget
+  ```
+- **Terminal 2 (HTTP Server on host):**
+  ```bash
+  # In the directory containing test.txt
+  python3 -m http.server 8000
+  ```
+- **Terminal 3 (Client):**
+  ```bash
+  ./examples/wget/output/finally_partition/wget_client/wget-1.18/src/wget http://localhost:8000/test.txt
+  ```

@@ -127,3 +127,54 @@ Before running the partitioning workflow, generate the following artifacts:
 ## Notes
 - For details on each step, refer to the main FIPA README.md in the project root.
 - Adjust paths and filenames as needed for your own environment.
+
+## Running the Partitioned Program
+
+The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
+
+### 1. Compilation
+
+First, decompress the two archives in `examples/telnet/output/finally_partition/`.
+
+Then, compile the client and server components similarly to the 64-bit executable in the preprocessing stage.
+
+**Compile telnet_client:**
+```bash
+cd examples/telnet/output/finally_partition/telnet_client/inetutils-1.9.4
+./configure --disable-servers --disable-clients --enable-telnet
+make -j8
+# The telnet executable will be generated in the telnet/ directory.
+```
+
+**Compile telnet_server:**
+```bash
+cd examples/telnet/output/finally_partition/telnet_server/inetutils-1.9.4
+./configure --disable-servers --disable-clients --enable-telnet
+make -j8
+# The telnet executable will be generated in the telnet/ directory.
+```
+
+### 2. Execution
+
+Run the client and server in two separate terminals.
+
+**Example 1: Connect to a local listener**
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/telnet/output/finally_partition/telnet_server/inetutils-1.9.4/telnet/telnet
+  ```
+
+- **Terminal 2 (Client):**
+  ```bash
+  ./examples/telnet/output/finally_partition/telnet_client/inetutils-1.9.4/telnet/telnet localhost
+  ```
+
+**Example 2: Connect to an external server**
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/telnet/output/finally_partition/telnet_server/inetutils-1.9.4/telnet/telnet
+  ```
+- **Terminal 2 (Client):**
+  ```bash
+  ./examples/telnet/output/finally_partition/telnet_client/inetutils-1.9.4/telnet/telnet www.baidu.com 80
+  ```

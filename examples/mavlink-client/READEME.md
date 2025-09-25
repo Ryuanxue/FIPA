@@ -113,3 +113,46 @@ Before running the partitioning workflow, generate the following artifacts:
 ## Notes
 - For details on each step, refer to the main FIPA README.md in the project root.
 - Adjust paths and filenames as needed for your own environment.
+
+## Running the Manually Partitioned Program
+
+The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
+
+### 1. Compilation
+
+First, decompress the two archives in `examples/mavlink-client/output/finally_partition/`.
+
+Then, compile the client and server components similarly to the 64-bit executable in the preprocessing stage.
+
+**Compile mavlink_client_client:**
+```bash
+cd examples/mavlink-client/output/finally_partition/mavlink_client_client/mavlink-client
+make mavlink_client
+# The mavlink_client executable will be generated in the current directory.
+```
+
+**Compile mavlink_client_server:**
+```bash
+cd examples/mavlink-client/output/finally_partition/mavlink_client_server/mavlink-client
+make mavlink_client_svc
+# The mavlink_client_svc executable will be generated in the current directory.
+```
+
+### 2. Execution
+
+Run the client and server in two separate terminals. This requires the original `mavlink_server_64` to be running first to act as the endpoint.
+
+- **Terminal 1 (Original Server):**
+  ```bash
+  # Start the original 64-bit server from the mavlink-server project
+  ./examples/mavlink-server/input/mavlink_server_64
+  ```
+- **Terminal 2 (Partitioned rpc Server):**
+  ```bash
+  ./examples/mavlink-client/output/finally_partition/mavlink_client_server/mavlink-client/mavlink_client_svc
+  ```
+- **Terminal 3 (Partitioned Client):**
+  ```bash
+  ./examples/mavlink-client/output/finally_partition/mavlink_client_client/mavlink-client/mavlink_client
+  ```
+After observing the transmission of several heartbeat packets, you can stop all three processes by pressing Ctrl+C in each terminal.
