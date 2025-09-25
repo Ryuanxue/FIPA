@@ -113,3 +113,53 @@ Before running the partitioning workflow, generate the following artifacts:
 ## Notes
 - For details on each step, refer to the main FIPA README.md in the project root.
 - Adjust paths and filenames as needed for your own environment.
+
+## Running the Partitioned Program
+
+The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
+
+### 1. Compilation
+
+First, decompress the two archives in `examples/passwd/output/finally_partition/`.
+
+Then, compile the client and server components similarly to the 64-bit executable in the preprocessing stage.
+
+**Compile passwd_client:**
+```bash
+cd examples/passwd/output/finally_partition/passwd_client/shadow-utils
+./autogen.sh
+make -j8
+# The passwd_client executable will be generated in the src/ directory.
+```
+
+**Compile passwd_server:**
+```bash
+cd examples/passwd/output/finally_partition/passwd_server/shadow-utils
+./autogen.sh
+make -j8
+# The passwd_server executable will be generated in the src/ directory.
+```
+
+### 2. Execution
+
+Run the client and server in two separate terminals.
+
+**Example 1: Lock password for user 'nobody'**
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/passwd/output/finally_partition/passwd_server/shadow-utils/src/passwd_server
+  ```
+- **Terminal 2 (Client):**
+  ```bash
+  sudo ./examples/passwd/output/finally_partition/passwd_client/shadow-utils/src/passwd_client -l nobody
+  ```
+
+**Example 2: Set minimum password age for 'nobody'**
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/passwd/output/finally_partition/passwd_server/shadow-utils/src/passwd_server
+  ```
+- **Terminal 2 (Client):**
+  ```bash
+  sudo ./examples/passwd/output/finally_partition/passwd_client/shadow-utils/src/passwd_client -n 8 nobody
+  ```
