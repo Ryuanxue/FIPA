@@ -1105,6 +1105,6 @@ if (solutions.empty()) {
 }
 char qg::QUANProgramGraph::ID = 0;
 static RegisterPass<qg::QUANProgramGraph>
-    PDG("qg", "Program Dependency Graph Construction", false, true);
+    PDG("uqg", "Program Dependency Graph Construction", false, true);
 
     

@@ -38,18 +38,74 @@ include_directories("include")
 include_directories("src")
 # include_directories("sea-dsa/include")
 
-file(GLOB SOURCES "src/*.cpp")
-file(GLOB HEADERS "include/*.hh")
-
-add_library(pdg MODULE
-    ${HEADERS}
-    ${SOURCES}
+# Common source files, excluding the mutually exclusive QPGGraph implementations
+set(COMMON_SOURCES
+    src/CallWrapper.cpp
+    src/ControlDependencyGraph.cpp
+    src/DataDependencyGraph.cpp
+    src/DebugInfoUtils.cpp
+    src/FunctionWrapper.cpp
+    src/GlobalVarUsage.cpp
+    src/Graph.cpp
+    src/GraphWriter.cpp
+    src/parserxml.cpp
+    src/PDGCallGraph.cpp
+    src/PDGNode.cpp
+    src/PDGUtils.cpp
+    src/ProgramDependencyGraph.cpp
+    src/count_ir_stats.cpp
 )
 
-add_library(pdg_shared STATIC ${SOURCES})
+file(GLOB HEADERS "include/*.hh")
 
-# Link pugixml library
-target_link_libraries(pdg PRIVATE pugixml z3)
+# --- Create separate libraries for each variant ---
+
+# Variant 'b'
+add_library(pdg_b MODULE
+    ${HEADERS}
+    ${COMMON_SOURCES}
+    src/QPGGraph_b.cpp
+)
+target_link_libraries(pdg_b PRIVATE pugixml z3)
+if(APPLE)
+    set_target_properties(pdg_b PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+endif(APPLE)
+
+
+# Variant 'u'
+add_library(pdg_u MODULE
+    ${HEADERS}
+    ${COMMON_SOURCES}
+    src/QPGGraph_u.cpp
+)
+target_link_libraries(pdg_u PRIVATE pugixml z3)
+if(APPLE)
+    set_target_properties(pdg_u PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+endif(APPLE)
+
+
+# Variant 'noz3'
+add_library(pdg_noz3 MODULE
+    ${HEADERS}
+    ${COMMON_SOURCES}
+    src/QPGGraph_noz3.cpp
+)
+# This target does not link against z3
+target_link_libraries(pdg_noz3 PRIVATE pugixml)
+if(APPLE)
+    set_target_properties(pdg_noz3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+endif(APPLE)
+
+
+# --- Original static library, if still needed ---
+# This creates a static library with only the common files.
+# The specific QPGGraph implementations are excluded to avoid conflicts.
+add_library(pdg_shared STATIC 
+    ${COMMON_SOURCES}
+)
+
+# Link pugixml library. Note: z3 is linked to specific targets above.
+# target_link_libraries(pdg PRIVATE pugixml z3) # This is now handled per-target
 
 #
 # Turn on C++11, turn off C++ RTTI.
@@ -60,7 +116,14 @@ target_link_libraries(pdg PRIVATE pugixml z3)
 #
 # OS X-specific configuration
 #
-if(APPLE)
-    set_target_properties(pdg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-endif(APPLE)
+# This is now handled per-target
+# if(APPLE)
+#     set_target_properties(pdg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+# endif(APPLE)
+
+# --- Installation ---
+# This will install the .so files to the ../../lib directory relative to the source directory
+install(TARGETS pdg_b pdg_u pdg_noz3
+    LIBRARY DESTINATION ${CMAKE_SOURCE_DIR}/../../lib
+)
 
