@@ -111,3 +111,55 @@ Before running the partitioning workflow, generate the following artifacts:
 ## Notes
 - For details on each step, refer to the main FIPA README.md in the project root.
 - Adjust paths and filenames as needed for your own environment.
+
+## Running the Manually Partitioned Program
+
+The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
+
+### 1. Compilation
+
+First, decompress the two archives in `examples/chage/output/finally_partition/`.
+
+Then, compile the client and server components similarly to the 64-bit executable in the preprocessing stage.
+
+**Compile chage_client:**
+```bash
+cd examples/chage/output/finally_partition/chage_client/shadow-utils
+./autogen.sh
+make -j8
+# The chage_client executable will be generated in the src/ directory.
+```
+
+**Compile chage_server:**
+```bash
+cd examples/chage/output/finally_partition/chage_server/shadow-utils
+./autogen.sh
+make -j8
+# The chage_server executable will be generated in the src/ directory.
+```
+
+### 2. Execution
+
+Run the client and server in two separate terminals.
+
+**Example 1:**
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/chage/output/finally_partition/chage_server/shadow-utils/src/chage_server
+  ```
+- **Terminal 2 (Client):**
+  ```bash
+  su root
+  ./examples/chage/output/finally_partition/chage_client/shadow-utils/src/chage_client -M 3 nobody
+  ```
+
+**Example 2:**
+- **Terminal 1 (Server):**
+  ```bash
+  ./examples/chage/output/finally_partition/chage_server/shadow-utils/src/chage_server
+  ```
+- **Terminal 2 (Client):**
+  ```bash
+  su root
+  ./examples/chage/output/finally_partition/chage_client/shadow-utils/src/chage_client -l nobody
+  ```

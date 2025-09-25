@@ -48,7 +48,8 @@ make
 cd src/program-dependence-graph-main
 mkdir build && cd build
 cmake ..
-make
+make -j8
+make install
 ```
 ## Project Preprocessing (Before Usage)
 
