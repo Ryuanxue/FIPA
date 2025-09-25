@@ -100,13 +100,22 @@ Before running the partitioning workflow, generate the following artifacts:
      ```bash
      python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/mavlink-server
      ```
-4. **Build Graph and Solve**
-   ```bash
-   python3 scripts/build_sqg.py --statements examples/mavlink-server/output/mavlink-server_statements_ranges.xml --quant examples/mavlink-server/output/statement_quantities.xml --edges examples/mavlink-server/output/stmt_edge_counts.txt --bc examples/mavlink-server/input/mavlink-server.bc --threshold_A 10 --budget_scode 0.2 --output examples/mavlink-server/output/partition_policies.txt
-   ```
+4. **Build Graph and Solve for Partitioning**
+
+   This step uses an automated script to construct the graph and find an optimal partitioning solution. You can run the solver with different communication models by specifying the `--so-type` parameter. The script will generate result files (e.g., `mavlink-server_z3_result_u.txt`) in the `examples/mavlink-server/output/` directory.
+
+   -   **To solve using the unidirectional model (`u`):**
+       ```bash
+       python3 scripts/based_qg_bi_praming.py mavlink-server min-quan=0 max-code-sz=0.1 --so-type=u
+       ```
+
+   -   **To solve using the bidirectional model (`b`):**
+       ```bash
+       python3 scripts/based_qg_bi_praming.py mavlink-server min-quan=0 max-code-sz=0.1 --so-type=b
+       ```
 5. **Code Refactoring**
    ```bash
-   python3 scripts/refactor_code.py --policy examples/mavlink-server/output/partition_policies.txt --source examples/mavlink-server/input/mavlink-server.c --bc examples/mavlink-server/input/mavlink-server.bc --output examples/mavlink-server/output/refactored/
+   python3 scripts/refactor_code.py --policy examples/mavlink-server/output/partition_policies.txt --source examples/mavlink-server/input/mavlink-server.c --bc examples/mavlink-server/input/mavlink-server.ll --output examples/mavlink-server/output/refactored/
    ```
 
 ## Notes

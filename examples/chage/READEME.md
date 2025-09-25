@@ -100,6 +100,7 @@ Before running the partitioning workflow, generate the following artifacts:
      python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/chage
      ```
 4. **Build Graph and Solve for Partitioning**
+
    This step uses an automated script to construct the graph and find an optimal partitioning solution. You can run the solver with different communication models by specifying the `--so-type` parameter. The script will generate result files (e.g., `chage_z3_result_u.txt`) in the `examples/chage/output/` directory.
 
    -   **To solve using the unidirectional model (`u`):**
