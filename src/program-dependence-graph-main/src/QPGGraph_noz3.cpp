@@ -31,6 +31,11 @@ static cl::opt<std::string> EdgeWeightFile("edge-weight",
     cl::desc("Edge weight file path"), 
     cl::init("edge_weights.txt"));
 
+// 定义一个命令行参数用于指定Z3结果输出文件
+static cl::opt<std::string> Z3OutputFile("z3-output", 
+    cl::desc("Z3 result output file path"), 
+    cl::init("z3_result.txt"));
+
 // 存储边权重的数据结构
 typedef std::unordered_map<std::string, std::unordered_map<std::string, int>> EdgeWeightMap;
 
@@ -739,9 +744,9 @@ for (int i = 0; i < N; ++i) {
 
 
 // 将求解得到的中间结果输出到文件中
-std::ofstream out("z3_result.txt");
+std::ofstream out(Z3OutputFile);
 if (!out.is_open()) {
-    std::cerr << "Error: Cannot open z3_result.txt for writing!\n";
+    std::cerr << "Error: Cannot open " << Z3OutputFile << " for writing!\n";
     return 1;
 }
 
