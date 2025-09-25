@@ -135,7 +135,7 @@ Then, compile the client and server components similarly to the 64-bit executabl
 **Compile mavlink_server_client:**
 ```bash
 cd examples/mavlink-server/output/finally_partition/mavlink_server_client/mavlink-server
-make mavlink_client
+make mavlink_server
 # The mavlink_server executable will be generated in the current directory.
 ```
 
