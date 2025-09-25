@@ -1,0 +1,176 @@
+Solution 1:
+Total Switches: 1
+Boundary Edges (6):
+  open_files:607 -> fail_exit:111, Weight: 0, Domains: 0 -> 1
+  open_files:586 -> fail_exit:111, Weight: 0, Domains: 0 -> 1
+  check_perms:534 -> fail_exit:111, Weight: 0, Domains: 0 -> 1
+  main:844 -> main:846, Weight: 1, Domains: 0 -> 1
+  open_files:595 -> fail_exit:111, Weight: 0, Domains: 0 -> 1
+  open_files:616 -> fail_exit:111, Weight: 0, Domains: 0 -> 1
+
+Solution 1:
+Sensitive Nodes: 
+
+-- Function: close_files --
+41: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + close_files + IfStmt:633:638: sz = 39, quan = 16
+49: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + close_files + IfStmt:644:648: sz = 39, quan = 16
+47: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + close_files + IfStmt:649:653: sz = 38, quan = 16
+28: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + close_files + BinaryOperator:654:654: sz = 1, quan = 16
+52: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + close_files + IfStmt:655:659: sz = 38, quan = 16
+60: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + close_files + BinaryOperator:660:660: sz = 1, quan = 16
+
+-- Function: date_to_str --
+62: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + date_to_str + DeclStmt:167:167: sz = 1, quan = 0
+53: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + date_to_str + BinaryOperator:169:169: sz = 2, quan = 0
+55: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + date_to_str + CStyleCastExpr:171:171: sz = 4, quan = 0
+
+-- Function: fail_exit --
+58: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + fail_exit + IfStmt:111:117: sz = 42, quan = 16
+36: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + fail_exit + IfStmt:118:124: sz = 42, quan = 16
+64: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + fail_exit + CallExpr:125:125: sz = 1, quan = 16
+65: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + fail_exit + CallExpr:135:135: sz = 3, quan = 16
+
+-- Function: get_defaults --
+76: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + get_defaults + IfStmt:732:774: sz = 82, quan = 40
+
+-- Function: list_fields --
+34: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + DeclStmt:298:298: sz = 2, quan = 36
+19: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + DeclStmt:299:299: sz = 1, quan = 0
+83: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + CStyleCastExpr:305:305: sz = 3, quan = 36
+54: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + IfStmt:306:313: sz = 17, quan = 36
+72: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + CStyleCastExpr:319:319: sz = 3, quan = 36
+10: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + IfStmt:320:329: sz = 25, quan = 36
+97: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + CStyleCastExpr:337:337: sz = 3, quan = 32
+18: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + IfStmt:338:348: sz = 30, quan = 32
+17: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + CStyleCastExpr:354:354: sz = 3, quan = 32
+48: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + IfStmt:355:360: sz = 11, quan = 32
+101: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + CallExpr:369:370: sz = 3, quan = 40
+22: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + CallExpr:371:372: sz = 3, quan = 40
+29: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + list_fields + CallExpr:373:374: sz = 3, quan = 44
+
+-- Function: main --
+73: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + IfStmt:846:851: sz = 22, quan = 24
+43: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + BinaryOperator:853:853: sz = 7, quan = 24
+13: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + IfStmt:854:859: sz = 16, quan = 24
+75: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + ParenExpr:861:861: sz = 5, quan = 24
+79: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + BinaryOperator:867:867: sz = 4, quan = 24
+82: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + BinaryOperator:869:869: sz = 7, quan = 24
+84: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:870:870: sz = 2, quan = 24
+44: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + IfStmt:876:888: sz = 19, quan = 24
+98: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + IfStmt:894:942: sz = 30, quan = 16
+94: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:944:944: sz = 3, quan = 16
+66: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:946:946: sz = 1, quan = 16
+77: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + DoStmt:948:948: sz = 28, quan = 16
+85: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:950:950: sz = 1, quan = 16
+87: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:951:951: sz = 2, quan = 16
+
+-- Function: new_fields --
+89: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + DeclStmt:189:189: sz = 1, quan = 0
+91: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CStyleCastExpr:191:191: sz = 2, quan = 0
+92: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CStyleCastExpr:192:192: sz = 1, quan = 0
+95: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CStyleCastExpr:194:194: sz = 3, quan = 0
+96: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CallExpr:195:195: sz = 3, quan = 0
+100: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + IfStmt:196:199: sz = 9, quan = 0
+57: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CStyleCastExpr:201:201: sz = 3, quan = 0
+50: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CallExpr:202:202: sz = 3, quan = 0
+74: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + IfStmt:203:206: sz = 9, quan = 0
+63: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + IfStmt:208:212: sz = 10, quan = 0
+99: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CallExpr:214:214: sz = 3, quan = 0
+68: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + IfStmt:216:223: sz = 14, quan = 0
+103: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CStyleCastExpr:225:225: sz = 3, quan = 0
+88: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CallExpr:226:226: sz = 3, quan = 0
+102: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + IfStmt:227:230: sz = 9, quan = 0
+31: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CStyleCastExpr:232:232: sz = 3, quan = 0
+78: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CallExpr:233:233: sz = 3, quan = 0
+104: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + IfStmt:234:237: sz = 9, quan = 0
+38: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + IfStmt:239:243: sz = 10, quan = 0
+105: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + CallExpr:245:246: sz = 3, quan = 0
+93: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + IfStmt:248:255: sz = 14, quan = 0
+51: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + new_fields + ReturnStmt:257:257: sz = 2, quan = 0
+
+-- Function: print_date --
+108: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + print_date + DeclStmt:263:263: sz = 1, quan = 0
+109: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + print_date + DeclStmt:264:264: sz = 1, quan = 0
+23: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + print_date + BinaryOperator:266:266: sz = 2, quan = 36
+90: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + print_date + IfStmt:267:272: sz = 11, quan = 42
+
+-- Function: update_age --
+25: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + DeclStmt:671:671: sz = 1, quan = 0
+26: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + IfStmt:679:682: sz = 9, quan = 16
+33: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + IfStmt:683:701: sz = 54, quan = 30
+35: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + BinaryOperator:708:708: sz = 3, quan = 30
+69: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + BinaryOperator:709:709: sz = 3, quan = 38
+116: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + BinaryOperator:710:710: sz = 3, quan = 46
+86: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + BinaryOperator:711:711: sz = 3, quan = 54
+111: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + BinaryOperator:712:712: sz = 3, quan = 54
+117: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + BinaryOperator:713:713: sz = 3, quan = 54
+119: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + update_age + IfStmt:715:719: sz = 12, quan = 54
+
+Non-sensitive Nodes: 
+
+-- Function: check_flags --
+16: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + check_flags + IfStmt:492:494: sz = 7, quan = 0
+27: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + check_flags + IfStmt:496:501: sz = 27, quan = 0
+
+-- Function: check_perms --
+39: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + check_perms + IfStmt:534:537: sz = 12, quan = 0
+
+-- Function: main --
+56: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + DeclStmt:800:800: sz = 1, quan = 0
+14: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + DeclStmt:801:801: sz = 1, quan = 0
+12: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + DeclStmt:802:802: sz = 1, quan = 0
+30: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + DeclStmt:803:803: sz = 1, quan = 0
+11: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + BinaryOperator:808:808: sz = 5, quan = 0
+24: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:810:810: sz = 1, quan = 0
+21: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CStyleCastExpr:811:811: sz = 1, quan = 0
+9: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CStyleCastExpr:812:812: sz = 1, quan = 0
+42: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CStyleCastExpr:813:813: sz = 1, quan = 0
+115: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:815:815: sz = 3, quan = 0
+8: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:820:820: sz = 1, quan = 0
+80: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + BinaryOperator:822:822: sz = 2, quan = 0
+15: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + BinaryOperator:823:823: sz = 2, quan = 0
+40: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + BinaryOperator:824:824: sz = 4, quan = 0
+81: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + IfStmt:826:828: sz = 11, quan = 0
+67: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:831:831: sz = 3, quan = 0
+70: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:833:833: sz = 1, quan = 0
+71: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + IfStmt:835:842: sz = 37, quan = 0
+61: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + main + CallExpr:844:844: sz = 3, quan = 0
+
+-- Function: open_files --
+32: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + open_files + IfStmt:586:594: sz = 15, quan = 0
+106: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + open_files + IfStmt:595:599: sz = 43, quan = 0
+7: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + open_files + IfStmt:607:615: sz = 15, quan = 0
+107: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + open_files + IfStmt:616:621: sz = 43, quan = 0
+
+-- Function: process_flags --
+110: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + process_flags + DeclStmt:387:387: sz = 1, quan = 0
+114: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + process_flags + DeclStmt:388:399: sz = 0, quan = 0
+112: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + process_flags + WhileStmt:401:475: sz = 111, quan = 0
+113: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + process_flags + CallExpr:477:477: sz = 3, quan = 0
+
+-- Function: usage --
+118: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + DeclStmt:143:143: sz = 10, quan = 0
+6: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:144:148: sz = 4, quan = 0
+5: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:149:149: sz = 3, quan = 0
+46: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:150:150: sz = 3, quan = 0
+37: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:151:151: sz = 3, quan = 0
+4: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:152:153: sz = 3, quan = 0
+3: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:154:154: sz = 3, quan = 0
+20: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:155:156: sz = 3, quan = 0
+2: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:157:158: sz = 3, quan = 0
+1: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:159:159: sz = 3, quan = 0
+59: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:160:160: sz = 3, quan = 0
+0: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CStyleCastExpr:161:161: sz = 2, quan = 0
+45: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c + usage + CallExpr:162:162: sz = 3, quan = 0
+
+Sensitive Nodes Total sz: 816
+Sensitive Nodes Total sz Ratio: 0.669401
+
+
+最优的 1 个解（按 sz_ratio 从小到大排序）:
+解 1 (sz_ratio = 0.669401): 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 1 1 1 0 0 1 1 0 1 1 0 1 1 0 1 0 1 1 1 1 0 1 0 0 1 0 1 1 0 0 1 1 1 1 1 1 1 1 1 0 1 1 0 1 0 1 1 1 1 1 0 1 1 0 0 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 0 1 0 0 0 0 1 1 0 1 
+  Sensitive Nodes: 10 13 17 18 19 22 23 25 26 28 29 31 33 34 35 36 38 41 43 44 47 48 49 50 51 52 53 54 55 57 58 60 62 63 64 65 66 68 69 72 73 74 75 76 77 78 79 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 108 109 111 116 117 119 
+  Non-sensitive Nodes: 0 1 2 3 4 5 6 7 8 9 11 12 14 15 16 20 21 24 27 30 32 37 39 40 42 45 46 56 59 61 67 70 71 80 81 106 107 110 112 113 114 115 118 
+  Sensitive Nodes Total sz: 816
+  Sensitive Nodes Total sz Ratio: 0.669401
+

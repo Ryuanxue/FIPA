@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.4.3)
 project(pdg)
-find_package(LLVM REQUIRED CONFIG)
+# 明确指定查找 LLVM 12 版本
+find_package(LLVM 12 REQUIRED CONFIG)
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
-message(STATUS "Using LLVMConfig.cmake in: ${LT_LLVM_INSTALL_DIR}")
+# 使用标准的 LLVM_DIR 变量来显示路径
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
 message("LLVM STATUS:
   Definitions ${LLVM_DEFINITIONS}

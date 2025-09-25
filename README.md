@@ -4,10 +4,11 @@
 
 This project consists of several independent submodules that must be compiled and installed in order. 
 - Sliver has been tested on Ubuntu 20.04.
-- Install llvm-12,libclang-12-dev, llvm-12-dev, libtinyxml2-dev,zlib1g, zlib1g-dev, libpugixml-dev:
+- Install dependencies including LLVM-12, various development libraries, and `rpcbind`:
 ```bash
-sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev libpugixml-dev
+sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev libpugixml-dev rpcbind
 ```
+
 - To install Docker, please refer to: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
 
 #### **Step 1: Clone the Project Repository**
@@ -209,10 +210,32 @@ python3 scripts/extract_statement_linerange.py --project_root examples/chage --c
   python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/chage
   ```
 
-### Step 4: Build Graph and Solve
+### Step 4: Build Graph and Solve for Partitioning
+
+This step constructs a Security Quantified Graph (SQG) and uses a Z3-based solver to find an optimal binary integer programming (BIP) solution for partitioning. The provided `based_qg_bi_praming.py` script automates this process by iteratively invoking the solver with varying code size budgets (`max-code-sz`) until a feasible solution is found.
+
+The script supports different partitioning strategies via the `--so-type` parameter, which loads different solver logic:
+-   `--so-type=u`: Utilizes a unidirectional communication model, where information is only allowed to flow from the non-sensitive to the sensitive domain.
+-   `--so-type=b`: Utilizes a bidirectional communication model.
+
+**Command Format:**
 ```bash
-python scripts/build_sqg.py --statements output/statements_ranges.xml --quant output/quantified_statements.txt --edges output/edge_weights.txt --bc input/sample.bc --threshold_A 10 --budget_scode 0.2 --output output/partition_policies.txt
+python3 scripts/based_qg_bi_praming.py <project_name> min-quan=<value> max-code-sz=<value> --so-type=<type>
 ```
+
+**Example for `chage`:**
+
+You can run the solver with different strategies. The script will generate result files (e.g., `chage_z3_result_u.txt`) in the project's `output` directory.
+
+-   To solve using the **unidirectional** model (`u`):
+    ```bash
+    python3 scripts/based_qg_bi_praming.py chage min-quan=0 max-code-sz=0.1 --so-type=u
+    ```
+
+-   To solve using the **bidirectional** model (`b`):
+    ```bash
+    python3 scripts/based_qg_bi_praming.py chage min-quan=0 max-code-sz=0.1 --so-type=b
+    ```
 
 ### Step 5: Code Refactoring
 ```bash

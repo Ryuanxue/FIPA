@@ -101,10 +101,19 @@ Before running the partitioning workflow, generate the following artifacts:
      ```bash
      python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/passwd
      ```
-4. **Build Graph and Solve**
-   ```bash
-   python3 scripts/build_sqg.py --statements examples/passwd/output/passwd_statements_ranges.xml --quant examples/passwd/output/statement_quantities.xml --edges examples/passwd/output/stmt_edge_counts.txt --bc examples/passwd/input/passwd.bc --threshold_A 10 --budget_scode 0.2 --output examples/passwd/output/partition_policies.txt
-   ```
+4. **Build Graph and Solve for Partitioning**
+
+   This step uses an automated script to construct the graph and find an optimal partitioning solution. You can run the solver with different communication models by specifying the `--so-type` parameter. The script will generate result files (e.g., `passwd_z3_result_u.txt`) in the `examples/passwd/output/` directory.
+
+   -   **To solve using the unidirectional model (`u`):**
+       ```bash
+       python3 scripts/based_qg_bi_praming.py passwd min-quan=0 max-code-sz=0.1 --so-type=u
+       ```
+
+   -   **To solve using the bidirectional model (`b`):**
+       ```bash
+       python3 scripts/based_qg_bi_praming.py passwd min-quan=0 max-code-sz=0.1 --so-type=b
+       ```
 5. **Code Refactoring**
    ```bash
    python3 scripts/refactor_code.py --policy examples/passwd/output/partition_policies.txt --source examples/passwd/input/passwd.c --bc examples/passwd/input/passwd.bc --output examples/passwd/output/refactored/
