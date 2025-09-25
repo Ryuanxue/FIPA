@@ -112,7 +112,7 @@ Before running the partitioning workflow, generate the following artifacts:
 - For details on each step, refer to the main FIPA README.md in the project root.
 - Adjust paths and filenames as needed for your own environment.
 
-## Running the Manually Partitioned Program
+## Running the Partitioned Program
 
 The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
 
