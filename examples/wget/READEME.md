@@ -21,7 +21,7 @@ Before running the partitioning workflow, generate the following artifacts:
         ```
    - Navigate to the source directory:
      ```bash
-     cd examples/wget/input/source_code/wget-1.8
+     cd examples/wget/input/source_code/wget-1.18
      ./configure   # (sometimes not needed)
      bear make CFLAGS+="-g -O0" -j8 
      cd src
@@ -31,9 +31,9 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
 
 2. **Compilation Database**
-   - Locate the full `compile_commands.json` generated in `examples/wget/input/source_code/wget-1.8` (if available).
+   - Locate the full `compile_commands.json` generated in `examples/wget/input/source_code/wget-1.18` (if available).
    - In `examples/wget/input`, create a new `compile_commands.json` file.
-   - From the original compilation database, copy all entries where the `"directory"` field contains the substring `examples/wget/input/source_code/wget-1.8/src` (i.e., any entry whose source file is under the `src` subdirectory). Paste these entries into the new file. This ensures only the `wget` source files are included for partitioning.
+   - From the original compilation database, copy all entries where the `"directory"` field contains the substring `examples/wget/input/source_code/wget-1.18/src` (i.e., any entry whose source file is under the `src` subdirectory). Paste these entries into the new file. This ensures only the `wget` source files are included for partitioning.
 
 3. **LLVM Bitcode File (.bc)**
    - Set environment variables for bitcode compilation:
@@ -77,7 +77,7 @@ Before running the partitioning workflow, generate the following artifacts:
      exit
 
      ```
-   - Copy the generated `wget` binary from `examples/wget/input/source_code/wget-1.8/src` to `examples/wget/input/` and rename it to `wget_32`.
+   - Copy the generated `wget` binary from `examples/wget/input/source_code/wget-1.18/src` to `examples/wget/input/` and rename it to `wget_32`.
 
 ## Partitioning Workflow Steps
 

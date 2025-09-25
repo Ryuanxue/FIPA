@@ -31,8 +31,8 @@ Before running the partitioning workflow, generate the following artifacts:
    - Rebuild with bitcode flags:
      ```bash
      
-     clang -g -S -emit-llvm -O0 -Igenerated/include  -g -O0 -fno-discard-value-names  mavlink_client.c
-     mv mavlink_client.ll ../../
+     clang -c -g -emit-llvm -O0 -Igenerated/include  -g -O0 -fno-discard-value-names mavlink_client.c -o mavlink-client.bc
+     mv mavlink-client.bc ../../
      ```
 
 4. **32-bit Executable (for FlowCheck)**
@@ -135,7 +135,7 @@ Then, compile the client and server components similarly to the 64-bit executabl
 
 **Compile mavlink_client_client:**
 ```bash
-cd examples/mavlink-client/output/finally_partition/mavlink_client_client/mavlink-client
+cd examples/mavlink-client/output/finally_partition/mavlink-client-client/mavlink-client
 make mavlink_client
 # The mavlink_client executable will be generated in the current directory.
 ```
@@ -162,6 +162,6 @@ Run the client and server in two separate terminals. This requires the original 
   ```
 - **Terminal 3 (Partitioned Client):**
   ```bash
-  ./examples/mavlink-client/output/finally_partition/mavlink_client_client/mavlink-client/mavlink_client
+  ./examples/mavlink-client/output/finally_partition/mavlink-client_client/mavlink-client/mavlink_client
   ```
 After observing the transmission of several heartbeat packets, you can stop all three processes by pressing Ctrl+C in each terminal.

@@ -31,8 +31,8 @@ Before running the partitioning workflow, generate the following artifacts:
    - Rebuild with bitcode flags:
      ```bash
      
-     clang -g -S -emit-llvm -O0 -Igenerated/include  -g -O0 -fno-discard-value-names  mavlink_server.c
-     mv mavlink_server.ll ../../
+     clang -g -c -emit-llvm -O0 -Igenerated/include  -g -O0 -fno-discard-value-names  mavlink_server.c -o mavlink-server.bc
+     mv mavlink-server.bc ../../
      ```
 
 4. **32-bit Executable (for FlowCheck)**

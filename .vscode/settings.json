@@ -66,6 +66,8 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "cfenv": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "getopt.h": "c",
+        "grp.h": "c"
     }
 }
