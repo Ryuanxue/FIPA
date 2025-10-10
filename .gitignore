@@ -13,3 +13,14 @@ examples/chage/input/source_code/shadow-utils/
 examples/passwd/input/source_code/shadow-utils/
 examples/chsh/input/source_code/shadow-utils/
 examples/passwd/input/source_code/shadow-utils/
+scripts/__pycache__/
+scripts/get_all_senseAddr_use_progate_for_refactor_output.py
+scripts/refactor_flowcheck_output.py
+scripts/get_all_senseAddr_use_progate_copy1.py
+scripts/aa1.txt
+scripts/rpc_helper.py
+aa.txt
+aa1.txt
+temp.g
+pin.log
+.vscode/
