@@ -1,0 +1,10 @@
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:225:232 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:234:246 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:247:259 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:260:272 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:274:286 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:289:301 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:302:314 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + DoStmt:323:323 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + CallExpr:324:324 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + ForStmt:943:1007 + 408

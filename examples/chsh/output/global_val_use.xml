@@ -1,0 +1,19 @@
+<root>
+  <fun-gval-use funname="main" gvallist="amroot,Prog,optind,stderr,sflg"/>
+  <fun-gval-use funname="fail_exit" gvallist="Prog,stderr,pw_locked"/>
+  <fun-gval-use funname="usage" gvallist="Prog,stderr,stdout"/>
+  <fun-gval-use funname="process_flags" gvallist="optind,sflg,loginsh,process_flags.long_options,optarg"/>
+  <fun-gval-use funname="check_perms" gvallist="amroot,stderr"/>
+  <fun-gval-use funname="new_fields" gvallist="loginsh"/>
+  <fun-gval-use funname="update_shell" gvallist="Prog,stderr,pw_locked"/>
+  <gval valname="amroot" rwproperty="not-read-only" decllocation="chsh.c:65"/>
+  <gval valname="Prog" rwproperty="not-read-only" decllocation="chsh.c:64"/>
+  <gval valname="optind" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="stderr" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="sflg" rwproperty="not-read-only" decllocation="chsh.c:68"/>
+  <gval valname="loginsh" rwproperty="not-read-only" decllocation="chsh.c:66"/>
+  <gval valname="pw_locked" rwproperty="not-read-only" decllocation="chsh.c:69"/>
+  <gval valname="process_flags.long_options" rwproperty="not-read-only" decllocation="chsh.c:208"/>
+  <gval valname="optarg" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="stdout" rwproperty="read-only" decllocation="unknown"/>
+</root>

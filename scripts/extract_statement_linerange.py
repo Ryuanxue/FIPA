@@ -85,11 +85,12 @@ if args.filter_list:
 for element in compile_commands:
     directory = element.get('directory', '')
     arguments = element.get('arguments', [])
-    c_file = None
-    for arg in arguments:
-        if arg.endswith('.c') or arg.endswith('.cpp'):
-            c_file = arg.split('/')[-1] if '/' in arg else arg
-            break
+    c_file = element.get('file', '')
+    # c_file = None
+    # for arg in arguments:
+    #     if arg.endswith('.c') or arg.endswith('.cpp'):
+    #         c_file = arg.split('/')[-1] if '/' in arg else arg
+    #         break
     if c_file:
         filepath = os.path.join(directory, c_file)
         # 可选：过滤函数
@@ -104,19 +105,27 @@ for element in compile_commands:
         print(command)
         #其实c_file对应的xml文件就在当前c文件目录下，请将生成的同名xml文件移动到temp_dir目录下
         # chsh.c会生成chsh.xml，且和chsh.c在同一目录下，现在移动到temp_dir目录下
+        if "nginx" in project_root:
+            c_file = c_file.split('/')[-1] if '/' in c_file else c_file
         xml_filename = os.path.join(directory, c_file.replace('.c', '.xml').replace('.cpp', '.xml'))
         temp_xml_filename = os.path.join(temp_dir, c_file.replace('.c', '.xml').replace('.cpp', '.xml'))
+        
         # 移动生成的 XML 文件到 temp_dir
+        # if os.path.exists(xml_filename):
+        #     os.rename(xml_filename, temp_xml_filename)
+        #     print(f"Moved XML to temp directory: {temp_xml_filename}")
+        
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        print(result.stdout)
+        # 2. 运行成功后，再移动生成的 XML 文件到 temp_dir
         if os.path.exists(xml_filename):
             os.rename(xml_filename, temp_xml_filename)
-            print(f"Moved XML to temp directory: {temp_xml_filename}")
-        try:
-            result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-            print(result.stdout)
-        except subprocess.CalledProcessError as e:
-            print(f"Error running command: {e}")
+            print(f"Moved generated XML to temp directory: {temp_xml_filename}")
+        else:
+            print(f"Warning: Command executed but XML file not found at {xml_filename}")
+        # except subprocess.CalledProcessError as e:
+        #     print(f"Error running command: {e}")
 
-sleep(10)  # 等待所有命令执行完毕make CFLAGS+="-g -O0 -m32 -I/flowcheck/include"
 # 合并 XML 文件
 unique_functions = {}
 for element in compile_commands:

@@ -1,0 +1,446 @@
+<root>
+  <fun-gval-use funname="yy_get_next_buffer" gvallist="yy_buffer_stack,yy_buffer_stack_top,yy_c_buf_p,yytext,yy_n_chars,yyin"/>
+  <fun-gval-use funname="yy_fatal_error" gvallist="stderr"/>
+  <fun-gval-use funname="yyrestart" gvallist="yy_buffer_stack,yy_buffer_stack_top,yyin"/>
+  <fun-gval-use funname="yy_init_buffer" gvallist="yy_buffer_stack,yy_buffer_stack_top"/>
+  <fun-gval-use funname="ftp_list" gvallist="ftp_list.list_commands"/>
+  <fun-gval-use funname="cookie_header" gvallist="cookies_now"/>
+  <fun-gval-use funname="cookie_expired_p" gvallist="cookies_now"/>
+  <fun-gval-use funname="cookie_jar_load" gvallist="cookies_now"/>
+  <fun-gval-use funname="cookie_jar_save" gvallist="cookies_now,opt"/>
+  <fun-gval-use funname="ftp_retrieve_glob" gvallist="total_downloaded_bytes"/>
+  <fun-gval-use funname="ftp_loop_internal" gvallist="total_downloaded_bytes,numurls"/>
+  <fun-gval-use funname="getftp" gvallist="total_download_time,output_stream,opt"/>
+  <fun-gval-use funname="retryable_socket_connect_error" gvallist="opt"/>
+  <fun-gval-use funname="fd_transport_context" gvallist="transport_map"/>
+  <fun-gval-use funname="fd_read" gvallist="transport_map,transport_map_modified_tick,fd_read.last_fd,fd_read.last_tick,fd_read.last_info"/>
+  <fun-gval-use funname="parse_set_cookie" gvallist="cookies_now"/>
+  <fun-gval-use funname="check_domain_match" gvallist="check_domain_match.known_toplevel_domains"/>
+  <fun-gval-use funname="fd_peek" gvallist="transport_map,transport_map_modified_tick,fd_peek.last_fd,fd_peek.last_tick,fd_peek.last_info"/>
+  <fun-gval-use funname="fd_write" gvallist="transport_map,transport_map_modified_tick,fd_write.last_fd,fd_write.last_tick,fd_write.last_info"/>
+  <fun-gval-use funname="fd_errstr" gvallist="transport_map"/>
+  <fun-gval-use funname="convert_all_links" gvallist="downloaded_html_set,downloaded_css_set"/>
+  <fun-gval-use funname="convert_links_in_hashtable" gvallist="dl_file_url_map,dl_url_file_map,dummy_iri"/>
+  <fun-gval-use funname="downloaded_file" gvallist="downloaded_files_hash"/>
+  <fun-gval-use funname="write_backup_file" gvallist="converted_files"/>
+  <fun-gval-use funname="downloaded_mode_to_ptr" gvallist="downloaded_mode_to_ptr.v1,downloaded_mode_to_ptr.v2,downloaded_mode_to_ptr.v3,downloaded_mode_to_ptr.v4"/>
+  <fun-gval-use funname="register_download" gvallist="dl_file_url_map,dl_url_file_map"/>
+  <fun-gval-use funname="dissociate_urls_from_file" gvallist="dl_url_file_map"/>
+  <fun-gval-use funname="dissociate_urls_from_file_mapper" gvallist="dl_url_file_map"/>
+  <fun-gval-use funname="register_redirection" gvallist="dl_file_url_map,dl_url_file_map"/>
+  <fun-gval-use funname="register_delete_file" gvallist="dl_file_url_map,dl_url_file_map"/>
+  <fun-gval-use funname="register_html" gvallist="downloaded_html_set"/>
+  <fun-gval-use funname="register_css" gvallist="downloaded_css_set"/>
+  <fun-gval-use funname="cookie_handle_set_cookie" gvallist="cookies_now"/>
+  <fun-gval-use funname="resolve_bind_address" gvallist="resolve_bind_address.called,resolve_bind_address.should_bind,resolve_bind_address.ip,exec_name,opt"/>
+  <fun-gval-use funname="fd_close" gvallist="transport_map,transport_map_modified_tick"/>
+  <fun-gval-use funname="connect_to_host" gvallist="exec_name"/>
+  <fun-gval-use funname="fd_register_transport" gvallist="transport_map,transport_map_modified_tick"/>
+  <fun-gval-use funname="ftp_retrieve_list" gvallist="ftp_retrieve_list.depth,total_downloaded_bytes,opt"/>
+  <fun-gval-use funname="ftp_retrieve_dirs" gvallist="total_downloaded_bytes"/>
+  <fun-gval-use funname="yylex" gvallist="stdin,yyout,stdout,yy_buffer_stack,yy_buffer_stack_top,yy_c_buf_p,yy_hold_char,yy_ec,yy_last_accepting_state,yy_last_accepting_cpos,yy_base,yy_chk,yy_def,yy_meta,yy_nxt,yytext,yyleng,yy_n_chars,yy_did_buffer_switch_on_eof,yy_init,yy_start,yyin"/>
+  <fun-gval-use funname="yyensure_buffer_stack" gvallist="yy_buffer_stack,yy_buffer_stack_top,yy_buffer_stack_max"/>
+  <fun-gval-use funname="yy_load_buffer_state" gvallist="yy_buffer_stack,yy_buffer_stack_top,yy_c_buf_p,yy_hold_char,yytext,yy_n_chars,yyin"/>
+  <fun-gval-use funname="yy_get_previous_state" gvallist="yy_c_buf_p,yy_ec,yy_last_accepting_state,yy_last_accepting_cpos,yy_base,yy_chk,yy_def,yy_meta,yy_nxt,yytext,yy_start"/>
+  <fun-gval-use funname="yy_try_NUL_trans" gvallist="yy_c_buf_p,yy_accept,yy_last_accepting_state,yy_last_accepting_cpos,yy_base,yy_chk,yy_def,yy_meta,yy_nxt"/>
+  <fun-gval-use funname="yy_flush_buffer" gvallist="yy_buffer_stack,yy_buffer_stack_top"/>
+  <fun-gval-use funname="yy_switch_to_buffer" gvallist="yy_buffer_stack,yy_buffer_stack_top,yy_c_buf_p,yy_hold_char,yy_n_chars,yy_did_buffer_switch_on_eof"/>
+  <fun-gval-use funname="get_urls_css" gvallist="yytext,yyleng"/>
+  <fun-gval-use funname="ftp_login" gvallist="ftp_login.skey_head"/>
+  <fun-gval-use funname="persistent_available_p" gvallist="pconn_active,pconn"/>
+  <fun-gval-use funname="time_to_rfc1123" gvallist="time_to_rfc1123.time_format,time_to_rfc1123.wkday,time_to_rfc1123.month"/>
+  <fun-gval-use funname="maybe_send_basic_creds" gvallist="opt,basic_authed_hosts"/>
+  <fun-gval-use funname="save_cookies" gvallist="wget_cookie_jar"/>
+  <fun-gval-use funname="defaults" gvallist="opt"/>
+  <fun-gval-use funname="home_dir" gvallist="home_dir.home,home_dir.ret,home_dir.buf"/>
+  <fun-gval-use funname="wgetrc_env_file_name" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="run_wgetrc" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="setval_internal_tilde" gvallist="commands"/>
+  <fun-gval-use funname="setval_internal" gvallist="commands"/>
+  <fun-gval-use funname="cmd_boolean" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_number" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_cert_type" gvallist="stderr,exec_name,cmd_cert_type.choices"/>
+  <fun-gval-use funname="cmd_check_cert" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="check_file_output" gvallist="opt"/>
+  <fun-gval-use funname="open_output_stream" gvallist="output_stream,opt"/>
+  <fun-gval-use funname="ftp_parse_unix_ls" gvallist="ftp_parse_unix_ls.months"/>
+  <fun-gval-use funname="eat_carets" gvallist="char_prop"/>
+  <fun-gval-use funname="ftp_index" gvallist="ftp_index.months,output_stream"/>
+  <fun-gval-use funname="prime_size" gvallist="prime_size.primes"/>
+  <fun-gval-use funname="print_address" gvallist="print_address.buf"/>
+  <fun-gval-use funname="cache_query" gvallist="host_name_addresses_map"/>
+  <fun-gval-use funname="cache_remove" gvallist="host_name_addresses_map"/>
+  <fun-gval-use funname="cache_store" gvallist="host_name_addresses_map"/>
+  <fun-gval-use funname="accept_domain" gvallist="opt"/>
+  <fun-gval-use funname="bar_draw" gvallist="received_sigwinch,screen_width"/>
+  <fun-gval-use funname="bar_set_params" gvallist="stderr,current_impl_locked"/>
+  <fun-gval-use funname="set_progress_implementation" gvallist="implementations,current_impl_locked,current_impl"/>
+  <fun-gval-use funname="create_image" gvallist="opt,create_image.short_units,create_image.short_units_bits"/>
+  <fun-gval-use funname="get_eta" gvallist="get_eta.eta_trans,get_eta.eta_str,get_eta.bytes_cols_diff"/>
+  <fun-gval-use funname="eta_to_human_short" gvallist="eta_to_human_short.last,eta_to_human_short.buf"/>
+  <fun-gval-use funname="print_row_stats" gvallist="opt,print_row_stats.names"/>
+  <fun-gval-use funname="progress_schedule_redirect" gvallist="output_redirected"/>
+  <fun-gval-use funname="progress_create" gvallist="current_impl_locked,current_impl,output_redirected"/>
+  <fun-gval-use funname="progress_interactive_p" gvallist="current_impl"/>
+  <fun-gval-use funname="progress_update" gvallist="current_impl"/>
+  <fun-gval-use funname="progress_finish" gvallist="current_impl"/>
+  <fun-gval-use funname="progress_handle_sigwinch" gvallist="received_sigwinch"/>
+  <fun-gval-use funname="ptimer_new" gvallist="ptimer_new.init_done"/>
+  <fun-gval-use funname="posix_init" gvallist="posix_clock_id,posix_init.clocks,posix_clock_resolution"/>
+  <fun-gval-use funname="posix_measure" gvallist="posix_clock_id"/>
+  <fun-gval-use funname="append_url" gvallist="dummy_iri"/>
+  <fun-gval-use funname="get_urls_html" gvallist="interesting_tags,interesting_attributes,opt"/>
+  <fun-gval-use funname="init_interesting" gvallist="interesting_tags,interesting_attributes,known_tags,additional_attributes,tag_url_attributes,opt"/>
+  <fun-gval-use funname="collect_tags_mapper" gvallist="interesting_tags"/>
+  <fun-gval-use funname="tag_find_urls" gvallist="tag_url_attributes"/>
+  <fun-gval-use funname="tag_handle_meta" gvallist="meta_charset"/>
+  <fun-gval-use funname="http_loop" gvallist="total_downloaded_bytes,total_download_time,opt,numurls"/>
+  <fun-gval-use funname="load_cookies" gvallist="wget_cookie_jar,cookies_loaded_p,opt"/>
+  <fun-gval-use funname="set_file_timestamp" gvallist="opt"/>
+  <fun-gval-use funname="gethttp" gvallist="wget_cookie_jar,pconn_active,output_stream,opt,hsts_store"/>
+  <fun-gval-use funname="http_atotm" gvallist="http_atotm.time_formats"/>
+  <fun-gval-use funname="initialize_request" gvallist="opt,initialize_request.hfmt,version_string"/>
+  <fun-gval-use funname="initialize_proxy_configuration" gvallist="opt"/>
+  <fun-gval-use funname="establish_connection" gvallist="pconn_active,exec_name,version_string"/>
+  <fun-gval-use funname="invalidate_persistent" gvallist="pconn_active,pconn"/>
+  <fun-gval-use funname="body_file_send" gvallist="body_file_send.chunk"/>
+  <fun-gval-use funname="register_persistent" gvallist="pconn_active,pconn"/>
+  <fun-gval-use funname="read_response_body" gvallist="opt"/>
+  <fun-gval-use funname="warc_write_start_record" gvallist="opt,warc_write_ok,warc_current_file,warc_current_gzfile,warc_current_gzfile_offset,warc_current_gzfile_uncompressed_size"/>
+  <fun-gval-use funname="warc_write_header" gvallist="warc_write_ok"/>
+  <fun-gval-use funname="warc_write_block_from_file" gvallist="warc_write_ok"/>
+  <fun-gval-use funname="warc_write_end_record" gvallist="warc_write_ok,warc_current_file,warc_current_gzfile,warc_current_gzfile_offset,warc_current_gzfile_uncompressed_size"/>
+  <fun-gval-use funname="warc_write_buffer" gvallist="warc_current_file,warc_current_gzfile,warc_current_gzfile_uncompressed_size"/>
+  <fun-gval-use funname="warc_write_string" gvallist="warc_write_ok"/>
+  <fun-gval-use funname="create_authorization_line" gvallist="pconn"/>
+  <fun-gval-use funname="register_basic_auth_host" gvallist="basic_authed_hosts"/>
+  <fun-gval-use funname="digest_authentication_encode" gvallist="digest_authentication_encode.qop,digest_authentication_encode.algorithm,digest_authentication_encode.nonce,digest_authentication_encode.opaque,digest_authentication_encode.realm,digest_authentication_encode.options"/>
+  <fun-gval-use funname="abort_run_with_timeout" gvallist="run_with_timeout_env"/>
+  <fun-gval-use funname="base64_encode" gvallist="base64_encode.tbl"/>
+  <fun-gval-use funname="base64_decode" gvallist="base64_decode.base64_char_to_value"/>
+  <fun-gval-use funname="compile_pcre_regex" gvallist="stderr"/>
+  <fun-gval-use funname="compile_posix_regex" gvallist="stderr"/>
+  <fun-gval-use funname="match_posix_regex" gvallist="opt"/>
+  <fun-gval-use funname="print_decimal" gvallist="print_decimal.buf"/>
+  <fun-gval-use funname="inform_exit_status" gvallist="final_exit_status"/>
+  <fun-gval-use funname="get_exit_status" gvallist="final_exit_status"/>
+  <fun-gval-use funname="skey_response" gvallist="skey_response.english"/>
+  <fun-gval-use funname="btoe" gvallist="Wp"/>
+  <fun-gval-use funname="ssl_init" gvallist="opt,ssl_init.ssl_initialized,credentials"/>
+  <fun-gval-use funname="ssl_connect_wget" gvallist="opt,credentials,gnutls_free,wgnutls_transport"/>
+  <fun-gval-use funname="wgnutls_peek" gvallist="opt"/>
+  <fun-gval-use funname="wgnutls_close" gvallist="gnutls_free"/>
+  <fun-gval-use funname="cmd_time" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_file_once" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_bytes" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_spec_header" gvallist="stderr,exec_name,opt"/>
+  <fun-gval-use funname="cmd_spec_htmlify" gvallist="opt"/>
+  <fun-gval-use funname="cmd_spec_mirror" gvallist="opt"/>
+  <fun-gval-use funname="cmd_spec_prefer_family" gvallist="stderr,exec_name,opt,cmd_spec_prefer_family.choices"/>
+  <fun-gval-use funname="cmd_spec_progress" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_bytes_sum" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_spec_regex_type" gvallist="stderr,exec_name,cmd_spec_regex_type.choices"/>
+  <fun-gval-use funname="cmd_spec_report_speed" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_spec_restrict_file_names" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cmd_spec_secure_protocol" gvallist="stderr,exec_name,cmd_spec_secure_protocol.choices"/>
+  <fun-gval-use funname="cmd_spec_timeout" gvallist="opt"/>
+  <fun-gval-use funname="cmd_spec_useragent" gvallist="stderr,exec_name,opt"/>
+  <fun-gval-use funname="cmd_spec_warc_header" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="command_by_name" gvallist="commands"/>
+  <fun-gval-use funname="initialize" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="run_command" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="cleanup" gvallist="output_stream"/>
+  <fun-gval-use funname="log_set_warc_log_fp" gvallist="warclogfp"/>
+  <fun-gval-use funname="logputs" gvallist="save_context_p,flush_log_p,needs_flushing"/>
+  <fun-gval-use funname="check_redirect_output" gvallist="redirect_request"/>
+  <fun-gval-use funname="get_progress_fp" gvallist="stderr"/>
+  <fun-gval-use funname="get_log_fp" gvallist="stderr,inhibit_logging,logfp"/>
+  <fun-gval-use funname="get_warc_log_fp" gvallist="warclogfp,inhibit_logging"/>
+  <fun-gval-use funname="logflush" gvallist="needs_flushing"/>
+  <fun-gval-use funname="saved_append_1" gvallist="trailing_line,log_line_current"/>
+  <fun-gval-use funname="redirect_output" gvallist="stderr,save_context_p,inhibit_logging,logfp,redirect_request_signal_name"/>
+  <fun-gval-use funname="log_dump_context" gvallist="trailing_line,log_line_current,log_lines"/>
+  <fun-gval-use funname="log_set_flush" gvallist="flush_log_p,needs_flushing"/>
+  <fun-gval-use funname="log_set_save_context" gvallist="save_context_p"/>
+  <fun-gval-use funname="logprintf" gvallist="inhibit_logging"/>
+  <fun-gval-use funname="log_vprintf_internal" gvallist="save_context_p,flush_log_p,needs_flushing"/>
+  <fun-gval-use funname="debug_logprintf" gvallist="inhibit_logging"/>
+  <fun-gval-use funname="log_init" gvallist="stdout,stderr,exec_name,save_context_p,logfp"/>
+  <fun-gval-use funname="log_close" gvallist="stderr,save_context_p,trailing_line,log_line_current,inhibit_logging,logfp"/>
+  <fun-gval-use funname="escnonprint_internal" gvallist="escnonprint_internal.ringpos,ring"/>
+  <fun-gval-use funname="log_request_redirect_output" gvallist="save_context_p,redirect_request,redirect_request_signal_name"/>
+  <fun-gval-use funname="main" gvallist="stdout,stderr,total_downloaded_bytes,output_stream_regular,total_download_time,output_stream,exec_name,program_argstring,long_options,option_data,optarg,opterr,optind,optmap,opt,dummy_iri,numurls,hsts_store,program_name,version_string"/>
+  <fun-gval-use funname="init_switches" gvallist="short_options,long_options,option_data,optmap"/>
+  <fun-gval-use funname="print_usage" gvallist="stdout,stderr,exec_name"/>
+  <fun-gval-use funname="prompt_for_password" gvallist="stderr,opt"/>
+  <fun-gval-use funname="load_hsts" gvallist="hsts_store"/>
+  <fun-gval-use funname="secs_to_human_time" gvallist="secs_to_human_time.buf"/>
+  <fun-gval-use funname="save_hsts" gvallist="hsts_store"/>
+  <fun-gval-use funname="get_hsts_database" gvallist="opt"/>
+  <fun-gval-use funname="print_help" gvallist="stdout,print_help.help,version_string"/>
+  <fun-gval-use funname="print_version" gvallist="stdout,compiled_features,version_string,compilation_string,link_string"/>
+  <fun-gval-use funname="no_prefix" gvallist="no_prefix.p"/>
+  <fun-gval-use funname="search_netrc" gvallist="opt,search_netrc.processed_netrc,netrc_list"/>
+  <fun-gval-use funname="parse_netrc" gvallist="stderr,exec_name"/>
+  <fun-gval-use funname="dot_set_params" gvallist="stderr,opt"/>
+  <fun-gval-use funname="bar_create" gvallist="received_sigwinch,screen_width"/>
+  <fun-gval-use funname="posix_resolution" gvallist="posix_clock_resolution"/>
+  <fun-gval-use funname="retrieve_tree" gvallist="downloaded_html_set,downloaded_css_set,dl_url_file_map,total_downloaded_bytes,opt,dummy_iri"/>
+  <fun-gval-use funname="download_child" gvallist="opt"/>
+  <fun-gval-use funname="res_register_specs" gvallist="registered_specs"/>
+  <fun-gval-use funname="res_get_specs" gvallist="registered_specs"/>
+  <fun-gval-use funname="res_retrieve_file" gvallist="dummy_iri"/>
+  <fun-gval-use funname="limit_bandwidth_reset" gvallist="limit_data"/>
+  <fun-gval-use funname="limit_bandwidth" gvallist="limit_data,opt"/>
+  <fun-gval-use funname="retr_rate" gvallist="retr_rate.rate_names,retr_rate.rate_names_bits,retr_rate.res"/>
+  <fun-gval-use funname="retrieve_url" gvallist="opt,dummy_iri,hsts_store"/>
+  <fun-gval-use funname="getproxy" gvallist="opt"/>
+  <fun-gval-use funname="retrieve_from_file" gvallist="total_downloaded_bytes,opt,dummy_iri"/>
+  <fun-gval-use funname="sleep_between_retrievals" gvallist="sleep_between_retrievals.first_retrieval,opt"/>
+  <fun-gval-use funname="set_local_file" gvallist="output_stream_regular"/>
+  <fun-gval-use funname="input_file_url" gvallist="input_file_url.first"/>
+  <fun-gval-use funname="nonexisting_url" gvallist="nonexisting_urls_set"/>
+  <fun-gval-use funname="print_broken_links" gvallist="nonexisting_urls_set"/>
+  <fun-gval-use funname="url_unescape_1" gvallist="urlchr_table"/>
+  <fun-gval-use funname="url_escape_1" gvallist="urlchr_table"/>
+  <fun-gval-use funname="url_scheme" gvallist="supported_schemes"/>
+  <fun-gval-use funname="scheme_default_port" gvallist="supported_schemes"/>
+  <fun-gval-use funname="scheme_disable" gvallist="supported_schemes"/>
+  <fun-gval-use funname="url_parse" gvallist="supported_schemes,opt"/>
+  <fun-gval-use funname="init_seps" gvallist="supported_schemes,init_seps.seps"/>
+  <fun-gval-use funname="url_string" gvallist="supported_schemes"/>
+  <fun-gval-use funname="char_needs_escaping" gvallist="urlchr_table"/>
+  <fun-gval-use funname="url_error" gvallist="parse_errors"/>
+  <fun-gval-use funname="url_file_name" gvallist="supported_schemes,opt"/>
+  <fun-gval-use funname="append_dir_structure" gvallist="opt"/>
+  <fun-gval-use funname="append_uri_pathel" gvallist="opt,filechr_table"/>
+  <fun-gval-use funname="convert_fname" gvallist="opt"/>
+  <fun-gval-use funname="getchar_from_escaped_string" gvallist="urlchr_table"/>
+  <fun-gval-use funname="warc_init" gvallist="opt,warc_write_ok,warc_manifest_fp,warc_log_fp,warc_current_file_number"/>
+  <fun-gval-use funname="warc_load_cdx_dedup_file" gvallist="opt,warc_cdx_dedup_table"/>
+  <fun-gval-use funname="warc_tempfile" gvallist="opt"/>
+  <fun-gval-use funname="warc_start_new_file" gvallist="warc_manifest_fp,warc_current_file_number,warc_current_file,warc_current_filename"/>
+  <fun-gval-use funname="warc_start_cdx_file" gvallist="opt,warc_current_cdx_file"/>
+  <fun-gval-use funname="warc_write_warcinfo_record" gvallist="program_argstring,opt,warc_write_ok,version_string"/>
+  <fun-gval-use funname="warc_process_cdx_line" gvallist="warc_cdx_dedup_table"/>
+  <fun-gval-use funname="warc_close" gvallist="warc_log_fp,warc_current_cdx_file,warc_current_file"/>
+  <fun-gval-use funname="warc_write_metadata" gvallist="program_argstring,opt,warc_manifest_fp,warc_log_fp"/>
+  <fun-gval-use funname="warc_write_record" gvallist="warc_write_ok"/>
+  <fun-gval-use funname="warc_write_ip_header" gvallist="warc_write_ok"/>
+  <fun-gval-use funname="warc_write_request_record" gvallist="warc_write_ok"/>
+  <fun-gval-use funname="warc_write_header_uri" gvallist="warc_write_ok"/>
+  <fun-gval-use funname="warc_write_response_record" gvallist="opt,warc_write_ok,warc_current_file,warc_current_filename"/>
+  <fun-gval-use funname="warc_find_duplicate_cdx_record" gvallist="warc_cdx_dedup_table"/>
+  <fun-gval-use funname="warc_write_revisit_record" gvallist="warc_write_ok,warc_current_warcinfo_uuid_str"/>
+  <fun-gval-use funname="warc_write_cdx_record" gvallist="warc_current_cdx_file,warc_current_filename"/>
+  <fun-gval-use funname="memfatal" gvallist="exec_name"/>
+  <fun-gval-use funname="fmttime" gvallist="fmttime.output"/>
+  <fun-gval-use funname="fork_to_background" gvallist="stdin,stdout,stderr,opt"/>
+  <fun-gval-use funname="acceptable" gvallist="opt"/>
+  <fun-gval-use funname="accept_url" gvallist="opt"/>
+  <fun-gval-use funname="accdir" gvallist="opt"/>
+  <fun-gval-use funname="dir_matches_p" gvallist="opt"/>
+  <fun-gval-use funname="wget_read_file" gvallist="stdin"/>
+  <fun-gval-use funname="human_readable" gvallist="human_readable.buf,human_readable.powers"/>
+  <fun-gval-use funname="number_to_static_string" gvallist="number_to_static_string.ringpos,number_to_static_string.ring"/>
+  <fun-gval-use funname="convert_to_bits" gvallist="opt"/>
+  <fun-gval-use funname="determine_screen_width" gvallist="stderr,opt"/>
+  <fun-gval-use funname="random_number" gvallist="rnd_seeded"/>
+  <fun-gval-use funname="ssl_check_certificate" gvallist="opt"/>
+  <fun-gval-use funname="ntlm_output" gvallist="opt"/>
+  <fun-gval-use funname="mkhash" gvallist="mkhash.magic"/>
+  <gval valname="transport_map" rwproperty="not-read-only" decllocation="connect.c:817"/>
+  <gval valname="transport_map_modified_tick" rwproperty="not-read-only" decllocation="connect.c:818"/>
+  <gval valname="resolve_bind_address.called" rwproperty="not-read-only" decllocation="connect.c:190"/>
+  <gval valname="resolve_bind_address.should_bind" rwproperty="not-read-only" decllocation="connect.c:190"/>
+  <gval valname="resolve_bind_address.ip" rwproperty="not-read-only" decllocation="connect.c:191"/>
+  <gval valname="fd_read.last_fd" rwproperty="not-read-only" decllocation="connect.c:917"/>
+  <gval valname="fd_read.last_tick" rwproperty="not-read-only" decllocation="connect.c:917"/>
+  <gval valname="fd_read.last_info" rwproperty="not-read-only" decllocation="connect.c:917"/>
+  <gval valname="fd_peek.last_fd" rwproperty="not-read-only" decllocation="connect.c:942"/>
+  <gval valname="fd_peek.last_tick" rwproperty="not-read-only" decllocation="connect.c:942"/>
+  <gval valname="fd_peek.last_info" rwproperty="not-read-only" decllocation="connect.c:942"/>
+  <gval valname="fd_write.last_fd" rwproperty="not-read-only" decllocation="connect.c:961"/>
+  <gval valname="fd_write.last_tick" rwproperty="not-read-only" decllocation="connect.c:961"/>
+  <gval valname="fd_write.last_info" rwproperty="not-read-only" decllocation="connect.c:961"/>
+  <gval valname="downloaded_html_set" rwproperty="not-read-only" decllocation="convert.c:56"/>
+  <gval valname="downloaded_css_set" rwproperty="not-read-only" decllocation="convert.c:57"/>
+  <gval valname="dl_file_url_map" rwproperty="not-read-only" decllocation="convert.c:51"/>
+  <gval valname="cookies_now" rwproperty="not-read-only" decllocation="cookies.c:87"/>
+  <gval valname="dl_url_file_map" rwproperty="not-read-only" decllocation="convert.c:52"/>
+  <gval valname="converted_files" rwproperty="not-read-only" decllocation="convert.c:529"/>
+  <gval valname="downloaded_files_hash" rwproperty="not-read-only" decllocation="convert.c:1030"/>
+  <gval valname="downloaded_mode_to_ptr.v1" rwproperty="read-only" decllocation="convert.c:1041"/>
+  <gval valname="downloaded_mode_to_ptr.v2" rwproperty="read-only" decllocation="convert.c:1042"/>
+  <gval valname="downloaded_mode_to_ptr.v3" rwproperty="read-only" decllocation="convert.c:1043"/>
+  <gval valname="downloaded_mode_to_ptr.v4" rwproperty="read-only" decllocation="convert.c:1044"/>
+  <gval valname="stdin" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="yyout" rwproperty="not-read-only" decllocation="css.c:342"/>
+  <gval valname="stdout" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="yy_buffer_stack" rwproperty="not-read-only" decllocation="css.c:257"/>
+  <gval valname="yy_buffer_stack_top" rwproperty="not-read-only" decllocation="css.c:255"/>
+  <gval valname="yy_c_buf_p" rwproperty="not-read-only" decllocation="css.c:280"/>
+  <gval valname="yy_hold_char" rwproperty="not-read-only" decllocation="css.c:275"/>
+  <gval valname="yy_ec" rwproperty="read-only" decllocation="css.c:508"/>
+  <gval valname="yy_accept" rwproperty="read-only" decllocation="css.c:377"/>
+  <gval valname="yy_last_accepting_state" rwproperty="not-read-only" decllocation="css.c:4673"/>
+  <gval valname="yy_last_accepting_cpos" rwproperty="not-read-only" decllocation="css.c:4674"/>
+  <gval valname="yy_base" rwproperty="read-only" decllocation="css.c:553"/>
+  <gval valname="check_domain_match.known_toplevel_domains" rwproperty="read-only" decllocation="cookies.c:648"/>
+  <gval valname="ftp_index.months" rwproperty="read-only" decllocation="ftp-ls.c:1113"/>
+  <gval valname="http_atotm.time_formats" rwproperty="read-only" decllocation="http.c:4469"/>
+  <gval valname="wget_cookie_jar" rwproperty="not-read-only" decllocation="http.c:90"/>
+  <gval valname="pconn_active" rwproperty="not-read-only" decllocation="http.c:1328"/>
+  <gval valname="pconn" rwproperty="not-read-only" decllocation="http.c:1351"/>
+  <gval valname="yy_chk" rwproperty="read-only" decllocation="css.c:2761"/>
+  <gval valname="yy_def" rwproperty="read-only" decllocation="css.c:701"/>
+  <gval valname="yy_meta" rwproperty="read-only" decllocation="css.c:540"/>
+  <gval valname="yy_nxt" rwproperty="read-only" decllocation="css.c:849"/>
+  <gval valname="yytext" rwproperty="not-read-only" decllocation="css.c:4686"/>
+  <gval valname="yyleng" rwproperty="not-read-only" decllocation="css.c:277"/>
+  <gval valname="yy_n_chars" rwproperty="not-read-only" decllocation="css.c:276"/>
+  <gval valname="yy_did_buffer_switch_on_eof" rwproperty="not-read-only" decllocation="css.c:287"/>
+  <gval valname="stderr" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="yy_buffer_stack_max" rwproperty="not-read-only" decllocation="css.c:256"/>
+  <gval valname="ftp_login.skey_head" rwproperty="read-only" decllocation="ftp-basic.c:191"/>
+  <gval valname="ftp_parse_unix_ls.months" rwproperty="read-only" decllocation="ftp-ls.c:98"/>
+  <gval valname="ftp_retrieve_list.depth" rwproperty="not-read-only" decllocation="ftp.c:2158"/>
+  <gval valname="yy_init" rwproperty="not-read-only" decllocation="css.c:281"/>
+  <gval valname="yy_start" rwproperty="not-read-only" decllocation="css.c:282"/>
+  <gval valname="yyin" rwproperty="not-read-only" decllocation="css.c:342"/>
+  <gval valname="meta_charset" rwproperty="not-read-only" decllocation="html-url.c:196"/>
+  <gval valname="ftp_list.list_commands" rwproperty="read-only" decllocation="ftp-basic.c:1087"/>
+  <gval valname="registered_specs" rwproperty="not-read-only" decllocation="res.c:478"/>
+  <gval valname="limit_data" rwproperty="not-read-only" decllocation="retr.c:79"/>
+  <gval valname="retr_rate.rate_names" rwproperty="read-only" decllocation="retr.c:630"/>
+  <gval valname="retr_rate.rate_names_bits" rwproperty="read-only" decllocation="retr.c:631"/>
+  <gval valname="retr_rate.res" rwproperty="read-only" decllocation="retr.c:629"/>
+  <gval valname="total_downloaded_bytes" rwproperty="not-read-only" decllocation="retr.c:62"/>
+  <gval valname="sleep_between_retrievals.first_retrieval" rwproperty="not-read-only" decllocation="retr.c:1184"/>
+  <gval valname="output_stream_regular" rwproperty="not-read-only" decllocation="retr.c:73"/>
+  <gval valname="input_file_url.first" rwproperty="not-read-only" decllocation="retr.c:1372"/>
+  <gval valname="total_download_time" rwproperty="not-read-only" decllocation="retr.c:65"/>
+  <gval valname="output_stream" rwproperty="not-read-only" decllocation="retr.c:69"/>
+  <gval valname="nonexisting_urls_set" rwproperty="not-read-only" decllocation="spider.c:44"/>
+  <gval valname="urlchr_table" rwproperty="read-only" decllocation="url.c:143"/>
+  <gval valname="supported_schemes" rwproperty="not-read-only" decllocation="url.c:79"/>
+  <gval valname="init_seps.seps" rwproperty="read-only" decllocation="url.c:654"/>
+  <gval valname="parse_errors" rwproperty="read-only" decllocation="url.c:668"/>
+  <gval valname="cookies_loaded_p" rwproperty="not-read-only" decllocation="http.c:89"/>
+  <gval valname="home_dir.home" rwproperty="not-read-only" decllocation="init.c:493"/>
+  <gval valname="home_dir.ret" rwproperty="not-read-only" decllocation="init.c:493"/>
+  <gval valname="home_dir.buf" rwproperty="not-read-only" decllocation="init.c:492"/>
+  <gval valname="commands" rwproperty="read-only" decllocation="init.c:131"/>
+  <gval valname="prime_size.primes" rwproperty="read-only" decllocation="hash.c:215"/>
+  <gval valname="print_address.buf" rwproperty="read-only" decllocation="host.c:432"/>
+  <gval valname="host_name_addresses_map" rwproperty="not-read-only" decllocation="host.c:592"/>
+  <gval valname="interesting_tags" rwproperty="not-read-only" decllocation="html-url.c:191"/>
+  <gval valname="interesting_attributes" rwproperty="not-read-only" decllocation="html-url.c:192"/>
+  <gval valname="known_tags" rwproperty="read-only" decllocation="html-url.c:97"/>
+  <gval valname="additional_attributes" rwproperty="read-only" decllocation="html-url.c:180"/>
+  <gval valname="tag_url_attributes" rwproperty="read-only" decllocation="html-url.c:148"/>
+  <gval valname="exec_name" rwproperty="not-read-only" decllocation="main.c:104"/>
+  <gval valname="program_argstring" rwproperty="not-read-only" decllocation="main.c:1182"/>
+  <gval valname="short_options" rwproperty="read-only" decllocation="main.c:465"/>
+  <gval valname="long_options" rwproperty="not-read-only" decllocation="main.c:464"/>
+  <gval valname="option_data" rwproperty="read-only" decllocation="main.c:251"/>
+  <gval valname="optarg" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="opterr" rwproperty="not-read-only" decllocation="unknown"/>
+  <gval valname="optind" rwproperty="not-read-only" decllocation="unknown"/>
+  <gval valname="optmap" rwproperty="not-read-only" decllocation="main.c:468"/>
+  <gval valname="opt" rwproperty="not-read-only" decllocation="main.c:96"/>
+  <gval valname="dummy_iri" rwproperty="not-read-only" decllocation="main.c:86"/>
+  <gval valname="numurls" rwproperty="not-read-only" decllocation="main.c:107"/>
+  <gval valname="hsts_store" rwproperty="not-read-only" decllocation="main.c:154"/>
+  <gval valname="secs_to_human_time.buf" rwproperty="read-only" decllocation="main.c:992"/>
+  <gval valname="basic_authed_hosts" rwproperty="not-read-only" decllocation="http.c:405"/>
+  <gval valname="digest_authentication_encode.qop" rwproperty="not-read-only" decllocation="http.c:4584"/>
+  <gval valname="digest_authentication_encode.algorithm" rwproperty="not-read-only" decllocation="http.c:4584"/>
+  <gval valname="digest_authentication_encode.nonce" rwproperty="not-read-only" decllocation="http.c:4584"/>
+  <gval valname="digest_authentication_encode.opaque" rwproperty="not-read-only" decllocation="http.c:4584"/>
+  <gval valname="digest_authentication_encode.realm" rwproperty="not-read-only" decllocation="http.c:4584"/>
+  <gval valname="digest_authentication_encode.options" rwproperty="read-only" decllocation="http.c:4588"/>
+  <gval valname="body_file_send.chunk" rwproperty="not-read-only" decllocation="http.c:466"/>
+  <gval valname="initialize_request.hfmt" rwproperty="read-only" decllocation="http.c:1900"/>
+  <gval valname="time_to_rfc1123.time_format" rwproperty="read-only" decllocation="http.c:1789"/>
+  <gval valname="time_to_rfc1123.wkday" rwproperty="read-only" decllocation="http.c:1783"/>
+  <gval valname="time_to_rfc1123.month" rwproperty="read-only" decllocation="http.c:1785"/>
+  <gval valname="no_prefix.p" rwproperty="not-read-only" decllocation="main.c:451"/>
+  <gval valname="no_prefix.buffer" rwproperty="read-only" decllocation="main.c:450"/>
+  <gval valname="search_netrc.processed_netrc" rwproperty="not-read-only" decllocation="netrc.c:68"/>
+  <gval valname="netrc_list" rwproperty="not-read-only" decllocation="netrc.c:47"/>
+  <gval valname="implementations" rwproperty="read-only" decllocation="progress.c:71"/>
+  <gval valname="current_impl_locked" rwproperty="not-read-only" decllocation="progress.c:76"/>
+  <gval valname="current_impl" rwproperty="not-read-only" decllocation="progress.c:75"/>
+  <gval valname="create_image.short_units" rwproperty="read-only" decllocation="progress.c:1088"/>
+  <gval valname="create_image.short_units_bits" rwproperty="read-only" decllocation="progress.c:1089"/>
+  <gval valname="eta_to_human_short.last" rwproperty="not-read-only" decllocation="progress.c:1262"/>
+  <gval valname="eta_to_human_short.buf" rwproperty="read-only" decllocation="progress.c:1261"/>
+  <gval valname="get_eta.eta_trans" rwproperty="not-read-only" decllocation="progress.c:859"/>
+  <gval valname="get_eta.eta_str" rwproperty="not-read-only" decllocation="progress.c:858"/>
+  <gval valname="get_eta.bytes_cols_diff" rwproperty="not-read-only" decllocation="progress.c:860"/>
+  <gval valname="received_sigwinch" rwproperty="not-read-only" decllocation="progress.c:485"/>
+  <gval valname="screen_width" rwproperty="not-read-only" decllocation="progress.c:482"/>
+  <gval valname="print_row_stats.names" rwproperty="read-only" decllocation="progress.c:301"/>
+  <gval valname="output_redirected" rwproperty="not-read-only" decllocation="progress.c:142"/>
+  <gval valname="ptimer_new.init_done" rwproperty="not-read-only" decllocation="ptimer.c:318"/>
+  <gval valname="posix_clock_id" rwproperty="not-read-only" decllocation="ptimer.c:106"/>
+  <gval valname="posix_init.clocks" rwproperty="read-only" decllocation="ptimer.c:124"/>
+  <gval valname="posix_clock_resolution" rwproperty="not-read-only" decllocation="ptimer.c:109"/>
+  <gval valname="cmd_spec_secure_protocol.choices" rwproperty="not-read-only" decllocation="init.c:1626"/>
+  <gval valname="cmd_spec_regex_type.choices" rwproperty="not-read-only" decllocation="init.c:1543"/>
+  <gval valname="cmd_spec_prefer_family.choices" rwproperty="not-read-only" decllocation="init.c:1488"/>
+  <gval valname="cmd_cert_type.choices" rwproperty="not-read-only" decllocation="init.c:1378"/>
+  <gval valname="warclogfp" rwproperty="not-read-only" decllocation="log.c:85"/>
+  <gval valname="save_context_p" rwproperty="not-read-only" decllocation="log.c:92"/>
+  <gval valname="flush_log_p" rwproperty="not-read-only" decllocation="log.c:95"/>
+  <gval valname="needs_flushing" rwproperty="not-read-only" decllocation="log.c:98"/>
+  <gval valname="trailing_line" rwproperty="not-read-only" decllocation="log.c:142"/>
+  <gval valname="log_line_current" rwproperty="not-read-only" decllocation="log.c:136"/>
+  <gval valname="log_lines" rwproperty="read-only" decllocation="log.c:133"/>
+  <gval valname="inhibit_logging" rwproperty="not-read-only" decllocation="log.c:89"/>
+  <gval valname="logfp" rwproperty="not-read-only" decllocation="log.c:81"/>
+  <gval valname="redirect_request" rwproperty="not-read-only" decllocation="log.c:883"/>
+  <gval valname="redirect_request_signal_name" rwproperty="not-read-only" decllocation="log.c:884"/>
+  <gval valname="escnonprint_internal.ringpos" rwproperty="not-read-only" decllocation="log.c:795"/>
+  <gval valname="ring" rwproperty="read-only" decllocation="log.c:790"/>
+  <gval valname="program_name" rwproperty="not-read-only" decllocation="main.c:1181"/>
+  <gval valname="print_help.help" rwproperty="read-only" decllocation="main.c:555"/>
+  <gval valname="filechr_table" rwproperty="read-only" decllocation="url.c:1388"/>
+  <gval valname="warc_write_ok" rwproperty="not-read-only" decllocation="warc.c:95"/>
+  <gval valname="warc_manifest_fp" rwproperty="not-read-only" decllocation="warc.c:77"/>
+  <gval valname="warc_log_fp" rwproperty="not-read-only" decllocation="warc.c:73"/>
+  <gval valname="warc_current_file_number" rwproperty="not-read-only" decllocation="warc.c:109"/>
+  <gval valname="warc_current_cdx_file" rwproperty="not-read-only" decllocation="warc.c:98"/>
+  <gval valname="warc_current_file" rwproperty="not-read-only" decllocation="warc.c:80"/>
+  <gval valname="warc_current_warcinfo_uuid_str" rwproperty="not-read-only" decllocation="warc.c:101"/>
+  <gval valname="warc_current_filename" rwproperty="not-read-only" decllocation="warc.c:104"/>
+  <gval valname="warc_current_gzfile" rwproperty="not-read-only" decllocation="warc.c:85"/>
+  <gval valname="warc_current_gzfile_offset" rwproperty="not-read-only" decllocation="warc.c:88"/>
+  <gval valname="warc_current_gzfile_uncompressed_size" rwproperty="not-read-only" decllocation="warc.c:91"/>
+  <gval valname="warc_cdx_dedup_table" rwproperty="not-read-only" decllocation="warc.c:112"/>
+  <gval valname="fmttime.output" rwproperty="read-only" decllocation="utils.c:428"/>
+  <gval valname="human_readable.buf" rwproperty="read-only" decllocation="utils.c:1563"/>
+  <gval valname="human_readable.powers" rwproperty="read-only" decllocation="utils.c:1554"/>
+  <gval valname="number_to_static_string.ringpos" rwproperty="not-read-only" decllocation="utils.c:1798"/>
+  <gval valname="number_to_static_string.ring" rwproperty="read-only" decllocation="utils.c:1797"/>
+  <gval valname="rnd_seeded" rwproperty="not-read-only" decllocation="utils.c:1848"/>
+  <gval valname="run_with_timeout_env" rwproperty="not-read-only" decllocation="utils.c:1931"/>
+  <gval valname="base64_encode.tbl" rwproperty="read-only" decllocation="utils.c:2146"/>
+  <gval valname="base64_decode.base64_char_to_value" rwproperty="read-only" decllocation="utils.c:2215"/>
+  <gval valname="print_decimal.buf" rwproperty="read-only" decllocation="utils.c:2444"/>
+  <gval valname="char_prop" rwproperty="read-only" decllocation="utils.c:188"/>
+  <gval valname="final_exit_status" rwproperty="not-read-only" decllocation="exits.c:24"/>
+  <gval valname="compiled_features" rwproperty="read-only" decllocation="build_info.c:13"/>
+  <gval valname="version_string" rwproperty="read-only" decllocation="version.c:5"/>
+  <gval valname="compilation_string" rwproperty="read-only" decllocation="version.c:6"/>
+  <gval valname="link_string" rwproperty="read-only" decllocation="version.c:7"/>
+  <gval valname="skey_response.english" rwproperty="not-read-only" decllocation="ftp-opie.c:2197"/>
+  <gval valname="Wp" rwproperty="not-read-only" decllocation="ftp-opie.c:42"/>
+  <gval valname="ssl_init.ssl_initialized" rwproperty="not-read-only" decllocation="gnutls.c:88"/>
+  <gval valname="credentials" rwproperty="not-read-only" decllocation="gnutls.c:83"/>
+  <gval valname="gnutls_free" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="wgnutls_transport" rwproperty="not-read-only" decllocation="gnutls.c:433"/>
+  <gval valname="mkhash.magic" rwproperty="not-read-only" decllocation="http-ntlm.c:248"/>
+  <gval valname="ares" rwproperty="read-only" decllocation="unknown"/>
+</root>

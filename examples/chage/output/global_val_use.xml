@@ -1,0 +1,38 @@
+<root>
+  <fun-gval-use funname="main" gvallist="amroot,stderr,Prog,lflg,optind,user_name,user_uid,mflg,Mflg,dflg,Wflg,Iflg,Eflg"/>
+  <fun-gval-use funname="process_flags" gvallist="stderr,Prog,lflg,optind,mflg,Mflg,dflg,Wflg,Iflg,Eflg,process_flags.long_options,optarg,maxdays,mindays,lstchgdate,warndays,inactdays,expdate"/>
+  <fun-gval-use funname="check_perms" gvallist="amroot,stderr,Prog,lflg"/>
+  <fun-gval-use funname="update_age" gvallist="stderr,Prog,maxdays,mindays,lstchgdate,warndays,inactdays,expdate"/>
+  <fun-gval-use funname="close_files" gvallist="stderr,Prog,spw_locked,pw_locked"/>
+  <fun-gval-use funname="open_files" gvallist="stderr,Prog,spw_locked,pw_locked"/>
+  <fun-gval-use funname="fail_exit" gvallist="stderr,Prog,spw_locked,pw_locked"/>
+  <fun-gval-use funname="get_defaults" gvallist="mflg,Mflg,dflg,Wflg,Iflg,Eflg,maxdays,mindays,lstchgdate,warndays,inactdays,expdate"/>
+  <fun-gval-use funname="list_fields" gvallist="maxdays,mindays,lstchgdate,warndays,inactdays,expdate,stdout"/>
+  <fun-gval-use funname="new_fields" gvallist="maxdays,mindays,lstchgdate,warndays,inactdays,expdate"/>
+  <fun-gval-use funname="usage" gvallist="stderr,Prog,stdout"/>
+  <fun-gval-use funname="check_flags" gvallist="stderr,Prog,lflg,mflg,Mflg,dflg,Wflg,Iflg,Eflg"/>
+  <gval valname="amroot" rwproperty="not-read-only" decllocation="chage.c:78"/>
+  <gval valname="stderr" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="Prog" rwproperty="not-read-only" decllocation="chage.c:68"/>
+  <gval valname="lflg" rwproperty="not-read-only" decllocation="chage.c:74"/>
+  <gval valname="optind" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="user_name" rwproperty="not-read-only" decllocation="chage.c:83"/>
+  <gval valname="user_uid" rwproperty="not-read-only" decllocation="chage.c:84"/>
+  <gval valname="mflg" rwproperty="not-read-only" decllocation="chage.c:75"/>
+  <gval valname="Mflg" rwproperty="not-read-only" decllocation="chage.c:76"/>
+  <gval valname="dflg" rwproperty="not-read-only" decllocation="chage.c:71"/>
+  <gval valname="Wflg" rwproperty="not-read-only" decllocation="chage.c:77"/>
+  <gval valname="Iflg" rwproperty="not-read-only" decllocation="chage.c:73"/>
+  <gval valname="Eflg" rwproperty="not-read-only" decllocation="chage.c:72"/>
+  <gval valname="spw_locked" rwproperty="not-read-only" decllocation="chage.c:81"/>
+  <gval valname="pw_locked" rwproperty="not-read-only" decllocation="chage.c:80"/>
+  <gval valname="process_flags.long_options" rwproperty="not-read-only" decllocation="chage.c:388"/>
+  <gval valname="optarg" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="maxdays" rwproperty="not-read-only" decllocation="chage.c:87"/>
+  <gval valname="mindays" rwproperty="not-read-only" decllocation="chage.c:86"/>
+  <gval valname="lstchgdate" rwproperty="not-read-only" decllocation="chage.c:88"/>
+  <gval valname="warndays" rwproperty="not-read-only" decllocation="chage.c:89"/>
+  <gval valname="inactdays" rwproperty="not-read-only" decllocation="chage.c:90"/>
+  <gval valname="expdate" rwproperty="not-read-only" decllocation="chage.c:91"/>
+  <gval valname="stdout" rwproperty="read-only" decllocation="unknown"/>
+</root>

@@ -1,0 +1,44 @@
+<root>
+  <fun-gval-use funname="main" gvallist="Prog,amroot,main.long_options,aflg,dflg,anyflag,eflg,optarg,inact,stderr,iflg,kflg,lflg,age_min,nflg,qflg,Sflg,uflg,warn,wflg,age_max,xflg,myname,optind,name,do_update_pwd,do_update_age"/>
+  <fun-gval-use funname="usage" gvallist="Prog,stderr,stdout"/>
+  <fun-gval-use funname="check_password" gvallist="amroot,stderr,kflg"/>
+  <fun-gval-use funname="new_password" gvallist="Prog,amroot,stderr,qflg,crypt_passwd"/>
+  <fun-gval-use funname="update_shadow" gvallist="Prog,eflg,inact,stderr,iflg,age_min,nflg,warn,wflg,age_max,xflg,spw_locked,name,do_update_age"/>
+  <fun-gval-use funname="update_noshadow" gvallist="Prog,stderr,name,pw_locked"/>
+  <fun-gval-use funname="fail_exit" gvallist="Prog,stderr,spw_locked,pw_locked"/>
+  <fun-gval-use funname="oom" gvallist="Prog,stderr"/>
+  <fun-gval-use funname="update_crypt_pw" gvallist="Prog,dflg,stderr,lflg,uflg,crypt_passwd,do_update_pwd"/>
+  <fun-gval-use funname="date_to_str" gvallist="date_to_str.buf"/>
+  <gval valname="Prog" rwproperty="not-read-only" decllocation="passwd.c:73"/>
+  <gval valname="amroot" rwproperty="not-read-only" decllocation="passwd.c:77"/>
+  <gval valname="main.long_options" rwproperty="not-read-only" decllocation="passwd.c:827"/>
+  <gval valname="aflg" rwproperty="not-read-only" decllocation="passwd.c:80"/>
+  <gval valname="dflg" rwproperty="not-read-only" decllocation="passwd.c:81"/>
+  <gval valname="anyflag" rwproperty="not-read-only" decllocation="passwd.c:97"/>
+  <gval valname="eflg" rwproperty="not-read-only" decllocation="passwd.c:82"/>
+  <gval valname="optarg" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="inact" rwproperty="not-read-only" decllocation="passwd.c:102"/>
+  <gval valname="stderr" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="iflg" rwproperty="not-read-only" decllocation="passwd.c:83"/>
+  <gval valname="kflg" rwproperty="not-read-only" decllocation="passwd.c:84"/>
+  <gval valname="lflg" rwproperty="not-read-only" decllocation="passwd.c:85"/>
+  <gval valname="age_min" rwproperty="not-read-only" decllocation="passwd.c:99"/>
+  <gval valname="nflg" rwproperty="not-read-only" decllocation="passwd.c:86"/>
+  <gval valname="qflg" rwproperty="not-read-only" decllocation="passwd.c:87"/>
+  <gval valname="Sflg" rwproperty="not-read-only" decllocation="passwd.c:88"/>
+  <gval valname="uflg" rwproperty="not-read-only" decllocation="passwd.c:89"/>
+  <gval valname="warn" rwproperty="not-read-only" decllocation="passwd.c:101"/>
+  <gval valname="wflg" rwproperty="not-read-only" decllocation="passwd.c:90"/>
+  <gval valname="age_max" rwproperty="not-read-only" decllocation="passwd.c:100"/>
+  <gval valname="xflg" rwproperty="not-read-only" decllocation="passwd.c:91"/>
+  <gval valname="spw_locked" rwproperty="not-read-only" decllocation="passwd.c:109"/>
+  <gval valname="myname" rwproperty="not-read-only" decllocation="passwd.c:76"/>
+  <gval valname="optind" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="name" rwproperty="not-read-only" decllocation="passwd.c:75"/>
+  <gval valname="crypt_passwd" rwproperty="not-read-only" decllocation="passwd.c:125"/>
+  <gval valname="do_update_pwd" rwproperty="not-read-only" decllocation="passwd.c:126"/>
+  <gval valname="date_to_str.buf" rwproperty="read-only" decllocation="passwd.c:454"/>
+  <gval valname="do_update_age" rwproperty="not-read-only" decllocation="passwd.c:105"/>
+  <gval valname="stdout" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="pw_locked" rwproperty="not-read-only" decllocation="passwd.c:108"/>
+</root>

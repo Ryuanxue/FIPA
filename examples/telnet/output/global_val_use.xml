@@ -1,0 +1,311 @@
+<root>
+  <fun-gval-use funname="send_tncmd" gvallist="stderr,connected,telopts"/>
+  <fun-gval-use funname="set_escape_char" gvallist="escape,rlogin"/>
+  <fun-gval-use funname="control" gvallist="control.buf"/>
+  <fun-gval-use funname="dolmmode" gvallist="linemode"/>
+  <fun-gval-use funname="modehelp" gvallist="ModeList"/>
+  <fun-gval-use funname="docharmode" gvallist="kludgelinemode"/>
+  <fun-gval-use funname="env_define" gvallist="envlisthead"/>
+  <fun-gval-use funname="dolinemode" gvallist="kludgelinemode"/>
+  <fun-gval-use funname="dokludgemode" gvallist="kludgelinemode"/>
+  <fun-gval-use funname="suspend" gvallist="connected"/>
+  <fun-gval-use funname="shell" gvallist="saveline,connected"/>
+  <fun-gval-use funname="bye" gvallist="net,connected,resettermname"/>
+  <fun-gval-use funname="gettermname" gvallist="name_unknown,unknown,resettermname,gettermname.tnamep,gettermname.next"/>
+  <fun-gval-use funname="init_term" gvallist="termbuf"/>
+  <fun-gval-use funname="lm_will" gvallist="netoring"/>
+  <fun-gval-use funname="lm_do" gvallist="netoring,str_lm"/>
+  <fun-gval-use funname="xalloc_die" gvallist="exit_failure"/>
+  <fun-gval-use funname="env_opt_start_info" gvallist="opt_replyp"/>
+  <fun-gval-use funname="telrcv" gvallist="netiring,subpointer,localflow,SYNCHing,ttyoring,flushline,telrcv_state,clocks,flushout,crmod,subend"/>
+  <fun-gval-use funname="dooption" gvallist="options,will_wont_resp,kludgelinemode"/>
+  <fun-gval-use funname="sendnaws" gvallist="netoring,options"/>
+  <fun-gval-use funname="dontoption" gvallist="options,will_wont_resp,linemode"/>
+  <fun-gval-use funname="suboption" gvallist="netoring,subbuffer,subpointer,localflow,restartany,options,subend"/>
+  <fun-gval-use funname="rlogin_susp" gvallist="local,bol"/>
+  <fun-gval-use funname="Scheduler" gvallist="netoring,netiring,ISend,SYNCHing,ttyoring,ttyiring,flushline,kludgelinemode"/>
+  <fun-gval-use funname="telsnd" gvallist="netoring,escape,rlogin,new_tc,ttyiring,echoc,flushline,clocks,kludgelinemode,local,bol,globalmode,dontlecho,crlf"/>
+  <fun-gval-use funname="telnet" gvallist="telnetport,eight"/>
+  <fun-gval-use funname="xmitAO" gvallist="netoring,autoflush"/>
+  <fun-gval-use funname="doflush" gvallist="netoring,flushline,flushout"/>
+  <fun-gval-use funname="xmitEL" gvallist="netoring"/>
+  <fun-gval-use funname="xmitEC" gvallist="netoring"/>
+  <fun-gval-use funname="dosynch" gvallist="netoring"/>
+  <fun-gval-use funname="env_send" gvallist="stderr,options"/>
+  <fun-gval-use funname="env_list" gvallist="envlisthead"/>
+  <fun-gval-use funname="env_cmd" gvallist="stderr"/>
+  <fun-gval-use funname="getenvcmd" gvallist="EnvList"/>
+  <fun-gval-use funname="env_help" gvallist="EnvList"/>
+  <fun-gval-use funname="env_init" gvallist="environ"/>
+  <fun-gval-use funname="deadpeer" gvallist="peerdied"/>
+  <fun-gval-use funname="intr" gvallist="toplevel,localchars"/>
+  <fun-gval-use funname="intr2" gvallist="kludgelinemode,localchars"/>
+  <fun-gval-use funname="sendwin" gvallist="connected"/>
+  <fun-gval-use funname="sys_telnet_init" gvallist="net"/>
+  <fun-gval-use funname="process_rings" gvallist="netiring,tout,tin,ibits,obits,xbits,net,process_rings.TimeValue,SYNCHing,netdata,ttyiring,termdata,flushout,globalmode"/>
+  <fun-gval-use funname="env_default" gvallist="envlisthead,env_default.nep"/>
+  <fun-gval-use funname="tn" gvallist="stdin,margc,hostname,line,net,connected,autologin,debug,telnetport"/>
+  <fun-gval-use funname="makeargv" gvallist="margc,saveline"/>
+  <fun-gval-use funname="cmdrc" gvallist="margc,rcname,line,connected,skiprc"/>
+  <fun-gval-use funname="status" gvallist="stdout,hostname,connected,escape,kludgelinemode,localchars"/>
+  <fun-gval-use funname="getcmd" gvallist="cmdtab,cmdtab2"/>
+  <fun-gval-use funname="help" gvallist="cmdtab"/>
+  <fun-gval-use funname="setescape" gvallist="stdin,stdout,In3270,escape"/>
+  <fun-gval-use funname="togcrmod" gvallist="stdout,crmod"/>
+  <fun-gval-use funname="modecmd" gvallist="stderr,ModeList,connected"/>
+  <fun-gval-use funname="sendcmd" gvallist="stderr,netoring,connected,Sendlist"/>
+  <fun-gval-use funname="setcmd" gvallist="stderr"/>
+  <fun-gval-use funname="unsetcmd" gvallist="stderr,Setlist"/>
+  <fun-gval-use funname="toggle" gvallist="stderr,Togglelist"/>
+  <fun-gval-use funname="slccmd" gvallist="stderr"/>
+  <fun-gval-use funname="getslc" gvallist="SlcList"/>
+  <fun-gval-use funname="slc_help" gvallist="SlcList"/>
+  <fun-gval-use funname="togbinary" gvallist="donebinarytoggle,binmode"/>
+  <fun-gval-use funname="lm_mode" gvallist="netoring,linemode,str_lm_mode"/>
+  <fun-gval-use funname="slc_init" gvallist="localchars,spc_data,slc_mode"/>
+  <fun-gval-use funname="slc_import" gvallist="netoring,slc_import_def,slc_import_val"/>
+  <fun-gval-use funname="slc_start_reply" gvallist="slc_replyp"/>
+  <fun-gval-use funname="slc_add_reply" gvallist="slc_replyp"/>
+  <fun-gval-use funname="slc_end_reply" gvallist="netoring,slc_replyp,slc_reply"/>
+  <fun-gval-use funname="slcstate" gvallist="slc_mode"/>
+  <fun-gval-use funname="slc_mode_export" gvallist="slc_mode"/>
+  <fun-gval-use funname="slc_mode_import" gvallist="slc_mode"/>
+  <fun-gval-use funname="slc" gvallist="spc_data"/>
+  <fun-gval-use funname="slc_check" gvallist="spc_data"/>
+  <fun-gval-use funname="env_opt_start" gvallist="opt_replyp,opt_reply,opt_replyend"/>
+  <fun-gval-use funname="env_opt_add" gvallist="opt_replyp,opt_reply,opt_replyend"/>
+  <fun-gval-use funname="env_opt_end" gvallist="netoring,opt_replyp,opt_reply,opt_replyend"/>
+  <fun-gval-use funname="togrbinary" gvallist="donebinarytoggle"/>
+  <fun-gval-use funname="togxbinary" gvallist="donebinarytoggle"/>
+  <fun-gval-use funname="togcrlf" gvallist="crlf"/>
+  <fun-gval-use funname="lclchars" gvallist="donelclchars"/>
+  <fun-gval-use funname="togdebug" gvallist="net,debug"/>
+  <fun-gval-use funname="settogglehelp" gvallist="Togglelist"/>
+  <fun-gval-use funname="getset" gvallist="Setlist"/>
+  <fun-gval-use funname="send_help" gvallist="Sendlist"/>
+  <fun-gval-use funname="send_esc" gvallist="netoring,escape"/>
+  <fun-gval-use funname="command" gvallist="stdin,margc,margv,line,connected,rlogin,prompt"/>
+  <fun-gval-use funname="main" gvallist="rlogin,autologin,prompt,user,argp,family,default_program_authors,argp_program_bug_address"/>
+  <fun-gval-use funname="parse_opt" gvallist="escape,rlogin,autologin,skiprc,debug,user,family,eight"/>
+  <fun-gval-use funname="init_network" gvallist="stdout,netoring,netobuf,netiring,netibuf,NetTrace"/>
+  <fun-gval-use funname="stilloob" gvallist="stilloob.timeout,net"/>
+  <fun-gval-use funname="setneturg" gvallist="netoring"/>
+  <fun-gval-use funname="netflush" gvallist="hostname,netoring,net,netdata"/>
+  <fun-gval-use funname="ring_supplied" gvallist="ring_clock"/>
+  <fun-gval-use funname="ring_consumed" gvallist="ring_clock"/>
+  <fun-gval-use funname="init_sys" gvallist="stdin,stdout,tout,tin,ibits,obits,xbits"/>
+  <fun-gval-use funname="TerminalWrite" gvallist="tout"/>
+  <fun-gval-use funname="TerminalRead" gvallist="tin"/>
+  <fun-gval-use funname="TerminalSpecialChars" gvallist="kludgelinemode,globalmode"/>
+  <fun-gval-use funname="TerminalFlushOutput" gvallist="stdout"/>
+  <fun-gval-use funname="TerminalSaveState" gvallist="old_tc,termAytChar"/>
+  <fun-gval-use funname="tcval" gvallist="new_tc"/>
+  <fun-gval-use funname="TerminalDefaultChars" gvallist="old_tc,new_tc,termAytChar"/>
+  <fun-gval-use funname="TerminalNewMode" gvallist="tout,tin,old_tc,TerminalNewMode.prevmode,restartany,SYNCHing,escape,rlogin,new_tc,flushout,localchars,globalmode,crlf"/>
+  <fun-gval-use funname="susp" gvallist="rlogin,localchars"/>
+  <fun-gval-use funname="TerminalSpeeds" gvallist="old_tc,termspeeds"/>
+  <fun-gval-use funname="TerminalWindowSize" gvallist="stdin"/>
+  <fun-gval-use funname="_help" gvallist="argp_program_bug_address,uparams"/>
+  <fun-gval-use funname="hol_help" gvallist="uparams"/>
+  <fun-gval-use funname="hol_entry_help" gvallist="uparams"/>
+  <fun-gval-use funname="init_telnet" gvallist="subpointer,donebinarytoggle,localflow,ISend,In3270,connected,restartany,SYNCHing,escape,rlogin,echoc,flushline,telrcv_state"/>
+  <fun-gval-use funname="send_do" gvallist="netoring,do_dont_resp,options"/>
+  <fun-gval-use funname="send_dont" gvallist="netoring,do_dont_resp,options"/>
+  <fun-gval-use funname="send_will" gvallist="netoring,options,will_wont_resp"/>
+  <fun-gval-use funname="send_wont" gvallist="netoring,options,will_wont_resp"/>
+  <fun-gval-use funname="willoption" gvallist="do_dont_resp,options,flushout"/>
+  <fun-gval-use funname="wontoption" gvallist="do_dont_resp,options,flushout,kludgelinemode"/>
+  <fun-gval-use funname="mklist" gvallist="name_unknown"/>
+  <fun-gval-use funname="get_status" gvallist="netoring,want_status_response,options"/>
+  <fun-gval-use funname="intp" gvallist="netoring,autosynch,flushline,autoflush"/>
+  <fun-gval-use funname="sendbrk" gvallist="netoring,autosynch,flushline,autoflush"/>
+  <fun-gval-use funname="sendabort" gvallist="netoring,autosynch,flushline,autoflush"/>
+  <fun-gval-use funname="sendsusp" gvallist="netoring,autosynch,flushline,autoflush"/>
+  <fun-gval-use funname="sendeof" gvallist="netoring"/>
+  <fun-gval-use funname="init_terminal" gvallist="ttyoring,ttyobuf,ttyiring,ttyibuf,autoflush"/>
+  <fun-gval-use funname="ttyflush" gvallist="ttyoring,termdata"/>
+  <fun-gval-use funname="getconnmode" gvallist="localflow,In3270,options,clocks,kludgelinemode,linemode,dontlecho"/>
+  <fun-gval-use funname="SetNetTrace" gvallist="stderr,stdout,NetTrace,NetTraceFile"/>
+  <fun-gval-use funname="Dump" gvallist="stdout,NetTrace,prettydump"/>
+  <fun-gval-use funname="printoption" gvallist="stdout,showoptions,NetTrace,telcmds,telopts"/>
+  <fun-gval-use funname="optionstatus" gvallist="telcmds,telopts,do_dont_resp,options,will_wont_resp"/>
+  <fun-gval-use funname="printsub" gvallist="stdout,want_status_response,showoptions,NetTrace,telcmds,telopts,slc_names"/>
+  <fun-gval-use funname="EmptyTerminal" gvallist="tout,ttyoring"/>
+  <fun-gval-use funname="SetForExit" gvallist="stderr,stdout,netiring"/>
+  <fun-gval-use funname="ExitString" gvallist="stderr"/>
+  <fun-gval-use funname="genget" gvallist="ambiguous"/>
+  <fun-gval-use funname="Ambiguous" gvallist="ambiguous"/>
+  <fun-gval-use funname="argp_parse" gvallist="argp_program_version,argp_program_version_hook,program_invocation_name,program_invocation_short_name,argp_default_argp,argp_version_argp"/>
+  <fun-gval-use funname="parser_init" gvallist="stderr,stdout,program_invocation_short_name"/>
+  <fun-gval-use funname="parser_parse_opt" gvallist="parser_parse_opt.bad_key_err"/>
+  <fun-gval-use funname="argp_version_parser" gvallist="argp_program_version,argp_program_version_hook"/>
+  <fun-gval-use funname="argp_default_parser" gvallist="program_invocation_name,program_invocation_short_name,_argp_hang"/>
+  <fun-gval-use funname="print_header" gvallist="uparams"/>
+  <fun-gval-use funname="argp_failure" gvallist="stderr,program_invocation_short_name"/>
+  <fun-gval-use funname="validate_uparams" gvallist="uparam_names,uparams"/>
+  <fun-gval-use funname="argp_state_help" gvallist="argp_err_exit_status,program_invocation_short_name"/>
+  <fun-gval-use funname="argp_error" gvallist="stderr,program_invocation_short_name"/>
+  <fun-gval-use funname="argp_usage" gvallist="stderr"/>
+  <fun-gval-use funname="argp_version_setup" gvallist="argp_program_version_hook,program_canonical_name,program_authors"/>
+  <fun-gval-use funname="version_etc_hook" gvallist="program_canonical_name,program_authors"/>
+  <fun-gval-use funname="set_program_name" gvallist="stderr,program_name,program_invocation_name,program_invocation_short_name"/>
+  <fun-gval-use funname="version_etc_arn" gvallist="version_etc_copyright"/>
+  <fun-gval-use funname="_getopt_internal_r" gvallist="stderr"/>
+  <gval valname="stderr" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="control.buf" rwproperty="not-read-only" decllocation="commands.c:243"/>
+  <gval valname="ModeList" rwproperty="not-read-only" decllocation="commands.c:1322"/>
+  <gval valname="EnvList" rwproperty="not-read-only" decllocation="commands.c:1771"/>
+  <gval valname="stdin" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="margc" rwproperty="not-read-only" decllocation="commands.c:137"/>
+  <gval valname="margv" rwproperty="not-read-only" decllocation="commands.c:138"/>
+  <gval valname="saveline" rwproperty="not-read-only" decllocation="commands.c:136"/>
+  <gval valname="envlisthead" rwproperty="read-only" decllocation="commands.c:1862"/>
+  <gval valname="stdout" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="rcname" rwproperty="not-read-only" decllocation="commands.c:3067"/>
+  <gval valname="cmdtab" rwproperty="not-read-only" decllocation="commands.c:2863"/>
+  <gval valname="cmdtab2" rwproperty="not-read-only" decllocation="commands.c:2901"/>
+  <gval valname="environ" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="env_default.nep" rwproperty="not-read-only" decllocation="commands.c:2028"/>
+  <gval valname="hostname" rwproperty="not-read-only" decllocation="commands.c:116"/>
+  <gval valname="line" rwproperty="not-read-only" decllocation="commands.c:135"/>
+  <gval valname="netoring" rwproperty="not-read-only" decllocation="network.c:68"/>
+  <gval valname="netobuf" rwproperty="not-read-only" decllocation="network.c:69"/>
+  <gval valname="netiring" rwproperty="not-read-only" decllocation="network.c:68"/>
+  <gval valname="netibuf" rwproperty="not-read-only" decllocation="network.c:69"/>
+  <gval valname="stilloob.timeout" rwproperty="not-read-only" decllocation="network.c:98"/>
+  <gval valname="ring_clock" rwproperty="not-read-only" decllocation="ring.c:104"/>
+  <gval valname="tout" rwproperty="not-read-only" decllocation="sys_bsd.c:79"/>
+  <gval valname="tin" rwproperty="not-read-only" decllocation="sys_bsd.c:80"/>
+  <gval valname="ibits" rwproperty="not-read-only" decllocation="sys_bsd.c:125"/>
+  <gval valname="obits" rwproperty="not-read-only" decllocation="sys_bsd.c:125"/>
+  <gval valname="xbits" rwproperty="not-read-only" decllocation="sys_bsd.c:125"/>
+  <gval valname="old_tc" rwproperty="not-read-only" decllocation="sys_bsd.c:93"/>
+  <gval valname="TerminalNewMode.prevmode" rwproperty="not-read-only" decllocation="sys_bsd.c:416"/>
+  <gval valname="termspeeds" rwproperty="read-only" decllocation="sys_bsd.c:836"/>
+  <gval valname="net" rwproperty="not-read-only" decllocation="sys_bsd.c:81"/>
+  <gval valname="process_rings.TimeValue" rwproperty="read-only" decllocation="sys_bsd.c:1080"/>
+  <gval valname="subbuffer" rwproperty="not-read-only" decllocation="telnet.c:96"/>
+  <gval valname="subpointer" rwproperty="not-read-only" decllocation="telnet.c:96"/>
+  <gval valname="donebinarytoggle" rwproperty="not-read-only" decllocation="telnet.c:131"/>
+  <gval valname="localflow" rwproperty="not-read-only" decllocation="telnet.c:127"/>
+  <gval valname="ISend" rwproperty="not-read-only" decllocation="telnet.c:114"/>
+  <gval valname="In3270" rwproperty="not-read-only" decllocation="telnet.c:113"/>
+  <gval valname="connected" rwproperty="not-read-only" decllocation="telnet.c:113"/>
+  <gval valname="restartany" rwproperty="not-read-only" decllocation="telnet.c:128"/>
+  <gval valname="SYNCHing" rwproperty="not-read-only" decllocation="telnet.c:123"/>
+  <gval valname="escape" rwproperty="not-read-only" decllocation="telnet.c:137"/>
+  <gval valname="rlogin" rwproperty="not-read-only" decllocation="telnet.c:138"/>
+  <gval valname="SlcList" rwproperty="not-read-only" decllocation="commands.c:1683"/>
+  <gval valname="Togglelist" rwproperty="not-read-only" decllocation="commands.c:748"/>
+  <gval valname="Setlist" rwproperty="not-read-only" decllocation="commands.c:983"/>
+  <gval valname="new_tc" rwproperty="not-read-only" decllocation="commands.c:972"/>
+  <gval valname="escapehelp" rwproperty="read-only" decllocation="commands.c:2899"/>
+  <gval valname="crmodhelp" rwproperty="read-only" decllocation="commands.c:2898"/>
+  <gval valname="closehelp" rwproperty="read-only" decllocation="commands.c:2833"/>
+  <gval valname="logouthelp" rwproperty="read-only" decllocation="commands.c:2834"/>
+  <gval valname="displayhelp" rwproperty="read-only" decllocation="commands.c:2843"/>
+  <gval valname="modestring" rwproperty="read-only" decllocation="commands.c:2859"/>
+  <gval valname="openhelp" rwproperty="read-only" decllocation="commands.c:2832"/>
+  <gval valname="quithelp" rwproperty="read-only" decllocation="commands.c:2835"/>
+  <gval valname="sendhelp" rwproperty="read-only" decllocation="commands.c:2838"/>
+  <gval valname="sethelp" rwproperty="read-only" decllocation="commands.c:2839"/>
+  <gval valname="unsethelp" rwproperty="read-only" decllocation="commands.c:2840"/>
+  <gval valname="statushelp" rwproperty="read-only" decllocation="commands.c:2836"/>
+  <gval valname="togglestring" rwproperty="read-only" decllocation="commands.c:2841"/>
+  <gval valname="slchelp" rwproperty="read-only" decllocation="commands.c:2842"/>
+  <gval valname="zhelp" rwproperty="read-only" decllocation="commands.c:2855"/>
+  <gval valname="shellhelp" rwproperty="read-only" decllocation="commands.c:2857"/>
+  <gval valname="envhelp" rwproperty="read-only" decllocation="commands.c:2858"/>
+  <gval valname="helphelp" rwproperty="read-only" decllocation="commands.c:2837"/>
+  <gval valname="version_etc_copyright" rwproperty="not-read-only" decllocation="version-etc-fsf.c:26"/>
+  <gval valname="exit_failure" rwproperty="read-only" decllocation="exitfail.c:24"/>
+  <gval valname="rpl_optarg" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="binmode" rwproperty="not-read-only" decllocation="commands.c:602"/>
+  <gval valname="want_status_response" rwproperty="not-read-only" decllocation="telnet.c:2709"/>
+  <gval valname="autosynch" rwproperty="read-only" decllocation="telnet.c:126"/>
+  <gval valname="autologin" rwproperty="not-read-only" decllocation="telnet.c:112"/>
+  <gval valname="skiprc" rwproperty="not-read-only" decllocation="telnet.c:113"/>
+  <gval valname="debug" rwproperty="not-read-only" decllocation="telnet.c:115"/>
+  <gval valname="prompt" rwproperty="not-read-only" decllocation="telnet.c:135"/>
+  <gval valname="showoptions" rwproperty="read-only" decllocation="telnet.c:113"/>
+  <gval valname="netdata" rwproperty="read-only" decllocation="telnet.c:115"/>
+  <gval valname="donelclchars" rwproperty="not-read-only" decllocation="telnet.c:130"/>
+  <gval valname="toplevel" rwproperty="not-read-only" decllocation="telnet.c:163"/>
+  <gval valname="peerdied" rwproperty="not-read-only" decllocation="telnet.c:164"/>
+  <gval valname="ttyoring" rwproperty="not-read-only" decllocation="terminal.c:66"/>
+  <gval valname="ttyobuf" rwproperty="not-read-only" decllocation="terminal.c:67"/>
+  <gval valname="ttyiring" rwproperty="not-read-only" decllocation="terminal.c:66"/>
+  <gval valname="ttyibuf" rwproperty="not-read-only" decllocation="terminal.c:67"/>
+  <gval valname="termdata" rwproperty="read-only" decllocation="terminal.c:69"/>
+  <gval valname="termAytChar" rwproperty="not-read-only" decllocation="terminal.c:100"/>
+  <gval valname="NetTrace" rwproperty="not-read-only" decllocation="utilities.c:76"/>
+  <gval valname="NetTraceFile" rwproperty="not-read-only" decllocation="utilities.c:126"/>
+  <gval valname="prettydump" rwproperty="read-only" decllocation="utilities.c:77"/>
+  <gval valname="telcmds" rwproperty="read-only" decllocation="/usr/include/arpa/telnet.h:62"/>
+  <gval valname="telopts" rwproperty="not-read-only" decllocation="/usr/include/arpa/telnet.h:123"/>
+  <gval valname="Sendlist" rwproperty="not-read-only" decllocation="commands.c:307"/>
+  <gval valname="user" rwproperty="not-read-only" decllocation="main.c:107"/>
+  <gval valname="argp" rwproperty="not-read-only" decllocation="main.c:326"/>
+  <gval valname="family" rwproperty="not-read-only" decllocation="main.c:106"/>
+  <gval valname="argp_options" rwproperty="read-only" decllocation="main.c:122"/>
+  <gval valname="args_doc" rwproperty="read-only" decllocation="main.c:323"/>
+  <gval valname="doc" rwproperty="read-only" decllocation="main.c:324"/>
+  <gval valname="uparam_names" rwproperty="read-only" decllocation="argp-help.c:120"/>
+  <gval valname="argp_err_exit_status" rwproperty="read-only" decllocation="argp-eexst.c:30"/>
+  <gval valname="argp_program_version" rwproperty="read-only" decllocation="argp-pv.c:24"/>
+  <gval valname="argp_program_version_hook" rwproperty="not-read-only" decllocation="argp-pvh.c:31"/>
+  <gval valname="program_canonical_name" rwproperty="not-read-only" decllocation="argp-version-etc.c:22"/>
+  <gval valname="program_authors" rwproperty="not-read-only" decllocation="argp-version-etc.c:23"/>
+  <gval valname="program_name" rwproperty="not-read-only" decllocation="progname.c:33"/>
+  <gval valname="echoc" rwproperty="not-read-only" decllocation="telnet.c:140"/>
+  <gval valname="flushline" rwproperty="not-read-only" decllocation="telnet.c:166"/>
+  <gval valname="telrcv_state" rwproperty="not-read-only" decllocation="telnet.c:156"/>
+  <gval valname="do_dont_resp" rwproperty="not-read-only" decllocation="telnet.c:109"/>
+  <gval valname="options" rwproperty="not-read-only" decllocation="telnet.c:108"/>
+  <gval valname="will_wont_resp" rwproperty="not-read-only" decllocation="telnet.c:110"/>
+  <gval valname="clocks" rwproperty="not-read-only" decllocation="telnet.c:178"/>
+  <gval valname="flushout" rwproperty="not-read-only" decllocation="telnet.c:124"/>
+  <gval valname="kludgelinemode" rwproperty="not-read-only" decllocation="telnet.c:170"/>
+  <gval valname="name_unknown" rwproperty="read-only" decllocation="telnet.c:612"/>
+  <gval valname="unknown" rwproperty="read-only" decllocation="telnet.c:613"/>
+  <gval valname="resettermname" rwproperty="not-read-only" decllocation="telnet.c:781"/>
+  <gval valname="gettermname.tnamep" rwproperty="not-read-only" decllocation="telnet.c:787"/>
+  <gval valname="termbuf" rwproperty="not-read-only" decllocation="telnet.c:759"/>
+  <gval valname="gettermname.next" rwproperty="not-read-only" decllocation="telnet.c:788"/>
+  <gval valname="str_lm" rwproperty="not-read-only" decllocation="telnet.c:1117"/>
+  <gval valname="linemode" rwproperty="not-read-only" decllocation="telnet.c:167"/>
+  <gval valname="str_lm_mode" rwproperty="not-read-only" decllocation="telnet.c:1209"/>
+  <gval valname="localchars" rwproperty="not-read-only" decllocation="telnet.c:129"/>
+  <gval valname="spc_data" rwproperty="read-only" decllocation="telnet.c:1250"/>
+  <gval valname="slc_mode" rwproperty="not-read-only" decllocation="telnet.c:1255"/>
+  <gval valname="slc_import_def" rwproperty="not-read-only" decllocation="telnet.c:1347"/>
+  <gval valname="slc_import_val" rwproperty="not-read-only" decllocation="telnet.c:1344"/>
+  <gval valname="slc_replyp" rwproperty="not-read-only" decllocation="telnet.c:1500"/>
+  <gval valname="slc_reply" rwproperty="not-read-only" decllocation="telnet.c:1499"/>
+  <gval valname="opt_replyp" rwproperty="not-read-only" decllocation="telnet.c:1660"/>
+  <gval valname="opt_reply" rwproperty="not-read-only" decllocation="telnet.c:1659"/>
+  <gval valname="opt_replyend" rwproperty="not-read-only" decllocation="telnet.c:1661"/>
+  <gval valname="crmod" rwproperty="not-read-only" decllocation="telnet.c:115"/>
+  <gval valname="subend" rwproperty="not-read-only" decllocation="telnet.c:96"/>
+  <gval valname="local" rwproperty="not-read-only" decllocation="telnet.c:2133"/>
+  <gval valname="bol" rwproperty="not-read-only" decllocation="telnet.c:2133"/>
+  <gval valname="globalmode" rwproperty="not-read-only" decllocation="telnet.c:133"/>
+  <gval valname="dontlecho" rwproperty="not-read-only" decllocation="telnet.c:132"/>
+  <gval valname="crlf" rwproperty="read-only" decllocation="telnet.c:116"/>
+  <gval valname="telnetport" rwproperty="not-read-only" decllocation="telnet.c:123"/>
+  <gval valname="eight" rwproperty="not-read-only" decllocation="telnet.c:112"/>
+  <gval valname="autoflush" rwproperty="not-read-only" decllocation="telnet.c:125"/>
+  <gval valname="slc_names" rwproperty="read-only" decllocation="/usr/include/arpa/telnet.h:206"/>
+  <gval valname="ambiguous" rwproperty="read-only" decllocation="genget.c:82"/>
+  <gval valname="default_program_authors" rwproperty="not-read-only" decllocation="defauthors.c:26"/>
+  <gval valname="argp_program_bug_address" rwproperty="not-read-only" decllocation="argp-ba.c:24"/>
+  <gval valname="program_invocation_name" rwproperty="not-read-only" decllocation="unknown"/>
+  <gval valname="program_invocation_short_name" rwproperty="not-read-only" decllocation="unknown"/>
+  <gval valname="argp_default_argp" rwproperty="read-only" decllocation="argp-parse.c:136"/>
+  <gval valname="argp_version_argp" rwproperty="read-only" decllocation="argp-parse.c:169"/>
+  <gval valname="parser_parse_opt.bad_key_err" rwproperty="not-read-only" decllocation="argp-parse.c:754"/>
+  <gval valname="argp_version_options" rwproperty="read-only" decllocation="argp-parse.c:140"/>
+  <gval valname="argp_default_options" rwproperty="read-only" decllocation="argp-parse.c:79"/>
+  <gval valname="_argp_hang" rwproperty="not-read-only" decllocation="argp-parse.c:73"/>
+  <gval valname="uparams" rwproperty="not-read-only" decllocation="argp-help.c:104"/>
+</root>

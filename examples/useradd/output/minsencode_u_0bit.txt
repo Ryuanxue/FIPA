@@ -1,0 +1,330 @@
+
+Solution 2:
+Total Switches: 1
+Boundary Edges (29):
+  usr_update:1864 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  usr_update:1857 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  usr_update:1844 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  usr_update:1834 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  main:2221 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  open_files:1557 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  main:2085 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  main:2129 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  close_files:1433 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  main:2187 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  grp_update:935 -> grp_update:943, Weight: 1, Domains: 0 -> 1
+  close_files:1427 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  open_shadow:1617 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  main:2102 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  close_files:1398 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  create_home:1896 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  close_files:1409 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  grp_add:1701 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  main:2168 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  open_files:1540 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  open_files:1562 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  open_files:1579 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  open_files:1594 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  grp_update:876 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  main:2179 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  open_shadow:1624 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  close_files:1403 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  open_files:1550 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+  grp_add:1717 -> fail_exit:225, Weight: 0, Domains: 0 -> 1
+
+Solution 2:
+Sensitive Nodes: 
+
+-- Function: fail_exit --
+117: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:225:232: sz = 43, quan = 0
+113: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:234:246: sz = 42, quan = 0
+69: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:247:259: sz = 42, quan = 0
+110: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:260:272: sz = 42, quan = 0
+121: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:274:286: sz = 42, quan = 0
+154: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:289:301: sz = 42, quan = 0
+136: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + IfStmt:302:314: sz = 42, quan = 0
+76: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + DoStmt:323:323: sz = 29, quan = 0
+72: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + fail_exit + CallExpr:324:324: sz = 3, quan = 0
+
+-- Function: grp_update --
+57: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + ForStmt:943:1007: sz = 152, quan = 408
+
+Non-sensitive Nodes: 
+
+-- Function: close_files --
+104: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1398:1402: sz = 39, quan = 0
+203: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1403:1408: sz = 42, quan = 0
+124: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1409:1425: sz = 85, quan = 0
+71: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1427:1432: sz = 42, quan = 0
+48: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1433:1438: sz = 42, quan = 0
+156: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1440:1453: sz = 43, quan = 0
+88: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1454:1464: sz = 38, quan = 0
+87: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + BinaryOperator:1465:1465: sz = 1, quan = 0
+148: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1466:1476: sz = 38, quan = 0
+85: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + BinaryOperator:1477:1477: sz = 1, quan = 0
+150: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1479:1492: sz = 43, quan = 0
+75: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1495:1508: sz = 43, quan = 0
+101: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + close_files + IfStmt:1509:1522: sz = 43, quan = 0
+
+-- Function: create_home --
+119: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + create_home + IfStmt:1896:1931: sz = 37, quan = 0
+
+-- Function: create_mail --
+60: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + create_mail + IfStmt:1943:1981: sz = 74, quan = 0
+
+-- Function: faillog_reset --
+120: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + faillog_reset + DeclStmt:1742:1742: sz = 1, quan = 0
+82: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + faillog_reset + DeclStmt:1743:1743: sz = 1, quan = 0
+40: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + faillog_reset + DeclStmt:1744:1744: sz = 5, quan = 0
+105: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + faillog_reset + IfStmt:1746:1748: sz = 4, quan = 0
+20: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + faillog_reset + CallExpr:1750:1750: sz = 2, quan = 0
+42: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + faillog_reset + BinaryOperator:1752:1752: sz = 2, quan = 0
+139: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + faillog_reset + IfStmt:1753:1763: sz = 62, quan = 0
+
+-- Function: get_defaults --
+132: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_defaults + DeclStmt:338:338: sz = 1, quan = 0
+147: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_defaults + DeclStmt:339:339: sz = 1, quan = 0
+94: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_defaults + DeclStmt:340:340: sz = 1, quan = 0
+95: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_defaults + BinaryOperator:346:346: sz = 2, quan = 0
+134: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_defaults + IfStmt:347:349: sz = 4, quan = 0
+142: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_defaults + WhileStmt:355:444: sz = 135, quan = 0
+143: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_defaults + CStyleCastExpr:445:445: sz = 2, quan = 0
+
+-- Function: get_groups --
+137: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + DeclStmt:648:648: sz = 1, quan = 0
+131: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + DeclStmt:649:649: sz = 1, quan = 0
+208: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + DeclStmt:650:650: sz = 2, quan = 0
+149: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + DeclStmt:651:651: sz = 2, quan = 0
+96: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + IfStmt:653:655: sz = 7, quan = 0
+64: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + DoStmt:662:723: sz = 59, quan = 0
+201: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + BinaryOperator:725:725: sz = 5, quan = 0
+31: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + IfStmt:730:732: sz = 5, quan = 0
+68: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + get_groups + ReturnStmt:734:734: sz = 2, quan = 0
+
+-- Function: grp_add --
+66: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_add + DeclStmt:1684:1684: sz = 1, quan = 0
+84: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_add + DeclStmt:1687:1687: sz = 1, quan = 0
+74: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_add + CallExpr:1693:1693: sz = 1, quan = 0
+11: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_add + CallExpr:1695:1695: sz = 1, quan = 0
+126: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_add + IfStmt:1701:1712: sz = 12, quan = 0
+232: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_add + IfStmt:1717:1728: sz = 15, quan = 0
+43: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_add + DoStmt:1730:1730: sz = 30, quan = 0
+221: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_add + BinaryOperator:1737:1737: sz = 1, quan = 0
+
+-- Function: grp_update --
+125: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + DeclStmt:862:862: sz = 1, quan = 0
+65: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + DeclStmt:863:863: sz = 1, quan = 0
+63: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + DeclStmt:866:866: sz = 1, quan = 0
+61: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + DeclStmt:867:867: sz = 1, quan = 0
+182: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + ForStmt:876:932: sz = 145, quan = 0
+59: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + IfStmt:935:936: sz = 4, quan = 0
+
+-- Function: lastlog_reset --
+52: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + lastlog_reset + DeclStmt:1768:1768: sz = 1, quan = 0
+111: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + lastlog_reset + DeclStmt:1769:1769: sz = 1, quan = 0
+49: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + lastlog_reset + DeclStmt:1770:1770: sz = 5, quan = 0
+47: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + lastlog_reset + IfStmt:1772:1774: sz = 4, quan = 0
+46: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + lastlog_reset + CallExpr:1776:1776: sz = 2, quan = 0
+45: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + lastlog_reset + BinaryOperator:1778:1778: sz = 2, quan = 0
+41: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + lastlog_reset + IfStmt:1779:1789: sz = 62, quan = 0
+
+-- Function: main --
+35: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + BinaryOperator:1999:1999: sz = 5, quan = 0
+34: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CStyleCastExpr:2001:2001: sz = 1, quan = 0
+32: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CStyleCastExpr:2002:2002: sz = 1, quan = 0
+29: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CStyleCastExpr:2003:2003: sz = 1, quan = 0
+25: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2005:2005: sz = 3, quan = 0
+53: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2007:2007: sz = 1, quan = 0
+89: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + BinaryOperator:2012:2012: sz = 2, quan = 0
+77: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + BinaryOperator:2013:2013: sz = 6, quan = 0
+103: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + BinaryOperator:2017:2017: sz = 3, quan = 0
+24: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + BinaryOperator:2020:2020: sz = 3, quan = 0
+23: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + BinaryOperator:2022:2022: sz = 3, quan = 0
+21: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + BinaryOperator:2025:2025: sz = 3, quan = 0
+80: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + BinaryOperator:2026:2026: sz = 3, quan = 0
+170: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2029:2029: sz = 1, quan = 0
+26: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2031:2031: sz = 3, quan = 0
+54: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2073:2080: sz = 27, quan = 0
+38: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2085:2094: sz = 11, quan = 0
+79: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2102:2116: sz = 15, quan = 0
+18: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2127:2127: sz = 1, quan = 0
+39: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2129:2152: sz = 31, quan = 0
+30: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2164:2164: sz = 1, quan = 0
+133: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2168:2176: sz = 16, quan = 0
+185: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2179:2186: sz = 14, quan = 0
+50: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2187:2194: sz = 14, quan = 0
+144: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2197:2197: sz = 1, quan = 0
+16: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2199:2211: sz = 18, quan = 0
+58: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2214:2216: sz = 5, quan = 0
+19: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2218:2218: sz = 1, quan = 0
+15: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + IfStmt:2221:2233: sz = 19, quan = 0
+86: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2236:2236: sz = 1, quan = 0
+70: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + CallExpr:2237:2237: sz = 1, quan = 0
+97: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + main + ReturnStmt:2239:2239: sz = 1, quan = 0
+
+-- Function: new_grent --
+13: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_grent + CallExpr:1643:1643: sz = 3, quan = 0
+12: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_grent + BinaryOperator:1644:1644: sz = 4, quan = 0
+122: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_grent + IfStmt:1646:1652: sz = 10, quan = 0
+10: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_grent + BinaryOperator:1653:1653: sz = 4, quan = 0
+138: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_grent + BinaryOperator:1654:1654: sz = 3, quan = 0
+
+-- Function: new_pwent --
+114: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_pwent + CallExpr:793:793: sz = 3, quan = 0
+9: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_pwent + BinaryOperator:794:794: sz = 4, quan = 0
+157: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_pwent + IfStmt:795:799: sz = 11, quan = 0
+155: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_pwent + BinaryOperator:801:801: sz = 4, quan = 0
+102: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_pwent + BinaryOperator:802:802: sz = 4, quan = 0
+236: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_pwent + BinaryOperator:803:803: sz = 4, quan = 0
+140: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_pwent + BinaryOperator:804:804: sz = 4, quan = 0
+158: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_pwent + BinaryOperator:805:805: sz = 4, quan = 0
+
+-- Function: new_sgent --
+159: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_sgent + CallExpr:1667:1667: sz = 3, quan = 0
+135: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_sgent + BinaryOperator:1668:1668: sz = 4, quan = 0
+161: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_sgent + BinaryOperator:1669:1669: sz = 3, quan = 0
+118: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_sgent + BinaryOperator:1670:1670: sz = 3, quan = 0
+164: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_sgent + BinaryOperator:1671:1671: sz = 3, quan = 0
+
+-- Function: new_spent --
+166: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_spent + CallExpr:825:825: sz = 3, quan = 0
+168: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_spent + BinaryOperator:826:826: sz = 4, quan = 0
+123: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_spent + BinaryOperator:827:827: sz = 4, quan = 0
+169: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_spent + BinaryOperator:828:828: sz = 5, quan = 0
+14: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_spent + IfStmt:829:832: sz = 9, quan = 0
+171: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_spent + IfStmt:833:845: sz = 47, quan = 0
+172: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + new_spent + BinaryOperator:846:846: sz = 3, quan = 0
+
+-- Function: open_files --
+27: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + IfStmt:1533:1538: sz = 10, quan = 0
+106: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + BinaryOperator:1539:1539: sz = 1, quan = 0
+173: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + IfStmt:1540:1543: sz = 10, quan = 0
+229: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + IfStmt:1550:1555: sz = 10, quan = 0
+176: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + BinaryOperator:1556:1556: sz = 1, quan = 0
+33: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + IfStmt:1557:1560: sz = 10, quan = 0
+177: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + IfStmt:1562:1576: sz = 25, quan = 0
+179: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + IfStmt:1579:1593: sz = 25, quan = 0
+181: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_files + IfStmt:1594:1608: sz = 25, quan = 0
+
+-- Function: open_shadow --
+130: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_shadow + IfStmt:1614:1616: sz = 4, quan = 0
+78: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_shadow + IfStmt:1617:1622: sz = 10, quan = 0
+184: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_shadow + BinaryOperator:1623:1623: sz = 1, quan = 0
+186: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + open_shadow + IfStmt:1624:1629: sz = 10, quan = 0
+
+-- Function: process_flags --
+73: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + DeclStmt:1020:1020: sz = 1, quan = 0
+187: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + DeclStmt:1021:1021: sz = 2, quan = 0
+127: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + DeclStmt:1022:1022: sz = 1, quan = 0
+189: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + CompoundStmt:1024:1277: sz = 324, quan = 0
+183: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1279:1282: sz = 13, quan = 0
+190: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1288:1293: sz = 12, quan = 0
+67: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1294:1299: sz = 12, quan = 0
+191: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1300:1305: sz = 12, quan = 0
+128: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1306:1311: sz = 12, quan = 0
+28: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1312:1317: sz = 12, quan = 0
+90: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1323:1360: sz = 84, quan = 0
+55: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1362:1364: sz = 7, quan = 0
+192: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1366:1368: sz = 6, quan = 0
+197: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1370:1372: sz = 6, quan = 0
+193: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + BinaryOperator:1374:1374: sz = 2, quan = 0
+195: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1376:1382: sz = 8, quan = 0
+196: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + process_flags + IfStmt:1384:1387: sz = 5, quan = 0
+
+-- Function: scale_age --
+36: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + scale_age + IfStmt:810:812: sz = 6, quan = 0
+112: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + scale_age + ReturnStmt:814:814: sz = 4, quan = 0
+
+-- Function: set_defaults --
+198: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:474:474: sz = 1, quan = 0
+199: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:475:475: sz = 1, quan = 0
+200: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:476:476: sz = 1, quan = 0
+145: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:477:477: sz = 0, quan = 0
+91: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:478:478: sz = 1, quan = 0
+202: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:479:479: sz = 1, quan = 0
+204: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:480:480: sz = 1, quan = 0
+98: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:481:481: sz = 2, quan = 0
+205: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:482:482: sz = 2, quan = 0
+206: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:483:483: sz = 2, quan = 0
+210: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:484:484: sz = 2, quan = 0
+151: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:485:485: sz = 2, quan = 0
+115: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:486:486: sz = 2, quan = 0
+174: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:487:487: sz = 2, quan = 0
+211: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + BinaryOperator:492:492: sz = 2, quan = 0
+194: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:493:498: sz = 9, quan = 0
+116: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + BinaryOperator:500:500: sz = 3, quan = 0
+44: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:501:506: sz = 9, quan = 0
+17: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + BinaryOperator:513:513: sz = 2, quan = 0
+213: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:514:517: sz = 6, quan = 0
+215: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + WhileStmt:519:562: sz = 117, quan = 0
+178: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + CStyleCastExpr:563:563: sz = 3, quan = 0
+216: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + LabelStmt:565:572: sz = 8, quan = 0
+217: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:573:574: sz = 7, quan = 0
+188: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:575:576: sz = 7, quan = 0
+109: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:577:578: sz = 7, quan = 0
+219: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:579:580: sz = 7, quan = 0
+220: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:581:582: sz = 7, quan = 0
+222: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:584:585: sz = 7, quan = 0
+152: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + CStyleCastExpr:591:591: sz = 2, quan = 0
+99: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:592:597: sz = 16, quan = 0
+207: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + BinaryOperator:602:602: sz = 3, quan = 0
+223: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + ParenExpr:603:603: sz = 6, quan = 0
+224: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + CallExpr:604:604: sz = 2, quan = 0
+212: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:605:612: sz = 22, quan = 0
+225: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:617:623: sz = 15, quan = 0
+180: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DoStmt:630:630: sz = 35, quan = 0
+227: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + ReturnStmt:636:636: sz = 2, quan = 0
+
+-- Function: show_defaults --
+226: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:456:456: sz = 2, quan = 0
+141: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:457:457: sz = 2, quan = 0
+83: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:458:458: sz = 2, quan = 0
+56: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:459:459: sz = 2, quan = 0
+167: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:460:460: sz = 2, quan = 0
+163: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:461:461: sz = 2, quan = 0
+209: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:462:462: sz = 2, quan = 0
+
+-- Function: usage --
+146: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + DeclStmt:742:742: sz = 10, quan = 0
+51: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:743:749: sz = 6, quan = 0
+81: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:750:751: sz = 3, quan = 0
+22: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:752:752: sz = 3, quan = 0
+230: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:753:753: sz = 3, quan = 0
+231: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:754:754: sz = 3, quan = 0
+165: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:755:755: sz = 3, quan = 0
+92: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:756:756: sz = 3, quan = 0
+129: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:757:758: sz = 3, quan = 0
+162: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:759:760: sz = 3, quan = 0
+93: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:761:761: sz = 3, quan = 0
+214: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:762:762: sz = 3, quan = 0
+175: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:763:763: sz = 3, quan = 0
+233: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:764:765: sz = 3, quan = 0
+235: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:766:766: sz = 3, quan = 0
+100: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:767:767: sz = 3, quan = 0
+218: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:768:769: sz = 3, quan = 0
+234: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:770:771: sz = 3, quan = 0
+237: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:772:772: sz = 3, quan = 0
+238: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:773:773: sz = 3, quan = 0
+239: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:774:774: sz = 3, quan = 0
+160: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:775:775: sz = 3, quan = 0
+62: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:776:776: sz = 3, quan = 0
+107: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:777:777: sz = 3, quan = 0
+108: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:779:779: sz = 3, quan = 0
+240: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:781:781: sz = 2, quan = 0
+37: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CallExpr:782:782: sz = 3, quan = 0
+
+-- Function: usr_update --
+8: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + DeclStmt:1800:1800: sz = 1, quan = 0
+153: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + DeclStmt:1801:1801: sz = 1, quan = 0
+7: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + CallExpr:1807:1807: sz = 1, quan = 0
+228: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + CallExpr:1808:1808: sz = 1, quan = 0
+6: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + DoStmt:1814:1814: sz = 33, quan = 0
+5: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + IfStmt:1826:1829: sz = 12, quan = 0
+4: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + IfStmt:1834:1839: sz = 12, quan = 0
+3: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + IfStmt:1844:1855: sz = 15, quan = 0
+2: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + IfStmt:1857:1863: sz = 16, quan = 0
+1: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + IfStmt:1864:1870: sz = 16, quan = 0
+0: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + IfStmt:1882:1884: sz = 5, quan = 0
+
+Sensitive Nodes Total sz: 479
+Sensitive Nodes Total sz Ratio: 0.146483

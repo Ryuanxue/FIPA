@@ -229,6 +229,7 @@ class CallGraphIO:
                 
                 if self.project_dir and filepath.startswith(f"/Desktop/{project_dir}"):
                     filepath = filepath.replace(f"/Desktop/{project_dir}", abs_project_dir, 1)
+                    filepath = os.path.abspath(filepath)
                 else:
                     filepath = os.path.abspath(filepath)
                 # 记录行号顺序
@@ -239,12 +240,12 @@ class CallGraphIO:
                     function_sensitive[func_name]['current'].update(addresses)
                 else:
                     function_sensitive[func_name]['current'].difference_update(addresses)
-                # 为当前行和所有后续行更新 sense_data
-                sorted_lines = sorted(line_numbers[func_name])
-                current_idx = sorted_lines.index(int(line_number))
-                for ln in sorted_lines[current_idx:]:
-                    key = (filepath, func_name, str(ln))
-                    sense_data[key].update(function_sensitive[func_name]['current'])
+                
+                # 修正逻辑：只为当前行更新 sense_data
+                # 之前错误的逻辑会将敏感信息传播给所有行号大于当前行的已记录行
+                key = (filepath, func_name, line_number)
+                sense_data[key].update(function_sensitive[func_name]['current'])
+
         return sense_data
 
 
@@ -429,8 +430,9 @@ if __name__ == "__main__":
 
 
     # # print("敏感信息结果")
-    # for key, value in pre_sense_data.items():
-    #     print(f"{key} : {value}")
+    for key, value in pre_sense_data.items():
+        print(key)
+        print(value)
     # print(statements)
     # print()
 

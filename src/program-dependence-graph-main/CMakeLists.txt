@@ -86,16 +86,27 @@ if(APPLE)
 endif(APPLE)
 
 
-# Variant 'noz3'
-add_library(pdg_noz3 MODULE
+# Variant 'noz3_b'
+add_library(pdg_noz3_b MODULE
     ${HEADERS}
     ${COMMON_SOURCES}
-    src/QPGGraph_noz3.cpp
+    src/QPGGraph_noz3_b.cpp
 )
 # This target does not link against z3
-target_link_libraries(pdg_noz3 PRIVATE pugixml)
+target_link_libraries(pdg_noz3_b PRIVATE pugixml z3)
 if(APPLE)
-    set_target_properties(pdg_noz3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+    set_target_properties(pdg_noz3_b PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+endif(APPLE)
+
+# Variant 'noz3_u'
+add_library(pdg_noz3_u MODULE
+    ${HEADERS}
+    ${COMMON_SOURCES}
+    src/QPGGraph_noz3_u.cpp
+)
+target_link_libraries(pdg_noz3_u PRIVATE pugixml z3)
+if(APPLE)
+    set_target_properties(pdg_noz3_u PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif(APPLE)
 
 
@@ -125,7 +136,7 @@ add_library(pdg_shared STATIC
 
 # --- Installation ---
 # This will install the .so files to the ../../lib directory relative to the source directory
-install(TARGETS pdg_b pdg_u pdg_noz3
+install(TARGETS pdg_b pdg_u pdg_noz3_b pdg_noz3_u 
     LIBRARY DESTINATION ${CMAKE_SOURCE_DIR}/../../lib
 )
 

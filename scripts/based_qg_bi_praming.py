@@ -7,9 +7,9 @@ min_quan = sys.argv[2] if "min-quan" in sys.argv[2] else sys.argv[3]
 max_code_sz = sys.argv[3] if "max-code-sz" in sys.argv[3] else sys.argv[2]
 so_type = "b"  # 默认类型
 
-# 支持可选参数 --so-type=
+# 支持可选参数 --comm-type=
 for arg in sys.argv:
-    if arg.startswith("--so-type="):
+    if arg.startswith("--comm-type="):
         so_type = arg.split("=")[1]
 
 so_map = {
@@ -33,14 +33,18 @@ qg_flag = qg_flag_map.get(so_type, "--bqg")  # 默认为 --bqg
 # 从min_quan中提取=后面的值，转换为整数
 min_quan = int(min_quan.split("=")[1])
 
+# 将字节转换为 bit，并构建文件名部分
+bits = min_quan // 8
+quan_str = f"{min_quan}bit"
+
 # 从max_code_sz中提取=后面的值，转换为浮点数
 max_code_sz = float(max_code_sz.split("=")[1])
 # 超时时间（30分钟）
 timeout = 1200*60
 
-# 定义输出文件路径，并根据 so_type 添加后缀
+# 定义输出文件路径，并根据 so_type 和 quan 添加后缀
 output_dir = f"examples/{proname}/output"
-z3_result_file = f"{output_dir}/z3_result_{so_type}.txt"
+z3_result_file = f"{output_dir}/z3_result_{so_type}_{quan_str}.txt"
 
 # 循环执行命令，直到找到解或超时
 start_time = time.time()
@@ -48,7 +52,7 @@ while True:
     print(max_code_sz)
 
     # 构造命令
-    command = f"opt-12 -load {so_file_path} {qg_flag} --min-quan={min_quan} --max-code-sz={max_code_sz:.3f} " \
+    command = f"opt-12 -load {so_file_path} {qg_flag} --min-quan={bits} --max-code-sz={max_code_sz:.3f} " \
             f"--st-xml=examples/{proname}/output/{proname}_statements_ranges.xml " \
             f"--quanfile=examples/{proname}/output/{proname}_quanfile.txt " \
             f"--edge-weight=examples/{proname}/output/edge_info_output.txt " \
@@ -86,6 +90,6 @@ while True:
     except FileNotFoundError:
         print(f"{z3_result_file} 文件未找到，程序结束。")
         break
-# 根据 so_type 重命名最终的输出文件
-final_z3_result_file = f"{output_dir}/{proname}_z3_result_{so_type}.txt"
+# 根据 so_type 和 quan 重命名最终的输出文件
+final_z3_result_file = f"{output_dir}/{proname}_z3_result_{so_type}_{quan_str}.txt"
 subprocess.run(f"mv {z3_result_file} {final_z3_result_file}",shell=True)

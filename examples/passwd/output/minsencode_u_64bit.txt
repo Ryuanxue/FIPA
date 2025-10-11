@@ -1,0 +1,203 @@
+
+Solution 2:
+Total Switches: 1
+Boundary Edges (3):
+  update_shadow:630 -> update_shadow:637, Weight: 1, Domains: 0 -> 1
+  update_shadow:630 -> fail_exit:504, Weight: 0, Domains: 0 -> 1
+  main:1145 -> update_noshadow:566, Weight: 0, Domains: 0 -> 1
+
+Solution 2:
+Sensitive Nodes: 
+
+-- Function: fail_exit --
+104: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + fail_exit + IfStmt:504:510: sz = 42, quan = 0
+69: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + fail_exit + IfStmt:512:518: sz = 42, quan = 0
+57: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + fail_exit + CallExpr:520:520: sz = 3, quan = 0
+
+-- Function: oom --
+147: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + oom + CStyleCastExpr:525:525: sz = 4, quan = 0
+148: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + oom + CallExpr:526:526: sz = 1, quan = 0
+
+-- Function: update_crypt_pw --
+110: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_crypt_pw + IfStmt:532:534: sz = 6, quan = 34
+132: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_crypt_pw + IfStmt:537:539: sz = 6, quan = 34
+145: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_crypt_pw + IfStmt:541:551: sz = 24, quan = 34
+150: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_crypt_pw + IfStmt:553:559: sz = 22, quan = 35
+37: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_crypt_pw + ReturnStmt:560:560: sz = 2, quan = 35
+
+-- Function: update_noshadow --
+151: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + DeclStmt:566:566: sz = 1, quan = 0
+38: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + DeclStmt:567:567: sz = 1, quan = 0
+156: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + IfStmt:569:574: sz = 10, quan = 0
+157: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + BinaryOperator:575:575: sz = 1, quan = 0
+34: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + IfStmt:576:582: sz = 39, quan = 0
+49: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + BinaryOperator:583:583: sz = 3, quan = 0
+64: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + IfStmt:584:589: sz = 11, quan = 0
+33: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + BinaryOperator:590:590: sz = 3, quan = 0
+32: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + IfStmt:591:593: sz = 5, quan = 0
+44: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + BinaryOperator:594:594: sz = 7, quan = 0
+31: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + IfStmt:595:600: sz = 14, quan = 0
+30: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + IfStmt:601:607: sz = 39, quan = 0
+29: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + IfStmt:608:614: sz = 38, quan = 0
+28: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_noshadow + BinaryOperator:615:615: sz = 1, quan = 0
+
+-- Function: update_shadow --
+103: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:637:637: sz = 3, quan = 16
+22: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:638:651: sz = 45, quan = 16
+21: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:652:652: sz = 3, quan = 32
+20: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:653:655: sz = 5, quan = 32
+56: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:656:656: sz = 7, quan = 35
+19: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:657:659: sz = 10, quan = 35
+18: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:660:662: sz = 10, quan = 35
+17: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:663:665: sz = 10, quan = 35
+15: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:666:668: sz = 10, quan = 35
+14: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:670:677: sz = 18, quan = 35
+13: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:685:687: sz = 7, quan = 35
+12: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:689:694: sz = 14, quan = 35
+129: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:695:701: sz = 39, quan = 35
+68: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:702:708: sz = 38, quan = 35
+10: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:709:709: sz = 1, quan = 35
+
+Non-sensitive Nodes: 
+
+-- Function: check_password --
+80: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_password + DeclStmt:390:390: sz = 1, quan = 0
+74: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_password + DeclStmt:391:391: sz = 1, quan = 0
+73: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_password + BinaryOperator:393:393: sz = 4, quan = 0
+71: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_password + IfStmt:399:401: sz = 8, quan = 0
+65: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_password + IfStmt:406:408: sz = 4, quan = 0
+79: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_password + CStyleCastExpr:410:410: sz = 1, quan = 0
+67: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_password + IfStmt:418:428: sz = 64, quan = 0
+66: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_password + IfStmt:433:448: sz = 69, quan = 0
+
+-- Function: check_selinux_access --
+94: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + DeclStmt:717:717: sz = 2, quan = 0
+82: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + DeclStmt:718:718: sz = 1, quan = 0
+95: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + DeclStmt:719:719: sz = 1, quan = 0
+117: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + DeclStmt:720:720: sz = 1, quan = 0
+89: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + IfStmt:723:725: sz = 5, quan = 0
+100: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + IfStmt:728:730: sz = 5, quan = 0
+96: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + BinaryOperator:734:734: sz = 3, quan = 0
+72: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + BinaryOperator:735:735: sz = 3, quan = 0
+75: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + IfStmt:739:753: sz = 29, quan = 0
+101: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + CallExpr:754:754: sz = 2, quan = 0
+52: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + CallExpr:755:755: sz = 2, quan = 0
+47: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + check_selinux_access + ReturnStmt:756:756: sz = 3, quan = 0
+
+-- Function: date_to_str --
+60: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + date_to_str + DeclStmt:454:454: sz = 0, quan = 0
+62: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + date_to_str + DeclStmt:455:455: sz = 1, quan = 0
+92: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + date_to_str + BinaryOperator:457:457: sz = 2, quan = 0
+77: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + date_to_str + CStyleCastExpr:459:459: sz = 2, quan = 0
+61: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + date_to_str + ReturnStmt:464:464: sz = 1, quan = 0
+
+-- Function: main --
+106: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + DeclStmt:792:792: sz = 1, quan = 0
+51: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + DeclStmt:795:795: sz = 1, quan = 0
+119: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + DeclStmt:797:797: sz = 1, quan = 0
+99: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CallExpr:800:800: sz = 1, quan = 0
+76: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + BinaryOperator:806:806: sz = 5, quan = 0
+48: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CStyleCastExpr:808:808: sz = 1, quan = 0
+81: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CStyleCastExpr:809:809: sz = 1, quan = 0
+40: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CStyleCastExpr:810:810: sz = 1, quan = 0
+42: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CallExpr:812:812: sz = 3, quan = 0
+39: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + BinaryOperator:818:818: sz = 4, quan = 0
+78: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CallExpr:820:820: sz = 1, quan = 0
+134: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CompoundStmt:822:941: sz = 116, quan = 0
+41: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + BinaryOperator:948:948: sz = 2, quan = 0
+36: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:949:956: sz = 39, quan = 0
+35: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + BinaryOperator:957:957: sz = 5, quan = 0
+86: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:958:962: sz = 13, quan = 0
+43: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:967:969: sz = 7, quan = 0
+109: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:975:991: sz = 36, quan = 0
+87: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1012:1014: sz = 9, quan = 0
+113: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1016:1019: sz = 17, quan = 0
+105: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1021:1024: sz = 12, quan = 0
+107: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + BinaryOperator:1026:1026: sz = 3, quan = 0
+111: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1027:1032: sz = 10, quan = 0
+114: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1036:1053: sz = 67, quan = 0
+90: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1060:1069: sz = 47, quan = 0
+115: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1071:1074: sz = 7, quan = 0
+116: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + BinaryOperator:1079:1079: sz = 3, quan = 0
+102: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1080:1088: sz = 17, quan = 0
+130: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + BinaryOperator:1090:1090: sz = 4, quan = 0
+118: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1095:1120: sz = 30, quan = 0
+121: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CallExpr:1128:1128: sz = 1, quan = 0
+45: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1139:1144: sz = 37, quan = 0
+138: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1145:1149: sz = 5, quan = 0
+122: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CallExpr:1151:1151: sz = 1, quan = 0
+55: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CallExpr:1152:1152: sz = 1, quan = 0
+83: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + DoStmt:1154:1154: sz = 30, quan = 0
+125: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + CallExpr:1155:1155: sz = 1, quan = 0
+126: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + IfStmt:1156:1164: sz = 14, quan = 0
+85: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + main + ReturnStmt:1166:1166: sz = 1, quan = 0
+
+-- Function: new_password --
+91: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:219:219: sz = 1, quan = 0
+127: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:220:220: sz = 1, quan = 0
+128: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:221:221: sz = 1, quan = 0
+131: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:222:222: sz = 1, quan = 0
+133: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:223:223: sz = 1, quan = 0
+50: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:224:224: sz = 1, quan = 0
+93: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:225:225: sz = 1, quan = 0
+97: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:226:226: sz = 1, quan = 0
+53: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:227:227: sz = 2, quan = 0
+144: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + DeclStmt:228:228: sz = 1, quan = 0
+88: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + IfStmt:239:274: sz = 133, quan = 0
+46: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + BinaryOperator:282:282: sz = 2, quan = 0
+135: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + IfStmt:283:298: sz = 25, quan = 0
+112: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + IfStmt:299:311: sz = 15, quan = 0
+70: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + BinaryOperator:313:313: sz = 1, quan = 0
+124: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + ForStmt:314:353: sz = 100, quan = 0
+120: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + CallExpr:354:354: sz = 2, quan = 0
+149: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + IfStmt:356:359: sz = 7, quan = 0
+136: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + BinaryOperator:364:364: sz = 2, quan = 0
+137: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + BinaryOperator:365:365: sz = 4, quan = 0
+139: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + CallExpr:366:366: sz = 2, quan = 0
+141: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + IfStmt:368:373: sz = 13, quan = 0
+143: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + ParenExpr:378:378: sz = 3, quan = 0
+146: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + new_password + ReturnStmt:379:379: sz = 2, quan = 0
+
+-- Function: print_status --
+123: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + print_status + DeclStmt:483:483: sz = 1, quan = 0
+152: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + print_status + BinaryOperator:485:485: sz = 5, quan = 0
+63: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + print_status + IfStmt:486:498: sz = 45, quan = 0
+
+-- Function: pw_status --
+154: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + pw_status + IfStmt:469:471: sz = 12, quan = 0
+84: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + pw_status + IfStmt:472:474: sz = 7, quan = 0
+54: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + pw_status + ReturnStmt:475:475: sz = 2, quan = 0
+
+-- Function: reuse --
+142: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + reuse + ReturnStmt:210:210: sz = 1, quan = 0
+
+-- Function: update_shadow --
+27: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + DeclStmt:620:620: sz = 1, quan = 0
+26: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + DeclStmt:621:621: sz = 1, quan = 0
+25: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:623:628: sz = 10, quan = 0
+24: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:629:629: sz = 1, quan = 0
+23: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:630:636: sz = 39, quan = 0
+
+-- Function: usage --
+9: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + DeclStmt:162:162: sz = 10, quan = 0
+108: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:163:167: sz = 4, quan = 0
+153: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:168:168: sz = 3, quan = 0
+16: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:169:169: sz = 3, quan = 0
+8: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:170:170: sz = 3, quan = 0
+59: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:171:171: sz = 3, quan = 0
+98: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:172:172: sz = 3, quan = 0
+11: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:173:174: sz = 3, quan = 0
+7: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:175:175: sz = 3, quan = 0
+155: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:176:177: sz = 3, quan = 0
+6: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:178:178: sz = 3, quan = 0
+5: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:179:179: sz = 3, quan = 0
+4: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:180:180: sz = 3, quan = 0
+3: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:181:181: sz = 3, quan = 0
+2: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:182:182: sz = 3, quan = 0
+58: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:183:183: sz = 3, quan = 0
+1: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:184:185: sz = 3, quan = 0
+140: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CStyleCastExpr:186:186: sz = 2, quan = 0
+0: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + usage + CallExpr:187:187: sz = 3, quan = 0
+
+Sensitive Nodes Total sz: 545
+Sensitive Nodes Total sz Ratio: 0.298467

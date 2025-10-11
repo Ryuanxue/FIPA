@@ -117,52 +117,51 @@
     </function>
     <function name="update_age" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
         <stmt dec="DeclStmt:671:671" />
-        <stmt dec="IfStmt:679:682" />
-        <stmt dec="IfStmt:683:701" />
+        <stmt dec="IfStmt:678:696" />
+        <stmt dec="BinaryOperator:703:703" />
+        <stmt dec="BinaryOperator:704:704" />
+        <stmt dec="BinaryOperator:705:705" />
+        <stmt dec="BinaryOperator:706:706" />
+        <stmt dec="BinaryOperator:707:707" />
         <stmt dec="BinaryOperator:708:708" />
-        <stmt dec="BinaryOperator:709:709" />
-        <stmt dec="BinaryOperator:710:710" />
-        <stmt dec="BinaryOperator:711:711" />
-        <stmt dec="BinaryOperator:712:712" />
-        <stmt dec="BinaryOperator:713:713" />
-        <stmt dec="IfStmt:715:719" />
+        <stmt dec="IfStmt:710:714" />
     </function>
     <function name="get_defaults" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
-        <stmt dec="IfStmt:732:774" />
+        <stmt dec="IfStmt:727:769" />
     </function>
     <function name="main" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/chage.c">
-        <stmt dec="DeclStmt:800:800" />
-        <stmt dec="DeclStmt:801:801" />
-        <stmt dec="DeclStmt:802:802" />
-        <stmt dec="DeclStmt:803:803" />
-        <stmt dec="BinaryOperator:808:808" />
+        <stmt dec="DeclStmt:795:795" />
+        <stmt dec="DeclStmt:796:796" />
+        <stmt dec="DeclStmt:797:797" />
+        <stmt dec="DeclStmt:798:798" />
+        <stmt dec="BinaryOperator:803:803" />
+        <stmt dec="CallExpr:805:805" />
+        <stmt dec="CStyleCastExpr:806:806" />
+        <stmt dec="CStyleCastExpr:807:807" />
+        <stmt dec="CStyleCastExpr:808:808" />
         <stmt dec="CallExpr:810:810" />
-        <stmt dec="CStyleCastExpr:811:811" />
-        <stmt dec="CStyleCastExpr:812:812" />
-        <stmt dec="CStyleCastExpr:813:813" />
         <stmt dec="CallExpr:815:815" />
-        <stmt dec="CallExpr:820:820" />
-        <stmt dec="BinaryOperator:822:822" />
-        <stmt dec="BinaryOperator:823:823" />
-        <stmt dec="BinaryOperator:824:824" />
-        <stmt dec="IfStmt:826:828" />
-        <stmt dec="CallExpr:831:831" />
-        <stmt dec="CallExpr:833:833" />
-        <stmt dec="IfStmt:835:842" />
-        <stmt dec="CallExpr:844:844" />
-        <stmt dec="IfStmt:846:851" />
-        <stmt dec="BinaryOperator:853:853" />
-        <stmt dec="IfStmt:854:859" />
-        <stmt dec="ParenExpr:861:861" />
-        <stmt dec="BinaryOperator:867:867" />
-        <stmt dec="BinaryOperator:869:869" />
-        <stmt dec="CallExpr:870:870" />
-        <stmt dec="IfStmt:876:888" />
-        <stmt dec="IfStmt:894:942" />
-        <stmt dec="CallExpr:944:944" />
+        <stmt dec="BinaryOperator:817:817" />
+        <stmt dec="BinaryOperator:818:818" />
+        <stmt dec="BinaryOperator:819:819" />
+        <stmt dec="IfStmt:821:823" />
+        <stmt dec="CallExpr:826:826" />
+        <stmt dec="CallExpr:828:828" />
+        <stmt dec="IfStmt:830:837" />
+        <stmt dec="CallExpr:839:839" />
+        <stmt dec="IfStmt:841:846" />
+        <stmt dec="BinaryOperator:848:848" />
+        <stmt dec="IfStmt:849:854" />
+        <stmt dec="ParenExpr:856:856" />
+        <stmt dec="BinaryOperator:862:862" />
+        <stmt dec="BinaryOperator:864:864" />
+        <stmt dec="CallExpr:865:865" />
+        <stmt dec="IfStmt:871:883" />
+        <stmt dec="IfStmt:889:937" />
+        <stmt dec="CallExpr:939:939" />
+        <stmt dec="CallExpr:941:941" />
+        <stmt dec="DoStmt:943:943" />
+        <stmt dec="CallExpr:945:945" />
         <stmt dec="CallExpr:946:946" />
-        <stmt dec="DoStmt:948:948" />
-        <stmt dec="CallExpr:950:950" />
-        <stmt dec="CallExpr:951:951" />
     </function>
 </root>

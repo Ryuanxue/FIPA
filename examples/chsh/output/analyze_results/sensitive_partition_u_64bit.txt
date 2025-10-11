@@ -1,0 +1,11 @@
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + fail_exit + IfStmt:88:94 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + fail_exit + CallExpr:96:96 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + fail_exit + CallExpr:98:98 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + update_shell + BinaryOperator:388:388 + 23
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + update_shell + IfStmt:389:394 + 23
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + update_shell + BinaryOperator:400:400 + 106
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + update_shell + BinaryOperator:401:401 + 106
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + update_shell + IfStmt:407:412 + 106
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + update_shell + IfStmt:417:421 + 106
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + update_shell + IfStmt:422:426 + 106
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chsh/input/source_code/shadow-utils/src/chsh.c + update_shell + BinaryOperator:427:427 + 106

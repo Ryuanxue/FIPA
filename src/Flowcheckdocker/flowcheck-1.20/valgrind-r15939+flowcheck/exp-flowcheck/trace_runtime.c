@@ -1789,8 +1789,8 @@ void helper_split_stack(void) {
        VG_(sprintf)(result, "%s%s%s", "/", FC_(project_name), "/");
        
       // if(VG_(strstr)(buf,"test.c")!=NULL)
-      
-      if(((VG_(strstr)(buf, result) != NULL)) && (VG_(strstr)(buf, ".c:")!=NULL))// || VG_(strstr)(buf,".h") )!= NULL))
+
+      if((VG_(strstr)(buf, result) != NULL) && ((VG_(strstr)(buf, ".c:") || VG_(strstr)(buf,".h") )!= NULL))
       {
          // VG_(printf)("Shadow memory at %p: %s\n", eip, buf);
          // VG_(printf)("split buf:%s\n",buf);

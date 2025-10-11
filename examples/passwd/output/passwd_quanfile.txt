@@ -96,10 +96,10 @@
 /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:623:628 + 0
 /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:629:629 + 0
 /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:630:636 + 0
-/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:637:637 + 34
-/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:638:651 + 34
-/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:652:652 + 34
-/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:653:655 + 34
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:637:637 + 16
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:638:651 + 16
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:652:652 + 32
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:653:655 + 32
 /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + BinaryOperator:656:656 + 35
 /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:657:659 + 35
 /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/passwd/input/source_code/shadow-utils/src/passwd.c + update_shadow + IfStmt:660:662 + 35

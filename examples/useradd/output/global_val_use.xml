@@ -1,0 +1,86 @@
+<root>
+  <fun-gval-use funname="main" gvallist="Prog,sys_ngroups,user_groups,is_shadow_pwd,is_shadow_grp,is_sub_uid,is_sub_gid,Dflg,gflg,bflg,fflg,eflg,sflg,user_name,stderr,Uflg,oflg,uflg,rflg,user_id,user_gid,sub_uid_start,sub_uid_count,sub_gid_start,sub_gid_count,mflg,home_added,def_template,user_home,user_selinux"/>
+  <fun-gval-use funname="create_mail" gvallist="user_name,stderr,user_id,user_gid,create_mail_spool"/>
+  <fun-gval-use funname="close_files" gvallist="Prog,is_shadow_pwd,is_shadow_grp,is_sub_uid,is_sub_gid,stderr,do_grp_update,spw_locked,pw_locked,gr_locked,sgr_locked,sub_uid_locked,sub_gid_locked"/>
+  <fun-gval-use funname="open_shadow" gvallist="Prog,is_shadow_pwd,stderr,spw_locked"/>
+  <fun-gval-use funname="grp_add" gvallist="Prog,is_shadow_grp,user_name,stderr,user_gid,do_grp_update"/>
+  <fun-gval-use funname="usr_update" gvallist="Prog,is_shadow_pwd,is_sub_uid,is_sub_gid,user_name,stderr,user_id,user_gid,sub_uid_start,sub_uid_count,user_shell,lflg,sub_gid_start,sub_gid_count,user_home,do_grp_update"/>
+  <fun-gval-use funname="create_home" gvallist="Prog,stderr,user_id,user_gid,home_added,user_home"/>
+  <fun-gval-use funname="get_defaults" gvallist="Prog,stderr,def_template,def_group,def_home,def_expire,def_shell,def_inactive,def_create_mail_spool,def_gname"/>
+  <fun-gval-use funname="process_flags" gvallist="Prog,user_groups,is_shadow_pwd,Dflg,gflg,bflg,fflg,eflg,sflg,user_name,stderr,Uflg,oflg,uflg,rflg,user_id,user_gid,user_shell,lflg,mflg,def_template,user_home,user_selinux,def_group,def_home,def_expire,def_shell,do_grp_update,create_mail_spool,process_flags.long_options,optarg,cflg,dflg,user_pass,def_inactive,user_expire,user_comment,def_create_mail_spool,def_gname,Gflg,kflg,Mflg,Nflg,optind"/>
+  <fun-gval-use funname="set_defaults" gvallist="Prog,stderr,def_template,def_group,def_home,def_expire,def_shell,def_inactive,def_create_mail_spool,set_defaults.new_file"/>
+  <fun-gval-use funname="show_defaults" gvallist="def_template,def_group,def_home,def_expire,def_shell,def_inactive,def_create_mail_spool"/>
+  <fun-gval-use funname="fail_exit" gvallist="Prog,user_name,stderr,home_added,user_home,spw_locked,pw_locked,gr_locked,sgr_locked,sub_uid_locked,sub_gid_locked"/>
+  <fun-gval-use funname="open_files" gvallist="Prog,is_shadow_grp,is_sub_uid,is_sub_gid,stderr,pw_locked,gr_locked,sgr_locked,sub_uid_locked,sub_gid_locked"/>
+  <fun-gval-use funname="new_pwent" gvallist="is_shadow_pwd,user_name,user_id,user_gid,user_shell,user_home,user_pass,user_comment"/>
+  <fun-gval-use funname="new_spent" gvallist="user_name,rflg,user_pass,def_inactive,user_expire"/>
+  <fun-gval-use funname="faillog_reset" gvallist="Prog,stderr"/>
+  <fun-gval-use funname="lastlog_reset" gvallist="Prog,stderr"/>
+  <fun-gval-use funname="grp_update" gvallist="Prog,user_groups,is_shadow_grp,user_name,stderr"/>
+  <fun-gval-use funname="new_grent" gvallist="is_shadow_grp,user_name,user_gid,empty_list"/>
+  <fun-gval-use funname="new_sgent" gvallist="user_name,empty_list"/>
+  <fun-gval-use funname="usage" gvallist="Prog,stderr,stdout"/>
+  <fun-gval-use funname="get_groups" gvallist="Prog,sys_ngroups,user_groups,stderr"/>
+  <gval valname="Prog" rwproperty="not-read-only" decllocation="useradd.c:91"/>
+  <gval valname="sys_ngroups" rwproperty="not-read-only" decllocation="useradd.c:141"/>
+  <gval valname="user_groups" rwproperty="not-read-only" decllocation="useradd.c:140"/>
+  <gval valname="is_shadow_pwd" rwproperty="not-read-only" decllocation="useradd.c:121"/>
+  <gval valname="is_shadow_grp" rwproperty="not-read-only" decllocation="useradd.c:124"/>
+  <gval valname="is_sub_uid" rwproperty="not-read-only" decllocation="useradd.c:128"/>
+  <gval valname="is_sub_gid" rwproperty="not-read-only" decllocation="useradd.c:129"/>
+  <gval valname="Dflg" rwproperty="not-read-only" decllocation="useradd.c:148"/>
+  <gval valname="gflg" rwproperty="not-read-only" decllocation="useradd.c:151"/>
+  <gval valname="bflg" rwproperty="not-read-only" decllocation="useradd.c:145"/>
+  <gval valname="fflg" rwproperty="not-read-only" decllocation="useradd.c:150"/>
+  <gval valname="eflg" rwproperty="not-read-only" decllocation="useradd.c:149"/>
+  <gval valname="sflg" rwproperty="not-read-only" decllocation="useradd.c:160"/>
+  <gval valname="user_name" rwproperty="not-read-only" decllocation="useradd.c:108"/>
+  <gval valname="stderr" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="Uflg" rwproperty="not-read-only" decllocation="useradd.c:162"/>
+  <gval valname="oflg" rwproperty="not-read-only" decllocation="useradd.c:158"/>
+  <gval valname="uflg" rwproperty="not-read-only" decllocation="useradd.c:161"/>
+  <gval valname="rflg" rwproperty="not-read-only" decllocation="useradd.c:159"/>
+  <gval valname="user_id" rwproperty="not-read-only" decllocation="useradd.c:110"/>
+  <gval valname="user_gid" rwproperty="not-read-only" decllocation="useradd.c:111"/>
+  <gval valname="sub_uid_start" rwproperty="not-read-only" decllocation="useradd.c:132"/>
+  <gval valname="sub_uid_count" rwproperty="not-read-only" decllocation="useradd.c:133"/>
+  <gval valname="user_shell" rwproperty="not-read-only" decllocation="useradd.c:114"/>
+  <gval valname="lflg" rwproperty="not-read-only" decllocation="useradd.c:154"/>
+  <gval valname="sub_gid_start" rwproperty="not-read-only" decllocation="useradd.c:134"/>
+  <gval valname="sub_gid_count" rwproperty="not-read-only" decllocation="useradd.c:135"/>
+  <gval valname="mflg" rwproperty="not-read-only" decllocation="useradd.c:155"/>
+  <gval valname="home_added" rwproperty="not-read-only" decllocation="useradd.c:168"/>
+  <gval valname="def_template" rwproperty="not-read-only" decllocation="useradd.c:100"/>
+  <gval valname="user_home" rwproperty="not-read-only" decllocation="useradd.c:113"/>
+  <gval valname="user_selinux" rwproperty="not-read-only" decllocation="useradd.c:117"/>
+  <gval valname="def_group" rwproperty="not-read-only" decllocation="useradd.c:96"/>
+  <gval valname="def_home" rwproperty="not-read-only" decllocation="useradd.c:98"/>
+  <gval valname="def_expire" rwproperty="not-read-only" decllocation="useradd.c:104"/>
+  <gval valname="def_shell" rwproperty="not-read-only" decllocation="useradd.c:99"/>
+  <gval valname="do_grp_update" rwproperty="not-read-only" decllocation="useradd.c:142"/>
+  <gval valname="spw_locked" rwproperty="not-read-only" decllocation="useradd.c:139"/>
+  <gval valname="pw_locked" rwproperty="not-read-only" decllocation="useradd.c:137"/>
+  <gval valname="gr_locked" rwproperty="not-read-only" decllocation="useradd.c:138"/>
+  <gval valname="sgr_locked" rwproperty="not-read-only" decllocation="useradd.c:125"/>
+  <gval valname="sub_uid_locked" rwproperty="not-read-only" decllocation="useradd.c:130"/>
+  <gval valname="sub_gid_locked" rwproperty="not-read-only" decllocation="useradd.c:131"/>
+  <gval valname="create_mail_spool" rwproperty="not-read-only" decllocation="useradd.c:115"/>
+  <gval valname="process_flags.long_options" rwproperty="not-read-only" decllocation="useradd.c:1029"/>
+  <gval valname="optarg" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="cflg" rwproperty="not-read-only" decllocation="useradd.c:146"/>
+  <gval valname="dflg" rwproperty="not-read-only" decllocation="useradd.c:147"/>
+  <gval valname="user_pass" rwproperty="not-read-only" decllocation="useradd.c:109"/>
+  <gval valname="def_inactive" rwproperty="not-read-only" decllocation="useradd.c:103"/>
+  <gval valname="user_expire" rwproperty="not-read-only" decllocation="useradd.c:120"/>
+  <gval valname="user_comment" rwproperty="not-read-only" decllocation="useradd.c:112"/>
+  <gval valname="empty_list" rwproperty="read-only" decllocation="useradd.c:1632"/>
+  <gval valname="def_create_mail_spool" rwproperty="not-read-only" decllocation="useradd.c:101"/>
+  <gval valname="set_defaults.new_file" rwproperty="not-read-only" decllocation="useradd.c:477"/>
+  <gval valname="def_gname" rwproperty="not-read-only" decllocation="useradd.c:97"/>
+  <gval valname="Gflg" rwproperty="not-read-only" decllocation="useradd.c:152"/>
+  <gval valname="kflg" rwproperty="not-read-only" decllocation="useradd.c:153"/>
+  <gval valname="Mflg" rwproperty="not-read-only" decllocation="useradd.c:156"/>
+  <gval valname="Nflg" rwproperty="not-read-only" decllocation="useradd.c:157"/>
+  <gval valname="optind" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="stdout" rwproperty="read-only" decllocation="unknown"/>
+</root>

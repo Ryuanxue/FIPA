@@ -1,0 +1,6 @@
+<root>
+  <fun-gval-use funname="mavlink_get_channel_status" gvallist="mavlink_get_channel_status.m_mavlink_status"/>
+  <fun-gval-use funname="mavlink_sha256_calc" gvallist="mavlink_sha256_constant_256"/>
+  <gval valname="mavlink_sha256_constant_256" rwproperty="read-only" decllocation="generated/include/mavlink/v2.0/common/../mavlink_sha256.h:72"/>
+  <gval valname="mavlink_get_channel_status.m_mavlink_status" rwproperty="read-only" decllocation="generated/include/mavlink/v2.0/common/../mavlink_helpers.h:29"/>
+</root>

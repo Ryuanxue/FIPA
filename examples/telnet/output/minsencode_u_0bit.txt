@@ -1,0 +1,1318 @@
+
+Solution 11:
+Total Switches: 1
+Boundary Edges (75):
+  unsetcmd:1181 -> unsetcmd:1232, Weight: 0, Domains: 0 -> 1
+  unsetcmd:1181 -> control:243, Weight: 0, Domains: 0 -> 1
+  unsetcmd:1181 -> ttyflush:140, Weight: 0, Domains: 0 -> 1
+  unsetcmd:1181 -> Exit:1058, Weight: 0, Domains: 0 -> 1
+  togdebug:571 -> SetSockOpt:110, Weight: 0, Domains: 0 -> 1
+  togcrlf:591 -> togcrlf:599, Weight: 0, Domains: 0 -> 1
+  tn:2589 -> tn:2792, Weight: 0, Domains: 0 -> 1
+  togbinary:628 -> tel_enter_binary:2858, Weight: 0, Domains: 0 -> 1
+  suspend:1540 -> TerminalWindowSize:897, Weight: 0, Domains: 0 -> 1
+  suspend:1540 -> sendnaws:2824, Weight: 0, Domains: 0 -> 1
+  susp:985 -> sendsusp:2790, Weight: 0, Domains: 0 -> 1
+  susp:983 -> rlogin_susp:2138, Weight: 0, Domains: 0 -> 1
+  slc_mode_import:1340 -> slc_import:1354, Weight: 0, Domains: 0 -> 1
+  slc_mode_export:1332 -> slc_export:1377, Weight: 0, Domains: 0 -> 1
+  slc_check:1481 -> slc_start_reply:1505, Weight: 0, Domains: 0 -> 1
+  shell:1573 -> TerminalWindowSize:897, Weight: 0, Domains: 0 -> 1
+  setcmd:1087 -> control:243, Weight: 0, Domains: 0 -> 1
+  setcmd:1087 -> ttyflush:140, Weight: 0, Domains: 0 -> 1
+  sendwin:994 -> sendnaws:2824, Weight: 0, Domains: 0 -> 1
+  sendcmd:410 -> quit:1655, Weight: 0, Domains: 0 -> 1
+  sendcmd:410 -> printoption:209, Weight: 0, Domains: 0 -> 1
+  sendcmd:410 -> ring_supplied:181, Weight: 0, Domains: 0 -> 1
+  sendcmd:400 -> ring_empty_count:226, Weight: 0, Domains: 0 -> 1
+  togcrmod:1531 -> togcrmod:1532, Weight: 0, Domains: 0 -> 1
+  send_tncmd:515 -> send_wont:272, Weight: 0, Domains: 0 -> 1
+  setescape:1517 -> control:243, Weight: 0, Domains: 0 -> 1
+  slc_check:1494 -> slc_end_reply:1526, Weight: 0, Domains: 0 -> 1
+  suspend:1539 -> setcommandmode:275, Weight: 0, Domains: 0 -> 1
+  togxbinary:700 -> tel_enter_binary:2858, Weight: 0, Domains: 0 -> 1
+  suspend:1558 -> setconnmode:243, Weight: 0, Domains: 0 -> 1
+  tel_leave_binary:2869 -> send_wont:272, Weight: 0, Domains: 0 -> 1
+  env_cmd:1848 -> cmdrc:3072, Weight: 0, Domains: 0 -> 1
+  display:1435 -> control:243, Weight: 0, Domains: 0 -> 1
+  send_esc:436 -> ring_supplied:181, Weight: 0, Domains: 0 -> 1
+  dolinemode:1260 -> send_will:256, Weight: 0, Domains: 0 -> 1
+  dokludgemode:1248 -> send_dont:240, Weight: 0, Domains: 0 -> 1
+  dolinemode:1257 -> send_dont:240, Weight: 0, Domains: 0 -> 1
+  docharmode:1274 -> send_do:224, Weight: 0, Domains: 0 -> 1
+  deadpeer:946 -> setcommandmode:275, Weight: 0, Domains: 0 -> 1
+  dokludgemode:1246 -> send_wont:272, Weight: 0, Domains: 0 -> 1
+  set_escape_char:1052 -> control:243, Weight: 0, Domains: 0 -> 1
+  modecmd:1383 -> ttyflush:140, Weight: 0, Domains: 0 -> 1
+  slc_check:1495 -> setconnmode:243, Weight: 0, Domains: 0 -> 1
+  main:372 -> Exit:1058, Weight: 0, Domains: 0 -> 1
+  dolmmode:1295 -> lm_mode:1216, Weight: 0, Domains: 0 -> 1
+  main:345 -> tninit:93, Weight: 1, Domains: 0 -> 1
+  shell:1571 -> setcommandmode:275, Weight: 0, Domains: 0 -> 1
+  slc_check:1482 -> slc_add_reply:1515, Weight: 0, Domains: 0 -> 1
+  dokludgemode:1247 -> send_dont:240, Weight: 0, Domains: 0 -> 1
+  intr:954 -> intr:959, Weight: 0, Domains: 0 -> 1
+  intr:954 -> intp:2742, Weight: 0, Domains: 0 -> 1
+  get_status:2730 -> ring_supply_data:318, Weight: 0, Domains: 0 -> 1
+  get_status:2730 -> ring_empty_count:226, Weight: 0, Domains: 0 -> 1
+  get_status:2730 -> printsub:346, Weight: 0, Domains: 0 -> 1
+  intr2:967 -> sendabort:2774, Weight: 0, Domains: 0 -> 1
+  intr2:967 -> sendbrk:2758, Weight: 0, Domains: 0 -> 1
+  tn:2475 -> makeargv:143, Weight: 0, Domains: 0 -> 1
+  tel_leave_binary:2867 -> send_dont:240, Weight: 0, Domains: 0 -> 1
+  env_send:2003 -> env_find:1867, Weight: 0, Domains: 0 -> 1
+  env_send:2010 -> env_opt_add:1695, Weight: 0, Domains: 0 -> 1
+  env_send:2011 -> env_opt_end:1786, Weight: 0, Domains: 0 -> 1
+  env_send:2009 -> env_opt_start_info:1687, Weight: 0, Domains: 0 -> 1
+  env_undefine:1960 -> env_find:1867, Weight: 0, Domains: 0 -> 1
+  docharmode:1269 -> send_wont:272, Weight: 0, Domains: 0 -> 1
+  docharmode:1269 -> send_do:224, Weight: 0, Domains: 0 -> 1
+  togrbinary:665 -> tel_enter_binary:2858, Weight: 0, Domains: 0 -> 1
+  toggle:931 -> ttyflush:140, Weight: 0, Domains: 0 -> 1
+  main:407 -> command:2943, Weight: 0, Domains: 0 -> 1
+  dolinemode:1261 -> dolinemode:1262, Weight: 0, Domains: 0 -> 1
+  dolinemode:1261 -> send_dont:240, Weight: 0, Domains: 0 -> 1
+  shell:1574 -> shell:1615, Weight: 0, Domains: 0 -> 1
+  shell:1574 -> TerminalWindowSize:897, Weight: 0, Domains: 0 -> 1
+  shell:1574 -> sendnaws:2824, Weight: 0, Domains: 0 -> 1
+  help:3052 -> help:3064, Weight: 0, Domains: 0 -> 1
+  help:3052 -> getcmd:2933, Weight: 0, Domains: 0 -> 1
+
+Solution 11:
+Sensitive Nodes: 
+
+-- Function: Dump --
+410: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + Dump + DeclStmt:153:153: sz = 1, quan = 0
+765: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + Dump + DeclStmt:154:154: sz = 1, quan = 0
+374: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + Dump + BinaryOperator:156:156: sz = 1, quan = 0
+443: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + Dump + WhileStmt:158:201: sz = 102, quan = 0
+469: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + Dump + CallExpr:202:202: sz = 2, quan = 0
+
+-- Function: EmptyTerminal --
+659: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + EmptyTerminal + DeclStmt:999:999: sz = 1, quan = 0
+491: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + EmptyTerminal + DoStmt:1001:1001: sz = 14, quan = 37
+345: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + EmptyTerminal + IfStmt:1004:1021: sz = 40, quan = 37
+
+-- Function: Exit --
+473: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + Exit + CallExpr:1058:1058: sz = 1, quan = 37
+440: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + Exit + CallExpr:1059:1059: sz = 3, quan = 37
+
+-- Function: ExitString --
+520: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + ExitString + CallExpr:1065:1065: sz = 1, quan = 0
+785: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + ExitString + CallExpr:1066:1066: sz = 5, quan = 0
+442: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + ExitString + CallExpr:1067:1067: sz = 3, quan = 0
+
+-- Function: NetClose --
+682: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + NetClose + ReturnStmt:912:912: sz = 3, quan = 45
+
+-- Function: NetNonblockingIO --
+584: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + NetNonblockingIO + CallExpr:919:919: sz = 3, quan = 12
+
+-- Function: Scheduler --
+531: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + DeclStmt:2346:2346: sz = 1, quan = 0
+833: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + DeclStmt:2347:2347: sz = 5, quan = 0
+522: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + BinaryOperator:2351:2356: sz = 26, quan = 4
+419: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + BinaryOperator:2357:2357: sz = 2, quan = 32
+505: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + BinaryOperator:2362:2362: sz = 2, quan = 32
+526: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + BinaryOperator:2368:2368: sz = 7, quan = 38
+523: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + BinaryOperator:2371:2371: sz = 5, quan = 38
+426: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + BinaryOperator:2384:2384: sz = 11, quan = 38
+421: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + IfStmt:2388:2410: sz = 8, quan = 38
+402: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + IfStmt:2412:2419: sz = 8, quan = 38
+423: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + Scheduler + ReturnStmt:2420:2420: sz = 2, quan = 38
+
+-- Function: SetForExit --
+661: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetForExit + CallExpr:1027:1027: sz = 1, quan = 37
+606: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetForExit + DoStmt:1034:1039: sz = 7, quan = 37
+453: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetForExit + CallExpr:1041:1041: sz = 1, quan = 37
+776: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetForExit + CallExpr:1042:1042: sz = 2, quan = 37
+488: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetForExit + CallExpr:1043:1043: sz = 2, quan = 0
+478: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetForExit + CallExpr:1050:1050: sz = 1, quan = 0
+529: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetForExit + CallExpr:1051:1051: sz = 1, quan = 37
+483: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetForExit + CallExpr:1052:1052: sz = 1, quan = 37
+
+-- Function: SetSockOpt --
+438: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetSockOpt + ReturnStmt:110:110: sz = 6, quan = 12
+
+-- Function: TerminalAutoFlush --
+464: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalAutoFlush + ReturnStmt:166:166: sz = 1, quan = 0
+
+-- Function: TerminalDefaultChars --
+458: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalDefaultChars + CallExpr:365:365: sz = 1, quan = 0
+418: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalDefaultChars + BinaryOperator:385:385: sz = 1, quan = 0
+
+-- Function: TerminalFlushOutput --
+452: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalFlushOutput + DeclStmt:248:248: sz = 2, quan = 0
+409: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalFlushOutput + CallExpr:252:252: sz = 3, quan = 0
+
+-- Function: TerminalNewMode --
+400: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + DeclStmt:416:416: sz = 0, quan = 0
+394: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + DeclStmt:423:423: sz = 1, quan = 0
+471: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + DeclStmt:425:425: sz = 1, quan = 0
+534: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + DeclStmt:426:426: sz = 1, quan = 0
+537: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + DeclStmt:427:427: sz = 1, quan = 0
+536: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + BinaryOperator:429:429: sz = 3, quan = 89
+502: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:430:431: sz = 5, quan = 89
+277: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + BinaryOperator:447:447: sz = 5, quan = 89
+380: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:448:464: sz = 25, quan = 89
+541: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + BinaryOperator:466:466: sz = 2, quan = 89
+407: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + BinaryOperator:467:467: sz = 3, quan = 89
+412: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + BinaryOperator:474:474: sz = 2, quan = 89
+495: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:477:496: sz = 29, quan = 89
+542: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:498:522: sz = 33, quan = 89
+429: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:524:543: sz = 15, quan = 89
+467: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:545:568: sz = 23, quan = 89
+547: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:570:579: sz = 8, quan = 85
+552: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:581:607: sz = 17, quan = 89
+557: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:609:628: sz = 13, quan = 89
+530: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:630:671: sz = 46, quan = 89
+775: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:673:756: sz = 64, quan = 93
+562: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + IfStmt:763:764: sz = 7, quan = 97
+472: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + CallExpr:769:769: sz = 3, quan = 97
+564: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalNewMode + CallExpr:770:770: sz = 3, quan = 97
+
+-- Function: TerminalRead --
+794: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalRead + ReturnStmt:150:150: sz = 7, quan = 57
+
+-- Function: TerminalSpecialChars --
+450: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpecialChars + IfStmt:190:236: sz = 73, quan = 0
+510: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpecialChars + ReturnStmt:237:237: sz = 2, quan = 0
+
+-- Function: TerminalSpeeds --
+481: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + DeclStmt:868:868: sz = 1, quan = 0
+576: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + DeclStmt:870:870: sz = 2, quan = 0
+441: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + BinaryOperator:872:872: sz = 3, quan = 31
+468: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + BinaryOperator:873:873: sz = 3, quan = 31
+577: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + IfStmt:874:875: sz = 6, quan = 0
+349: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + BinaryOperator:878:878: sz = 1, quan = 0
+459: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + WhileStmt:879:880: sz = 16, quan = 31
+436: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + BinaryOperator:881:881: sz = 5, quan = 31
+527: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + BinaryOperator:883:883: sz = 1, quan = 0
+514: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + WhileStmt:884:885: sz = 16, quan = 31
+583: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSpeeds + BinaryOperator:886:886: sz = 5, quan = 31
+
+-- Function: TerminalWindowSize --
+589: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalWindowSize + DeclStmt:897:897: sz = 1, quan = 0
+707: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalWindowSize + IfStmt:899:904: sz = 18, quan = 24
+553: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalWindowSize + ReturnStmt:906:906: sz = 2, quan = 0
+
+-- Function: TerminalWrite --
+500: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalWrite + ReturnStmt:144:144: sz = 7, quan = 57
+
+-- Function: bye --
+463: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + bye + DeclStmt:1627:1627: sz = 0, quan = 0
+393: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + bye + IfStmt:1629:1644: sz = 12, quan = 41
+518: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + bye + IfStmt:1645:1648: sz = 11, quan = 37
+391: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + bye + ReturnStmt:1649:1649: sz = 1, quan = 0
+
+-- Function: call --
+343: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + call + DeclStmt:2916:2916: sz = 1, quan = 0
+451: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + call + DeclStmt:2917:2917: sz = 1, quan = 0
+588: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + call + DeclStmt:2918:2918: sz = 2, quan = 41
+378: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + call + CallExpr:2920:2920: sz = 3, quan = 41
+695: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + call + WhileStmt:2921:2924: sz = 30, quan = 41
+406: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + call + CallExpr:2925:2925: sz = 3, quan = 0
+439: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + call + ReturnStmt:2926:2926: sz = 6, quan = 41
+
+-- Function: cmdrc --
+648: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + DeclStmt:3072:3072: sz = 1, quan = 0
+592: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + DeclStmt:3073:3073: sz = 1, quan = 0
+427: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + DeclStmt:3074:3074: sz = 2, quan = 8
+370: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + DeclStmt:3075:3075: sz = 5, quan = 8
+276: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + DeclStmt:3076:3076: sz = 5, quan = 8
+489: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + IfStmt:3078:3079: sz = 4, quan = 8
+559: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + IfStmt:3081:3088: sz = 16, quan = 8
+597: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + IfStmt:3090:3093: sz = 6, quan = 0
+290: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + ForStmt:3095:3147: sz = 136, quan = 0
+532: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + cmdrc + CallExpr:3148:3148: sz = 2, quan = 0
+
+-- Function: command --
+368: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + command + DeclStmt:2943:2943: sz = 1, quan = 0
+366: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + command + CallExpr:2945:2945: sz = 1, quan = 37
+417: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + command + IfStmt:2946:2955: sz = 7, quan = 37
+364: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + command + ForStmt:2957:3016: sz = 125, quan = 0
+790: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + command + IfStmt:3017:3031: sz = 10, quan = 0
+
+-- Function: control --
+763: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + control + DeclStmt:243:243: sz = 0, quan = 0
+363: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + control + DeclStmt:251:251: sz = 4, quan = 0
+361: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + control + IfStmt:253:254: sz = 5, quan = 0
+311: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + control + IfStmt:255:258: sz = 6, quan = 0
+821: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + control + IfStmt:259:277: sz = 40, quan = 8
+672: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + control + ReturnStmt:278:278: sz = 2, quan = 0
+
+-- Function: doflush --
+720: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + doflush + CompoundStmt:2662:2662: sz = 6, quan = 0
+369: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + doflush + NullStmt:2662:2662: sz = 6, quan = 0
+338: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + doflush + NullStmt:2663:2663: sz = 3, quan = 0
+341: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + doflush + CompoundStmt:2663:2663: sz = 3, quan = 0
+304: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + doflush + BinaryOperator:2664:2664: sz = 1, quan = 0
+336: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + doflush + BinaryOperator:2665:2665: sz = 1, quan = 0
+352: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + doflush + CallExpr:2666:2666: sz = 1, quan = 0
+544: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + doflush + CallExpr:2668:2668: sz = 1, quan = 0
+
+-- Function: dolinemode --
+507: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolinemode + ReturnStmt:1262:1262: sz = 1, quan = 0
+
+-- Function: dontoption --
+348: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dontoption + IfStmt:558:563: sz = 35, quan = 0
+323: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dontoption + IfStmt:565:588: sz = 40, quan = 0
+376: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dontoption + CompoundStmt:589:589: sz = 8, quan = 0
+322: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dontoption + NullStmt:589:589: sz = 8, quan = 0
+
+-- Function: dooption --
+466: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dooption + DeclStmt:435:435: sz = 2, quan = 28
+317: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dooption + IfStmt:437:442: sz = 35, quan = 28
+316: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dooption + IfStmt:444:550: sz = 98, quan = 32
+329: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dooption + NullStmt:551:551: sz = 8, quan = 32
+694: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dooption + CompoundStmt:551:551: sz = 8, quan = 32
+
+-- Function: dosynch --
+372: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dosynch + CallExpr:2701:2701: sz = 1, quan = 0
+596: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dosynch + NullStmt:2702:2702: sz = 3, quan = 0
+310: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dosynch + CompoundStmt:2702:2702: sz = 3, quan = 0
+308: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dosynch + CallExpr:2703:2703: sz = 1, quan = 0
+810: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dosynch + NullStmt:2704:2704: sz = 3, quan = 0
+396: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dosynch + CompoundStmt:2704:2704: sz = 3, quan = 0
+356: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dosynch + CallExpr:2705:2705: sz = 1, quan = 0
+456: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + dosynch + ReturnStmt:2706:2706: sz = 1, quan = 0
+
+-- Function: env_default --
+293: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_default + DeclStmt:2028:2028: sz = 0, quan = 0
+296: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_default + IfStmt:2030:2034: sz = 6, quan = 35
+285: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_default + IfStmt:2035:2042: sz = 28, quan = 35
+284: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_default + ReturnStmt:2043:2043: sz = 2, quan = 0
+
+-- Function: env_define --
+383: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_define + DeclStmt:1935:1935: sz = 4, quan = 37
+283: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_define + IfStmt:1936:1949: sz = 36, quan = 37
+305: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_define + BinaryOperator:1950:1950: sz = 5, quan = 37
+403: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_define + BinaryOperator:1951:1951: sz = 3, quan = 37
+444: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_define + BinaryOperator:1952:1952: sz = 5, quan = 37
+676: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_define + BinaryOperator:1953:1953: sz = 5, quan = 37
+281: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_define + ReturnStmt:1954:1954: sz = 2, quan = 0
+
+-- Function: env_export --
+289: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_export + DeclStmt:1975:1975: sz = 4, quan = 37
+445: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_export + IfStmt:1976:1977: sz = 7, quan = 0
+
+-- Function: env_find --
+274: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_find + DeclStmt:1867:1867: sz = 1, quan = 0
+600: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_find + ForStmt:1869:1873: sz = 22, quan = 69
+273: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_find + ReturnStmt:1874:1874: sz = 2, quan = 0
+
+-- Function: env_getvalue --
+581: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_getvalue + DeclStmt:2049:2049: sz = 4, quan = 35
+601: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_getvalue + IfStmt:2050:2051: sz = 8, quan = 27
+731: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_getvalue + ReturnStmt:2052:2052: sz = 2, quan = 0
+
+-- Function: env_init --
+499: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + DeclStmt:1880:1880: sz = 0, quan = 0
+318: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + DeclStmt:1881:1881: sz = 2, quan = 0
+607: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + DeclStmt:1882:1882: sz = 1, quan = 0
+475: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + DeclStmt:1884:1884: sz = 0, quan = 0
+487: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + ForStmt:1887:1897: sz = 33, quan = 37
+461: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + IfStmt:1903:1917: sz = 49, quan = 37
+609: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + IfStmt:1923:1927: sz = 13, quan = 37
+766: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + CallExpr:1928:1928: sz = 1, quan = 37
+612: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_init + CallExpr:1929:1929: sz = 1, quan = 37
+
+-- Function: env_list --
+521: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_list + DeclStmt:2017:2017: sz = 1, quan = 0
+722: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_list + ForStmt:2019:2022: sz = 25, quan = 0
+
+-- Function: env_opt --
+516: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt + DeclStmt:1586:1586: sz = 4, quan = 0
+616: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt + DeclStmt:1587:1587: sz = 1, quan = 0
+617: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt + SwitchStmt:1589:1655: sz = 77, quan = 31
+
+-- Function: env_opt_add --
+621: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_add + DeclStmt:1695:1695: sz = 2, quan = 0
+622: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_add + IfStmt:1697:1698: sz = 4, quan = 35
+827: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_add + IfStmt:1699:1711: sz = 27, quan = 35
+630: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_add + BinaryOperator:1712:1712: sz = 3, quan = 0
+627: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_add + IfStmt:1713:1728: sz = 59, quan = 0
+371: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_add + IfStmt:1729:1737: sz = 13, quan = 0
+631: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_add + ForStmt:1738:1768: sz = 41, quan = 0
+
+-- Function: env_opt_end --
+278: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_end + DeclStmt:1786:1786: sz = 1, quan = 0
+548: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_end + BinaryOperator:1788:1788: sz = 8, quan = 35
+744: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_end + IfStmt:1789:1801: sz = 29, quan = 35
+350: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_end + IfStmt:1802:1806: sz = 9, quan = 35
+
+-- Function: env_opt_start --
+637: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start + IfStmt:1666:1669: sz = 9, quan = 31
+649: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start + IfStmt:1670:1675: sz = 8, quan = 31
+638: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start + BinaryOperator:1676:1676: sz = 2, quan = 31
+420: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start + BinaryOperator:1677:1677: sz = 3, quan = 31
+641: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start + BinaryOperator:1678:1678: sz = 4, quan = 31
+431: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start + BinaryOperator:1679:1679: sz = 4, quan = 31
+787: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start + BinaryOperator:1680:1680: sz = 4, quan = 31
+643: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start + BinaryOperator:1681:1681: sz = 4, quan = 31
+
+-- Function: env_opt_start_info --
+385: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start_info + CallExpr:1687:1687: sz = 1, quan = 0
+772: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + env_opt_start_info + IfStmt:1688:1689: sz = 7, quan = 0
+
+-- Function: env_unexport --
+668: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_unexport + DeclStmt:1983:1983: sz = 4, quan = 0
+670: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_unexport + IfStmt:1984:1985: sz = 7, quan = 0
+
+-- Function: getcmd --
+388: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + getcmd + DeclStmt:2933:2933: sz = 1, quan = 0
+692: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + getcmd + IfStmt:2935:2936: sz = 9, quan = 37
+654: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + getcmd + ReturnStmt:2937:2937: sz = 5, quan = 0
+
+-- Function: getconnmode --
+703: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + DeclStmt:197:197: sz = 0, quan = 0
+696: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + DeclStmt:198:198: sz = 2, quan = 85
+704: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + DeclStmt:200:200: sz = 0, quan = 0
+291: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + IfStmt:203:204: sz = 5, quan = 85
+697: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + IfStmt:206:207: sz = 9, quan = 85
+709: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + IfStmt:209:210: sz = 7, quan = 85
+640: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + IfStmt:212:213: sz = 9, quan = 85
+528: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + IfStmt:215:216: sz = 9, quan = 85
+546: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + IfStmt:219:230: sz = 26, quan = 85
+698: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + IfStmt:232:233: sz = 10, quan = 0
+701: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + getconnmode + ReturnStmt:234:234: sz = 3, quan = 0
+
+-- Function: getslc --
+713: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + getslc + ReturnStmt:1715:1716: sz = 4, quan = 0
+
+-- Function: gettermname --
+714: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + gettermname + DeclStmt:786:786: sz = 1, quan = 0
+718: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + gettermname + DeclStmt:788:788: sz = 0, quan = 0
+847: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + gettermname + DeclStmt:789:789: sz = 1, quan = 0
+708: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + gettermname + IfStmt:791:813: sz = 45, quan = 27
+715: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + gettermname + IfStmt:814:815: sz = 7, quan = 27
+716: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + gettermname + ReturnStmt:816:816: sz = 5, quan = 27
+
+-- Function: help --
+359: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + help + ReturnStmt:3064:3064: sz = 2, quan = 0
+
+-- Function: init_network --
+690: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + init_network + IfStmt:78:81: sz = 5, quan = 37
+656: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + init_network + IfStmt:82:85: sz = 5, quan = 38
+725: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + init_network + BinaryOperator:86:86: sz = 2, quan = 38
+
+-- Function: init_sys --
+411: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + init_sys + BinaryOperator:131:131: sz = 3, quan = 37
+764: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + init_sys + BinaryOperator:132:132: sz = 3, quan = 37
+728: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + init_sys + DoStmt:133:133: sz = 12, quan = 38
+465: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + init_sys + DoStmt:134:134: sz = 12, quan = 38
+732: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + init_sys + DoStmt:135:135: sz = 12, quan = 37
+560: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + init_sys + BinaryOperator:137:137: sz = 2, quan = 37
+
+-- Function: init_telnet --
+416: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + CallExpr:189:189: sz = 1, quan = 37
+593: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + NullStmt:191:191: sz = 1, quan = 39
+733: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:191:191: sz = 1, quan = 39
+605: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:193:193: sz = 5, quan = 39
+734: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:197:197: sz = 1, quan = 39
+663: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:199:199: sz = 1, quan = 39
+422: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:203:203: sz = 1, quan = 39
+735: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:204:204: sz = 1, quan = 39
+737: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:206:206: sz = 1, quan = 39
+738: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:209:209: sz = 1, quan = 39
+730: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_telnet + BinaryOperator:210:210: sz = 1, quan = 39
+
+-- Function: init_term --
+739: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_term + DeclStmt:764:764: sz = 2, quan = 27
+741: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_term + IfStmt:776:777: sz = 6, quan = 27
+325: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + init_term + ReturnStmt:778:778: sz = 2, quan = 0
+
+-- Function: init_terminal --
+685: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + init_terminal + IfStmt:114:117: sz = 5, quan = 37
+742: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + init_terminal + IfStmt:118:121: sz = 5, quan = 37
+743: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + init_terminal + BinaryOperator:122:122: sz = 2, quan = 37
+
+-- Function: intp --
+750: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + intp + CompoundStmt:2742:2742: sz = 6, quan = 0
+753: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + intp + NullStmt:2742:2742: sz = 6, quan = 0
+331: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + intp + CallExpr:2743:2743: sz = 1, quan = 0
+610: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + intp + BinaryOperator:2744:2744: sz = 1, quan = 0
+449: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + intp + IfStmt:2745:2748: sz = 5, quan = 0
+756: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + intp + IfStmt:2749:2752: sz = 5, quan = 0
+
+-- Function: intr --
+611: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + intr + CallExpr:959:959: sz = 1, quan = 0
+759: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + intr + CallExpr:960:960: sz = 2, quan = 0
+
+-- Function: is_unique --
+635: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + is_unique + DeclStmt:595:595: sz = 1, quan = 0
+614: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + is_unique + DeclStmt:596:596: sz = 1, quan = 0
+513: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + is_unique + BinaryOperator:598:598: sz = 5, quan = 0
+389: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + is_unique + ForStmt:599:601: sz = 22, quan = 0
+762: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + is_unique + ReturnStmt:602:602: sz = 2, quan = 0
+
+-- Function: lm_do --
+851: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_do + IfStmt:1167:1172: sz = 5, quan = 0
+636: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_do + SwitchStmt:1173:1188: sz = 19, quan = 0
+
+-- Function: lm_dont --
+768: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_dont + IfStmt:1194:1199: sz = 5, quan = 0
+769: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_dont + SwitchStmt:1200:1206: sz = 7, quan = 0
+
+-- Function: lm_mode --
+770: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_mode + IfStmt:1216:1217: sz = 4, quan = 0
+774: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_mode + IfStmt:1218:1219: sz = 9, quan = 0
+758: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_mode + IfStmt:1220:1221: sz = 7, quan = 0
+650: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_mode + BinaryOperator:1222:1222: sz = 5, quan = 0
+669: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_mode + BinaryOperator:1223:1223: sz = 3, quan = 0
+777: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_mode + IfStmt:1224:1225: sz = 9, quan = 0
+598: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_mode + IfStmt:1226:1233: sz = 7, quan = 0
+710: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_mode + CallExpr:1234:1234: sz = 1, quan = 0
+
+-- Function: lm_will --
+320: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_will + IfStmt:1122:1127: sz = 5, quan = 0
+783: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_will + SwitchStmt:1128:1143: sz = 19, quan = 0
+
+-- Function: lm_wont --
+786: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_wont + IfStmt:1149:1154: sz = 5, quan = 0
+353: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + lm_wont + SwitchStmt:1155:1161: sz = 7, quan = 0
+
+-- Function: logout --
+788: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + logout + CallExpr:1663:1663: sz = 1, quan = 0
+561: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + logout + CallExpr:1664:1664: sz = 1, quan = 0
+624: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + logout + ReturnStmt:1665:1665: sz = 1, quan = 0
+
+-- Function: makeargv --
+809: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + makeargv + DeclStmt:143:143: sz = 3, quan = 0
+812: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + makeargv + DeclStmt:144:144: sz = 2, quan = 0
+813: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + makeargv + BinaryOperator:146:146: sz = 1, quan = 37
+815: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + makeargv + BinaryOperator:147:147: sz = 1, quan = 0
+816: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + makeargv + IfStmt:148:154: sz = 17, quan = 37
+664: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + makeargv + WhileStmt:155:200: sz = 118, quan = 37
+818: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + makeargv + BinaryOperator:201:201: sz = 4, quan = 37
+
+-- Function: mklist --
+820: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + DeclStmt:618:618: sz = 1, quan = 0
+822: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + DeclStmt:619:619: sz = 6, quan = 0
+346: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + IfStmt:621:635: sz = 19, quan = 0
+476: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + IfStmt:640:641: sz = 9, quan = 0
+699: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + ForStmt:647:651: sz = 28, quan = 0
+795: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + BinaryOperator:656:656: sz = 7, quan = 0
+556: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + IfStmt:657:658: sz = 5, quan = 0
+823: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + BinaryOperator:664:664: sz = 3, quan = 0
+340: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + BinaryOperator:665:665: sz = 4, quan = 0
+826: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + BinaryOperator:666:666: sz = 1, quan = 0
+828: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + ForStmt:668:713: sz = 118, quan = 0
+634: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + IfStmt:720:726: sz = 39, quan = 0
+829: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + BinaryOperator:733:733: sz = 4, quan = 0
+625: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + BinaryOperator:734:734: sz = 5, quan = 0
+748: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + BinaryOperator:735:735: sz = 2, quan = 0
+831: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + IfStmt:737:747: sz = 32, quan = 0
+501: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + mklist + IfStmt:748:751: sz = 9, quan = 0
+
+-- Function: netflush --
+811: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + netflush + DeclStmt:153:153: sz = 2, quan = 0
+834: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + netflush + IfStmt:159:177: sz = 22, quan = 70
+837: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + netflush + IfStmt:178:189: sz = 21, quan = 0
+839: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + netflush + IfStmt:190:193: sz = 10, quan = 70
+301: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + netflush + IfStmt:194:210: sz = 18, quan = 66
+
+-- Function: opt_welldefined --
+841: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + opt_welldefined + IfStmt:1774:1779: sz = 26, quan = 37
+745: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + opt_welldefined + ReturnStmt:1780:1780: sz = 2, quan = 0
+
+-- Function: printoption --
+666: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + printoption + IfStmt:209:210: sz = 4, quan = 70
+357: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + printoption + IfStmt:211:237: sz = 80, quan = 0
+843: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + printoption + IfStmt:238:246: sz = 11, quan = 0
+490: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + printoption + ReturnStmt:247:247: sz = 1, quan = 0
+
+-- Function: printsub --
+566: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + printsub + DeclStmt:346:346: sz = 1, quan = 0
+825: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + printsub + DeclStmt:347:347: sz = 0, quan = 0
+798: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + printsub + IfStmt:353:987: sz = 1187, quan = 39
+
+-- Function: process_rings --
+780: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + DeclStmt:1073:1073: sz = 1, quan = 0
+688: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + DeclStmt:1079:1079: sz = 2, quan = 38
+386: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + DeclStmt:1080:1080: sz = 0, quan = 0
+814: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + DeclStmt:1081:1081: sz = 2, quan = 38
+693: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1083:1088: sz = 22, quan = 46
+846: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1089:1094: sz = 22, quan = 46
+848: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1103:1108: sz = 22, quan = 50
+836: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1118:1123: sz = 22, quan = 50
+852: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1125:1130: sz = 22, quan = 54
+805: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1131:1168: sz = 24, quan = 58
+272: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1173:1178: sz = 27, quan = 58
+271: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1183:1311: sz = 63, quan = 90
+302: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1316:1347: sz = 78, quan = 86
+270: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1349:1353: sz = 29, quan = 86
+268: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + IfStmt:1354:1358: sz = 34, quan = 86
+267: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + process_rings + ReturnStmt:1360:1360: sz = 3, quan = 0
+
+-- Function: quit --
+260: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + quit + CallExpr:1655:1655: sz = 1, quan = 37
+259: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + quit + CallExpr:1656:1656: sz = 1, quan = 37
+747: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + quit + ReturnStmt:1657:1657: sz = 1, quan = 0
+
+-- Function: ring_at_mark --
+257: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_at_mark + IfStmt:155:162: sz = 12, quan = 66
+
+-- Function: ring_clear_mark --
+255: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_clear_mark + BinaryOperator:172:172: sz = 3, quan = 0
+
+-- Function: ring_consumed --
+254: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_consumed + IfStmt:191:192: sz = 4, quan = 104
+256: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_consumed + IfStmt:194:197: sz = 50, quan = 104
+253: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_consumed + BinaryOperator:206:206: sz = 35, quan = 104
+251: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_consumed + BinaryOperator:207:207: sz = 6, quan = 104
+782: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_consumed + IfStmt:211:214: sz = 26, quan = 104
+
+-- Function: ring_empty_consecutive --
+250: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_empty_consecutive + IfStmt:240:254: sz = 104, quan = 89
+
+-- Function: ring_empty_count --
+249: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_empty_count + IfStmt:226:233: sz = 61, quan = 89
+
+-- Function: ring_full_consecutive --
+248: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_full_consecutive + IfStmt:288:309: sz = 205, quan = 116
+
+-- Function: ring_full_count --
+247: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_full_count + IfStmt:264:278: sz = 114, quan = 110
+
+-- Function: ring_init --
+339: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_init + CallExpr:121:121: sz = 3, quan = 38
+724: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_init + BinaryOperator:123:123: sz = 4, quan = 38
+245: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_init + BinaryOperator:125:125: sz = 10, quan = 38
+244: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_init + BinaryOperator:127:127: sz = 11, quan = 69
+243: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_init + ReturnStmt:133:133: sz = 1, quan = 0
+
+-- Function: ring_mark --
+727: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_mark + BinaryOperator:145:145: sz = 29, quan = 0
+
+-- Function: ring_supplied --
+642: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_supplied + BinaryOperator:181:181: sz = 35, quan = 117
+242: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_supplied + BinaryOperator:182:182: sz = 6, quan = 117
+
+-- Function: ring_supply_data --
+240: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_supply_data + DeclStmt:318:318: sz = 1, quan = 0
+375: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/ring.c + ring_supply_data + WhileStmt:320:327: sz = 36, quan = 39
+
+-- Function: rlogin_susp --
+719: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + rlogin_susp + IfStmt:2138:2144: sz = 8, quan = 0
+392: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + rlogin_susp + ReturnStmt:2145:2145: sz = 2, quan = 0
+
+-- Function: send_do --
+239: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_do + IfStmt:224:231: sz = 42, quan = 0
+236: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_do + CompoundStmt:232:232: sz = 6, quan = 57
+712: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_do + NullStmt:232:232: sz = 6, quan = 57
+232: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_do + NullStmt:233:233: sz = 5, quan = 57
+233: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_do + CompoundStmt:233:233: sz = 5, quan = 57
+749: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_do + CallExpr:234:234: sz = 2, quan = 61
+
+-- Function: send_dont --
+428: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_dont + IfStmt:240:247: sz = 42, quan = 0
+752: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_dont + NullStmt:248:248: sz = 6, quan = 0
+230: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_dont + CompoundStmt:248:248: sz = 6, quan = 0
+229: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_dont + CompoundStmt:249:249: sz = 5, quan = 0
+227: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_dont + NullStmt:249:249: sz = 5, quan = 0
+313: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_dont + CallExpr:250:250: sz = 2, quan = 0
+
+-- Function: send_will --
+215: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_will + IfStmt:256:263: sz = 42, quan = 0
+214: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_will + CompoundStmt:264:264: sz = 6, quan = 40
+604: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_will + NullStmt:264:264: sz = 6, quan = 40
+212: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_will + CompoundStmt:265:265: sz = 5, quan = 42
+633: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_will + NullStmt:265:265: sz = 5, quan = 42
+686: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_will + CallExpr:266:266: sz = 2, quan = 46
+
+-- Function: send_wont --
+209: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_wont + IfStmt:272:279: sz = 42, quan = 0
+681: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_wont + NullStmt:280:280: sz = 6, quan = 38
+207: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_wont + CompoundStmt:280:280: sz = 6, quan = 38
+519: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_wont + CompoundStmt:281:281: sz = 5, quan = 39
+757: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_wont + NullStmt:281:281: sz = 5, quan = 39
+575: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + send_wont + CallExpr:282:282: sz = 2, quan = 43
+
+-- Function: sendabort --
+205: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendabort + NullStmt:2774:2774: sz = 6, quan = 0
+333: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendabort + CompoundStmt:2774:2774: sz = 6, quan = 0
+204: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendabort + CallExpr:2775:2775: sz = 1, quan = 0
+761: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendabort + BinaryOperator:2776:2776: sz = 1, quan = 0
+246: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendabort + IfStmt:2777:2780: sz = 5, quan = 0
+202: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendabort + IfStmt:2781:2784: sz = 5, quan = 0
+
+-- Function: sendbrk --
+540: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendbrk + NullStmt:2758:2758: sz = 6, quan = 0
+689: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendbrk + CompoundStmt:2758:2758: sz = 6, quan = 0
+493: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendbrk + CallExpr:2759:2759: sz = 1, quan = 0
+200: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendbrk + BinaryOperator:2760:2760: sz = 1, quan = 0
+199: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendbrk + IfStmt:2761:2764: sz = 5, quan = 0
+198: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendbrk + IfStmt:2765:2768: sz = 5, quan = 0
+
+-- Function: sendeof --
+184: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendeof + CompoundStmt:2806:2806: sz = 6, quan = 0
+183: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendeof + NullStmt:2806:2806: sz = 6, quan = 0
+181: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendeof + CallExpr:2807:2807: sz = 1, quan = 0
+
+-- Function: sendnaws --
+179: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + DeclStmt:2824:2824: sz = 2, quan = 0
+455: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + DeclStmt:2825:2825: sz = 1, quan = 0
+178: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + DeclStmt:2826:2826: sz = 1, quan = 0
+177: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + IfStmt:2828:2829: sz = 6, quan = 24
+176: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + IfStmt:2834:2837: sz = 4, quan = 24
+778: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + BinaryOperator:2839:2839: sz = 2, quan = 0
+175: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + BinaryOperator:2841:2841: sz = 4, quan = 24
+173: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + BinaryOperator:2842:2842: sz = 4, quan = 24
+172: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + BinaryOperator:2843:2843: sz = 4, quan = 24
+515: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + NullStmt:2844:2844: sz = 31, quan = 24
+171: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + CompoundStmt:2844:2844: sz = 31, quan = 24
+194: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + CompoundStmt:2845:2845: sz = 31, quan = 24
+186: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + NullStmt:2845:2845: sz = 31, quan = 24
+726: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + BinaryOperator:2846:2846: sz = 4, quan = 24
+263: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + BinaryOperator:2847:2847: sz = 4, quan = 24
+170: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendnaws + IfStmt:2848:2852: sz = 28, quan = 24
+
+-- Function: sendsusp --
+602: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendsusp + CompoundStmt:2790:2790: sz = 6, quan = 0
+167: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendsusp + NullStmt:2790:2790: sz = 6, quan = 0
+166: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendsusp + CallExpr:2791:2791: sz = 1, quan = 0
+324: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendsusp + BinaryOperator:2792:2792: sz = 1, quan = 0
+165: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendsusp + IfStmt:2793:2796: sz = 5, quan = 0
+163: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + sendsusp + IfStmt:2797:2800: sz = 5, quan = 0
+
+-- Function: setcommandmode --
+252: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + setcommandmode + CallExpr:275:275: sz = 1, quan = 57
+
+-- Function: setconnmode --
+151: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + setconnmode + DeclStmt:243:243: sz = 1, quan = 0
+150: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + setconnmode + BinaryOperator:245:245: sz = 7, quan = 85
+149: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + setconnmode + CallExpr:247:247: sz = 2, quan = 85
+
+-- Function: setneturg --
+142: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + setneturg + CallExpr:136:136: sz = 1, quan = 0
+
+-- Function: shell --
+136: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + shell + ReturnStmt:1615:1615: sz = 1, quan = 0
+
+-- Function: slc --
+620: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc + DeclStmt:1403:1403: sz = 1, quan = 0
+135: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc + DeclStmt:1404:1404: sz = 2, quan = 0
+216: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc + CallExpr:1406:1406: sz = 1, quan = 0
+134: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc + ForStmt:1408:1470: sz = 156, quan = 0
+287: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc + CallExpr:1471:1471: sz = 1, quan = 0
+133: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc + IfStmt:1472:1473: sz = 5, quan = 0
+
+-- Function: slc_add_reply --
+132: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_add_reply + IfStmt:1515:1516: sz = 13, quan = 0
+131: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_add_reply + IfStmt:1517:1518: sz = 13, quan = 0
+129: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_add_reply + IfStmt:1519:1520: sz = 13, quan = 0
+
+-- Function: slc_end_reply --
+381: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_end_reply + DeclStmt:1526:1526: sz = 1, quan = 0
+509: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_end_reply + BinaryOperator:1528:1528: sz = 4, quan = 0
+599: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_end_reply + BinaryOperator:1529:1529: sz = 4, quan = 0
+572: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_end_reply + BinaryOperator:1530:1530: sz = 5, quan = 0
+126: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_end_reply + IfStmt:1531:1532: sz = 4, quan = 0
+330: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_end_reply + IfStmt:1533:1540: sz = 17, quan = 0
+
+-- Function: slc_export --
+125: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_export + DeclStmt:1377:1377: sz = 1, quan = 0
+674: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_export + CallExpr:1379:1379: sz = 1, quan = 0
+123: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_export + CallExpr:1381:1381: sz = 1, quan = 0
+156: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_export + ForStmt:1382:1394: sz = 58, quan = 0
+781: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_export + CallExpr:1395:1395: sz = 1, quan = 0
+122: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_export + CallExpr:1396:1396: sz = 1, quan = 0
+326: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_export + CallExpr:1397:1397: sz = 1, quan = 0
+
+-- Function: slc_import --
+220: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_import + IfStmt:1354:1371: sz = 13, quan = 0
+
+-- Function: slc_init --
+740: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + DeclStmt:1260:1260: sz = 1, quan = 0
+590: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + BinaryOperator:1262:1262: sz = 1, quan = 0
+119: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + ForStmt:1263:1268: sz = 22, quan = 0
+266: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1281:1281: sz = 24, quan = 0
+213: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1281:1281: sz = 24, quan = 0
+116: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1283:1283: sz = 24, quan = 0
+117: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1283:1283: sz = 24, quan = 0
+300: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1284:1284: sz = 24, quan = 0
+115: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1284:1284: sz = 24, quan = 0
+312: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1286:1286: sz = 24, quan = 0
+114: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1286:1286: sz = 24, quan = 0
+535: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1287:1287: sz = 24, quan = 0
+112: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1287:1287: sz = 24, quan = 0
+850: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1289:1289: sz = 24, quan = 0
+111: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1289:1289: sz = 24, quan = 0
+109: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1291:1291: sz = 24, quan = 0
+188: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1291:1291: sz = 24, quan = 0
+108: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1292:1292: sz = 24, quan = 0
+344: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1292:1292: sz = 24, quan = 0
+751: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1294:1294: sz = 24, quan = 0
+789: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1294:1294: sz = 24, quan = 0
+673: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1295:1295: sz = 24, quan = 0
+107: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1295:1295: sz = 24, quan = 0
+840: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1296:1296: sz = 24, quan = 0
+105: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1296:1296: sz = 24, quan = 0
+152: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1298:1298: sz = 24, quan = 0
+238: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1298:1298: sz = 24, quan = 0
+103: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1299:1299: sz = 24, quan = 0
+671: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1299:1299: sz = 24, quan = 0
+568: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1304:1304: sz = 24, quan = 0
+594: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1304:1304: sz = 24, quan = 0
+102: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1306:1306: sz = 24, quan = 0
+101: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1306:1306: sz = 24, quan = 0
+100: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + CompoundStmt:1310:1310: sz = 24, quan = 0
+124: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + NullStmt:1310:1310: sz = 24, quan = 0
+139: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_init + IfStmt:1313:1316: sz = 6, quan = 0
+
+-- Function: slc_start_reply --
+96: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_start_reply + BinaryOperator:1505:1505: sz = 1, quan = 0
+235: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_start_reply + BinaryOperator:1506:1506: sz = 4, quan = 0
+511: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_start_reply + BinaryOperator:1507:1507: sz = 4, quan = 0
+95: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_start_reply + BinaryOperator:1508:1508: sz = 4, quan = 0
+94: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_start_reply + BinaryOperator:1509:1509: sz = 4, quan = 0
+
+-- Function: slc_update --
+771: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_update + DeclStmt:1546:1546: sz = 1, quan = 0
+279: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_update + DeclStmt:1547:1547: sz = 2, quan = 0
+261: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_update + ForStmt:1549:1559: sz = 50, quan = 0
+667: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_update + ReturnStmt:1560:1560: sz = 2, quan = 0
+
+-- Function: slccmd --
+237: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slccmd + DeclStmt:1722:1722: sz = 1, quan = 0
+448: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slccmd + IfStmt:1724:1729: sz = 7, quan = 0
+168: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slccmd + BinaryOperator:1730:1730: sz = 5, quan = 0
+169: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slccmd + IfStmt:1731:1736: sz = 10, quan = 0
+92: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slccmd + IfStmt:1737:1742: sz = 11, quan = 0
+91: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slccmd + CallExpr:1743:1743: sz = 8, quan = 0
+90: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slccmd + CallExpr:1744:1744: sz = 1, quan = 0
+89: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slccmd + ReturnStmt:1745:1745: sz = 2, quan = 0
+
+-- Function: slcstate --
+314: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slcstate + CallExpr:1323:1325: sz = 11, quan = 0
+
+-- Function: status --
+309: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + status + IfStmt:2351:2391: sz = 74, quan = 8
+342: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + status + CallExpr:2393:2393: sz = 3, quan = 8
+390: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + status + CallExpr:2394:2394: sz = 2, quan = 0
+87: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + status + ReturnStmt:2428:2428: sz = 1, quan = 0
+
+-- Function: stilloob --
+644: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + stilloob + DeclStmt:98:98: sz = 0, quan = 0
+86: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + stilloob + DeclStmt:99:99: sz = 1, quan = 0
+85: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + stilloob + DeclStmt:100:100: sz = 1, quan = 0
+84: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + stilloob + DoStmt:102:109: sz = 39, quan = 0
+83: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + stilloob + IfStmt:111:115: sz = 6, quan = 0
+82: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/network.c + stilloob + IfStmt:116:123: sz = 17, quan = 0
+
+-- Function: suboption --
+180: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + suboption + DeclStmt:836:836: sz = 1, quan = 0
+104: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + suboption + CallExpr:838:838: sz = 8, quan = 26
+80: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + suboption + SwitchStmt:839:1114: sz = 307, quan = 27
+
+-- Function: sys_telnet_init --
+75: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + DeclStmt:1016:1016: sz = 1, quan = 0
+632: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + BinaryOperator:1018:1018: sz = 2, quan = 4
+680: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + CallExpr:1019:1019: sz = 2, quan = 4
+74: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + CallExpr:1021:1021: sz = 1, quan = 4
+73: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + CallExpr:1022:1022: sz = 1, quan = 4
+71: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + CallExpr:1023:1023: sz = 1, quan = 4
+70: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + BinaryOperator:1025:1025: sz = 3, quan = 4
+69: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + CStyleCastExpr:1026:1026: sz = 1, quan = 4
+68: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + BinaryOperator:1029:1029: sz = 3, quan = 4
+225: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + CStyleCastExpr:1030:1030: sz = 1, quan = 4
+67: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + CallExpr:1037:1037: sz = 1, quan = 4
+354: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + CallExpr:1039:1039: sz = 2, quan = 8
+484: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sys_telnet_init + IfStmt:1050:1053: sz = 6, quan = 8
+
+-- Function: tcval --
+486: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + tcval + SwitchStmt:301:353: sz = 33, quan = 0
+
+-- Function: tel_enter_binary --
+306: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + tel_enter_binary + IfStmt:2858:2859: sz = 6, quan = 0
+66: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + tel_enter_binary + IfStmt:2860:2861: sz = 6, quan = 0
+
+-- Function: telnet --
+113: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telnet + CallExpr:2429:2429: sz = 1, quan = 4
+639: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telnet + CStyleCastExpr:2442:2442: sz = 1, quan = 0
+65: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telnet + IfStmt:2445:2467: sz = 23, quan = 4
+849: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telnet + ForStmt:2471:2489: sz = 19, quan = 4
+
+-- Function: telrcv --
+480: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + DeclStmt:1814:1814: sz = 1, quan = 0
+800: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + DeclStmt:1815:1815: sz = 1, quan = 0
+64: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + DeclStmt:1816:1816: sz = 1, quan = 0
+498: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + DeclStmt:1817:1817: sz = 1, quan = 0
+63: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + DeclStmt:1818:1818: sz = 2, quan = 38
+234: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + BinaryOperator:1820:1820: sz = 1, quan = 0
+143: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + BinaryOperator:1821:1821: sz = 1, quan = 38
+736: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + WhileStmt:1822:2127: sz = 374, quan = 80
+62: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + IfStmt:2128:2129: sz = 6, quan = 76
+60: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telrcv + ReturnStmt:2130:2130: sz = 8, quan = 76
+
+-- Function: telsnd --
+59: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + DeclStmt:2151:2151: sz = 1, quan = 0
+335: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + DeclStmt:2152:2152: sz = 1, quan = 0
+57: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + DeclStmt:2153:2153: sz = 2, quan = 37
+56: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + DeclStmt:2154:2154: sz = 1, quan = 0
+437: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + BinaryOperator:2156:2156: sz = 1, quan = 37
+55: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + BinaryOperator:2157:2157: sz = 1, quan = 37
+54: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + WhileStmt:2158:2321: sz = 324, quan = 37
+53: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + IfStmt:2322:2323: sz = 6, quan = 0
+120: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + telsnd + ReturnStmt:2324:2324: sz = 8, quan = 0
+
+-- Function: tn --
+830: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + DoStmt:2738:2789: sz = 0, quan = 0
+61: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + CallExpr:2792:2792: sz = 3, quan = 8
+110: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2798:2810: sz = 36, quan = 8
+729: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2811:2815: sz = 7, quan = 8
+40: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + CallExpr:2816:2816: sz = 1, quan = 8
+39: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + BinaryOperator:2817:2817: sz = 1, quan = 4
+191: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2818:2821: sz = 7, quan = 4
+38: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + CallExpr:2823:2823: sz = 2, quan = 0
+37: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + CallExpr:2824:2824: sz = 2, quan = 0
+626: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + ReturnStmt:2826:2826: sz = 2, quan = 0
+
+-- Function: tninit --
+31: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + tninit + CallExpr:93:93: sz = 1, quan = 37
+182: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + tninit + CallExpr:95:95: sz = 1, quan = 37
+145: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + tninit + CallExpr:97:97: sz = 1, quan = 37
+30: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + tninit + CallExpr:99:99: sz = 1, quan = 37
+
+-- Function: togcrlf --
+793: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togcrlf + ReturnStmt:599:599: sz = 1, quan = 0
+
+-- Function: togcrmod --
+26: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togcrmod + ReturnStmt:1532:1532: sz = 1, quan = 0
+
+-- Function: ttyflush --
+18: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + ttyflush + DeclStmt:140:140: sz = 3, quan = 0
+208: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + ttyflush + BinaryOperator:142:142: sz = 2, quan = 109
+17: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + ttyflush + IfStmt:143:154: sz = 15, quan = 109
+578: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + ttyflush + IfStmt:155:175: sz = 45, quan = 57
+367: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + ttyflush + IfStmt:176:177: sz = 5, quan = 0
+321: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + ttyflush + IfStmt:178:183: sz = 11, quan = 109
+16: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/terminal.c + ttyflush + ReturnStmt:184:184: sz = 6, quan = 0
+
+-- Function: unsetcmd --
+551: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + ReturnStmt:1232:1232: sz = 2, quan = 0
+
+-- Function: upcase --
+845: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + upcase + DeclStmt:88:88: sz = 1, quan = 0
+792: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + upcase + WhileStmt:90:97: sz = 27, quan = 27
+
+-- Function: willoption --
+433: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + willoption + DeclStmt:289:289: sz = 2, quan = 49
+93: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + willoption + IfStmt:291:296: sz = 35, quan = 49
+334: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + willoption + IfStmt:298:371: sz = 72, quan = 53
+539: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + willoption + CompoundStmt:372:372: sz = 8, quan = 49
+11: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + willoption + NullStmt:372:372: sz = 8, quan = 49
+
+-- Function: wontoption --
+9: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + wontoption + IfStmt:382:387: sz = 35, quan = 0
+446: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + wontoption + IfStmt:389:428: sz = 88, quan = 0
+8: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + wontoption + CompoundStmt:429:429: sz = 8, quan = 0
+7: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + wontoption + NullStmt:429:429: sz = 8, quan = 0
+
+-- Function: xmitAO --
+424: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitAO + NullStmt:2674:2674: sz = 6, quan = 0
+6: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitAO + CompoundStmt:2674:2674: sz = 6, quan = 0
+5: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitAO + CallExpr:2675:2675: sz = 1, quan = 0
+4: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitAO + IfStmt:2676:2679: sz = 5, quan = 0
+
+-- Function: xmitEC --
+3: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitEC + CompoundStmt:2693:2693: sz = 6, quan = 0
+2: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitEC + NullStmt:2693:2693: sz = 6, quan = 0
+10: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitEC + CallExpr:2694:2694: sz = 1, quan = 0
+
+-- Function: xmitEL --
+691: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitEL + CompoundStmt:2686:2686: sz = 6, quan = 0
+1: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitEL + NullStmt:2686:2686: sz = 6, quan = 0
+0: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + xmitEL + CallExpr:2687:2687: sz = 1, quan = 0
+
+Non-sensitive Nodes: 
+
+-- Function: SetNetTrace --
+570: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetNetTrace + IfStmt:131:132: sz = 10, quan = 0
+503: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetNetTrace + IfStmt:133:143: sz = 21, quan = 0
+405: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetNetTrace + BinaryOperator:144:144: sz = 2, quan = 0
+399: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + SetNetTrace + CallExpr:145:145: sz = 1, quan = 0
+
+-- Function: TerminalSaveState --
+413: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSaveState + CallExpr:270:270: sz = 1, quan = 0
+567: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSaveState + BinaryOperator:272:272: sz = 1, quan = 0
+571: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + TerminalSaveState + BinaryOperator:293:293: sz = 1, quan = 0
+
+-- Function: _option_is_end --
+485: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/argp.h + _option_is_end + ReturnStmt:637:637: sz = 22, quan = 0
+
+-- Function: _option_is_short --
+580: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/argp.h + _option_is_short + IfStmt:625:631: sz = 31, quan = 0
+
+-- Function: argp_usage --
+358: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/lib/argp.h + argp_usage + CallExpr:619:619: sz = 3, quan = 0
+
+-- Function: atoi --
+563: /usr/include/stdlib.h + atoi + ReturnStmt:363:363: sz = 0, quan = 0
+
+-- Function: clear_mode --
+591: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + clear_mode + ReturnStmt:1308:1308: sz = 3, quan = 0
+
+-- Function: deadpeer --
+355: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + deadpeer + CallExpr:946:946: sz = 1, quan = 0
+432: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + deadpeer + CallExpr:947:947: sz = 2, quan = 0
+
+-- Function: display --
+415: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + display + DeclStmt:1416:1416: sz = 1, quan = 0
+558: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + display + DeclStmt:1417:1417: sz = 1, quan = 0
+298: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + display + IfStmt:1435:1477: sz = 212, quan = 0
+398: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + display + CallExpr:1478:1478: sz = 1, quan = 0
+447: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + display + ReturnStmt:1482:1482: sz = 2, quan = 0
+
+-- Function: docharmode --
+717: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + docharmode + IfStmt:1269:1273: sz = 6, quan = 0
+351: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + docharmode + CallExpr:1274:1274: sz = 1, quan = 0
+397: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + docharmode + ReturnStmt:1275:1275: sz = 1, quan = 0
+
+-- Function: dokludgemode --
+838: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dokludgemode + BinaryOperator:1245:1245: sz = 1, quan = 0
+360: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dokludgemode + CallExpr:1246:1246: sz = 1, quan = 0
+555: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dokludgemode + CallExpr:1247:1247: sz = 1, quan = 0
+332: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dokludgemode + CallExpr:1248:1248: sz = 1, quan = 0
+404: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dokludgemode + ReturnStmt:1249:1249: sz = 1, quan = 0
+
+-- Function: dolinemode --
+347: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolinemode + IfStmt:1257:1258: sz = 5, quan = 0
+328: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolinemode + CallExpr:1260:1260: sz = 1, quan = 0
+817: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolinemode + CallExpr:1261:1261: sz = 1, quan = 0
+
+-- Function: dolmmode --
+362: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolmmode + DeclStmt:1281:1281: sz = 1, quan = 0
+824: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolmmode + DeclStmt:1282:1282: sz = 0, quan = 0
+327: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolmmode + IfStmt:1284:1289: sz = 9, quan = 0
+687: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolmmode + IfStmt:1291:1294: sz = 15, quan = 0
+492: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolmmode + CallExpr:1295:1295: sz = 1, quan = 0
+454: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + dolmmode + ReturnStmt:1296:1296: sz = 2, quan = 0
+
+-- Function: env_cmd --
+408: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_cmd + DeclStmt:1819:1819: sz = 1, quan = 0
+303: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_cmd + IfStmt:1821:1826: sz = 7, quan = 0
+297: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_cmd + BinaryOperator:1827:1827: sz = 5, quan = 0
+802: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_cmd + IfStmt:1828:1833: sz = 10, quan = 0
+292: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_cmd + IfStmt:1834:1839: sz = 11, quan = 0
+508: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_cmd + IfStmt:1840:1847: sz = 31, quan = 0
+295: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_cmd + CallExpr:1848:1848: sz = 11, quan = 0
+288: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_cmd + ReturnStmt:1849:1849: sz = 2, quan = 0
+
+-- Function: env_help --
+395: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_help + DeclStmt:1795:1795: sz = 1, quan = 0
+603: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_help + ForStmt:1797:1806: sz = 33, quan = 0
+
+-- Function: env_send --
+646: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_send + DeclStmt:1991:1991: sz = 1, quan = 0
+615: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_send + IfStmt:1993:2002: sz = 9, quan = 0
+651: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_send + BinaryOperator:2003:2003: sz = 3, quan = 0
+803: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_send + IfStmt:2004:2008: sz = 7, quan = 0
+660: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_send + CallExpr:2009:2009: sz = 1, quan = 0
+652: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_send + CallExpr:2010:2010: sz = 4, quan = 0
+657: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_send + CallExpr:2011:2011: sz = 1, quan = 0
+
+-- Function: env_undefine --
+662: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_undefine + DeclStmt:1960:1960: sz = 4, quan = 0
+665: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + env_undefine + IfStmt:1961:1969: sz = 37, quan = 0
+
+-- Function: get_status --
+675: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + DeclStmt:2714:2714: sz = 1, quan = 0
+677: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + DeclStmt:2715:2715: sz = 1, quan = 0
+754: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + IfStmt:2717:2721: sz = 8, quan = 0
+645: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + BinaryOperator:2722:2722: sz = 2, quan = 0
+550: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + BinaryOperator:2724:2724: sz = 4, quan = 0
+319: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + BinaryOperator:2725:2725: sz = 4, quan = 0
+678: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + BinaryOperator:2726:2726: sz = 4, quan = 0
+337: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + BinaryOperator:2727:2727: sz = 4, quan = 0
+653: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + BinaryOperator:2728:2728: sz = 4, quan = 0
+517: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + BinaryOperator:2729:2729: sz = 4, quan = 0
+574: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + IfStmt:2730:2734: sz = 28, quan = 0
+679: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + UnaryOperator:2735:2735: sz = 3, quan = 0
+683: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + get_status + ReturnStmt:2736:2736: sz = 2, quan = 0
+
+-- Function: getenvcmd --
+315: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + getenvcmd + ReturnStmt:1812:1813: sz = 4, quan = 0
+
+-- Function: getset --
+706: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + getset + ReturnStmt:1045:1046: sz = 4, quan = 0
+
+-- Function: gettermname --
+457: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + gettermname + DeclStmt:787:787: sz = 0, quan = 0
+
+-- Function: help --
+723: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + help + DeclStmt:3040:3040: sz = 1, quan = 0
+655: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + help + IfStmt:3042:3051: sz = 31, quan = 0
+844: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + help + WhileStmt:3052:3063: sz = 33, quan = 0
+
+-- Function: intr --
+569: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + intr + IfStmt:954:958: sz = 5, quan = 0
+
+-- Function: intr2 --
+579: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + intr2 + IfStmt:967:976: sz = 10, quan = 0
+
+-- Function: lclchars --
+496: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + lclchars + BinaryOperator:563:563: sz = 1, quan = 0
+773: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + lclchars + ReturnStmt:564:564: sz = 1, quan = 0
+
+-- Function: main --
+755: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + DeclStmt:337:337: sz = 1, quan = 0
+294: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + CallExpr:339:339: sz = 4, quan = 0
+497: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + CallExpr:345:345: sz = 1, quan = 0
+791: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + CallExpr:350:350: sz = 1, quan = 0
+796: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + IfStmt:352:355: sz = 15, quan = 0
+623: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + BinaryOperator:357:357: sz = 1, quan = 0
+799: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + BinaryOperator:359:359: sz = 7, quan = 0
+629: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + BinaryOperator:360:360: sz = 1, quan = 0
+801: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + BinaryOperator:363:363: sz = 2, quan = 0
+804: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + NullStmt:363:363: sz = 2, quan = 0
+618: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + CallExpr:364:364: sz = 3, quan = 0
+806: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + IfStmt:366:367: sz = 10, quan = 0
+586: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + CompoundAssignOperator:369:369: sz = 4, quan = 0
+807: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + CompoundAssignOperator:370:370: sz = 5, quan = 0
+462: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + IfStmt:372:403: sz = 86, quan = 0
+525: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + CallExpr:406:406: sz = 1, quan = 0
+808: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + main + ForStmt:407:415: sz = 3, quan = 0
+
+-- Function: modecmd --
+533: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + modecmd + DeclStmt:1381:1381: sz = 1, quan = 0
+387: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + modecmd + IfStmt:1383:1404: sz = 56, quan = 0
+470: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + modecmd + ReturnStmt:1405:1405: sz = 2, quan = 0
+
+-- Function: modehelp --
+482: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + modehelp + DeclStmt:1359:1359: sz = 1, quan = 0
+779: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + modehelp + CallExpr:1361:1361: sz = 1, quan = 0
+832: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + modehelp + ForStmt:1362:1371: sz = 33, quan = 0
+280: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + modehelp + ReturnStmt:1372:1372: sz = 1, quan = 0
+
+-- Function: optionstatus --
+767: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + optionstatus + DeclStmt:253:253: sz = 1, quan = 0
+595: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + optionstatus + DeclStmt:254:254: sz = 0, quan = 0
+842: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/utilities.c + optionstatus + ForStmt:256:336: sz = 290, quan = 0
+
+-- Function: parse_opt --
+373: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + parse_opt + SwitchStmt:203:317: sz = 36, quan = 0
+628: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/main.c + parse_opt + ReturnStmt:319:319: sz = 2, quan = 0
+
+-- Function: putc_unlocked --
+264: /usr/include/x86_64-linux-gnu/bits/stdio.h + putc_unlocked + ReturnStmt:103:103: sz = 0, quan = 0
+
+-- Function: putchar --
+784: /usr/include/x86_64-linux-gnu/bits/stdio.h + putchar + ReturnStmt:84:84: sz = 0, quan = 0
+
+-- Function: send_docmd --
+231: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_docmd + ReturnStmt:522:522: sz = 3, quan = 0
+
+-- Function: send_dontcmd --
+226: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_dontcmd + ReturnStmt:528:528: sz = 3, quan = 0
+
+-- Function: send_esc --
+307: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_esc + NullStmt:436:436: sz = 4, quan = 0
+504: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_esc + CompoundStmt:436:436: sz = 4, quan = 0
+435: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_esc + ReturnStmt:437:437: sz = 1, quan = 0
+
+-- Function: send_help --
+382: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_help + DeclStmt:546:546: sz = 1, quan = 0
+494: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_help + ForStmt:547:551: sz = 25, quan = 0
+224: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_help + ReturnStmt:552:552: sz = 1, quan = 0
+
+-- Function: send_tncmd --
+275: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + DeclStmt:443:443: sz = 1, quan = 0
+819: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + DeclStmt:445:445: sz = 0, quan = 0
+269: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + DeclStmt:447:447: sz = 2, quan = 0
+797: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + IfStmt:449:471: sz = 50, quan = 0
+222: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + BinaryOperator:472:472: sz = 3, quan = 0
+221: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + IfStmt:473:478: sz = 10, quan = 0
+613: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + IfStmt:479:509: sz = 61, quan = 0
+219: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + IfStmt:510:514: sz = 6, quan = 0
+217: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + CallExpr:515:515: sz = 4, quan = 0
+384: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_tncmd + ReturnStmt:516:516: sz = 2, quan = 0
+
+-- Function: send_willcmd --
+211: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_willcmd + ReturnStmt:534:534: sz = 3, quan = 0
+
+-- Function: send_wontcmd --
+206: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + send_wontcmd + ReturnStmt:540:540: sz = 3, quan = 0
+
+-- Function: sendcmd --
+197: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + DeclStmt:342:342: sz = 1, quan = 0
+196: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + DeclStmt:343:343: sz = 1, quan = 0
+538: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + DeclStmt:344:344: sz = 1, quan = 0
+195: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + DeclStmt:345:345: sz = 2, quan = 0
+193: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + DeclStmt:346:346: sz = 2, quan = 0
+524: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + IfStmt:348:353: sz = 7, quan = 0
+192: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + BinaryOperator:360:360: sz = 1, quan = 0
+647: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + ForStmt:361:392: sz = 95, quan = 0
+218: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + IfStmt:393:398: sz = 10, quan = 0
+190: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + IfStmt:400:407: sz = 10, quan = 0
+189: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + BinaryOperator:409:409: sz = 1, quan = 0
+187: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + ForStmt:410:429: sz = 90, quan = 0
+185: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + sendcmd + ReturnStmt:430:430: sz = 6, quan = 0
+
+-- Function: sendwin --
+162: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + sendwin + IfStmt:994:997: sz = 5, quan = 0
+
+-- Function: set_escape_char --
+377: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + set_escape_char + IfStmt:1052:1061: sz = 41, quan = 0
+
+-- Function: set_mode --
+161: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + set_mode + ReturnStmt:1302:1302: sz = 3, quan = 0
+
+-- Function: setcmd --
+262: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + DeclStmt:1067:1067: sz = 1, quan = 0
+705: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + DeclStmt:1068:1068: sz = 1, quan = 0
+160: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + DeclStmt:1069:1069: sz = 1, quan = 0
+159: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + IfStmt:1071:1075: sz = 9, quan = 0
+158: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + IfStmt:1076:1084: sz = 39, quan = 0
+157: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + BinaryOperator:1086:1086: sz = 5, quan = 0
+155: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + IfStmt:1087:1151: sz = 159, quan = 0
+154: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + CallExpr:1152:1152: sz = 1, quan = 0
+153: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setcmd + ReturnStmt:1153:1153: sz = 2, quan = 0
+
+-- Function: setescape --
+477: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setescape + DeclStmt:1498:1498: sz = 1, quan = 0
+147: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setescape + DeclStmt:1499:1499: sz = 1, quan = 0
+425: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setescape + CallExpr:1501:1502: sz = 14, quan = 0
+146: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setescape + IfStmt:1503:1514: sz = 20, quan = 0
+164: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setescape + IfStmt:1515:1516: sz = 11, quan = 0
+223: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setescape + IfStmt:1517:1520: sz = 7, quan = 0
+144: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setescape + CallExpr:1521:1521: sz = 2, quan = 0
+573: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + setescape + ReturnStmt:1522:1522: sz = 1, quan = 0
+
+-- Function: settogglehelp --
+141: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + settogglehelp + DeclStmt:898:898: sz = 1, quan = 0
+140: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + settogglehelp + ForStmt:900:910: sz = 37, quan = 0
+
+-- Function: shell --
+138: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + shell + DeclStmt:1569:1569: sz = 5, quan = 0
+506: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + shell + CallExpr:1571:1571: sz = 1, quan = 0
+137: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + shell + BinaryOperator:1573:1573: sz = 6, quan = 0
+835: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + shell + SwitchStmt:1574:1614: sz = 59, quan = 0
+
+-- Function: slc_check --
+128: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_check + DeclStmt:1479:1479: sz = 1, quan = 0
+127: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_check + CallExpr:1481:1481: sz = 1, quan = 0
+549: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_check + ForStmt:1482:1493: sz = 62, quan = 0
+228: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_check + CallExpr:1494:1494: sz = 1, quan = 0
+434: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_check + CallExpr:1495:1495: sz = 1, quan = 0
+
+-- Function: slc_help --
+121: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slc_help + DeclStmt:1698:1698: sz = 1, quan = 0
+512: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + slc_help + ForStmt:1700:1709: sz = 33, quan = 0
+
+-- Function: slc_mode_export --
+543: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_mode_export + BinaryOperator:1331:1331: sz = 1, quan = 0
+99: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_mode_export + IfStmt:1332:1333: sz = 7, quan = 0
+
+-- Function: slc_mode_import --
+98: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_mode_import + BinaryOperator:1339:1339: sz = 5, quan = 0
+97: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + slc_mode_import + IfStmt:1340:1341: sz = 8, quan = 0
+
+-- Function: special --
+658: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + special + DeclStmt:213:213: sz = 1, quan = 0
+711: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + special + DeclStmt:214:214: sz = 1, quan = 0
+365: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + special + SwitchStmt:216:232: sz = 29, quan = 0
+565: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + special + ReturnStmt:233:233: sz = 3, quan = 0
+
+-- Function: susp --
+79: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + susp + IfStmt:983:984: sz = 8, quan = 0
+78: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/sys_bsd.c + susp + IfStmt:985:986: sz = 5, quan = 0
+
+-- Function: suspend --
+258: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + suspend + CallExpr:1539:1539: sz = 1, quan = 0
+77: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + suspend + CompoundStmt:1540:1555: sz = 31, quan = 0
+401: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + suspend + CallExpr:1557:1557: sz = 1, quan = 0
+282: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + suspend + CallExpr:1558:1558: sz = 1, quan = 0
+76: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + suspend + ReturnStmt:1562:1562: sz = 1, quan = 0
+
+-- Function: tel_leave_binary --
+619: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + tel_leave_binary + IfStmt:2867:2868: sz = 6, quan = 0
+286: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/telnet.c + tel_leave_binary + IfStmt:2869:2870: sz = 6, quan = 0
+
+-- Function: tn --
+201: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + DeclStmt:2451:2451: sz = 0, quan = 0
+554: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + DeclStmt:2452:2452: sz = 0, quan = 0
+545: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + DeclStmt:2453:2453: sz = 0, quan = 0
+35: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + DeclStmt:2454:2454: sz = 0, quan = 0
+51: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + DeclStmt:2456:2456: sz = 2, quan = 0
+118: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + DeclStmt:2457:2457: sz = 1, quan = 0
+50: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + DeclStmt:2458:2458: sz = 7, quan = 0
+379: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + CallExpr:2467:2467: sz = 0, quan = 0
+58: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2470:2474: sz = 7, quan = 0
+587: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2475:2488: sz = 21, quan = 0
+585: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + BinaryOperator:2489:2489: sz = 3, quan = 0
+49: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + UnaryOperator:2490:2490: sz = 3, quan = 0
+47: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + UnaryOperator:2491:2491: sz = 3, quan = 0
+88: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + WhileStmt:2492:2548: sz = 110, quan = 0
+46: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2549:2550: sz = 4, quan = 0
+45: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2552:2585: sz = 66, quan = 0
+44: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + CallExpr:2587:2587: sz = 2, quan = 0
+43: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + BinaryOperator:2588:2588: sz = 5, quan = 0
+42: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2589:2595: sz = 10, quan = 0
+34: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + BinaryOperator:2702:2702: sz = 0, quan = 0
+33: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2703:2721: sz = 0, quan = 0
+174: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + BinaryOperator:2723:2723: sz = 0, quan = 0
+700: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + IfStmt:2724:2735: sz = 0, quan = 0
+32: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + tn + CallExpr:2737:2737: sz = 0, quan = 0
+
+-- Function: togbinary --
+479: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togbinary + BinaryOperator:607:607: sz = 1, quan = 0
+210: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togbinary + IfStmt:609:626: sz = 35, quan = 0
+48: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togbinary + IfStmt:628:653: sz = 32, quan = 0
+608: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togbinary + ReturnStmt:654:654: sz = 1, quan = 0
+
+-- Function: togcrlf --
+29: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togcrlf + IfStmt:591:598: sz = 6, quan = 0
+
+-- Function: togcrmod --
+28: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togcrmod + BinaryOperator:1528:1528: sz = 5, quan = 0
+27: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togcrmod + CallExpr:1529:1529: sz = 1, quan = 0
+460: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togcrmod + CallExpr:1530:1530: sz = 5, quan = 0
+203: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togcrmod + CallExpr:1531:1531: sz = 2, quan = 0
+
+-- Function: togdebug --
+25: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togdebug + IfStmt:571:574: sz = 10, quan = 0
+72: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togdebug + ReturnStmt:584:584: sz = 1, quan = 0
+
+-- Function: toggle --
+36: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + toggle + DeclStmt:919:919: sz = 2, quan = 0
+721: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + toggle + DeclStmt:920:920: sz = 1, quan = 0
+24: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + toggle + DeclStmt:921:921: sz = 1, quan = 0
+474: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + toggle + IfStmt:923:928: sz = 7, quan = 0
+81: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + toggle + UnaryOperator:929:929: sz = 3, quan = 0
+582: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + toggle + UnaryOperator:930:930: sz = 3, quan = 0
+760: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + toggle + WhileStmt:931:963: sz = 81, quan = 0
+130: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + toggle + ReturnStmt:964:964: sz = 3, quan = 0
+
+-- Function: togglehelp --
+23: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togglehelp + DeclStmt:878:878: sz = 1, quan = 0
+22: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togglehelp + ForStmt:880:889: sz = 33, quan = 0
+430: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togglehelp + CallExpr:890:890: sz = 1, quan = 0
+148: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togglehelp + CallExpr:891:891: sz = 1, quan = 0
+684: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togglehelp + ReturnStmt:892:892: sz = 1, quan = 0
+
+-- Function: togrbinary --
+21: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togrbinary + BinaryOperator:660:660: sz = 1, quan = 0
+52: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togrbinary + IfStmt:662:663: sz = 11, quan = 0
+746: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togrbinary + IfStmt:665:688: sz = 22, quan = 0
+20: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togrbinary + ReturnStmt:689:689: sz = 1, quan = 0
+
+-- Function: togxbinary --
+41: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togxbinary + BinaryOperator:695:695: sz = 1, quan = 0
+702: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togxbinary + IfStmt:697:698: sz = 11, quan = 0
+265: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togxbinary + IfStmt:700:723: sz = 22, quan = 0
+19: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + togxbinary + ReturnStmt:724:724: sz = 1, quan = 0
+
+-- Function: unsetcmd --
+15: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + DeclStmt:1159:1159: sz = 1, quan = 0
+106: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + DeclStmt:1160:1160: sz = 1, quan = 0
+299: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + DeclStmt:1161:1161: sz = 1, quan = 0
+14: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + IfStmt:1163:1168: sz = 7, quan = 0
+13: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + IfStmt:1169:1177: sz = 36, quan = 0
+241: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + UnaryOperator:1179:1179: sz = 3, quan = 0
+414: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + UnaryOperator:1180:1180: sz = 3, quan = 0
+12: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet/commands.c + unsetcmd + WhileStmt:1181:1231: sz = 118, quan = 0
+
+Sensitive Nodes Total sz: 9100
+Sensitive Nodes Total sz Ratio: 0.748602

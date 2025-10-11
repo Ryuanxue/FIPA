@@ -23,8 +23,9 @@ Before running the partitioning workflow, generate the following artifacts:
    - Navigate to the source directory:
      ```bash
      cd examples/thttpd/input/source_code/thttpd-2.27
-     #將此目錄下的壓縮包thttp-2.2.7.tar.xz解壓到此處
+     #unpack the thttp-2.2.7.tar.xz archive in this directory.
      ./configure
+     # Add `-g -O0 ` to `CCOPT`.
      bear make -j8
      mv thttpd ../../thttpd_64
      mv compile_commands.json ../../
@@ -32,7 +33,7 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
 
 2. **Compilation Database**
-   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory.
+   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `thttpd/input` directory. (移除不必要的c文件) //by xue
 
 3. **LLVM Bitcode File (.bc)**
    - Edit the `Makefile`:
@@ -83,6 +84,12 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
      Add a user in the container:
      ```bash
+     # To ensure the thttpd process can access the .htpasswd file, create a user in the container
+     # with the same UID and GID as the file's owner.
+     # First, inspect the file to find its user and group IDs.
+     # For example, running 'ls -lh examples/thttpd/html/protected/.htpasswd' might produce:
+     # -rw-rw---- 1 1000 1000  23 Oct  9 03:01 examples/thttpd/html/protected/.htpasswd
+     # In this output, the UID is 1000 and the GID is 1000. Use these values in the commands below.
      groupadd -g 1000 testthttpd
      useradd -u 1000 -g 1000 testthttpd
      ```
@@ -96,30 +103,88 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
      After confirming the download is successful, stop thttpd in Docker by pressing Ctrl+C.
 
-   - Merge traces and map quantitative info to statements:
+   - Merge traces and map quantitative info to statements:(running on the host)
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/thttpd
      ```
 3. **Collect Edge Information**
-   - Run Pin with different inputs to generate `.pinout` files.
-   - Replace addresses with symbol names and merge edges:
+   - On the host machine, run the 64-bit executable with Pin to generate `.pinout` trace files. This requires running the server under Pin in one terminal and using `curl` to interact with it from another.
+
+     **Example: Accessing a protected resource**
+     - In your first terminal, start the `thttpd` server under Pin. We'll use port 8081 to avoid conflicts.
+       ```bash
+       src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/thttpd/output/temp/thttpd_protected.pinout -- ./examples/thttpd/input/thttpd_64 -D -p 8081 -d examples/thttpd/html/
+       ```
+     - In a second terminal, use `curl` to request a file from the protected directory:
+       ```bash
+       curl -u testuser:123456 http://localhost:8081/protected/
+       ```
+     - After the `curl` command completes, return to the first terminal and press `Ctrl+C` to stop the server. This will generate `thttpd_protected.pinout`.
+
+
+   - Once you have generated the trace files, merge them and replace addresses with symbol names:
      ```bash
      python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/thttpd
      ```
 4. **Build Graph and Solve for Partitioning**
 
-   This step uses an automated script to construct the graph and find an optimal partitioning solution. You can run the solver with different communication models by specifying the `--so-type` parameter. The script will generate result files (e.g., `thttpd_z3_result_u.txt`) in the `examples/thttpd/output/` directory.
+   This step uses an automated script to construct the graph and find mutiple partitioning solution. You can run the solver with different communication models and leakage budgets by specifying the `--comm-type` and `min-quan` parameters. The script will generate result files (e.g., `thttpd_z3_result_u_0bit.txt`) in the `examples/thttpd/output/` directory.
 
-   -   **To solve using the unidirectional model (`u`):**
+   -   **To solve using the unidirectional model (`u`) with a 0-bit leakage budget:**
        ```bash
-       python3 scripts/based_qg_bi_praming.py thttpd min-quan=0 max-code-sz=0.1 --so-type=u
+       python3 scripts/based_qg_bi_praming.py thttpd min-quan=0 max-code-sz=0.01 --comm-type=u
        ```
 
-   -   **To solve using the bidirectional model (`b`):**
+   -   **To solve using the unidirectional model (`u`) with a 64-bit leakage budget:**
        ```bash
-       python3 scripts/based_qg_bi_praming.py thttpd min-quan=0 max-code-sz=0.1 --so-type=b
+       python3 scripts/based_qg_bi_praming.py thttpd min-quan=64 max-code-sz=0.01 --comm-type=u
        ```
-5. **Code Refactoring**
+
+   -   **To solve using the bidirectional model (`b`) with a 0-bit leakage budget:**
+       ```bash
+       python3 scripts/based_qg_bi_praming.py thttpd min-quan=0 max-code-sz=0.01 --comm-type=b
+       ```
+
+5. **Prepare Data for Refactoring**
+
+   The  step include several key actions:
+
+    - Selects the optimal solution from multiple candidates generated by the solver.
+    - Analyzes read/write dependencies for global variables across partitions.
+    - Identifies functions that may be shared or need to be duplicated.
+
+  - **Command:**
+
+    Run the script with the parameters corresponding to the desired solution from Step 4.
+    ```bash
+    # For a unidirectional model with a 0-bit leakage budget
+    python3 scripts/prepare_refactor_data.py thttpd --comm-type=u --quan=0
+
+    # For a unidirectional model with a 64-bit leakage budget
+    python3 scripts/prepare_refactor_data.py thttpd --comm-type=u --quan=64
+
+    # For a bidirectional model with a 0-bit leakage budget
+    python3 scripts/prepare_refactor_data.py thttpd --comm-type=b --quan=0
+    ```
+
+  -  **Optional: Analyze Partitioning Statistics**
+
+        After preparing the refactoring data, you can run an additional script to view detailed statistics about the chosen partition. This is not a required step for the main workflow but is useful for analysis. It provides information such as the number of functions in each partition and the percentage of sensitive code.
+
+      Command Format:
+
+      ```bash
+          # Analyze the result for a unidirectional model with a 0-bit leakage budget
+          python3 scripts/analyze_partition_results.py thttpd --comm-type=u --quan=0
+
+          # Analyze the result for a unidirectional model with a 64-bit leakage budget
+          python3 scripts/analyze_partition_results.py thttpd --comm-type=u --quan=64
+
+          # Analyze the result for a bidirectional model with a 0-bit leakage budget
+          python3 scripts/analyze_partition_results.py thttpd --comm-type=b --quan=0
+      ```
+
+6. **Code Refactoring**
    ```bash
    python3 scripts/refactor_code.py --policy examples/thttpd/output/partition_policies.txt --source examples/thttpd/input/thttpd.c --bc examples/thttpd/input/thttpd.bc --output examples/thttpd/output/refactored/
    ```

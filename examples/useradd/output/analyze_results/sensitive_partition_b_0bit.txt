@@ -1,0 +1,5 @@
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:459:459 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:476:476 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + CallExpr:604:604 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CallExpr:782:782 + 0
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + ForStmt:943:1007 + 408

@@ -148,12 +148,19 @@
 #include "llvm/IR/DebugInfoMetadata.h"
 #include "llvm/Pass.h"
 #include "llvm/Support/raw_ostream.h"
+#include "llvm/Support/CommandLine.h" // 添加此头文件以使用 cl::opt
 #include <map>
 #include <set>
 
 using namespace llvm;
 
 namespace {
+    // 添加一个命令行选项来指定输出文件名
+    static cl::opt<std::string> GvuOutputFile(
+        "gvu-output", 
+        cl::desc("Global Var Usage XML output file path"), 
+        cl::init("global_var_usage.xml"));
+
     struct GlobalVarUsagePass : public ModulePass {
         static char ID;
         GlobalVarUsagePass() : ModulePass(ID) {}
@@ -251,7 +258,8 @@ namespace {
 
         void generateXML() {
             std::error_code EC;
-            raw_fd_ostream xmlFile("global_var_usage.xml", EC);
+            // 使用命令行参数指定的文件名
+            raw_fd_ostream xmlFile(GvuOutputFile, EC);
             if (EC) {
                 errs() << "Could not open file: " << EC.message() << "\n";
                 return;

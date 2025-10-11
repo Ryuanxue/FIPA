@@ -237,6 +237,11 @@ def write_stmt_edges(exec_count, merged_edge_line_dict, output_file):
                 f.write(f"{stmt_call},{stmt1},{count}\n")
             if stmt_call and stmtN:
                 f.write(f"{stmtN},{stmt_call},{count}\n")
+        #检查是否写入成功，判断文件是否非空
+        if os.path.getsize(output_file) == 0:
+            print(f"Warning: {output_file} is empty!")
+        else:
+            print(f"Statement edges written to {output_file}")
         
 
 import sys

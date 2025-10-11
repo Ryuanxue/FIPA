@@ -1544,14 +1544,14 @@
         <stmt dec="CompoundAssignOperator:515:515" />
         <stmt dec="ReturnStmt:517:517" />
     </function>
+    <function name="match" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/thttpd/input/source_code/thttpd-2.27/match.c">
+        <stmt dec="DeclStmt:40:40" />
+        <stmt dec="ForStmt:42:50" />
+    </function>
     <function name="match_one" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/thttpd/input/source_code/thttpd-2.27/match.c">
         <stmt dec="DeclStmt:57:57" />
         <stmt dec="ForStmt:59:84" />
         <stmt dec="IfStmt:85:86" />
         <stmt dec="ReturnStmt:87:87" />
-    </function>
-    <function name="match" dir="/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/thttpd/input/source_code/thttpd-2.27/match.c">
-        <stmt dec="DeclStmt:40:40" />
-        <stmt dec="ForStmt:42:50" />
     </function>
     </root>

@@ -1,0 +1,236 @@
+<root>
+  <fun-gval-use funname="main" gvallist="user,stderr,numthrottles,maxthrottles,throttles,throttlefile,argv0,logfile,no_log,stdout,dir,debug,stdin,pidfile,max_connects,stats_time,start_time,stats_connections,stats_bytes,stats_simultaneous,do_chroot,data_dir,got_hup,got_usr1,watchdog_flag,hostname,port,cgi_pattern,cgi_limit,charset,p3p,max_age,no_symlink_check,do_vhost,do_global_passwd,url_pattern,local_pattern,no_empty_referrers,hs,connects,first_free_connect,num_connects,httpd_conn_count,terminate,JunkClientData"/>
+  <fun-gval-use funname="parse_args" gvallist="user,throttlefile,logfile,no_log,dir,debug,pidfile,do_chroot,data_dir,hostname,port,cgi_pattern,cgi_limit,charset,p3p,max_age,no_symlink_check,do_vhost,do_global_passwd,url_pattern,local_pattern,no_empty_referrers"/>
+  <fun-gval-use funname="lookup_hostname" gvallist="stderr,argv0,hostname,port"/>
+  <fun-gval-use funname="ls" gvallist="err500title,err500form,sub_process,err501title,err501form,err404title,err404form,ok200title,httpd_err503title,httpd_err503form,ls.maxnames,ls.names,ls.nameptrs,ls.name,ls.maxname,ls.rname,ls.maxrname,ls.encrname,ls.maxencrname"/>
+  <fun-gval-use funname="cgi" gvallist="err500title,err500form,sub_process,err501title,err501form,httpd_err503title,httpd_err503form"/>
+  <fun-gval-use funname="figure_mime" gvallist="enc_tab,typ_tab"/>
+  <fun-gval-use funname="cgi_child" gvallist="err500title,err500form,sub_process"/>
+  <fun-gval-use funname="make_envp" gvallist="make_envp.envp"/>
+  <fun-gval-use funname="cgi_interpose_output" gvallist="err500title,err403title,httpd_err400title,err501title,err404title,ok200title,err304title,httpd_err503title,err302title,err401title,httpd_err408title,err451title"/>
+  <fun-gval-use funname="post_post_garbage_hack" gvallist="sub_process"/>
+  <fun-gval-use funname="build_env" gvallist="build_env.maxbuf,build_env.buf"/>
+  <fun-gval-use funname="really_check_referrer" gvallist="really_check_referrer.refhost,really_check_referrer.refhost_size"/>
+  <fun-gval-use funname="auth_check2" gvallist="err403title,auth_check2.authpath,auth_check2.maxauthpath,auth_check2.maxprevauthpath,auth_check2.prevauthpath,auth_check2.prevmtime,auth_check2.prevuser,auth_check2.prevcryp,auth_check2.maxprevuser,auth_check2.maxprevcryp"/>
+  <fun-gval-use funname="send_authenticate" gvallist="send_authenticate.headstr,err401form,err401title,send_authenticate.header,send_authenticate.maxheader"/>
+  <fun-gval-use funname="b64_decode" gvallist="b64_decode_table"/>
+  <fun-gval-use funname="httpd_parse_request" gvallist="err500title,err500form,err403title,httpd_err400title,httpd_err400form,err501title,err501form"/>
+  <fun-gval-use funname="vhost_map" gvallist="vhost_map.tempfilename,vhost_map.maxtempfilename"/>
+  <fun-gval-use funname="expand_symlinks" gvallist="expand_symlinks.checked,expand_symlinks.maxchecked,expand_symlinks.rest,expand_symlinks.maxrest"/>
+  <fun-gval-use funname="really_start_request" gvallist="err500title,err500form,err403title,err501title,err501form,err404title,err404form,really_start_request.index_names,really_start_request.indexname,really_start_request.maxindexname,really_start_request.dirname,really_start_request.maxdirname,ok200title,err304title"/>
+  <fun-gval-use funname="send_dirredirect" gvallist="send_dirredirect.location,send_dirredirect.maxlocation,send_dirredirect.header,send_dirredirect.maxheader,send_dirredirect.headstr,err302form,err302title"/>
+  <fun-gval-use funname="check_referrer" gvallist="err403title"/>
+  <fun-gval-use funname="read_throttlefile" gvallist="stderr,numthrottles,maxthrottles,throttles,argv0"/>
+  <fun-gval-use funname="handle_chld" gvallist="hs"/>
+  <fun-gval-use funname="handle_hup" gvallist="got_hup"/>
+  <fun-gval-use funname="handle_usr1" gvallist="got_usr1,num_connects"/>
+  <fun-gval-use funname="handle_read" gvallist="throttles,httpd_err400title,httpd_err400form,httpd_err503title,httpd_err503form"/>
+  <fun-gval-use funname="handle_alrm" gvallist="watchdog_flag"/>
+  <fun-gval-use funname="occasional" gvallist="watchdog_flag"/>
+  <fun-gval-use funname="idle" gvallist="max_connects,connects,httpd_err408form,httpd_err408title"/>
+  <fun-gval-use funname="update_throttles" gvallist="numthrottles,throttles,max_connects,connects"/>
+  <fun-gval-use funname="init_mime" gvallist="enc_tab,typ_tab"/>
+  <fun-gval-use funname="httpd_ntoa" gvallist="httpd_ntoa.str"/>
+  <fun-gval-use funname="re_open_logfile" gvallist="logfile,no_log,hs"/>
+  <fun-gval-use funname="handle_newconnect" gvallist="max_connects,stats_connections,stats_simultaneous,hs,connects,first_free_connect,num_connects,httpd_conn_count"/>
+  <fun-gval-use funname="handle_send" gvallist="throttles"/>
+  <fun-gval-use funname="shut_down" gvallist="throttles,max_connects,hs,connects,httpd_conn_count"/>
+  <fun-gval-use funname="logstats" gvallist="stats_time,start_time"/>
+  <fun-gval-use funname="thttpd_logstats" gvallist="stats_connections,stats_bytes,stats_simultaneous,httpd_conn_count"/>
+  <fun-gval-use funname="really_clear_connection" gvallist="stats_bytes,connects,first_free_connect,num_connects"/>
+  <fun-gval-use funname="clear_throttles" gvallist="throttles"/>
+  <fun-gval-use funname="check_throttles" gvallist="numthrottles,throttles"/>
+  <fun-gval-use funname="e_strdup" gvallist="stderr,argv0"/>
+  <fun-gval-use funname="read_config" gvallist="user,stderr,throttlefile,argv0,logfile,dir,debug,pidfile,do_chroot,data_dir,hostname,port,cgi_pattern,cgi_limit,charset,p3p,max_age,no_symlink_check,do_vhost,do_global_passwd,url_pattern,local_pattern,no_empty_referrers"/>
+  <fun-gval-use funname="usage" gvallist="stderr,argv0"/>
+  <fun-gval-use funname="no_value_required" gvallist="stderr,argv0"/>
+  <fun-gval-use funname="value_required" gvallist="stderr,argv0"/>
+  <fun-gval-use funname="httpd_initialize" gvallist="httpd_initialize.ghnbuf"/>
+  <fun-gval-use funname="httpd_logstats" gvallist="str_alloc_count,str_alloc_size"/>
+  <fun-gval-use funname="fdwatch_check_fd" gvallist="nfiles,fd_rw"/>
+  <fun-gval-use funname="poll_check_fd" gvallist="nfiles,fd_rw,pollfds,poll_fdidx"/>
+  <fun-gval-use funname="fdwatch_get_next_client_data" gvallist="nfiles,fd_data,nreturned,next_ridx"/>
+  <fun-gval-use funname="poll_get_fd" gvallist="nfiles,poll_rfdidx"/>
+  <fun-gval-use funname="fdwatch_logstats" gvallist="nwatches"/>
+  <fun-gval-use funname="mmc_map" gvallist="free_maps,free_count,alloc_count,maps,map_count,mapped_bytes"/>
+  <fun-gval-use funname="check_hash_size" gvallist="maps,map_count,hash_size,hash_mask,hash_table"/>
+  <fun-gval-use funname="find_hash" gvallist="hash_size,hash_mask,hash_table"/>
+  <fun-gval-use funname="panic" gvallist="maps"/>
+  <fun-gval-use funname="add_hash" gvallist="hash_size,hash_mask,hash_table"/>
+  <fun-gval-use funname="hash" gvallist="hash_mask"/>
+  <fun-gval-use funname="really_unmap" gvallist="free_maps,free_count,map_count,mapped_bytes,hash_table"/>
+  <fun-gval-use funname="mmc_unmap" gvallist="maps"/>
+  <fun-gval-use funname="httpd_write_response" gvallist="sub_process"/>
+  <fun-gval-use funname="fdwatch_get_nfiles" gvallist="nfiles,nwatches,fd_rw,fd_data"/>
+  <fun-gval-use funname="poll_init" gvallist="pollfds,poll_fdidx,poll_rfdidx"/>
+  <fun-gval-use funname="fdwatch_add_fd" gvallist="nfiles,fd_rw,fd_data"/>
+  <fun-gval-use funname="poll_add_fd" gvallist="nfiles,pollfds,poll_fdidx,npoll_fds"/>
+  <fun-gval-use funname="fdwatch_del_fd" gvallist="nfiles,fd_rw,fd_data"/>
+  <fun-gval-use funname="poll_del_fd" gvallist="nfiles,pollfds,poll_fdidx,npoll_fds"/>
+  <fun-gval-use funname="fdwatch" gvallist="nwatches,nreturned,next_ridx"/>
+  <fun-gval-use funname="poll_watch" gvallist="pollfds,poll_rfdidx,npoll_fds"/>
+  <fun-gval-use funname="httpd_realloc_str" gvallist="str_alloc_count,str_alloc_size"/>
+  <fun-gval-use funname="send_mime" gvallist="ok206title"/>
+  <fun-gval-use funname="mmc_cleanup" gvallist="free_maps,free_count,alloc_count,maps,map_count,mapped_bytes,expire_age"/>
+  <fun-gval-use funname="mmc_term" gvallist="free_maps,free_count,alloc_count,maps"/>
+  <fun-gval-use funname="mmc_logstats" gvallist="free_count,alloc_count,map_count,mapped_bytes,hash_size,expire_age"/>
+  <fun-gval-use funname="tmr_init" gvallist="timers,free_timers,free_count.589,active_count,alloc_count.590"/>
+  <fun-gval-use funname="tmr_create" gvallist="free_timers,free_count.589,active_count,alloc_count.590"/>
+  <fun-gval-use funname="l_add" gvallist="timers"/>
+  <fun-gval-use funname="tmr_mstimeout" gvallist="timers"/>
+  <fun-gval-use funname="tmr_run" gvallist="timers"/>
+  <fun-gval-use funname="tmr_cancel" gvallist="free_timers,free_count.589,active_count"/>
+  <fun-gval-use funname="l_remove" gvallist="timers"/>
+  <fun-gval-use funname="tmr_cleanup" gvallist="free_timers,free_count.589,alloc_count.590"/>
+  <fun-gval-use funname="tmr_term" gvallist="timers"/>
+  <fun-gval-use funname="tmr_logstats" gvallist="free_count.589,active_count,alloc_count.590"/>
+  <fun-gval-use funname="scan_mon" gvallist="scan_mon.sorted,scan_mon.mon_tab"/>
+  <fun-gval-use funname="scan_wday" gvallist="scan_wday.sorted,scan_wday.wday_tab"/>
+  <fun-gval-use funname="tm_to_time" gvallist="tm_to_time.monthtab"/>
+  <gval valname="user" rwproperty="not-read-only" decllocation="thttpd.c:87"/>
+  <gval valname="stderr" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="numthrottles" rwproperty="not-read-only" decllocation="thttpd.c:101"/>
+  <gval valname="maxthrottles" rwproperty="not-read-only" decllocation="thttpd.c:101"/>
+  <gval valname="throttles" rwproperty="not-read-only" decllocation="thttpd.c:100"/>
+  <gval valname="throttlefile" rwproperty="not-read-only" decllocation="thttpd.c:84"/>
+  <gval valname="argv0" rwproperty="not-read-only" decllocation="thttpd.c:72"/>
+  <gval valname="logfile" rwproperty="not-read-only" decllocation="thttpd.c:83"/>
+  <gval valname="no_log" rwproperty="not-read-only" decllocation="thttpd.c:77"/>
+  <gval valname="stdout" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="dir" rwproperty="not-read-only" decllocation="thttpd.c:75"/>
+  <gval valname="debug" rwproperty="not-read-only" decllocation="thttpd.c:73"/>
+  <gval valname="stdin" rwproperty="read-only" decllocation="unknown"/>
+  <gval valname="pidfile" rwproperty="not-read-only" decllocation="thttpd.c:86"/>
+  <gval valname="max_connects" rwproperty="not-read-only" decllocation="thttpd.c:122"/>
+  <gval valname="stats_time" rwproperty="not-read-only" decllocation="thttpd.c:135"/>
+  <gval valname="start_time" rwproperty="not-read-only" decllocation="thttpd.c:135"/>
+  <gval valname="stats_connections" rwproperty="not-read-only" decllocation="thttpd.c:136"/>
+  <gval valname="stats_bytes" rwproperty="not-read-only" decllocation="thttpd.c:137"/>
+  <gval valname="stats_simultaneous" rwproperty="not-read-only" decllocation="thttpd.c:138"/>
+  <gval valname="do_chroot" rwproperty="not-read-only" decllocation="thttpd.c:77"/>
+  <gval valname="data_dir" rwproperty="not-read-only" decllocation="thttpd.c:76"/>
+  <gval valname="got_hup" rwproperty="not-read-only" decllocation="thttpd.c:140"/>
+  <gval valname="got_usr1" rwproperty="not-read-only" decllocation="thttpd.c:140"/>
+  <gval valname="watchdog_flag" rwproperty="not-read-only" decllocation="thttpd.c:140"/>
+  <gval valname="hostname" rwproperty="not-read-only" decllocation="thttpd.c:85"/>
+  <gval valname="port" rwproperty="not-read-only" decllocation="thttpd.c:74"/>
+  <gval valname="cgi_pattern" rwproperty="not-read-only" decllocation="thttpd.c:78"/>
+  <gval valname="cgi_limit" rwproperty="not-read-only" decllocation="thttpd.c:79"/>
+  <gval valname="charset" rwproperty="not-read-only" decllocation="thttpd.c:88"/>
+  <gval valname="p3p" rwproperty="not-read-only" decllocation="thttpd.c:89"/>
+  <gval valname="max_age" rwproperty="not-read-only" decllocation="thttpd.c:90"/>
+  <gval valname="no_symlink_check" rwproperty="not-read-only" decllocation="thttpd.c:77"/>
+  <gval valname="do_vhost" rwproperty="not-read-only" decllocation="thttpd.c:77"/>
+  <gval valname="do_global_passwd" rwproperty="not-read-only" decllocation="thttpd.c:77"/>
+  <gval valname="url_pattern" rwproperty="not-read-only" decllocation="thttpd.c:80"/>
+  <gval valname="local_pattern" rwproperty="not-read-only" decllocation="thttpd.c:82"/>
+  <gval valname="no_empty_referrers" rwproperty="not-read-only" decllocation="thttpd.c:81"/>
+  <gval valname="hs" rwproperty="not-read-only" decllocation="thttpd.c:133"/>
+  <gval valname="connects" rwproperty="not-read-only" decllocation="thttpd.c:121"/>
+  <gval valname="first_free_connect" rwproperty="not-read-only" decllocation="thttpd.c:122"/>
+  <gval valname="num_connects" rwproperty="not-read-only" decllocation="thttpd.c:122"/>
+  <gval valname="httpd_conn_count" rwproperty="not-read-only" decllocation="thttpd.c:123"/>
+  <gval valname="terminate" rwproperty="not-read-only" decllocation="thttpd.c:134"/>
+  <gval valname="err500title" rwproperty="read-only" decllocation="libhttpd.c:537"/>
+  <gval valname="err500form" rwproperty="read-only" decllocation="libhttpd.c:538"/>
+  <gval valname="err403title" rwproperty="read-only" decllocation="libhttpd.c:519"/>
+  <gval valname="expand_symlinks.checked" rwproperty="not-read-only" decllocation="libhttpd.c:1455"/>
+  <gval valname="expand_symlinks.maxchecked" rwproperty="not-read-only" decllocation="libhttpd.c:1458"/>
+  <gval valname="httpd_initialize.ghnbuf" rwproperty="read-only" decllocation="libhttpd.c:236"/>
+  <gval valname="httpd_ntoa.str" rwproperty="not-read-only" decllocation="libhttpd.c:4116"/>
+  <gval valname="enc_tab" rwproperty="not-read-only" decllocation="libhttpd.c:2509"/>
+  <gval valname="typ_tab" rwproperty="not-read-only" decllocation="libhttpd.c:2513"/>
+  <gval valname="free_maps" rwproperty="not-read-only" decllocation="mmc.c:95"/>
+  <gval valname="free_count" rwproperty="not-read-only" decllocation="mmc.c:96"/>
+  <gval valname="alloc_count" rwproperty="not-read-only" decllocation="mmc.c:96"/>
+  <gval valname="maps" rwproperty="not-read-only" decllocation="mmc.c:94"/>
+  <gval valname="map_count" rwproperty="not-read-only" decllocation="mmc.c:96"/>
+  <gval valname="mapped_bytes" rwproperty="not-read-only" decllocation="mmc.c:101"/>
+  <gval valname="hash_size" rwproperty="not-read-only" decllocation="mmc.c:98"/>
+  <gval valname="hash_mask" rwproperty="not-read-only" decllocation="mmc.c:99"/>
+  <gval valname="hash_table" rwproperty="not-read-only" decllocation="mmc.c:97"/>
+  <gval valname="expire_age" rwproperty="not-read-only" decllocation="mmc.c:100"/>
+  <gval valname="timers" rwproperty="not-read-only" decllocation="timers.c:38"/>
+  <gval valname="free_timers" rwproperty="not-read-only" decllocation="timers.c:39"/>
+  <gval valname="free_count.589" rwproperty="not-read-only" decllocation="timers.c:40"/>
+  <gval valname="active_count" rwproperty="not-read-only" decllocation="timers.c:40"/>
+  <gval valname="alloc_count.590" rwproperty="not-read-only" decllocation="timers.c:40"/>
+  <gval valname="JunkClientData" rwproperty="read-only" decllocation="timers.c:42"/>
+  <gval valname="tm_to_time.monthtab" rwproperty="read-only" decllocation="tdate_parse.c:169"/>
+  <gval valname="scan_wday.sorted" rwproperty="not-read-only" decllocation="tdate_parse.c:110"/>
+  <gval valname="scan_wday.wday_tab" rwproperty="not-read-only" decllocation="tdate_parse.c:101"/>
+  <gval valname="scan_mon.sorted" rwproperty="not-read-only" decllocation="tdate_parse.c:142"/>
+  <gval valname="scan_mon.mon_tab" rwproperty="not-read-only" decllocation="tdate_parse.c:128"/>
+  <gval valname="sub_process" rwproperty="not-read-only" decllocation="libhttpd.c:193"/>
+  <gval valname="str_alloc_count" rwproperty="not-read-only" decllocation="libhttpd.c:707"/>
+  <gval valname="str_alloc_size" rwproperty="not-read-only" decllocation="libhttpd.c:708"/>
+  <gval valname="ok206title" rwproperty="read-only" decllocation="libhttpd.c:502"/>
+  <gval valname="httpd_err400title" rwproperty="read-only" decllocation="libhttpd.c:509"/>
+  <gval valname="httpd_err400form" rwproperty="read-only" decllocation="libhttpd.c:510"/>
+  <gval valname="err501title" rwproperty="read-only" decllocation="libhttpd.c:541"/>
+  <gval valname="err501form" rwproperty="read-only" decllocation="libhttpd.c:542"/>
+  <gval valname="send_authenticate.headstr" rwproperty="not-read-only" decllocation="libhttpd.c:901"/>
+  <gval valname="err401form" rwproperty="read-only" decllocation="libhttpd.c:515"/>
+  <gval valname="send_dirredirect.location" rwproperty="not-read-only" decllocation="libhttpd.c:1174"/>
+  <gval valname="send_dirredirect.maxlocation" rwproperty="not-read-only" decllocation="libhttpd.c:1176"/>
+  <gval valname="send_dirredirect.header" rwproperty="not-read-only" decllocation="libhttpd.c:1175"/>
+  <gval valname="send_dirredirect.maxheader" rwproperty="not-read-only" decllocation="libhttpd.c:1176"/>
+  <gval valname="send_dirredirect.headstr" rwproperty="not-read-only" decllocation="libhttpd.c:1177"/>
+  <gval valname="err302form" rwproperty="read-only" decllocation="libhttpd.c:505"/>
+  <gval valname="httpd_err408form" rwproperty="read-only" decllocation="libhttpd.c:530"/>
+  <gval valname="nfiles" rwproperty="not-read-only" decllocation="fdwatch.c:73"/>
+  <gval valname="nwatches" rwproperty="not-read-only" decllocation="fdwatch.c:74"/>
+  <gval valname="fd_rw" rwproperty="not-read-only" decllocation="fdwatch.c:75"/>
+  <gval valname="fd_data" rwproperty="not-read-only" decllocation="fdwatch.c:76"/>
+  <gval valname="pollfds" rwproperty="not-read-only" decllocation="fdwatch.c:550"/>
+  <gval valname="poll_fdidx" rwproperty="not-read-only" decllocation="fdwatch.c:552"/>
+  <gval valname="poll_rfdidx" rwproperty="not-read-only" decllocation="fdwatch.c:553"/>
+  <gval valname="npoll_fds" rwproperty="not-read-only" decllocation="fdwatch.c:551"/>
+  <gval valname="nreturned" rwproperty="not-read-only" decllocation="fdwatch.c:77"/>
+  <gval valname="next_ridx" rwproperty="not-read-only" decllocation="fdwatch.c:77"/>
+  <gval valname="expand_symlinks.rest" rwproperty="not-read-only" decllocation="libhttpd.c:1456"/>
+  <gval valname="expand_symlinks.maxrest" rwproperty="not-read-only" decllocation="libhttpd.c:1458"/>
+  <gval valname="vhost_map.tempfilename" rwproperty="not-read-only" decllocation="libhttpd.c:1365"/>
+  <gval valname="vhost_map.maxtempfilename" rwproperty="not-read-only" decllocation="libhttpd.c:1366"/>
+  <gval valname="err404title" rwproperty="read-only" decllocation="libhttpd.c:525"/>
+  <gval valname="err404form" rwproperty="read-only" decllocation="libhttpd.c:526"/>
+  <gval valname="really_start_request.index_names" rwproperty="read-only" decllocation="libhttpd.c:3628"/>
+  <gval valname="really_start_request.indexname" rwproperty="not-read-only" decllocation="libhttpd.c:3626"/>
+  <gval valname="really_start_request.maxindexname" rwproperty="not-read-only" decllocation="libhttpd.c:3627"/>
+  <gval valname="really_start_request.dirname" rwproperty="not-read-only" decllocation="libhttpd.c:3631"/>
+  <gval valname="really_start_request.maxdirname" rwproperty="not-read-only" decllocation="libhttpd.c:3632"/>
+  <gval valname="ok200title" rwproperty="read-only" decllocation="libhttpd.c:501"/>
+  <gval valname="err304title" rwproperty="read-only" decllocation="libhttpd.c:507"/>
+  <gval valname="httpd_err503title" rwproperty="read-only" decllocation="libhttpd.c:545"/>
+  <gval valname="httpd_err503form" rwproperty="read-only" decllocation="libhttpd.c:546"/>
+  <gval valname="err302title" rwproperty="read-only" decllocation="libhttpd.c:504"/>
+  <gval valname="err401title" rwproperty="read-only" decllocation="libhttpd.c:514"/>
+  <gval valname="httpd_err408title" rwproperty="read-only" decllocation="libhttpd.c:529"/>
+  <gval valname="err451title" rwproperty="read-only" decllocation="libhttpd.c:533"/>
+  <gval valname="make_envp.envp" rwproperty="not-read-only" decllocation="libhttpd.c:3042"/>
+  <gval valname="build_env.maxbuf" rwproperty="not-read-only" decllocation="libhttpd.c:3002"/>
+  <gval valname="build_env.buf" rwproperty="not-read-only" decllocation="libhttpd.c:3001"/>
+  <gval valname="ls.maxnames" rwproperty="not-read-only" decllocation="libhttpd.c:2702"/>
+  <gval valname="ls.names" rwproperty="not-read-only" decllocation="libhttpd.c:2704"/>
+  <gval valname="ls.nameptrs" rwproperty="not-read-only" decllocation="libhttpd.c:2705"/>
+  <gval valname="ls.name" rwproperty="not-read-only" decllocation="libhttpd.c:2706"/>
+  <gval valname="ls.maxname" rwproperty="not-read-only" decllocation="libhttpd.c:2707"/>
+  <gval valname="ls.rname" rwproperty="not-read-only" decllocation="libhttpd.c:2708"/>
+  <gval valname="ls.maxrname" rwproperty="not-read-only" decllocation="libhttpd.c:2709"/>
+  <gval valname="ls.encrname" rwproperty="not-read-only" decllocation="libhttpd.c:2710"/>
+  <gval valname="ls.maxencrname" rwproperty="not-read-only" decllocation="libhttpd.c:2711"/>
+  <gval valname="really_check_referrer.refhost" rwproperty="not-read-only" decllocation="libhttpd.c:4045"/>
+  <gval valname="really_check_referrer.refhost_size" rwproperty="not-read-only" decllocation="libhttpd.c:4046"/>
+  <gval valname="auth_check2.authpath" rwproperty="not-read-only" decllocation="libhttpd.c:1023"/>
+  <gval valname="auth_check2.maxauthpath" rwproperty="not-read-only" decllocation="libhttpd.c:1024"/>
+  <gval valname="auth_check2.maxprevauthpath" rwproperty="not-read-only" decllocation="libhttpd.c:1034"/>
+  <gval valname="auth_check2.prevauthpath" rwproperty="not-read-only" decllocation="libhttpd.c:1033"/>
+  <gval valname="auth_check2.prevmtime" rwproperty="not-read-only" decllocation="libhttpd.c:1035"/>
+  <gval valname="auth_check2.prevuser" rwproperty="not-read-only" decllocation="libhttpd.c:1036"/>
+  <gval valname="auth_check2.prevcryp" rwproperty="not-read-only" decllocation="libhttpd.c:1038"/>
+  <gval valname="auth_check2.maxprevuser" rwproperty="not-read-only" decllocation="libhttpd.c:1037"/>
+  <gval valname="auth_check2.maxprevcryp" rwproperty="not-read-only" decllocation="libhttpd.c:1039"/>
+  <gval valname="b64_decode_table" rwproperty="read-only" decllocation="libhttpd.c:926"/>
+  <gval valname="send_authenticate.header" rwproperty="not-read-only" decllocation="libhttpd.c:899"/>
+  <gval valname="send_authenticate.maxheader" rwproperty="not-read-only" decllocation="libhttpd.c:900"/>
+</root>
