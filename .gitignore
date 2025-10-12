@@ -4,6 +4,7 @@ src/program-dependence-graph-main/build/*
 examples/chage/input/aa.txt
 **/temp/
 examples/wget-1.20/
+examples/thttpd-2.25/
 examples/nginx/input/source_code/nginx-1.15.5/
 examples/thttpd/input/source_code/thttpd-2.27/
 examples/mavlink-client/input/source_code/mavlink-client/
