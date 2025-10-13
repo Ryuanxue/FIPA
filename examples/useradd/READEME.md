@@ -114,7 +114,7 @@ Before running the partitioning workflow, generate the following artifacts:
 
    -   **To solve using the bidirectional model (`b`) with a 0-bit leakage budget:**
        ```bash
-       python3 scripts/based_qg_bi_praming.py useradd min-quan=0 max-code-sz=0.1 --comm-type=b
+       python3 scripts/based_qg_bi_praming.py useradd min-quan=0 max-code-sz=0.01 --comm-type=b
        ```
 
 5. **Prepare Data for Refactoring**
@@ -157,9 +157,16 @@ Before running the partitioning workflow, generate the following artifacts:
       ```
 
 6. **Code Refactoring**
+   
+   This step generates the final partitioned code with RPC communication interfaces. The example below uses unidirectional communication with 0-bit leakage. For other configurations, modify the `--comm-type` and `--quan` parameters accordingly.
+   
    ```bash
-   python3 scripts/refactor_code.py --policy examples/useradd/output/partition_policies.txt --source examples/useradd/input/useradd.c --bc examples/useradd/input/useradd.bc --output examples/useradd/output/refactored/
+   python3 scripts/refactor_function_add_rpc.py useradd --comm-type=u --quan=0
    ```
+   
+   **Parameter Options:**
+   - `--comm-type`: Communication model (`u` for unidirectional, `b` for bidirectional)
+   - `--quan`: Leakage budget in bits (e.g., `0`, `64`)
 
 ## Notes
 - For details on each step, refer to the main FIPA README.md in the project root.

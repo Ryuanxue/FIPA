@@ -267,6 +267,11 @@ def calculate_and_print_stats(proname, so_type, quan):
     sensitive_codesize = sdomain_size + mixed_sensitive_size 
     non_sensitive_codesize = ndomain_size + mixed_non_sensitive_size + common_size
     all_codesize = sensitive_codesize + non_sensitive_codesize
+
+    #计算函数数量,从节点中统计不重复的函数名
+    all_functions = set(node['function'] for node in all_nodes if node)
+    print("所有函数的数量: " + str(len(all_functions)))
+    
     
     # 7. 计算新的函数统计
     sensitive_function_count = len(sensitive_functions) + len(mixed_functions)

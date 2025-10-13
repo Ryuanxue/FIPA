@@ -32,7 +32,7 @@
 
 #include <config.h>
 
-#ident "$Id$"
+//#ident "$Id$"
 
 #include <ctype.h>
 #include <fcntl.h>

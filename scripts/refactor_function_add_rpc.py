@@ -37,6 +37,7 @@ from collections import defaultdict
 import re
 import copy
 import shutil
+import tarfile
 import clang.cindex
 from clang.cindex import CursorKind
 import xml.etree.ElementTree as ET
@@ -107,6 +108,56 @@ server_functions = []
 wrapper_functions = []
 wrapper_header_functions = []
 
+
+def setup_project_directories(proname, so_type, quan_str):
+    """
+    设置项目目录，自动解压和准备源码目录
+    
+    如果examples/{proname}/input/source_code目录下存在非压缩目录，则删除，
+    则查找并解压对应的tar.xz压缩包，并创建备份目录
+    
+    Args:
+        proname (str): 项目名称
+        so_type (str): 通信类型
+        quan_str (str): 量化位数
+        
+    Returns:
+        tuple: (abs_path_policy_file, proj_dir, proj_back_dir) 返回策略文件路径和项目目录路径
+    """
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # 构建策略文件路径
+    abs_path_policy_file = os.path.abspath(os.path.join(
+        script_dir, '..', 'examples', proname, 'output', 
+        f'minsencode_{so_type}_{quan_str}bit.txt'
+    ))
+    
+    # 构建源码目录路径
+    source_code_dir = os.path.abspath(os.path.join(
+        script_dir, '..', 'examples', proname, 'input', 'source_code'
+    ))
+    #检查目录下是否有非压缩目录
+    for item in os.listdir(source_code_dir):
+        item_path = os.path.join(source_code_dir, item)
+        if os.path.isdir(item_path) and not item.endswith('.tar.xz'):
+            print(f"找到非压缩目录: {item_path}，准备删除")
+            shutil.rmtree(item_path)
+    
+    # 查找并解压对应的tar.xz压缩包
+    for item in os.listdir(source_code_dir):
+        if item.endswith('.tar.xz'):
+            tar_path = os.path.join(source_code_dir, item)
+            print(f"找到压缩包: {tar_path}，准备解压")
+            with tarfile.open(tar_path, 'r:xz') as tar:
+                tar.extractall(path=source_code_dir)
+                print(f"解压完成: {tar_path}")
+                #备份为，在加压后的目录下创建一个同名的_back目录，
+                extracted_dir_name = item[:-7]  # 去掉 .tar.xz 后缀
+                extracted_dir_path = os.path.join(source_code_dir, extracted_dir_name)
+                backup_dir_path = extracted_dir_path + '_back'
+                print(f"创建备份目录: {backup_dir_path}")
+                shutil.copytree(extracted_dir_path, backup_dir_path)
+    return abs_path_policy_file, source_code_dir, backup_dir_path
 
 class NodeVisitor(c_ast.NodeVisitor):
     def __init__(self, base_dir):
@@ -230,9 +281,11 @@ def preprocess_c_file_and_parse_toAST(proname):
         # '-D__restrict=',
         # '-D__asm__(x)='
         # ]
+        fake_dir=os.path.abspath(os.path.join(script_dir, 'fake_libc_include'))
+        print("fake_dir is: " + fake_dir)
         preprocess_command = [
         'gcc', '-E',
-        '-I/home/raoxue/Desktop/IF-driver-partition/code_refactor/fake_libc_include',
+        f'-I{fake_dir}',
         '-D\'__attribute__(x)=\'','-D__restrict=', '-D__inline='
         ]
 
@@ -4289,6 +4342,7 @@ def output_auto_rpc_code(proname):
     # ==== IDL文件生成 =========================================================================
     # 创建IDL目录
     # idl_dir = f"../partitioned_software/{proname}/6_rpc_refactor_result/IDL"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
 
     idl_dir = os.path.abspath(os.path.join(script_dir, '..', 'examples', proname, 'output', 'init_partition', 'IDL'))
 
@@ -4314,8 +4368,21 @@ def output_auto_rpc_code(proname):
     # 处理源代码文件
     # src_base_dir = f"../partitioned_software/{proname}/0_raw_code"
 
-    src_base_dir = os.path.abspath(os.path.join(script_dir, '..', 'examples', proname, 'input', 'source_code', f"{proname}_back"))
+    # 构建源码目录路径
+    source_code_dir = os.path.abspath(os.path.join(
+        script_dir, '..', 'examples', proname, 'input', 'source_code'
+    ))
+   
     
+    # 查找并解压对应的tar.xz压缩包
+    for item in os.listdir(source_code_dir):
+        if item.endswith('.tar.xz'):
+            #备份为，在加压后的目录下创建一个同名的_back目录，
+            extracted_dir_name = item[:-7]  # 去掉 .tar.xz 后缀
+
+
+    src_base_dir = os.path.abspath(os.path.join(script_dir, '..', 'examples', proname, 'input', 'source_code', f"{extracted_dir_name}_back"))
+    print("src_base_dir",src_base_dir)
 
     for root, dirs, files in os.walk(src_base_dir):
         for file in files:
@@ -4325,7 +4392,7 @@ def output_auto_rpc_code(proname):
             os.makedirs(dst_dir_path, exist_ok=True)
             dst_file_path = os.path.join(dst_dir_path, file)
 
-            abs_src_file_path = os.path.abspath(src_file_path).replace(f"{proname}_back", f"{proname}")
+            abs_src_file_path = os.path.abspath(src_file_path).replace(f"{extracted_dir_name}_back", f"{extracted_dir_name}")
             print("modei")
             # if file.endswith(".c"):
             if abs_src_file_path in cfile_list:
@@ -4388,7 +4455,7 @@ def output_auto_rpc_code(proname):
             dst_dir_path = os.path.join(server_dir, relative_path)
             os.makedirs(dst_dir_path, exist_ok=True)
             dst_file_path = os.path.join(dst_dir_path, file)
-            abs_src_file_path = os.path.abspath(src_file_path).replace(proname+"_back", proname)
+            abs_src_file_path = os.path.abspath(src_file_path).replace(extracted_dir_name+"_back", extracted_dir_name)
             # if file.endswith(".c"):
             print(abs_src_file_path)
             if abs_src_file_path in cfile_list:
@@ -11068,85 +11135,28 @@ def rpc_main(proname,abs_path_policy_file):
 
 
     output_auto_rpc_code(proname)
-    
-    
-import tarfile
 
 
 if __name__ == '__main__':
     proname=sys.argv[1]
 
     so_type = "b"  # 默认为 'b'
+    quan_str = "32"  # 默认量化位数
+    
     for arg in sys.argv:
         if arg.startswith("--comm-type="):
             so_type = arg.split("=")[1]
         elif arg.startswith("--quan="):
             quan_str = arg.split("=")[1]
 
+    # 设置项目目录和解压源码
+    abs_path_policy_file, proj_dir, proj_back_dir = setup_project_directories(proname, so_type, quan_str)
     
-    """如果examples/{proname}/input/source_code目录下没{proname}目录和{proname}_back目录，则解压此目录下的压缩包（以tar.xz）为后缀的文件，分别重命名为{proname}和{proname}_back"""
-
-
-    
-    # abs_path_policy_file=sys.argv[2]
-
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # 使用 os.path.abspath 来处理路径，使其成为绝对路径
-    abs_path_policy_file = os.path.abspath(os.path.join(script_dir, '..', 'examples', proname, 'output', f'minsencode_{so_type}_{quan_str}bit.txt'))
-
-    # 自动解压和准备源码目录
-    source_code_dir = os.path.abspath(os.path.join(script_dir, '..', 'examples', proname, 'input', 'source_code'))
-    proj_dir = os.path.join(source_code_dir, proname)
-    proj_back_dir = os.path.join(source_code_dir, f"{proname}_back")
-
-    if not os.path.exists(proj_dir) or not os.path.exists(proj_back_dir):
-        print(f"'{proj_dir}' 或 '{proj_back_dir}' 不存在，开始查找压缩包并解压...")
-        
-        # 查找 .tar.xz 文件
-        archive_file = None
-        for f in os.listdir(source_code_dir):
-            if f.endswith('.tar.xz'):
-                archive_file = os.path.join(source_code_dir, f)
-                break
-        
-        if archive_file:
-            print(f"找到压缩包: {archive_file}")
-
-            # 确保旧目录不存在
-            if os.path.exists(proj_dir):
-                shutil.rmtree(proj_dir)
-            if os.path.exists(proj_back_dir):
-                shutil.rmtree(proj_back_dir)
-
-            # 解压
-            with tarfile.open(archive_file, 'r:xz') as tar:
-                # 获取解压后的根目录名
-                # 通常压缩包内只有一个根目录
-                extracted_root_dir_name = os.path.commonprefix(tar.getnames())
-                tar.extractall(path=source_code_dir)
-
-            extracted_path = os.path.join(source_code_dir, extracted_root_dir_name)
-            print(f"解压完成: {extracted_path}")
-
-            # 重命名为 proname
-            if os.path.exists(extracted_path):
-                os.rename(extracted_path, proj_dir)
-                print(f"重命名 '{extracted_path}' 为 '{proj_dir}'")
-            
-            # 复制为 proname_back
-            if os.path.exists(proj_dir):
-                shutil.copytree(proj_dir, proj_back_dir)
-                print(f"复制 '{proj_dir}' 到 '{proj_back_dir}'")
-        else:
-            print(f"在 '{source_code_dir}' 目录下未找到 .tar.xz 压缩包。")
-    
-    
-    
-    #运行方式：python refator_mixed_function.py wget，需要在当前目录下有compile_commands.json文件，以及wget_sense_config.txt文件
+    # 运行方式：python refator_mixed_function.py wget，需要在当前目录下有compile_commands.json文件，以及wget_sense_config.txt文件
     preprocess_c_file_and_parse_toAST(proname)
 
     print(global_src_dir)
-    parse_global_var_usage("examples/output/global_var_usage.xml")
+    parse_global_var_usage(f"examples/{proname}/output/global_val_use.xml")
     refactor_mixed_function_ast(abs_path_policy_file)
     # #输出file_ast_dict中的ast
     # print("file_ast_dict:")

@@ -1,32 +1,24 @@
 
-Solution 12:
+Solution 10:
 Total Switches: 1
-Boundary Edges (9):
-  show_defaults:459 -> show_defaults:460, Weight: 0, Domains: 1 -> 0
+Boundary Edges (7):
   grp_update:943 -> fail_exit:225, Weight: 0, Domains: 1 -> 0
   grp_update:935 -> grp_update:943, Weight: 1, Domains: 0 -> 1
-  show_defaults:458 -> show_defaults:459, Weight: 0, Domains: 0 -> 1
-  set_defaults:475 -> set_defaults:476, Weight: 0, Domains: 0 -> 1
-  set_defaults:476 -> set_defaults:478, Weight: 0, Domains: 1 -> 0
-  set_defaults:603 -> set_defaults:604, Weight: 0, Domains: 0 -> 1
-  set_defaults:604 -> set_defaults:605, Weight: 0, Domains: 1 -> 0
-  usage:781 -> usage:782, Weight: 0, Domains: 0 -> 1
+  set_defaults:478 -> set_defaults:479, Weight: 0, Domains: 1 -> 0
+  set_defaults:477 -> set_defaults:478, Weight: 0, Domains: 0 -> 1
+  set_defaults:476 -> set_defaults:478, Weight: 0, Domains: 0 -> 1
+  set_defaults:479 -> set_defaults:480, Weight: 0, Domains: 0 -> 1
+  set_defaults:480 -> set_defaults:481, Weight: 0, Domains: 1 -> 0
 
-Solution 12:
+Solution 10:
 Sensitive Nodes: 
 
 -- Function: grp_update --
 57: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + grp_update + ForStmt:943:1007: sz = 152, quan = 408
 
 -- Function: set_defaults --
-200: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:476:476: sz = 1, quan = 0
-224: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + CallExpr:604:604: sz = 2, quan = 0
-
--- Function: show_defaults --
-56: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:459:459: sz = 2, quan = 0
-
--- Function: usage --
-37: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CallExpr:782:782: sz = 3, quan = 0
+91: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:478:478: sz = 1, quan = 0
+204: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:480:480: sz = 1, quan = 0
 
 Non-sensitive Nodes: 
 
@@ -228,10 +220,9 @@ Non-sensitive Nodes:
 -- Function: set_defaults --
 198: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:474:474: sz = 1, quan = 0
 199: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:475:475: sz = 1, quan = 0
+200: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:476:476: sz = 1, quan = 0
 145: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:477:477: sz = 0, quan = 0
-91: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:478:478: sz = 1, quan = 0
 202: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:479:479: sz = 1, quan = 0
-204: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:480:480: sz = 1, quan = 0
 98: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:481:481: sz = 2, quan = 0
 205: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:482:482: sz = 2, quan = 0
 206: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DeclStmt:483:483: sz = 2, quan = 0
@@ -258,6 +249,7 @@ Non-sensitive Nodes:
 99: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:592:597: sz = 16, quan = 0
 207: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + BinaryOperator:602:602: sz = 3, quan = 0
 223: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + ParenExpr:603:603: sz = 6, quan = 0
+224: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + CallExpr:604:604: sz = 2, quan = 0
 212: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:605:612: sz = 22, quan = 0
 225: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + IfStmt:617:623: sz = 15, quan = 0
 180: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + set_defaults + DoStmt:630:630: sz = 35, quan = 0
@@ -267,6 +259,7 @@ Non-sensitive Nodes:
 226: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:456:456: sz = 2, quan = 0
 141: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:457:457: sz = 2, quan = 0
 83: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:458:458: sz = 2, quan = 0
+56: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:459:459: sz = 2, quan = 0
 167: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:460:460: sz = 2, quan = 0
 163: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:461:461: sz = 2, quan = 0
 209: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + show_defaults + CallExpr:462:462: sz = 2, quan = 0
@@ -298,6 +291,7 @@ Non-sensitive Nodes:
 107: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:777:777: sz = 3, quan = 0
 108: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:779:779: sz = 3, quan = 0
 240: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CStyleCastExpr:781:781: sz = 2, quan = 0
+37: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usage + CallExpr:782:782: sz = 3, quan = 0
 
 -- Function: usr_update --
 8: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + DeclStmt:1800:1800: sz = 1, quan = 0
@@ -312,5 +306,5 @@ Non-sensitive Nodes:
 1: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + IfStmt:1864:1870: sz = 16, quan = 0
 0: /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/useradd/input/source_code/shadow-utils/src/useradd.c + usr_update + IfStmt:1882:1884: sz = 5, quan = 0
 
-Sensitive Nodes Total sz: 160
-Sensitive Nodes Total sz Ratio: 0.0489297
+Sensitive Nodes Total sz: 154
+Sensitive Nodes Total sz Ratio: 0.0470948

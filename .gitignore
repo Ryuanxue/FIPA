@@ -3,6 +3,7 @@ IF-driver-partition/
 src/program-dependence-graph-main/build/*
 examples/chage/input/aa.txt
 **/temp/
+*idl*
 examples/wget-1.20/
 examples/thttpd-2.25/
 examples/nginx/input/source_code/nginx-1.15.5/
