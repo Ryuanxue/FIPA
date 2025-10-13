@@ -4,9 +4,10 @@
 
 This project consists of several independent submodules that must be compiled and installed in order. 
 - Sliver has been tested on Ubuntu 20.04.
-- Install dependencies including LLVM-12, various development libraries, and `rpcbind`:
+- Install dependencies including LLVM-12, various development libraries,  `rpcbind` and `pycparser`:
 ```bash
 sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev libpugixml-dev rpcbind
+pip3 install pycparser
 ```
 
 - To install Docker, please refer to: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
