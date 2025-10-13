@@ -57,6 +57,8 @@ Before running the partitioning workflow, generate the following artifacts:
      make -j8
      cd src
      mv chsh ../../../chsh_32
+     cd ..
+     make clean
      exit
      ```
 

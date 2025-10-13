@@ -58,6 +58,8 @@ Before running the partitioning workflow, generate the following artifacts:
      make -j8
      cd src
      mv passwd ../../../passwd_32
+     cd ..
+     make clean
      exit
      ```
 

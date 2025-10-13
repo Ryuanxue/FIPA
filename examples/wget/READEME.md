@@ -74,6 +74,8 @@ Before running the partitioning workflow, generate the following artifacts:
      make CFLAGS+="-g -O0 -m32 -I/flowcheck/include"
      cd src
      mv wget ../../../wget_32
+     cd ..
+     make clean
      exit
 
      ```

@@ -57,6 +57,9 @@ Before running the partitioning workflow, generate the following artifacts:
      make -j8
      cd src
      mv useradd ../../../useradd_32
+     cd ..
+     make clean
+     exit
      ```
 
 ## Partitioning Workflow Steps

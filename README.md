@@ -8,6 +8,8 @@ This project consists of several independent submodules that must be compiled an
 ```bash
 sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev libpugixml-dev rpcbind
 pip3 install pycparser
+pip3 install numexpr
+pip3 install clang
 ```
 
 - To install Docker, please refer to: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)

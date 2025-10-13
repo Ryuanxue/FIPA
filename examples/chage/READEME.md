@@ -57,6 +57,8 @@ Before running the partitioning workflow, generate the following artifacts:
      make -j8
      cd src
      mv chage ../../../chage_32
+     cd ..
+     make clean
      exit
      ```
 

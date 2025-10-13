@@ -61,6 +61,8 @@ Before running the partitioning workflow, generate the following artifacts:
      make -j8
      cd telnet
      mv telnet ../../../telnet_32
+     cd ..
+     make clean
      exit
      ```
 
