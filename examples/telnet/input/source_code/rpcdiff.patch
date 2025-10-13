@@ -1,0 +1,32 @@
+diff -r -u inetutils-1.9.4/telnet/commands.c inetutils-1.9.4_coment/telnet/commands.c
+--- inetutils-1.9.4/telnet/commands.c	2025-07-08 06:14:44.000000000 +0800
++++ inetutils-1.9.4_coment/telnet/commands.c	2025-10-13 13:09:49.870008526 +0800
+@@ -2913,17 +2913,17 @@
+ static int
+ call (intrtn_t routine, ...)
+ {
+-  va_list ap;
+-  char *args[100];
+-  int argno = 0;
++  // va_list ap;
++  // char *args[100];
++  // int argno = 0;
+ 
+-  va_start (ap, routine);
+-  while ((args[argno++] = va_arg (ap, char *)) != 0)
+-    {
+-      ;
+-    }
+-  va_end (ap);
+-  return (*routine) (argno - 1, args);
++  // va_start (ap, routine);
++  // while ((args[argno++] = va_arg (ap, char *)) != 0)
++  //   {
++  //     ;
++  //   }
++  // va_end (ap);
++  // return (*routine) (argno - 1, args);
+ }
+ 
+ 
+Only in inetutils-1.9.4_coment/telnet: commands.c.i

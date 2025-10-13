@@ -157,6 +157,12 @@ def setup_project_directories(proname, so_type, quan_str):
                 backup_dir_path = extracted_dir_path + '_back'
                 print(f"创建备份目录: {backup_dir_path}")
                 shutil.copytree(extracted_dir_path, backup_dir_path)
+
+    #若果proname为telnet,打补丁patch -d inetutils-1.9.4 -p1 < rpcdiff.patch
+    if proname == "telnet" or proname == "wget" or proname == "nginx":
+        patch_file = os.path.abspath(os.path.join(source_code_dir, 'rpcdiff.patch'))
+        subprocess.run(f'patch -d {os.path.join(source_code_dir, extracted_dir_name)} -p1 < {patch_file}', shell=True, check=True)
+
     return abs_path_policy_file, source_code_dir, backup_dir_path
 
 class NodeVisitor(c_ast.NodeVisitor):
@@ -258,6 +264,8 @@ def preprocess_c_file_and_parse_toAST(proname):
     # # proname = sys.argv[1]
     # compile_commands_file="../partitioned_software/"+proname+"/flowcheck_result/compile_commands.json"
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    fake_dir=os.path.abspath(os.path.join(script_dir, 'fake_libc_include'))
+    print("fake_dir is: " + fake_dir)
     # 使用 os.path.abspath 来处理路径，使其成为绝对路径
     compile_commands_file = os.path.abspath(os.path.join(script_dir, '..', 'examples', proname, 'input', 'compile_commands.json'))
     # compile_commands_file = 'compile_commands.json'
@@ -281,8 +289,7 @@ def preprocess_c_file_and_parse_toAST(proname):
         # '-D__restrict=',
         # '-D__asm__(x)='
         # ]
-        fake_dir=os.path.abspath(os.path.join(script_dir, 'fake_libc_include'))
-        print("fake_dir is: " + fake_dir)
+        
         preprocess_command = [
         'gcc', '-E',
         f'-I{fake_dir}',
@@ -305,7 +312,7 @@ def preprocess_c_file_and_parse_toAST(proname):
         preprocess_command.append('-o')
         preprocess_command.append(c_file + '.i')
         command = ' '.join(preprocess_command)
-        # print("command is: " + command)
+        print("command is: " + command)
         subprocess.run(command,cwd=directory,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
 
         #取得c_file.i的绝对路径

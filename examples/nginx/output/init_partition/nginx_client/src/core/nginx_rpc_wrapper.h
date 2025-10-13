@@ -1,0 +1,106 @@
+#include "nginx_idl.h"
+u_char *ngx_http_log_body_bytes_sent_sense_1_wrapper(int *ngx_http_log_body_bytes_sent_sense_1_ret, ngx_http_request_t *r, u_char *buf);
+ngx_int_t ngx_http_chunked_body_filter_sense_1_wrapper(int *ngx_http_chunked_body_filter_sense_1_ret, ngx_http_request_t *r, ngx_chain_t *in);
+ngx_int_t ngx_http_variable_header_sense_1_wrapper(int *ngx_http_variable_header_sense_1_ret, ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data);
+ngx_int_t ngx_http_log_handler_sense_1_wrapper(int *ngx_http_log_handler_sense_1_ret, u_char *line, u_char *p, size_t *len, size_t *size, ssize_t *n, ngx_str_t val, ngx_uint_t *i, ngx_uint_t *l, ngx_http_log_t *log, ngx_http_log_op_t *op, ngx_http_log_buf_t *buffer, ngx_http_log_loc_conf_t *lcf, ngx_http_request_t *r);
+ngx_int_t ngx_http_core_generic_phase_sense_1_wrapper(int *ngx_http_core_generic_phase_sense_1_ret, ngx_int_t *rc, ngx_http_request_t *r, ngx_http_phase_handler_t *ph);
+ngx_int_t ngx_http_core_post_access_phase_sense_1_wrapper(int *ngx_http_core_post_access_phase_sense_1_ret, ngx_int_t *access_code, ngx_http_request_t *r);
+ngx_int_t ngx_http_range_header_filter_sense_1_wrapper(int *ngx_http_range_header_filter_sense_1_ret, ngx_http_request_t *r);
+ngx_int_t ngx_http_variable_request_line_sense_1_wrapper(int *ngx_http_variable_request_line_sense_1_ret, ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data);
+ngx_int_t ngx_http_core_find_config_phase_sense_1_wrapper(int *ngx_http_core_find_config_phase_sense_1_ret, u_char *p, size_t *len, ngx_int_t *rc, ngx_http_core_loc_conf_t *clcf, ngx_http_request_t *r);
+ngx_int_t ngx_http_try_files_handler_sense_1_wrapper(int *ngx_http_try_files_handler_sense_1_ret, size_t *len, size_t *root, size_t *alias, size_t *reserve, size_t *allocated, u_char *p, u_char *name, ngx_str_t path, ngx_str_t args, ngx_uint_t *test_dir, ngx_http_try_file_t *tf, ngx_open_file_info_t of, ngx_http_script_code_pt *code, ngx_http_script_engine_t e, ngx_http_core_loc_conf_t *clcf, ngx_http_script_len_code_pt *lcode, ngx_http_try_files_loc_conf_t *tlcf, ngx_http_request_t *r);
+ngx_int_t ngx_http_mirror_handler_sense_1_wrapper(int *ngx_http_mirror_handler_sense_1_ret, ngx_int_t *rc, ngx_http_mirror_ctx_t *ctx, ngx_http_mirror_loc_conf_t *mlcf, ngx_http_request_t *r);
+ngx_int_t ngx_http_trailers_filter_sense_1_wrapper(int *ngx_http_trailers_filter_sense_1_ret, ngx_http_request_t *r, ngx_chain_t *in);
+ngx_int_t ngx_http_variable_remote_user_sense_1_wrapper(int *ngx_http_variable_remote_user_sense_1_ret, ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data);
+ngx_int_t ngx_http_range_body_filter_sense_1_wrapper(int *ngx_http_range_body_filter_sense_1_ret, ngx_http_request_t *r, ngx_chain_t *in);
+ngx_int_t ngx_http_core_access_phase_sense_1_wrapper(int *ngx_http_core_access_phase_sense_1_ret, ngx_int_t *rc, ngx_http_core_loc_conf_t *clcf, ngx_http_request_t *r, ngx_http_phase_handler_t *ph);
+ngx_int_t ngx_http_index_handler_sense_1_wrapper(int *ngx_http_index_handler_sense_1_ret, ngx_http_request_t *r);
+ngx_int_t ngx_http_headers_filter_sense_1_wrapper(int *ngx_http_headers_filter_sense_1_ret, ngx_http_request_t *r);
+
+/* 全局变量访问函数声明 */
+ngx_str_t get_ngx_http_core_get_method_wrapper();
+int set_ngx_http_core_get_method_wrapper(ngx_str_t value);
+int set_ngx_http_core_get_method_len_wrapper(size_t value);
+size_t get_ngx_http_core_get_method_len_wrapper();
+int set_ngx_http_core_get_method_data_wrapper(u_char * value);
+u_char * get_ngx_http_core_get_method_data_wrapper();
+ngx_queue_t get_ngx_posted_events_wrapper();
+int set_ngx_posted_events_wrapper(ngx_queue_t value);
+ngx_os_io_t get_ngx_io_wrapper();
+int set_ngx_io_wrapper(ngx_os_io_t value);
+void* get_ngx_io_recv_wrapper();
+void set_ngx_io_recv_wrapper(void *fun_ptr);
+void* get_ngx_io_recv_chain_wrapper();
+void set_ngx_io_recv_chain_wrapper(void *fun_ptr);
+void* get_ngx_io_udp_recv_wrapper();
+void set_ngx_io_udp_recv_wrapper(void *fun_ptr);
+void* get_ngx_io_send_wrapper();
+void set_ngx_io_send_wrapper(void *fun_ptr);
+void* get_ngx_io_udp_send_wrapper();
+void set_ngx_io_udp_send_wrapper(void *fun_ptr);
+void* get_ngx_io_udp_send_chain_wrapper();
+void set_ngx_io_udp_send_chain_wrapper(void *fun_ptr);
+void* get_ngx_io_send_chain_wrapper();
+void set_ngx_io_send_chain_wrapper(void *fun_ptr);
+int set_ngx_io_flags_wrapper(ngx_uint_t value);
+ngx_uint_t get_ngx_io_flags_wrapper();
+ngx_str_t get_ngx_cached_syslog_time_wrapper();
+int set_ngx_cached_syslog_time_wrapper(ngx_str_t value);
+int set_ngx_cached_syslog_time_len_wrapper(size_t value);
+size_t get_ngx_cached_syslog_time_len_wrapper();
+int set_ngx_cached_syslog_time_data_wrapper(u_char * value);
+u_char * get_ngx_cached_syslog_time_data_wrapper();
+ngx_str_t* get_ngx_sys_errlist_wrapper();
+int set_ngx_sys_errlist_wrapper(ngx_str_t value,int len);
+int set_ngx_sys_errlist_len_wrapper(size_t value);
+size_t get_ngx_sys_errlist_len_wrapper();
+int set_ngx_sys_errlist_data_wrapper(u_char * value);
+u_char * get_ngx_sys_errlist_data_wrapper();
+ngx_rbtree_t get_ngx_event_timer_rbtree_wrapper();
+int set_ngx_event_timer_rbtree_wrapper(ngx_rbtree_t value);
+int get_ep_wrapper();
+int set_ep_wrapper(int value);
+ngx_cycle_t* get_ngx_cycle_wrapper();
+int set_ngx_cycle_wrapper(ngx_cycle_t value,int len);
+char* get_ngx_os_argv_last_wrapper();
+void set_ngx_os_argv_last_wrapper(const char *value);
+ngx_time_t* get_ngx_cached_time_wrapper();
+int set_ngx_cached_time_wrapper(ngx_time_t value,int len);
+int set_ngx_cached_time_sec_wrapper(time_t value);
+time_t get_ngx_cached_time_sec_wrapper();
+int set_ngx_cached_time_msec_wrapper(ngx_uint_t value);
+ngx_uint_t get_ngx_cached_time_msec_wrapper();
+int set_ngx_cached_time_gmtoff_wrapper(ngx_int_t value);
+ngx_int_t get_ngx_cached_time_gmtoff_wrapper();
+char* get_ngx_os_argv_wrapper();
+void set_ngx_os_argv_wrapper(const char *value);
+ngx_os_io_t get_ngx_os_io_wrapper();
+int set_ngx_os_io_wrapper(ngx_os_io_t value);
+void* get_ngx_os_io_recv_wrapper();
+void set_ngx_os_io_recv_wrapper(void *fun_ptr);
+void* get_ngx_os_io_recv_chain_wrapper();
+void set_ngx_os_io_recv_chain_wrapper(void *fun_ptr);
+void* get_ngx_os_io_udp_recv_wrapper();
+void set_ngx_os_io_udp_recv_wrapper(void *fun_ptr);
+void* get_ngx_os_io_send_wrapper();
+void set_ngx_os_io_send_wrapper(void *fun_ptr);
+void* get_ngx_os_io_udp_send_wrapper();
+void set_ngx_os_io_udp_send_wrapper(void *fun_ptr);
+void* get_ngx_os_io_udp_send_chain_wrapper();
+void set_ngx_os_io_udp_send_chain_wrapper(void *fun_ptr);
+void* get_ngx_os_io_send_chain_wrapper();
+void set_ngx_os_io_send_chain_wrapper(void *fun_ptr);
+int set_ngx_os_io_flags_wrapper(ngx_uint_t value);
+ngx_uint_t get_ngx_os_io_flags_wrapper();
+typedef enum {
+    SIG_UNKNOWN
+} FunctionSignature;
+typedef struct {
+    const char *name;         // 函数名
+    void *func_ptr_void;      // 存储为 void* 的函数地址
+    FunctionSignature signature; // 函数签名标识符
+} FunctionMapEntry;
+extern FunctionMapEntry function_map[];
+void* find_function_ptr_by_name(const char* func_name);
+const char* find_function_name_by_address(void* func_address);char *get_filename_from_fp(FILE *fp);
+char* gsetter_ngx_os_argv_last_postfix_wrapper();

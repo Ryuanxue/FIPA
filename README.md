@@ -260,9 +260,16 @@ python3 scripts/prepare_refactor_data.py --project_root examples/chage --output_
   ```
 
 ### Step 6: Code Refactoring
-```bash
-python scripts/refactor_code.py --policy output/partition_policies.txt --source input/sample.cpp --bc input/sample.bc --output output/refactored/
-```
+   
+   This step generates the final partitioned code with RPC communication interfaces. The example below uses unidirectional communication with 0-bit leakage. For other configurations, modify the `--comm-type` and `--quan` parameters accordingly.
+   
+   ```bash
+   python3 scripts/refactor_function_add_rpc.py chage --comm-type=u --quan=0
+   ```
+   
+   **Parameter Options:**
+   - `--comm-type`: Communication model (`u` for unidirectional, `b` for bidirectional)
+   - `--quan`: Leakage budget in bits (e.g., `0`, `64`)
 
 See complete examples and project-specific instructions in the `examples/` directory. Each subproject's README.md provides details for annotation, compilation, and usage.
 
