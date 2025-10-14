@@ -209,7 +209,7 @@ Run the client and server in two separate terminals.
 **Example 1: Lock password for user 'nobody'**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/passwd/output/finally_partition/passwd_server/shadow-utils/src/passwd_server
+  sudo ./examples/passwd/output/finally_partition/passwd_server/shadow-utils/src/passwd_server
   ```
 - **Terminal 2 (Client):**
   ```bash
@@ -219,7 +219,7 @@ Run the client and server in two separate terminals.
 **Example 2: Set minimum password age for 'nobody'**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/passwd/output/finally_partition/passwd_server/shadow-utils/src/passwd_server
+  sudo ./examples/passwd/output/finally_partition/passwd_server/shadow-utils/src/passwd_server
   ```
 - **Terminal 2 (Client):**
   ```bash

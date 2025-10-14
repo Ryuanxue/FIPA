@@ -206,7 +206,7 @@ Run the client and server in two separate terminals.
 **Example 1: Create a new user with a specific shell**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/useradd/output/finally_partition/useradd_server/shadow-utils/src/useradd_server
+  sudo ./examples/useradd/output/finally_partition/useradd_server/shadow-utils/src/useradd_server
   ```
 - **Terminal 2 (Client):**
   ```bash
@@ -216,10 +216,9 @@ Run the client and server in two separate terminals.
 **Example 2: Create a new user with password and expiry date**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/useradd/output/finally_partition/useradd_server/shadow-utils/src/useradd_server
+  sudo ./examples/useradd/output/finally_partition/useradd_server/shadow-utils/src/useradd_server
   ```
 - **Terminal 2 (Client):**
   ```bash
-  su root
-  ./examples/useradd/output/finally_partition/useradd_client/shadow-utils/src/useradd_client -m -p '$6$hashedpassword' -e 2025-12-31 paruser2
+  sudo ./examples/useradd/output/finally_partition/useradd_client/shadow-utils/src/useradd_client -m -p '$6$hashedpassword' -e 2025-12-31 paruser2
   ```

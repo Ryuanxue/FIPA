@@ -213,22 +213,20 @@ Run the client and server in two separate terminals.
 **Example 1: Change shell for user 'nobody'**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/chsh/output/finally_partition/chsh_server/shadow-utils/src/chsh_server
+  sudo ./examples/chsh/output/finally_partition/chsh_server/shadow-utils/src/chsh_server
   ```
 - **Terminal 2 (Client):**
   ```bash
-  su root
-  ./examples/chsh/output/finally_partition/chsh_client/shadow-utils/src/chsh_client -s /bin/sh nobody
+  sudo ./examples/chsh/output/finally_partition/chsh_client/shadow-utils/src/chsh_client -s /bin/sh nobody
   ```
 
 **Example 2: Change shell for 'root' (interactive)**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/chsh/output/finally_partition/chsh_server/shadow-utils/src/chsh_server
+  sudo ./examples/chsh/output/finally_partition/chsh_server/shadow-utils/src/chsh_server
   ```
 - **Terminal 2 (Client):**
   ```bash
-  su root
-  ./examples/chsh/output/finally_partition/chsh_client/shadow-utils/src/chsh_client
+  sudo ./examples/chsh/output/finally_partition/chsh_client/shadow-utils/src/chsh_client
   # You will be prompted to enter the desired shell for root.
   ```
