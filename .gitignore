@@ -26,6 +26,14 @@ examples/chsh/input/source_code/shadow-utils/
 examples/chsh/input/source_code/shadow-utils_back/
 examples/passwd/input/source_code/shadow-utils/
 examples/passwd/input/source_code/shadow-utils_back/
+examples/chage/output/finally_partition/chage_client/
+examples/chage/output/finally_partition/chage_server/
+examples/passwd/output/finally_partition/passwd_client/
+examples/passwd/output/finally_partition/passwd_server/
+examples/chsh/output/finally_partition/chsh_client/
+examples/chsh/output/finally_partition/chsh_server/
+examples/useradd/output/finally_partition/useradd_client/
+examples/useradd/output/finally_partition/useradd_server/
 scripts/__pycache__/
 scripts/get_all_senseAddr_use_progate_for_refactor_output.py
 scripts/refactor_flowcheck_output.py
