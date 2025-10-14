@@ -194,7 +194,7 @@ make mavlink_client
 
 **Compile mavlink_client_server:**
 ```bash
-cd examples/mavlink-client/output/finally_partition/mavlink_client_server/mavlink-client
+cd examples/mavlink-client/output/finally_partition/mavlink-client_server/mavlink-client
 make mavlink_client_svc
 # The mavlink_client_svc executable will be generated in the current directory.
 ```
@@ -210,7 +210,7 @@ Run the client and server in two separate terminals. This requires the original 
   ```
 - **Terminal 2 (Partitioned rpc Server):**
   ```bash
-  ./examples/mavlink-client/output/finally_partition/mavlink_client_server/mavlink-client/mavlink_client_svc
+  sudo ./examples/mavlink-client/output/finally_partition/mavlink-client_server/mavlink-client/mavlink_client_svc
   ```
 - **Terminal 3 (Partitioned Client):**
   ```bash
