@@ -188,7 +188,6 @@ Then, compile the client and server components similarly to the 64-bit executabl
 **Compile chage_client:**
 ```bash
 cd examples/chage/output/finally_partition/chage_client/shadow-utils
-./autogen.sh
 make -j8
 # The chage_client executable will be generated in the src/ directory.
 ```
@@ -196,7 +195,6 @@ make -j8
 **Compile chage_server:**
 ```bash
 cd examples/chage/output/finally_partition/chage_server/shadow-utils
-./autogen.sh
 make -j8
 # The chage_server executable will be generated in the src/ directory.
 ```
@@ -208,7 +206,7 @@ Run the client and server in two separate terminals.
 **Example 1:**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/chage/output/finally_partition/chage_server/shadow-utils/src/chage_server
+  sudo ./examples/chage/output/finally_partition/chage_server/shadow-utils/src/chage_server
   ```
 - **Terminal 2 (Client):**
   ```bash
@@ -219,7 +217,7 @@ Run the client and server in two separate terminals.
 **Example 2:**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/chage/output/finally_partition/chage_server/shadow-utils/src/chage_server
+  sudo ./examples/chage/output/finally_partition/chage_server/shadow-utils/src/chage_server
   ```
 - **Terminal 2 (Client):**
   ```bash

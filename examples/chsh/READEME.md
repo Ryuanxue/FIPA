@@ -195,7 +195,6 @@ Then, compile the client and server components similarly to the 64-bit executabl
 **Compile chsh_client:**
 ```bash
 cd examples/chsh/output/finally_partition/chsh_client/shadow-utils
-./autogen.sh
 make -j8
 # The chsh_client executable will be generated in the src/ directory.
 ```
@@ -203,7 +202,6 @@ make -j8
 **Compile chsh_server:**
 ```bash
 cd examples/chsh/output/finally_partition/chsh_server/shadow-utils
-./autogen.sh
 make -j8
 # The chsh_server executable will be generated in the src/ directory.
 ```

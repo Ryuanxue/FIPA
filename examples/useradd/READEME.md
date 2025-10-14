@@ -188,7 +188,6 @@ Then, compile the client and server components similarly to the 64-bit executabl
 **Compile useradd_client:**
 ```bash
 cd examples/useradd/output/finally_partition/useradd_client/shadow-utils
-./autogen.sh
 make -j8
 # The useradd_client executable will be generated in the src/ directory.
 ```
@@ -196,7 +195,6 @@ make -j8
 **Compile useradd_server:**
 ```bash
 cd examples/useradd/output/finally_partition/useradd_server/shadow-utils
-./autogen.sh
 make -j8
 # The useradd_server executable will be generated in the src/ directory.
 ```

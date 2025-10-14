@@ -191,7 +191,6 @@ Then, compile the client and server components similarly to the 64-bit executabl
 **Compile passwd_client:**
 ```bash
 cd examples/passwd/output/finally_partition/passwd_client/shadow-utils
-./autogen.sh
 make -j8
 # The passwd_client executable will be generated in the src/ directory.
 ```
@@ -199,7 +198,6 @@ make -j8
 **Compile passwd_server:**
 ```bash
 cd examples/passwd/output/finally_partition/passwd_server/shadow-utils
-./autogen.sh
 make -j8
 # The passwd_server executable will be generated in the src/ directory.
 ```
