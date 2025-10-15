@@ -89,11 +89,45 @@ Before running the partitioning workflow, generate the following artifacts:
        valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./examples/telnet/input/telnet_32 localhost 8081 2>examples/telnet/output/temp/telnetoutput1.fc
        # When you see "Escape character is '^]'", type "hello" and press Enter, then press Ctrl+], type q and press Enter to exit.
        ```
-     - For external connection:
+     - Connect to local telnetd service:
+       
+       **Prerequisites:** Before running the following commands, install and configure xinetd and telnetd services on the host:
+       ```bash
+       # Install required packages
+       sudo apt install xinetd telnetd
+       
+       # Configure telnet service in xinetd
+       sudo vim /etc/xinetd.d/telnet
+       
+       Add the following content to the file:
+      
+       service telnet
+       {
+           disable = no
+           flags = REUSE
+           socket_type = stream
+           wait = no
+           user = root
+           server = /usr/sbin/in.telnetd
+           log_on_failure += USERID
+       }
+       
+       
+       # Start the xinetd service
+       sudo systemctl start xinetd
+       
+       # Verify service status (should show "active (running)")
+       sudo systemctl status xinetd
+       
+       # Check if telnet port 23 is listening
+       sudo ss -tuln | grep 23
+       ```
+       
+       **Run FlowCheck:**
        ```bash
        valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=inetutils-1.9.4/telnet --trace-secret-graph=yes --graph-file=temp.g ./examples/telnet/input/telnet_32 127.0.0.1 23 2>examples/telnet/output/temp/telnetoutput2.fc
-       # When you see "Escape character is '^]'", press Ctrl+], type q and press Enter to exit.
-       eixt
+       # When you see "ubuntu login:", press Ctrl+], type q and press Enter to exit.
+       exit
        ```
    - Merge traces and map quantitative info to statements (running on the host):
      ```bash
@@ -111,7 +145,7 @@ Before running the partitioning workflow, generate the following artifacts:
 
      # Example 2: Connect to an external server
      src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/telnet/output/temp/telnetoutput2.pinout -- ./examples/telnet/input/telnet_64 127.0.0.1 23
-     # When you see "Escape character is '^]'", press Ctrl+], type q and press Enter to exit.
+     # When you see "ubuntu login:", press Ctrl+], type q and press Enter to exit.
      ```
    - Replace addresses with symbol names and merge edges:
      ```bash
