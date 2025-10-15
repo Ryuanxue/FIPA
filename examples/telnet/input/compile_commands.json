@@ -1,29 +1,4 @@
 [
-
-{
-        "arguments": [
-            "gcc",
-            "-c",
-            "-DHAVE_CONFIG_H",
-            "-I.",
-            "-I..",
-            "-DTERMCAP",
-            "-DLINEMODE",
-            "-DKLUDGELINEMODE",
-            "-DENV_HACK",
-            "-I../lib",
-            "-I../lib",
-            "-I../libinetutils",
-            "-I..",
-            "-g",
-            "-O2",
-            "-o",
-            "authenc.o",
-            "authenc.c"
-        ],
-        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
-        "file": "authenc.c"
-    },
     {
         "arguments": [
             "gcc",
@@ -48,7 +23,7 @@
         "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
         "file": "terminal.c"
     },
-     {
+    {
         "arguments": [
             "gcc",
             "-c",
@@ -90,11 +65,11 @@
             "-g",
             "-O2",
             "-o",
-            "commands.o",
-            "commands.c"
+            "utilities.o",
+            "utilities.c"
         ],
         "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
-        "file": "commands.c"
+        "file": "utilities.c"
     },
     {
         "arguments": [
@@ -138,37 +113,13 @@
             "-g",
             "-O2",
             "-o",
-            "sys_bsd.o",
-            "sys_bsd.c"
+            "network.o",
+            "network.c"
         ],
         "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
-        "file": "sys_bsd.c"
+        "file": "network.c"
     },
-     {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-DHAVE_CONFIG_H",
-            "-I.",
-            "-I..",
-            "-DTERMCAP",
-            "-DLINEMODE",
-            "-DKLUDGELINEMODE",
-            "-DENV_HACK",
-            "-I../lib",
-            "-I../lib",
-            "-I../libinetutils",
-            "-I..",
-            "-g",
-            "-O2",
-            "-o",
-            "main.o",
-            "main.c"
-        ],
-        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
-        "file": "main.c"
-    },
-     {
+    {
         "arguments": [
             "gcc",
             "-c",
@@ -210,13 +161,13 @@
             "-g",
             "-O2",
             "-o",
-            "network.o",
-            "network.c"
+            "sys_bsd.o",
+            "sys_bsd.c"
         ],
         "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
-        "file": "network.c"
+        "file": "sys_bsd.c"
     },
-      {
+    {
         "arguments": [
             "gcc",
             "-c",
@@ -234,10 +185,58 @@
             "-g",
             "-O2",
             "-o",
-            "utilities.o",
-            "utilities.c"
+            "main.o",
+            "main.c"
         ],
         "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
-        "file": "utilities.c"
+        "file": "main.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-DHAVE_CONFIG_H",
+            "-I.",
+            "-I..",
+            "-DTERMCAP",
+            "-DLINEMODE",
+            "-DKLUDGELINEMODE",
+            "-DENV_HACK",
+            "-I../lib",
+            "-I../lib",
+            "-I../libinetutils",
+            "-I..",
+            "-g",
+            "-O2",
+            "-o",
+            "authenc.o",
+            "authenc.c"
+        ],
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
+        "file": "authenc.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-DHAVE_CONFIG_H",
+            "-I.",
+            "-I..",
+            "-DTERMCAP",
+            "-DLINEMODE",
+            "-DKLUDGELINEMODE",
+            "-DENV_HACK",
+            "-I../lib",
+            "-I../lib",
+            "-I../libinetutils",
+            "-I..",
+            "-g",
+            "-O2",
+            "-o",
+            "commands.o",
+            "commands.c"
+        ],
+        "directory": "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/telnet/input/source_code/inetutils-1.9.4/telnet",
+        "file": "commands.c"
     }
 ]
