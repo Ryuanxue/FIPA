@@ -14,6 +14,8 @@ examples/mavlink-client/input/source_code/mavlink-client/
 examples/mavlink-client/input/source_code/mavlink-client_back/
 examples/mavlink-server/input/source_code/mavlink-server/
 examples/mavlink-server/input/source_code/mavlink-server_back/
+examples/mavlink-server/output/finally_partition/mavlink-server_server/
+examples/mavlink-server/output/finally_partition/mavlink-server_client/
 examples/wget/input/source_code/wget-1.18/
 examples/wget/input/source_code/wget-1.18_back/
 examples/telnet/input/source_code/inetutils-1.9.4/

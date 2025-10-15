@@ -186,14 +186,14 @@ Then, compile the client and server components similarly to the 64-bit executabl
 
 **Compile mavlink_server_client:**
 ```bash
-cd examples/mavlink-server/output/finally_partition/mavlink_server_client/mavlink-server
+cd examples/mavlink-server/output/finally_partition/mavlink-server_client/mavlink-server
 make mavlink_server
 # The mavlink_server executable will be generated in the current directory.
 ```
 
 **Compile mavlink_server_server:**
 ```bash
-cd examples/mavlink-server/output/finally_partition/mavlink_server_server/mavlink-server
+cd examples/mavlink-server/output/finally_partition/mavlink-server_server/mavlink-server
 make mavlink_server
 # The mavlink_server executable will be generated in the current directory.
 ```
@@ -204,11 +204,11 @@ Run the client and server in two separate terminals.
 
 - **Terminal 1 (Partitioned Server):**
   ```bash
-  ./examples/mavlink-server/output/finally_partition/mavlink_server_server/mavlink-server/mavlink_server
+  ./examples/mavlink-server/output/finally_partition/mavlink-server_server/mavlink-server/mavlink_server
   ```
 - **Terminal 2 (Partitioned Client):**
   ```bash
-  ./examples/mavlink-server/output/finally_partition/mavlink_server_client/mavlink-server/mavlink_server
+  ./examples/mavlink-server/output/finally_partition/mavlink-server_client/mavlink-server/mavlink_server
   ```
 - **Terminal 3 (Original Client):**
   ```bash
