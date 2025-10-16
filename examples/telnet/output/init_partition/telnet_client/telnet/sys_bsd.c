@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1988, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -71,19 +73,11 @@
 #include "externs.h"
 #include "types.h"
 
-#include "telnet_rpc_wrapper.h"
-
 #ifdef	SIGINFO
 extern void ayt_status ();
 extern void sendayt ();
 #endif
 
-int tout,			/* Output file descriptor */
-  tin,				/* Input file descriptor */
-  net;
-
-#ifndef USE_TERMIO
-struct tchars otc = { 0 }, ntc = { 0 };
 struct ltchars oltc = { 0 }, nltc = { 0 };
 struct sgttyb ottyb = { 0 }, nttyb = { 0 };
 int olmode = 0;
@@ -92,8 +86,6 @@ int olmode = 0;
 # define old_tc ottyb
 
 #else /* USE_TERMIO */
-struct termio old_tc = { 0 };
-extern struct termio new_tc;
 
 # ifndef TCSANOW
 #  ifdef TCSETS
@@ -124,9 +116,6 @@ extern struct termio new_tc;
 # endif
 #endif /* USE_TERMIO */
 
-static fd_set ibits, obits, xbits;
-
-
 void init_sys(void)
 {
   set_tout_wrapper(fileno(stdout));
@@ -151,13 +140,10 @@ void init_sys(void)
 
 
 
-
 int TerminalWrite(char *buf, int n)
 {
   return write(get_tout_wrapper(), buf, n);
 }
-
-
 
 
 
@@ -253,7 +239,6 @@ int TerminalSpecialChars(int c)
 
 
 
-
 /*
  * Flush output to the terminal
  */
@@ -281,7 +266,6 @@ void TerminalSaveState(void)
   termStopChar = 'S' & 0x1f;
   set_termAytChar_wrapper('T' & 0x1f);
 }
-
 
 
 cc_t *tcval(register int func)
@@ -329,7 +313,6 @@ cc_t *tcval(register int func)
 }
 
 
-
 void TerminalDefaultChars(void)
 {
   memmove(get_new_tc_c_cc_wrapper(), get_old_tc_c_cc_wrapper(), sizeof(get_old_tc_c_cc_wrapper()));
@@ -341,7 +324,6 @@ void TerminalDefaultChars(void)
   termStopChar = 'S' & 0x1f;
   set_termAytChar_wrapper('T' & 0x1f);
 }
-
 
 
 /*
@@ -502,7 +484,6 @@ void TerminalNewMode(register int f)
 }
 
 
-
 /*
  * Try to guess whether speeds are "encoded" (4.2BSD) or just numeric (4.4BSD).
  */
@@ -607,7 +588,6 @@ void TerminalSpeeds(long *ispeed, long *ospeed)
 }
 
 
-
 int
 TerminalWindowSize (long *rows, long *cols)
 {
@@ -657,15 +637,13 @@ NetSetPgrp (int fd)
 /*
  * Various signal handling routines.
  */
-
 void deadpeer(int sig)
 {
   setcommandmode();
   longjmp(get_peerdied_wrapper(), -1);
 }
 
-
-
+}
 
 void intr(int sig)
 {
@@ -678,8 +656,7 @@ void intr(int sig)
   longjmp(toplevel, -1);
 }
 
-
-
+}
 
 void intr2(int sig)
 {
@@ -693,13 +670,11 @@ void intr2(int sig)
   }
 }
 
+}
 
-
-#ifdef	SIGTSTP
-
+}
 #endif
 
-#ifdef	SIGWINCH
 void sendwin(int sig)
 {
   if (get_connected_wrapper())
@@ -708,7 +683,7 @@ void sendwin(int sig)
   }
 }
 
-
+}
 #endif
 
 #ifdef	SIGINFO
@@ -721,9 +696,7 @@ ayt (int sig _GL_UNUSED_PARAMETER)
     ayt_status ();
 }
 #endif
-
-
-void sys_telnet_init(void)
+void sys_telnet_init(void)
 {
   struct sigaction sa;
   sa.sa_flags = SA_RESTART;
@@ -737,7 +710,8 @@ void sys_telnet_init(void)
   NetNonblockingIO(get_net_wrapper(), 1);
 }
 
-
+#endif /* defined(SO_OOBINLINE) */
+}
 
 /*
  * Process rings -
@@ -749,8 +723,6 @@ void sys_telnet_init(void)
  *
  *	The return value is 1 if something happened, 0 if not.
  */
-
-/* poll; If 0, then block until something to do */
 int process_rings(int netin, int netout, int netex, int ttyin, int ttyout, int poll)
 {
   register int c;
@@ -811,11 +783,11 @@ int process_rings(int netin, int netout, int netex, int ttyin, int ttyout, int p
     fd_set temp_ibits = get_ibits_wrapper();
     fd_set temp_obits = get_obits_wrapper();
     fd_set temp_xbits = get_xbits_wrapper();
-    int temp_result_3 = select(nfds + 1, &temp_ibits, &temp_obits, &temp_xbits, (poll == 0) ? ((struct timeval *) 0) : (&TimeValue));
+    int temp_result_20 = select(nfds + 1, &temp_ibits, &temp_obits, &temp_xbits, (poll == 0) ? ((struct timeval *) 0) : (&TimeValue));
     set_ibits_wrapper(temp_ibits);
     set_obits_wrapper(temp_obits);
     set_xbits_wrapper(temp_xbits);
-    c = temp_result_3;
+    c = temp_result_20;
   }
 ) < 0)
   {
@@ -860,9 +832,9 @@ int process_rings(int netin, int netout, int netex, int ttyin, int ttyout, int p
     }
     {
       Ring temp_netiring = get_netiring_wrapper();
-      int temp_result_3 = ring_empty_consecutive(&temp_netiring);
+      int temp_result_20 = ring_empty_consecutive(&temp_netiring);
       set_netiring_wrapper(temp_netiring);
-      canread = temp_result_3;
+      canread = temp_result_20;
     }
     if (get_SYNCHing_wrapper())
     {
@@ -1017,4 +989,5 @@ int process_rings(int netin, int netout, int netex, int ttyin, int ttyout, int p
   return returnValue;
 }
 
-
+  return returnValue;
+}

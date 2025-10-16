@@ -1806,6 +1806,28 @@ struct stat_rpc
     
 
     
+    def detect_self_reference(struct_ast, struct_name):
+        """
+        检测结构体是否包含自引用指针字段
+        
+        Args:
+            struct_ast: 结构体的AST节点
+            struct_name: 结构体名称
+            
+        Returns:
+            list: 包含自引用指针字段名称的列表
+        """
+        self_ref_fields = []
+        if struct_ast.decls is None:
+            return self_ref_fields
+            
+        for decl in struct_ast.decls:
+            if isinstance(decl.type, c_ast.PtrDecl):
+                if isinstance(decl.type.type.type, c_ast.Struct):
+                    if decl.type.type.type.name == struct_name:
+                        self_ref_fields.append(decl.name)
+        return self_ref_fields
+
     def get_rpc_struct_str(node, strlist, processed_types=None):
         """
         递归处理结构体，生成RPC定义字符串，并避免循环引用
@@ -1848,6 +1870,16 @@ struct stat_rpc
                 print("node.decls is None, but node.name not in struct_dict")
                 strlist.append(f"opaque tempname<>;")
                 return
+        
+        # **新增**：检测自引用结构体
+        current_struct_name = node.name if hasattr(node, 'name') else None
+        if current_struct_name:
+            self_ref_fields = detect_self_reference(node, current_struct_name)
+            if self_ref_fields:
+                print(f"⚠️  警告: 检测到自引用结构体 '{current_struct_name}'，包含自引用字段: {self_ref_fields}")
+                print(f"   Sun RPC不支持循环引用，自动生成的IDL可能包含错误。")
+                print(f"   建议手动处理：1)移除自引用字段 2)使用数组方式传输链表 3)分离为多个结构体")
+                print(f"   参考文件: addrinfo_solution_manual.x 和 addrinfo_manual_conversion.c")
         
         # 处理所有成员
         for decl in node.decls:
@@ -1973,7 +2005,10 @@ struct stat_rpc
                 elif isinstance(decl.type, c_ast.PtrDecl) and isinstance(decl.type.type.type,c_ast.IdentifierType) \
                 and isinstance(typedef_dict[decl.type.type.type.names[0]]['ast'].type.type, c_ast.Struct) \
                 and typedef_dict[decl.type.type.type.names[0]]['ast'].type.type.name == node.name:
-                    strlist.append(f"struct  {typedef_dict[decl.type.type.type.names[0]]['ast'].name}_rpc * {decl.name};")
+                    # 检测到通过typedef的自引用，跳过处理
+                    print(f"❌ 跳过typedef自引用字段: {decl.name}")
+                    strlist.append(f"/* 跳过typedef自引用字段: {decl.name} (需要手动处理) */")
+                    continue
 
                 elif isinstance(decl.type.type,c_ast.PtrDecl):
                     if isinstance(decl.type.type.type.type,c_ast.IdentifierType):
@@ -2039,14 +2074,23 @@ struct stat_rpc
                         if struct_name == "stat":
                             pass
                         else:
-                            # 检查是否已处理过此结构体
-                            if struct_name in processed_types:
+                            # **关键修复**：检查是否为自引用结构体指针
+                            current_struct_name = node.name if hasattr(node, 'name') else None
+                            if struct_name == current_struct_name:
+                                # 这是自引用指针，Sun RPC不支持，跳过此字段并生成警告
+                                print(f"❌ 跳过自引用结构体指针: {struct_name} -> {decl.name}")
+                                print(f"   Sun RPC不支持循环引用，建议手动处理此字段")
+                                # 使用opaque类型作为占位符，或者完全跳过
+                                strlist.append(f"/* 跳过自引用字段: {decl.name} (需要手动处理) */")
+                                continue
+                            elif struct_name in processed_types:
                                 print(f"已处理过指针结构体 {struct_name}，避免循环引用")
                                 # 使用已有的RPC结构体定义
-                                if f"{struct_name}_rpc" in typedef_struct_rpc:
-                                    strlist.append(f"{struct_name}_rpc {decl.name};")
-                                else:
-                                    strlist.append(f"{struct_name} {decl.name};")
+                                if f"{struct_name}_rpc_ptr" not in typedef_struct_rpc:
+                                    typedef_str = f"typedef {struct_name}_rpc {struct_name}_rpc_ptr<>;"
+                                    idl_structs_str.append(typedef_str)
+                                    typedef_struct_rpc.append(f"{struct_name}_rpc_ptr")
+                                strlist.append(f"{struct_name}_rpc_ptr {decl.name};")
                             else:
                                 # 标记为已处理
                                 
@@ -2068,7 +2112,7 @@ struct stat_rpc
                                         typedef_struct_rpc.append(struct_name+"_rpc_ptr")
                                         idl_structs_str.append(f"typedef struct {struct_name}_rpc_ptr {struct_name}_rpc_ptr;\n")
                                 
-                                strlist.append(f"{struct_name}_rpc {decl.name};")
+                                strlist.append(f"{struct_name}_rpc_ptr {decl.name};")
                     
                     
                     
@@ -2704,6 +2748,23 @@ struct stat_rpc
 
     
 
+    # **修正**：Sun RPC不支持前向声明，改用警告和跳过机制
+    def check_and_warn_self_references():
+        """检查自引用结构体并生成警告"""
+        warnings = []
+        for struct_name, info in struct_dict.items():
+            if info['isstruct']:
+                self_ref_fields = detect_self_reference(info['ast'], struct_name)
+                if self_ref_fields:
+                    warning_msg = f"⚠️  警告: 结构体 '{struct_name}' 包含自引用字段 {self_ref_fields}"
+                    warning_msg += f"\n   Sun RPC不支持循环引用，该结构体需要手动处理或使用数组方式序列化"
+                    warnings.append(warning_msg)
+                    print(warning_msg)
+        return warnings
+    
+    # 检查自引用结构体并生成警告
+    self_ref_warnings = check_and_warn_self_references()
+
     #遍历sub_functions_decl,获得每个函数的函数声明，获得函数名，返回值类型，参数列表
     funcount=1
     for func in sense_sub_functions_decl:
@@ -2756,10 +2817,31 @@ struct stat_rpc
         idl_rpc_func_str.append(funstr)
         funcount+=1
     with open(proname+"_idl.x", "w") as f:
+        # 添加文件头注释，说明自引用结构体的处理
+        f.write("/*\n")
+        f.write(" * 自动生成的Sun RPC IDL文件\n")
+        f.write(" * 警告: 此文件可能包含不完整的自引用结构体定义\n")
+        f.write(" * \n")
+        if self_ref_warnings:
+            f.write(" * 检测到的自引用结构体问题:\n")
+            for warning in self_ref_warnings:
+                f.write(f" * {warning.replace('⚠️  ', '').replace('   ', '   - ')}\n")
+            f.write(" * \n")
+            f.write(" * 解决方案:\n")
+            f.write(" * 1. 手动修改IDL文件，移除自引用字段\n")
+            f.write(" * 2. 使用数组方式传输链表结构\n")
+            f.write(" * 3. 参考示例: addrinfo_solution_manual.x\n")
+            f.write(" * 4. 实现转换代码: addrinfo_manual_conversion.c\n")
+        f.write(" */\n\n")
+        
         for struct_str in idl_structs_str:
             if "char_ptr string" in struct_str:
                 struct_str=struct_str.replace("string","string1")
-            f.write(struct_str+"\n")
+            # 检查是否包含跳过的自引用字段注释
+            if "跳过自引用字段" in struct_str:
+                f.write("    " + struct_str + "\n")  # 保持缩进
+            else:
+                f.write(struct_str+"\n")
         f.write("\n")
 
         #wget-1.18 此时proname
@@ -3460,8 +3542,9 @@ def generate_wrapper_file(boundry_call_need_rpc):
                         elif typedef_dict[typename]['isstruct']:
                             rpc_helper.dealwith_structptr_client_param(typename,param.name, wrapper_str_list, clnt_rpc_call_param_list)
                             rpc_helper.dealwith_structptr_server_param(typename,param.name,paramcount, svc_param_list,unmashal_str_list)
-                            rpc_helper.dealwith_structptr_server_paramRet (typename,param.name, server_rpc_ret_str_list)
-                            rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
+                            if "const" not in ptypename:
+                                rpc_helper.dealwith_structptr_server_paramRet (typename,param.name, server_rpc_ret_str_list)
+                                rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
 
                             
                         else:
@@ -3479,8 +3562,9 @@ def generate_wrapper_file(boundry_call_need_rpc):
                                 elif struct_dict[typename]['isstruct']:
                                     rpc_helper.dealwith_structptr_client_param(typename,param.name, wrapper_str_list, clnt_rpc_call_param_list)
                                     rpc_helper.dealwith_structptr_server_param(typename,param.name,paramcount, svc_param_list,unmashal_str_list)
-                                    rpc_helper.dealwith_structptr_server_paramRet(typename,param.name, server_rpc_ret_str_list)
-                                    rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
+                                    if "const" not in ptypename:
+                                        rpc_helper.dealwith_structptr_server_paramRet(typename,param.name, server_rpc_ret_str_list)
+                                        rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
 
                                 else:
                                     pass
@@ -3492,8 +3576,9 @@ def generate_wrapper_file(boundry_call_need_rpc):
                         elif struct_dict[typename]['isstruct']:
                             rpc_helper.dealwith_structptr_client_param(typename,param.name, wrapper_str_list, clnt_rpc_call_param_list)
                             rpc_helper.dealwith_structptr_server_param(typename,param.name,paramcount, svc_param_list,unmashal_str_list)
-                            rpc_helper.dealwith_structptr_server_paramRet(typename,param.name, server_rpc_ret_str_list)
-                            rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
+                            if "const" not in ptypename:
+                                rpc_helper.dealwith_structptr_server_paramRet(typename,param.name, server_rpc_ret_str_list)
+                                rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
 
                         else:
                             pass
@@ -3743,32 +3828,369 @@ def output_auto_rpc_code(proname):
         return False
 
 
-    def preserve_headers_and_replace_content_for_alive(src_file, dst_file,issense=False, fileast=None, proname=None,senseast=None,fundomainset=None,modifunset=None):
-        def preserve_headers_and_replace_content_for_alive(src_file, dst_file, issense=False, fileast=None, proname=None, senseast=None, fundomainset=None, modifunset=None):
-            """
-            Preserves original headers and conditional compilation directives while replacing function and global variable contents.
-            Safely adds RPC wrapper header files when necessary.
-            This function:
-            1. Parses the source file using libclang
-            2. Identifies function definitions and global variable declarations
-            3. Processes functions based on whether they are in the function domain set and modification set
-            4. Removes functions not in the function domain set
-            5. Replaces functions in the modification set with their new implementations
-            6. Preserves functions that don't need modification
-            7. Filters global variables based on the provided set
-            8. Adds the RPC wrapper header if needed and not already present
-            Args:
-                src_file (str): Path to the source file to process
-                dst_file (str): Path where the modified file should be saved
-                issense (bool, optional): Flag indicating if this is a sensitive function. Defaults to False.
-                fileast (pycparser.c_ast, optional): AST containing replacement implementations. Defaults to None.
-                proname (str, optional): Project name used for including header files. Defaults to None.
-                global_var (set, optional): Set of global variable names to preserve. Defaults to None.
-                fundomainset (set, optional): Set of function names to preserve. Defaults to None.
-                modifunset (set, optional): Set of function names to replace with new implementations. Defaults to None.
-            Returns:
-                None: Returns early if no content remains after processing
-            """
+    # def preserve_headers_and_replace_content_for_alive(src_file, dst_file,issense=False, fileast=None, proname=None,senseast=None,fundomainset=None,modifunset=None):
+    #     def preserve_headers_and_replace_content_for_alive(src_file, dst_file, issense=False, fileast=None, proname=None, senseast=None, fundomainset=None, modifunset=None):
+    #         """
+    #         Preserves original headers and conditional compilation directives while replacing function and global variable contents.
+    #         Safely adds RPC wrapper header files when necessary.
+    #         This function:
+    #         1. Parses the source file using libclang
+    #         2. Identifies function definitions and global variable declarations
+    #         3. Processes functions based on whether they are in the function domain set and modification set
+    #         4. Removes functions not in the function domain set
+    #         5. Replaces functions in the modification set with their new implementations
+    #         6. Preserves functions that don't need modification
+    #         7. Filters global variables based on the provided set
+    #         8. Adds the RPC wrapper header if needed and not already present
+    #         Args:
+    #             src_file (str): Path to the source file to process
+    #             dst_file (str): Path where the modified file should be saved
+    #             issense (bool, optional): Flag indicating if this is a sensitive function. Defaults to False.
+    #             fileast (pycparser.c_ast, optional): AST containing replacement implementations. Defaults to None.
+    #             proname (str, optional): Project name used for including header files. Defaults to None.
+    #             global_var (set, optional): Set of global variable names to preserve. Defaults to None.
+    #             fundomainset (set, optional): Set of function names to preserve. Defaults to None.
+    #             modifunset (set, optional): Set of function names to replace with new implementations. Defaults to None.
+    #         Returns:
+    #             None: Returns early if no content remains after processing
+    #         """
+    #     """
+    #     保留原始文件的头文件和条件编译，但替换函数和全局变量内容
+    #     同时安全地添加RPC包装器头文件
+        
+    #     参数:
+    #         src_file: 源文件路径
+    #         dst_file: 目标文件路径
+    #         nonsense_ast: 用于替换的AST（如果有）
+    #         proname: 项目名称，用于包含头文件
+    #     """
+
+    #     # print(senseast)
+    #     generator=c_generator.CGenerator()
+    #     if issense:
+    #         print("sensitive function")
+    #         print(src_file)
+    #     # 使用libclang解析源文件
+    #     index = clang.cindex.Index.create()
+    #     # tu = index.parse(src_file, args=['-I.','-DHAVE_CONFIG_H','-DSYSTEM_WGETRC=\"/usr/local/etc/wgetrc\"','-DLOCALEDIR=\"/usr/local/share/locale\"'])
+    #     # tu = index.parse(src_file, args=['-I.','-I..','-I../lib','-I../libmisc','-DHAVE_CONFIG_H','-DLOCALEDIR=\"/usr/local/share/locale\"'])
+    #     tu=index.parse(src_file)
+        
+    #     # 读取源文件内容并检测换行符格式
+    #     with open(src_file, 'r', errors='ignore', newline='') as f:
+    #         src_content = f.read()
+    #     print("source code start==================")
+    #     print(src_content)
+    #     print("source code end==============")
+        
+    #     # 检测源文件的换行符格式
+    #     if '\r\n' in src_content:
+    #         line_ending = '\r\n'  # Windows
+    #     else:
+    #         line_ending = '\n'    # Unix/Linux
+        
+    #     # # 如果没有提供替换的AST，直接复制文件
+    #     # if fileast is None :
+    #     #     with open(dst_file, 'w', newline='') as f:
+    #     #         f.write(src_content)
+    #     #     return
+    #     # 找出所有函数定义和全局变量声明的范围
+    #     functions_and_globals = []
+    #     for cursor in tu.cursor.get_children():
+    #         # 仅处理来自主文件的声明
+    #         if (cursor.location.file and 
+    #             cursor.location.file.name == src_file and 
+    #             (cursor.kind == CursorKind.FUNCTION_DECL or
+    #             (cursor.kind == CursorKind.VAR_DECL and cursor.semantic_parent == tu.cursor))):
+                
+    #             # 确定是函数定义还是声明
+    #             is_definition = False
+    #             if cursor.kind == CursorKind.FUNCTION_DECL:
+    #                 is_definition = is_function_definition(cursor)
+                
+    #             # 获取位置信息
+    #             start_line = cursor.extent.start.line
+    #             start_column = cursor.extent.start.column
+    #             end_line = cursor.extent.end.line
+    #             end_column = cursor.extent.end.column
+                
+    #             # 创建一个扩展的种类描述
+    #             extended_kind = cursor.kind
+    #             if cursor.kind == CursorKind.FUNCTION_DECL:
+    #                 extended_kind = "FUNCTION_DEF" if is_definition else "FUNCTION_DECL"
+                
+    #             functions_and_globals.append((cursor.spelling, 
+    #                                         start_line, start_column, 
+    #                                         end_line, end_column, 
+    #                                         extended_kind))
+
+    #     # 按照起始行号排序，从后向前替换，避免行号变化
+    #     functions_and_globals.sort(key=lambda x: x[1], reverse=True)
+
+    #     # 输出functions_and_globals信息
+    #     for name, start_line, start_col, end_line, end_col, kind in functions_and_globals:
+    #         kind_str = str(kind)
+    #         if kind_str == "FUNCTION_DEF":
+    #             kind_str = "函数定义"
+    #         elif kind_str == "FUNCTION_DECL":
+    #             kind_str = "函数声明"
+    #         elif str(kind) == "CursorKind.VAR_DECL":
+    #             kind_str = "全局变量"
+            
+    #         print(f"名称: {name}")
+    #         print(f"位置: 第{start_line}行第{start_col}列 到 第{end_line}行第{end_col}列")
+    #         print(f"类型: {kind_str}")
+    #         print("---")
+
+    #     # 生成修改后的内容
+    #     modified_content = src_content
+    #     isremain = False
+
+    #     # 首先将源代码按行切分
+    #     lines = modified_content.splitlines(True)  # 保留换行符
+
+    #     for name, start_line, start_col, end_line, end_col, kind in functions_and_globals:
+    #         print(f"处理 {name}...")
+    #         kind_str = str(kind)
+    #         if kind_str == "FUNCTION_DEF":
+    #             print(name)
+    #             # print(fundomainset)
+    #             # print(sense_domain)
+    #             if issense and fundomainset and name+"_sense_1" in sense_domain:
+    #                 print("here")
+    #                 new_code=generator.visit(senseast[name+"_sense_1"])
+    #                 new_lines=new_code.splitlines(True)
+    #                 # modified_lines=lines[:start_line-1]
+    #                 # modified_lines.extend(new_lines)
+    #                 # if end_line<len(lines):
+    #                 #     modified_lines.extend(lines[end_line:])
+    #                 # lines=modified_lines
+    #                 # isremain=True
+
+    #                 #从senseast中取出funame为name的ast，插入当前modified_liens中  
+    #                 new_code = generator.visit(senseast[name])
+    #                 new_lines1 = new_code.splitlines(True)
+    #                 modified_lines = lines[:start_line-1]
+    #                 new_lines = new_lines+new_lines1
+    #                 modified_lines.extend(new_lines)
+    #                 if end_line < len(lines):
+    #                     modified_lines.extend(lines[end_line:])
+    #                 lines = modified_lines
+    #                 isremain = True
+    #                 continue
+    #             # if fundomainset and name not in fundomainset:
+    #             #     # 根据行号范围删除函数定义
+    #             #     # 注意：行号是从1开始的，但Python列表索引是从0开始的
+    #             #     modified_lines = lines[:start_line-1]
+    #             #     if end_line < len(lines):
+    #             #         modified_lines.extend(lines[end_line:])
+    #             #     lines = modified_lines
+    #             #     continue
+                
+    #             elif modifunset and name in modifunset and fileast:
+    #                 # 在修改后的AST中查找此函数并替换
+    #                 for node in fileast.ext:
+    #                     if (isinstance(node, c_ast.FuncDef) and node.decl.name == name):
+    #                         # 生成修改后的函数代码
+    #                         new_code = generator.visit(node)
+    #                         new_lines = new_code.splitlines(True)
+                            
+    #                         # 替换对应行
+    #                         modified_lines = lines[:start_line-1]
+    #                         modified_lines.extend(new_lines)
+    #                         if end_line < len(lines):
+    #                             modified_lines.extend(lines[end_line:])
+    #                         lines = modified_lines
+    #                         isremain = True
+    #                         break
+    #             else:
+    #                 # 保留原始函数
+    #                 isremain = True
+            
+    #         # elif str(kind) == "CursorKind.VAR_DECL":
+    #         #     # 全局变量处理
+    #         #     if name not in global_var:
+    #         #         # 删除不在global_var中的全局变量
+    #         #         modified_lines = lines[:start_line-1]
+    #         #         if end_line < len(lines):
+    #         #             modified_lines.extend(lines[end_line:])
+    #         #         lines = modified_lines
+    #         #     else:
+    #         #         isremain = True
+
+    #     # 重新组合修改后的内容
+    #     if isremain:
+    #         modified_content = ''.join(lines)
+    #     # 写入修改后的内容，确保使用与原文件相同的换行符格式
+    #     with open(dst_file, 'w', newline='') as f:
+    #         f.write(modified_content)
+    
+    
+    # def preserve_headers_and_replace_content(src_file, dst_file, issense=False, fileast=None, proname=None, global_var=None, fundomainset=None, modifunset=None):
+    #     """
+    #     保留原始文件的头文件和条件编译，但替换函数和全局变量内容
+    #     通过更健壮的方式处理函数定义和替换
+    #     """
+    #     generator = c_generator.CGenerator()
+    #     if issense:
+    #         print("处理敏感函数文件:", src_file)
+
+    #     # 读取源文件内容
+    #     with open(src_file, 'r', errors='ignore', newline='') as f:
+    #         src_content = f.read()
+
+    #     # 解析源文件
+    #     index = clang.cindex.Index.create()
+    #     tu = index.parse(src_file)
+        
+    #     # 构建一个排序的函数和全局变量列表，按照它们在文件中的开始位置降序排列
+    #     items_to_process = []
+        
+    #     for cursor in tu.cursor.get_children():
+    #         if (cursor.location.file and 
+    #             cursor.location.file.name == src_file and 
+    #             (cursor.kind == CursorKind.FUNCTION_DECL or
+    #             (cursor.kind == CursorKind.VAR_DECL and cursor.semantic_parent == tu.cursor))):
+                
+    #             # 确定是函数定义还是声明
+    #             is_definition = False
+    #             if cursor.kind == CursorKind.FUNCTION_DECL:
+    #                 is_definition = is_function_definition(cursor)
+    #                 if not is_definition:
+    #                     continue  # 跳过函数声明，只处理定义
+                
+    #             items_to_process.append({
+    #                 "name": cursor.spelling,
+    #                 "start": cursor.extent.start.offset,
+    #                 "end": cursor.extent.end.offset,
+    #                 "kind": "FUNCTION_DEF" if cursor.kind == CursorKind.FUNCTION_DECL else "VAR_DECL"
+    #             })
+        
+    #     # 按起始位置降序排序，这样从后向前替换不会影响前面项目的位置
+    #     items_to_process.sort(key=lambda x: x["start"], reverse=True)
+        
+    #     # 修改内容
+    #     modified_content = src_content
+        
+    #     for item in items_to_process:
+    #         name = item["name"]
+    #         start = item["start"]
+    #         end = item["end"]
+    #         kind = item["kind"]
+            
+    #         # 使用这个精确的范围从原始内容中提取函数/变量定义
+    #         original_text = src_content[start:end]
+            
+    #         # 检查是否需要修改/删除这个函数或变量
+    #         if kind == "FUNCTION_DEF":
+    #             if issense and fundomainset and name+"_sense_1" in fundomainset:
+    #                 # 替换为敏感函数实现
+    #                 new_code = generator.visit(fileast[name+"_sense_1"])
+    #                 modified_content = modified_content[:start] + new_code + modified_content[end:]
+                    
+    #             elif fundomainset and name not in fundomainset:
+    #                 # 删除不在目标域的函数
+    #                 modified_content = modified_content[:start] + modified_content[end:]
+                    
+    #             elif modifunset and name in modifunset and fileast:
+    #                 # 替换为修改后的函数
+    #                 for node in fileast.ext:
+    #                     if isinstance(node, c_ast.FuncDef) and node.decl.name == name:
+    #                         print(node)
+    #                         new_code = generator.visit(node)
+    #                         modified_content = modified_content[:start] + new_code + modified_content[end:]
+    #                         break
+                            
+    #         # elif kind == "VAR_DECL" and global_var is not None:
+    #         #     # 处理全局变量
+    #         #     if name not in global_var:
+    #         #         # 删除不在目标域的全局变量
+    #         #         modified_content = modified_content[:start] + modified_content[end:]
+        
+    #     # 处理包含RPC头文件
+    #     if not issense and proname:
+    #         include_line = f'#include "{proname}_rpc_wrapper.h"\n'
+            
+    #         # 只有当头文件尚未包含时才添加
+    #         if include_line not in modified_content:
+    #             # 解析修改后的内容，找到适合添加头文件的位置
+    #             lines = modified_content.splitlines(True)
+                
+    #             # 查找第一个注释块的结束位置
+    #             in_comment = False
+    #             first_comment_end = -1
+                
+    #             for i, line in enumerate(lines):
+    #                 if "/*" in line and not in_comment:
+    #                     in_comment = True
+    #                 if "*/" in line and in_comment:
+    #                     in_comment = False
+    #                     first_comment_end = i + 1
+    #                     break
+                
+    #             # 查找第一个包含指令的位置和最后一个包含指令的位置
+    #             first_include_idx = -1
+    #             last_include_idx = -1
+    #             for i, line in enumerate(lines):
+    #                 if line.strip().startswith("#include"):
+    #                     if first_include_idx == -1:
+    #                         first_include_idx = i
+    #                     last_include_idx = i
+                
+    #             # 确定插入位置 - 在最后一个包含指令之后
+    #             if last_include_idx >= 0:
+    #                 insert_pos = last_include_idx + 1
+    #             elif first_comment_end > 0:
+    #                 # 如果没有包含指令但有注释块，在注释块后插入
+    #                 insert_pos = first_comment_end
+    #             else:
+    #                 # 如果既没有包含指令也没有注释块，在文件开头插入
+    #                 insert_pos = 0
+                
+    #             # 插入包含指令
+    #             if insert_pos > 0 and not lines[insert_pos - 1].isspace() and insert_pos < len(lines):
+    #                 lines.insert(insert_pos, "\n")
+    #                 insert_pos += 1
+                
+    #             lines.insert(insert_pos, include_line)
+                
+    #             if insert_pos + 1 < len(lines) and not lines[insert_pos + 1].isspace():
+    #                 lines.insert(insert_pos + 1, "\n")
+                
+    #             modified_content = ''.join(lines)
+        
+    #     # 写入修改后的内容
+    #     with open(dst_file, 'w', newline='') as f:
+    #         f.write(modified_content)
+        
+    #     print(f"文件处理完成: {dst_file}")
+
+    # def preserve_headers_and_replace_content(src_file, dst_file, issense=False, fileast=None, proname=None, global_var=None, fundomainset=None, modifunset=None)  
+    def preserve_headers_and_replace_content(src_file, dst_file, issense=False, fileast=None, proname=None, global_var=None, fundomainset=None, modifunset=None):
+        """
+        Preserves original headers and conditional compilation directives while replacing function and global variable contents.
+        Safely adds RPC wrapper header files when necessary.
+        This function:
+        1. Parses the source file using libclang
+        2. Identifies function definitions and global variable declarations
+        3. Processes functions based on whether they are in the function domain set and modification set
+        4. Removes functions not in the function domain set
+        5. Replaces functions in the modification set with their new implementations
+        6. Preserves functions that don't need modification
+        7. Filters global variables based on the provided set
+        8. Adds the RPC wrapper header if needed and not already present
+        Args:
+            src_file (str): Path to the source file to process
+            dst_file (str): Path where the modified file should be saved
+            issense (bool, optional): Flag indicating if this is a sensitive function. Defaults to False.
+            fileast (pycparser.c_ast, optional): AST containing replacement implementations. Defaults to None.
+            proname (str, optional): Project name used for including header files. Defaults to None.
+            global_var (set, optional): Set of global variable names to preserve. Defaults to None.
+            fundomainset (set, optional): Set of function names to preserve. Defaults to None.
+            modifunset (set, optional): Set of function names to replace with new implementations. Defaults to None.
+        Returns:
+            None: Returns early if no content remains after processing
+        """
         """
         保留原始文件的头文件和条件编译，但替换函数和全局变量内容
         同时安全地添加RPC包装器头文件
@@ -3779,8 +4201,6 @@ def output_auto_rpc_code(proname):
             nonsense_ast: 用于替换的AST（如果有）
             proname: 项目名称，用于包含头文件
         """
-
-        # print(senseast)
         generator=c_generator.CGenerator()
         if issense:
             print("sensitive function")
@@ -3794,15 +4214,20 @@ def output_auto_rpc_code(proname):
         # 读取源文件内容并检测换行符格式
         with open(src_file, 'r', errors='ignore', newline='') as f:
             src_content = f.read()
-        print("source code start==================")
-        print(src_content)
-        print("source code end==============")
+        # print("source code start==================")
+        # print(src_content)
+        # print("source code end==============")
         
-        # 检测源文件的换行符格式
-        if '\r\n' in src_content:
-            line_ending = '\r\n'  # Windows
-        else:
-            line_ending = '\n'    # Unix/Linux
+        # # 检测源文件的换行符格式
+        # if '\r\n' in src_content:
+        #     line_ending = '\r\n'  # Windows
+        # else:
+        #     line_ending = '\n'    # Unix/Linux
+
+
+        #输出src_content
+        # print("source code start==================")
+        # print(src_content)
         
         # # 如果没有提供替换的AST，直接复制文件
         # if fileast is None :
@@ -3870,51 +4295,52 @@ def output_auto_rpc_code(proname):
             if kind_str == "FUNCTION_DEF":
                 print(name)
                 # print(fundomainset)
-                # print(sense_domain)
-                if issense and fundomainset and name+"_sense_1" in sense_domain:
+                if issense and fundomainset and name+"_sense_1" in fundomainset:
                     print("here")
-                    new_code=generator.visit(senseast[name+"_sense_1"])
+                    new_code=generator.visit(fileast[name+"_sense_1"])
                     new_lines=new_code.splitlines(True)
-                    # modified_lines=lines[:start_line-1]
-                    # modified_lines.extend(new_lines)
-                    # if end_line<len(lines):
-                    #     modified_lines.extend(lines[end_line:])
-                    # lines=modified_lines
-                    # isremain=True
+                    modified_lines=lines[:start_line-1]
 
-                    #从senseast中取出funame为name的ast，插入当前modified_liens中  
-                    new_code = generator.visit(senseast[name])
-                    new_lines1 = new_code.splitlines(True)
-                    modified_lines = lines[:start_line-1]
-                    new_lines = new_lines+new_lines1
                     modified_lines.extend(new_lines)
+                    if end_line<len(lines):
+                        modified_lines.extend(lines[end_line:])
+                    lines=modified_lines
+                    # print(lines)
+                    isremain=True
+                    continue
+                if fundomainset and name not in fundomainset:
+                    print("not in allow range")
+                    # 根据行号范围删除函数定义
+                    # 注意：行号是从1开始的，但Python列表索引是从0开始的
+                    modified_lines = lines[:start_line-1]
                     if end_line < len(lines):
                         modified_lines.extend(lines[end_line:])
                     lines = modified_lines
-                    isremain = True
+                    print(lines)
+                    isremain=True
                     continue
-                # if fundomainset and name not in fundomainset:
-                #     # 根据行号范围删除函数定义
-                #     # 注意：行号是从1开始的，但Python列表索引是从0开始的
-                #     modified_lines = lines[:start_line-1]
-                #     if end_line < len(lines):
-                #         modified_lines.extend(lines[end_line:])
-                #     lines = modified_lines
-                #     continue
                 
                 elif modifunset and name in modifunset and fileast:
+                    print(name)
                     # 在修改后的AST中查找此函数并替换
                     for node in fileast.ext:
                         if (isinstance(node, c_ast.FuncDef) and node.decl.name == name):
                             # 生成修改后的函数代码
                             new_code = generator.visit(node)
                             new_lines = new_code.splitlines(True)
+                            print(start_line,end_line)
+                            print(''.join(new_lines))
+                            print()
                             
                             # 替换对应行
                             modified_lines = lines[:start_line-1]
+                            print("替换之前的代码")
+                            print(''.join(modified_lines))
                             modified_lines.extend(new_lines)
                             if end_line < len(lines):
                                 modified_lines.extend(lines[end_line:])
+                            print("替换之后的代码")
+                            print(''.join(lines[end_line:]))
                             lines = modified_lines
                             isremain = True
                             break
@@ -3922,427 +4348,87 @@ def output_auto_rpc_code(proname):
                     # 保留原始函数
                     isremain = True
             
-            # elif str(kind) == "CursorKind.VAR_DECL":
-            #     # 全局变量处理
-            #     if name not in global_var:
-            #         # 删除不在global_var中的全局变量
-            #         modified_lines = lines[:start_line-1]
-            #         if end_line < len(lines):
-            #             modified_lines.extend(lines[end_line:])
-            #         lines = modified_lines
-            #     else:
-            #         isremain = True
+            elif str(kind) == "CursorKind.VAR_DECL":
+                # 全局变量处理
+                if name not in global_var:
+                    # 删除不在global_var中的全局变量
+                    modified_lines = lines[:start_line-1]
+                    if end_line < len(lines):
+                        modified_lines.extend(lines[end_line:])
+                    lines = modified_lines
+                    isremain=True
+                else:
+                    isremain = True
+            print(''.join(lines))
 
         # 重新组合修改后的内容
         if isremain:
+            
             modified_content = ''.join(lines)
+            
+            print("finally file")
+            print(modified_content)
+        
+        # 2. 安全地添加RPC包装器头文件
+        if issense==False: #如果是敏感函数，不需要添加头文件
+            if proname:
+                include_line = f'#include "{proname}_rpc_wrapper.h"\n'
+                
+                # 检查头文件是否已经存在
+                if include_line not in modified_content:
+                    # 解析文件，找到适合插入头文件的
+                    lines = modified_content.splitlines(True)  # 保留换行符
+                    
+                    # 查找第一个注释块的结束位置
+                    in_comment = False
+                    first_comment_end = -1
+                    
+                    for i, line in enumerate(lines):
+                        line_stripped = line.strip()
+                        
+                        # 检测多行注释的开始和结束
+                        if "/*" in line and not in_comment:
+                            in_comment = True
+                        if "*/" in line and in_comment:
+                            in_comment = False
+                            first_comment_end = i + 1  # 记录第一个注释结束后的行号
+                            break
+                    
+                    # 查找第一个包含指令的位置
+                    first_include_idx = -1
+                    for i, line in enumerate(lines):
+                        if line.strip().startswith("#include"):
+                            first_include_idx = i
+                            break
+                    
+                    # 确定插入位置
+                    if first_comment_end > 0:
+                        # 在第一个注释块后插入
+                        insert_pos = first_comment_end
+                    elif first_include_idx >= 0:
+                        # 如果找不到注释块但有include语句，在第一个include前插入
+                        insert_pos = first_include_idx
+                    else:
+                        # 如果找不到注释块和include语句，在文件开头插入
+                        insert_pos = 0
+                    
+                    # 插入包含指令，确保有足够的空行
+                    if insert_pos > 0 and not lines[insert_pos - 1].isspace():
+                        lines.insert(insert_pos, "\n")
+                        insert_pos += 1
+                    
+                    lines.insert(insert_pos, include_line)
+                    
+                    # 确保插入后有空行分隔
+                    if insert_pos + 1 < len(lines) and not lines[insert_pos + 1].isspace():
+                        lines.insert(insert_pos + 1, "\n")
+                    
+                    # 重新组合修改后的内容
+                    modified_content = ''.join(lines)
+        
         # 写入修改后的内容，确保使用与原文件相同的换行符格式
         with open(dst_file, 'w', newline='') as f:
             f.write(modified_content)
-    
-    
-    def preserve_headers_and_replace_content(src_file, dst_file, issense=False, fileast=None, proname=None, global_var=None, fundomainset=None, modifunset=None):
-        """
-        保留原始文件的头文件和条件编译，但替换函数和全局变量内容
-        通过更健壮的方式处理函数定义和替换
-        """
-        generator = c_generator.CGenerator()
-        if issense:
-            print("处理敏感函数文件:", src_file)
-
-        # 读取源文件内容
-        with open(src_file, 'r', errors='ignore', newline='') as f:
-            src_content = f.read()
-
-        # 解析源文件
-        index = clang.cindex.Index.create()
-        tu = index.parse(src_file)
-        
-        # 构建一个排序的函数和全局变量列表，按照它们在文件中的开始位置降序排列
-        items_to_process = []
-        
-        for cursor in tu.cursor.get_children():
-            if (cursor.location.file and 
-                cursor.location.file.name == src_file and 
-                (cursor.kind == CursorKind.FUNCTION_DECL or
-                (cursor.kind == CursorKind.VAR_DECL and cursor.semantic_parent == tu.cursor))):
-                
-                # 确定是函数定义还是声明
-                is_definition = False
-                if cursor.kind == CursorKind.FUNCTION_DECL:
-                    is_definition = is_function_definition(cursor)
-                    if not is_definition:
-                        continue  # 跳过函数声明，只处理定义
-                
-                items_to_process.append({
-                    "name": cursor.spelling,
-                    "start": cursor.extent.start.offset,
-                    "end": cursor.extent.end.offset,
-                    "kind": "FUNCTION_DEF" if cursor.kind == CursorKind.FUNCTION_DECL else "VAR_DECL"
-                })
-        
-        # 按起始位置降序排序，这样从后向前替换不会影响前面项目的位置
-        items_to_process.sort(key=lambda x: x["start"], reverse=True)
-        
-        # 修改内容
-        modified_content = src_content
-        
-        for item in items_to_process:
-            name = item["name"]
-            start = item["start"]
-            end = item["end"]
-            kind = item["kind"]
-            
-            # 使用这个精确的范围从原始内容中提取函数/变量定义
-            original_text = src_content[start:end]
-            
-            # 检查是否需要修改/删除这个函数或变量
-            if kind == "FUNCTION_DEF":
-                if issense and fundomainset and name+"_sense_1" in fundomainset:
-                    # 替换为敏感函数实现
-                    new_code = generator.visit(fileast[name+"_sense_1"])
-                    modified_content = modified_content[:start] + new_code + modified_content[end:]
-                    
-                elif fundomainset and name not in fundomainset:
-                    # 删除不在目标域的函数
-                    modified_content = modified_content[:start] + modified_content[end:]
-                    
-                elif modifunset and name in modifunset and fileast:
-                    # 替换为修改后的函数
-                    for node in fileast.ext:
-                        if isinstance(node, c_ast.FuncDef) and node.decl.name == name:
-                            print(node)
-                            new_code = generator.visit(node)
-                            modified_content = modified_content[:start] + new_code + modified_content[end:]
-                            break
-                            
-            # elif kind == "VAR_DECL" and global_var is not None:
-            #     # 处理全局变量
-            #     if name not in global_var:
-            #         # 删除不在目标域的全局变量
-            #         modified_content = modified_content[:start] + modified_content[end:]
-        
-        # 处理包含RPC头文件
-        if not issense and proname:
-            include_line = f'#include "{proname}_rpc_wrapper.h"\n'
-            
-            # 只有当头文件尚未包含时才添加
-            if include_line not in modified_content:
-                # 解析修改后的内容，找到适合添加头文件的位置
-                lines = modified_content.splitlines(True)
-                
-                # 查找第一个注释块的结束位置
-                in_comment = False
-                first_comment_end = -1
-                
-                for i, line in enumerate(lines):
-                    if "/*" in line and not in_comment:
-                        in_comment = True
-                    if "*/" in line and in_comment:
-                        in_comment = False
-                        first_comment_end = i + 1
-                        break
-                
-                # 查找第一个包含指令的位置和最后一个包含指令的位置
-                first_include_idx = -1
-                last_include_idx = -1
-                for i, line in enumerate(lines):
-                    if line.strip().startswith("#include"):
-                        if first_include_idx == -1:
-                            first_include_idx = i
-                        last_include_idx = i
-                
-                # 确定插入位置 - 在最后一个包含指令之后
-                if last_include_idx >= 0:
-                    insert_pos = last_include_idx + 1
-                elif first_comment_end > 0:
-                    # 如果没有包含指令但有注释块，在注释块后插入
-                    insert_pos = first_comment_end
-                else:
-                    # 如果既没有包含指令也没有注释块，在文件开头插入
-                    insert_pos = 0
-                
-                # 插入包含指令
-                if insert_pos > 0 and not lines[insert_pos - 1].isspace() and insert_pos < len(lines):
-                    lines.insert(insert_pos, "\n")
-                    insert_pos += 1
-                
-                lines.insert(insert_pos, include_line)
-                
-                if insert_pos + 1 < len(lines) and not lines[insert_pos + 1].isspace():
-                    lines.insert(insert_pos + 1, "\n")
-                
-                modified_content = ''.join(lines)
-        
-        # 写入修改后的内容
-        with open(dst_file, 'w', newline='') as f:
-            f.write(modified_content)
-        
-        print(f"文件处理完成: {dst_file}")
-        
-        # def preserve_headers_and_replace_content(src_file, dst_file, issense=False, fileast=None, proname=None, global_var=None, fundomainset=None, modifunset=None):
-        #     """
-        #     Preserves original headers and conditional compilation directives while replacing function and global variable contents.
-        #     Safely adds RPC wrapper header files when necessary.
-        #     This function:
-        #     1. Parses the source file using libclang
-        #     2. Identifies function definitions and global variable declarations
-        #     3. Processes functions based on whether they are in the function domain set and modification set
-        #     4. Removes functions not in the function domain set
-        #     5. Replaces functions in the modification set with their new implementations
-        #     6. Preserves functions that don't need modification
-        #     7. Filters global variables based on the provided set
-        #     8. Adds the RPC wrapper header if needed and not already present
-        #     Args:
-        #         src_file (str): Path to the source file to process
-        #         dst_file (str): Path where the modified file should be saved
-        #         issense (bool, optional): Flag indicating if this is a sensitive function. Defaults to False.
-        #         fileast (pycparser.c_ast, optional): AST containing replacement implementations. Defaults to None.
-        #         proname (str, optional): Project name used for including header files. Defaults to None.
-        #         global_var (set, optional): Set of global variable names to preserve. Defaults to None.
-        #         fundomainset (set, optional): Set of function names to preserve. Defaults to None.
-        #         modifunset (set, optional): Set of function names to replace with new implementations. Defaults to None.
-        #     Returns:
-        #         None: Returns early if no content remains after processing
-        #     """
-        # """
-        # 保留原始文件的头文件和条件编译，但替换函数和全局变量内容
-        # 同时安全地添加RPC包装器头文件
-        
-        # 参数:
-        #     src_file: 源文件路径
-        #     dst_file: 目标文件路径
-        #     nonsense_ast: 用于替换的AST（如果有）
-        #     proname: 项目名称，用于包含头文件
-        # """
-        # generator=c_generator.CGenerator()
-        # if issense:
-        #     print("sensitive function")
-        #     print(src_file)
-        # # 使用libclang解析源文件
-        # index = clang.cindex.Index.create()
-        # # tu = index.parse(src_file, args=['-I.','-DHAVE_CONFIG_H','-DSYSTEM_WGETRC=\"/usr/local/etc/wgetrc\"','-DLOCALEDIR=\"/usr/local/share/locale\"'])
-        # # tu = index.parse(src_file, args=['-I.','-I..','-I../lib','-I../libmisc','-DHAVE_CONFIG_H','-DLOCALEDIR=\"/usr/local/share/locale\"'])
-        # tu=index.parse(src_file)
-        
-        # # 读取源文件内容并检测换行符格式
-        # with open(src_file, 'r', errors='ignore', newline='') as f:
-        #     src_content = f.read()
-        # # print("source code start==================")
-        # # print(src_content)
-        # # print("source code end==============")
-        
-        # # # 检测源文件的换行符格式
-        # # if '\r\n' in src_content:
-        # #     line_ending = '\r\n'  # Windows
-        # # else:
-        # #     line_ending = '\n'    # Unix/Linux
-
-
-        # #输出src_content
-        # # print("source code start==================")
-        # # print(src_content)
-        
-        # # # 如果没有提供替换的AST，直接复制文件
-        # # if fileast is None :
-        # #     with open(dst_file, 'w', newline='') as f:
-        # #         f.write(src_content)
-        # #     return
-        # # 找出所有函数定义和全局变量声明的范围
-        # functions_and_globals = []
-        # for cursor in tu.cursor.get_children():
-        #     # 仅处理来自主文件的声明
-        #     if (cursor.location.file and 
-        #         cursor.location.file.name == src_file and 
-        #         (cursor.kind == CursorKind.FUNCTION_DECL or
-        #         (cursor.kind == CursorKind.VAR_DECL and cursor.semantic_parent == tu.cursor))):
-                
-        #         # 确定是函数定义还是声明
-        #         is_definition = False
-        #         if cursor.kind == CursorKind.FUNCTION_DECL:
-        #             is_definition = is_function_definition(cursor)
-                
-        #         # 获取位置信息
-        #         start_line = cursor.extent.start.line
-        #         start_column = cursor.extent.start.column
-        #         end_line = cursor.extent.end.line
-        #         end_column = cursor.extent.end.column
-                
-        #         # 创建一个扩展的种类描述
-        #         extended_kind = cursor.kind
-        #         if cursor.kind == CursorKind.FUNCTION_DECL:
-        #             extended_kind = "FUNCTION_DEF" if is_definition else "FUNCTION_DECL"
-                
-        #         functions_and_globals.append((cursor.spelling, 
-        #                                     start_line, start_column, 
-        #                                     end_line, end_column, 
-        #                                     extended_kind))
-
-        # # 按照起始行号排序，从后向前替换，避免行号变化
-        # functions_and_globals.sort(key=lambda x: x[1], reverse=True)
-
-        # # 输出functions_and_globals信息
-        # for name, start_line, start_col, end_line, end_col, kind in functions_and_globals:
-        #     kind_str = str(kind)
-        #     if kind_str == "FUNCTION_DEF":
-        #         kind_str = "函数定义"
-        #     elif kind_str == "FUNCTION_DECL":
-        #         kind_str = "函数声明"
-        #     elif str(kind) == "CursorKind.VAR_DECL":
-        #         kind_str = "全局变量"
-            
-        #     print(f"名称: {name}")
-        #     print(f"位置: 第{start_line}行第{start_col}列 到 第{end_line}行第{end_col}列")
-        #     print(f"类型: {kind_str}")
-        #     print("---")
-
-        # # 生成修改后的内容
-        # modified_content = src_content
-        # isremain = False
-
-        # # 首先将源代码按行切分
-        # lines = modified_content.splitlines(True)  # 保留换行符
-
-        # for name, start_line, start_col, end_line, end_col, kind in functions_and_globals:
-        #     print(f"处理 {name}...")
-        #     kind_str = str(kind)
-        #     if kind_str == "FUNCTION_DEF":
-        #         print(name)
-        #         # print(fundomainset)
-        #         if issense and fundomainset and name+"_sense_1" in fundomainset:
-        #             print("here")
-        #             new_code=generator.visit(fileast[name+"_sense_1"])
-        #             new_lines=new_code.splitlines(True)
-        #             modified_lines=lines[:start_line-1]
-
-        #             modified_lines.extend(new_lines)
-        #             if end_line<len(lines):
-        #                 modified_lines.extend(lines[end_line:])
-        #             lines=modified_lines
-        #             # print(lines)
-        #             isremain=True
-        #             continue
-        #         if fundomainset and name not in fundomainset:
-        #             print("not in allow range")
-        #             # 根据行号范围删除函数定义
-        #             # 注意：行号是从1开始的，但Python列表索引是从0开始的
-        #             modified_lines = lines[:start_line-1]
-        #             if end_line < len(lines):
-        #                 modified_lines.extend(lines[end_line:])
-        #             lines = modified_lines
-        #             print(lines)
-        #             isremain=True
-        #             continue
-                
-        #         elif modifunset and name in modifunset and fileast:
-        #             print(name)
-        #             # 在修改后的AST中查找此函数并替换
-        #             for node in fileast.ext:
-        #                 if (isinstance(node, c_ast.FuncDef) and node.decl.name == name):
-        #                     # 生成修改后的函数代码
-        #                     new_code = generator.visit(node)
-        #                     new_lines = new_code.splitlines(True)
-        #                     print(start_line,end_line)
-        #                     print(''.join(new_lines))
-        #                     print()
-                            
-        #                     # 替换对应行
-        #                     modified_lines = lines[:start_line-1]
-        #                     print("替换之前的代码")
-        #                     print(''.join(modified_lines))
-        #                     modified_lines.extend(new_lines)
-        #                     if end_line < len(lines):
-        #                         modified_lines.extend(lines[end_line:])
-        #                     print("替换之后的代码")
-        #                     print(''.join(lines[end_line:]))
-        #                     lines = modified_lines
-        #                     isremain = True
-        #                     break
-        #         else:
-        #             # 保留原始函数
-        #             isremain = True
-            
-        #     elif str(kind) == "CursorKind.VAR_DECL":
-        #         # 全局变量处理
-        #         if name not in global_var:
-        #             # 删除不在global_var中的全局变量
-        #             modified_lines = lines[:start_line-1]
-        #             if end_line < len(lines):
-        #                 modified_lines.extend(lines[end_line:])
-        #             lines = modified_lines
-        #             isremain=True
-        #         else:
-        #             isremain = True
-        #     print(''.join(lines))
-
-        # # 重新组合修改后的内容
-        # if isremain:
-            
-        #     modified_content = ''.join(lines)
-            
-        #     print("finally file")
-        #     print(modified_content)
-        
-        # # 2. 安全地添加RPC包装器头文件
-        # if issense==False: #如果是敏感函数，不需要添加头文件
-        #     if proname:
-        #         include_line = f'#include "{proname}_rpc_wrapper.h\n'
-                
-        #         # 检查头文件是否已经存在
-        #         if include_line not in modified_content:
-        #             # 解析文件，找到适合插入头文件的
-        #             lines = modified_content.splitlines(True)  # 保留换行符
-                    
-        #             # 查找第一个注释块的结束位置
-        #             in_comment = False
-        #             first_comment_end = -1
-                    
-        #             for i, line in enumerate(lines):
-        #                 line_stripped = line.strip()
-                        
-        #                 # 检测多行注释的开始和结束
-        #                 if "/*" in line and not in_comment:
-        #                     in_comment = True
-        #                 if "*/" in line and in_comment:
-        #                     in_comment = False
-        #                     first_comment_end = i + 1  # 记录第一个注释结束后的行号
-        #                     break
-                    
-        #             # 查找第一个包含指令的位置
-        #             first_include_idx = -1
-        #             for i, line in enumerate(lines):
-        #                 if line.strip().startswith("#include"):
-        #                     first_include_idx = i
-        #                     break
-                    
-        #             # 确定插入位置
-        #             if first_comment_end > 0:
-        #                 # 在第一个注释块后插入
-        #                 insert_pos = first_comment_end
-        #             elif first_include_idx >= 0:
-        #                 # 如果找不到注释块但有include语句，在第一个include前插入
-        #                 insert_pos = first_include_idx
-        #             else:
-        #                 # 如果找不到注释块和include语句，在文件开头插入
-        #                 insert_pos = 0
-                    
-        #             # 插入包含指令，确保有足够的空行
-        #             if insert_pos > 0 and not lines[insert_pos - 1].isspace():
-        #                 lines.insert(insert_pos, "\n")
-        #                 insert_pos += 1
-                    
-        #             lines.insert(insert_pos, include_line)
-                    
-        #             # 确保插入后有空行分隔
-        #             if insert_pos + 1 < len(lines) and not lines[insert_pos + 1].isspace():
-        #                 lines.insert(insert_pos + 1, "\n")
-                    
-        #             # 重新组合修改后的内容
-        #             modified_content = ''.join(lines)
-        
-        # # 写入修改后的内容，确保使用与原文件相同的换行符格式
-        # with open(dst_file, 'w', newline='') as f:
-        #     f.write(modified_content)
 
         
 

@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -65,12 +67,6 @@
 #include "defines.h"
 #include "externs.h"
 
-#include "telnet_rpc_wrapper.h"
-
-Ring netoring, netiring;
-unsigned char netobuf[2 * BUFSIZ], netibuf[BUFSIZ];
-
-/*
  * Initialize internal network data structures.
  */
 
@@ -78,25 +74,24 @@ void init_network(void)
 {
   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_14 = ring_init(&temp_netoring, netobuf, sizeof(netobuf));
+    int temp_result_5 = ring_init(&temp_netoring, netobuf, sizeof(netobuf));
     set_netoring_wrapper(temp_netoring);
-    if (temp_result_14 != 1)
+    if (temp_result_5 != 1)
     {
       exit(1);
     }
   }
   {
     Ring temp_netiring = get_netiring_wrapper();
-    int temp_result_15 = ring_init(&temp_netiring, netibuf, sizeof(netibuf));
+    int temp_result_6 = ring_init(&temp_netiring, netibuf, sizeof(netibuf));
     set_netiring_wrapper(temp_netiring);
-    if (temp_result_15 != 1)
+    if (temp_result_6 != 1)
     {
       exit(1);
     }
   }
   set_NetTrace_wrapper(stdout);
 }
-
 
 
 
@@ -134,7 +129,6 @@ int stilloob(void)
 
 
 
-
 /*
  *  setneturg()
  *
@@ -149,7 +143,6 @@ void setneturg(void)
     set_netoring_wrapper(temp_netoring);
   }
 }
-
 
 
 
@@ -169,17 +162,17 @@ int netflush(void)
   register int n1;
   if ((n1 =   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_16 = ring_full_consecutive(&temp_netoring);
+    int temp_result_7 = ring_full_consecutive(&temp_netoring);
     set_netoring_wrapper(temp_netoring);
-    n = temp_result_16;
+    n = temp_result_7;
   }
 ) > 0)
   {
     {
       Ring temp_netoring = get_netoring_wrapper();
-      int temp_result_16 = ring_at_mark(&temp_netoring);
+      int temp_result_7 = ring_at_mark(&temp_netoring);
       set_netoring_wrapper(temp_netoring);
-      if (!temp_result_16)
+      if (!temp_result_7)
       {
         n = send(get_net_wrapper(), (char *) get_netoring_consume_wrapper(), n, 0);
       }
@@ -218,9 +211,9 @@ int netflush(void)
     }
     {
       Ring temp_netoring = get_netoring_wrapper();
-      int temp_result_17 = ring_full_consecutive(&temp_netoring);
+      int temp_result_8 = ring_full_consecutive(&temp_netoring);
       set_netoring_wrapper(temp_netoring);
-      if ((n1 == n) && temp_result_17)
+      if ((n1 == n) && temp_result_8)
       {
         (void) netflush();
       }
@@ -232,5 +225,4 @@ int netflush(void)
     return 0;
   }
 }
-
 

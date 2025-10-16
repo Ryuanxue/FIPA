@@ -122,10 +122,8 @@ SetSockOpt (int fd, int level, int option, int yesno)
 /*
  * The following are routines used to print out debugging information.
  */
-
 unsigned char NetTraceFile[256] = "(standard output)";
-
-
+}
 
 void
 Dump (char direction, unsigned char *buffer, int length)
@@ -228,8 +226,7 @@ printoption (char *direction, int cmd, int option)
     }
   return;
 }
-
-
+}
 
 /* char direction; '<' or '>' */
 /* unsigned char *pointer; where suboption data sits */

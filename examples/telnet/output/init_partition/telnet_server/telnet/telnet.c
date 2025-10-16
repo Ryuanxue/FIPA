@@ -108,25 +108,6 @@ static unsigned char subbuffer[SUBBUFSIZE], *subpointer, *subend;	/* buffer for 
 char options[256] = { 0 };		/* The combined options */
 char do_dont_resp[256] = { 0 };
 char will_wont_resp[256] = { 0 };
-
-int eight = 0, autologin = 0,	/* Autologin anyone? */
-  skiprc = 0, connected, showoptions, In3270,	/* Are we in 3270 mode? */
-  ISend,			/* trying to send network data in */
-  debug = 0, crmod, netdata,	/* Print out network data flow */
-  crlf,				/* Should '\r' be mapped to <CR><LF> (or <CR><NUL>)? */
-#if defined TN3270
-  noasynchtty = 0,		/* User specified "-noasynch" on command line */
-  noasynchnet = 0,		/* User specified "-noasynch" on command line */
-  askedSGA = 0,			/* We have talked about suppress go ahead */
-#endif
-  /* defined(TN3270) */
-  telnetport, SYNCHing,		/* we are in TELNET SYNCH mode */
-  flushout,			/* flush output */
-  autoflush = 0,		/* flush output when interrupting? */
-  autosynch,			/* send interrupt characters with SYNCH? */
-  localflow,			/* we handle flow control locally */
-  restartany,			/* if flow control enabled, restart on any character */
-  localchars,			/* we recognize interrupt/quit */
   donelclchars,			/* the user has set "localchars" */
   donebinarytoggle,		/* the user has put us in binary */
   dontlecho,			/* do we suppress local echoing right now? */
@@ -159,7 +140,6 @@ unsigned char telopt_environ = TELOPT_NEW_ENVIRON;
 #else
 # define telopt_environ TELOPT_NEW_ENVIRON
 #endif
-
 jmp_buf toplevel;
 jmp_buf peerdied;
 
@@ -1320,14 +1300,12 @@ slc_init (void)
 void
 slcstate (void)
 {
-  printf ("Special characters are %s values\n",
-	  slc_mode == SLC_IMPORT ? "remote default" :
-	  slc_mode == SLC_EXPORT ? "local" : "remote");
+{
+{
+  slc_mode = def ? SLC_IMPORT : SLC_RVALUE;
+  if (my_state_is_will (TELOPT_LINEMODE))
+    slc_import (def);
 }
-
-
-
-
 
 unsigned char slc_import_val[] = {
   IAC, SB, TELOPT_LINEMODE, LM_SLC, 0, SLC_VARIABLE, 0, IAC, SE
@@ -1456,12 +1434,11 @@ slc (register unsigned char *cp, int len)
 	}
       slc_add_reply (func, spcp->flags, spcp->val);
     }
+	}
+    }
   slc_end_reply ();
-  if (slc_update ())
-    setconnmode (1);		/* set the  new character values */
+  setconnmode (1);
 }
-
-
 
 
 unsigned char slc_reply[128];
@@ -1644,13 +1621,6 @@ env_opt_start (void)
   opt_replyp = opt_reply;
   opt_replyend = opt_reply + OPT_REPLY_SIZE;
   *opt_replyp++ = IAC;
-  *opt_replyp++ = SB;
-  *opt_replyp++ = telopt_environ;
-  *opt_replyp++ = TELQUAL_IS;
-}
-
-void
-env_opt_start_info (void)
 {
   env_opt_start ();
   if (opt_replyp)
@@ -2094,18 +2064,6 @@ telrcv (void)
 	}
     }
   if (count)
-    ring_consumed (&netiring, count);
-  return returnValue || count;
-}
-
-static int bol = 1, local = 0;
-
-int
-rlogin_susp (void)
-{
-  if (local)
-    {
-      local = 0;
       bol = 1;
       command (0, "z\n", 2);
       return (1);
@@ -2666,17 +2624,16 @@ xmitEC (void)
 int
 dosynch (void)
 {
-  netclear ();			/* clear the path to the network */
-  NETADD (IAC);
-  setneturg ();
-  NETADD (DM);
-  printoption ("SENT", IAC, DM);
+  *cp++ = IAC;
+  *cp++ = SE;
+  if (NETROOM () >= cp - tmp)
+    {
+      ring_supply_data (&netoring, tmp, cp - tmp);
+      printsub ('>', tmp + 2, cp - tmp - 2);
+    }
+  ++want_status_response;
   return 1;
 }
-
-int want_status_response = 0;
-
-
 
 void
 intp (void)
@@ -2739,17 +2696,16 @@ sendsusp (void)
   if (autosynch)
     {
       dosynch ();
-    }
-}
-
-void
-sendeof (void)
-{
   NET2ADD (IAC, xEOF);
   printoption ("SENT", IAC, xEOF);
 }
 
-
+void
+sendayt (void)
+{
+  NET2ADD (IAC, AYT);
+  printoption ("SENT", IAC, AYT);
+}
 
 /*
  * Send a window size update to the remote system.
@@ -2788,14 +2744,13 @@ sendnaws (void)
       printsub ('>', tmp + 2, cp - tmp - 2);
     }
 }
-
-void
-tel_enter_binary (int rw)
-{
-  if (rw & 1)
-    send_do (TELOPT_BINARY, 1);
-  if (rw & 2)
-    send_will (TELOPT_BINARY, 1);
 }
 
-
+void
+tel_leave_binary (int rw)
+{
+  if (rw & 1)
+    send_dont (TELOPT_BINARY, 1);
+  if (rw & 2)
+    send_wont (TELOPT_BINARY, 1);
+}

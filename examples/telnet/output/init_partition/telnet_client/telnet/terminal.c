@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1988, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -59,16 +61,10 @@
 #include "externs.h"
 #include "types.h"
 
-#include "telnet_rpc_wrapper.h"
-
 #ifdef  ENCRYPTION
 # include <libtelnet/encrypt.h>
 #endif
 
-Ring ttyoring, ttyiring;
-unsigned char ttyobuf[2 * BUFSIZ], ttyibuf[BUFSIZ];
-
-int termdata;			/* Debugging flag */
 
 #ifdef	USE_TERMIO
 # ifndef VDISCARD
@@ -99,7 +95,6 @@ cc_t termForw1Char;
 cc_t termForw2Char;
 # endif
 # ifndef VSTATUS
-cc_t termAytChar;
 # endif
 #else
 cc_t termForw2Char;
@@ -132,7 +127,6 @@ void init_terminal(void)
   }
   set_autoflush_wrapper(TerminalAutoFlush());
 }
-
 
 
 
@@ -206,14 +200,12 @@ int ttyflush(int drop)
   return (n0 - n) + 1;
 }
 
-
 
 
 /*
  * These routines decides on what the mode should be (based on the values
  * of various global variables).
  */
-
 
 int getconnmode(void)
 {
@@ -247,7 +239,7 @@ int getconnmode(void)
   return mode;
 }
 
-
+}
 
 void
 setconnmode (int force)

@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -48,8 +50,6 @@
  */
 
 #include <config.h>
-
-#include "telnet_rpc_wrapper.h"
 
 #if defined AUTHENTICATION || defined ENCRYPTION
 # include <unistd.h>

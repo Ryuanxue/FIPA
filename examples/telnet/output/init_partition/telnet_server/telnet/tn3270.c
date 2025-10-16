@@ -90,7 +90,6 @@ static int Sent3270TerminalType;	/* Have we said we are a 3270? */
 #endif /* defined(TN3270) */
 
 
-
 
 
 #if defined TN3270

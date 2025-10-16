@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -78,8 +80,6 @@
 #include	"ring.h"
 #include	"general.h"
 
-#include "telnet_rpc_wrapper.h"
-
 /* Internal macros */
 
 #if !defined MIN
@@ -103,7 +103,6 @@
  * to ZERO on allocation, we need to make sure, when interpreting the
  * clock, that when the times are EQUAL, then the buffer is FULL.
  */
-static unsigned long ring_clock = 0;
 
 
 #define ring_empty(d) (((d)->consume == (d)->supply) && \
@@ -184,7 +183,6 @@ void ring_supplied(Ring *ring, int count)
 }
 
 
-
 /*
  * We have just consumed "c" bytes.
  */
@@ -203,7 +201,6 @@ void ring_consumed(Ring *ring, int count)
     ring->consume = (ring->supply = ring->bottom);
   }
 }
-
 
 
 

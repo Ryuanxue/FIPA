@@ -254,7 +254,6 @@ TerminalFlushOutput (void)
 }
 
 
-
 cc_t *
 tcval (register int func)
 {
@@ -899,21 +898,16 @@ NetSetPgrp (int fd)
 /*
  * Various signal handling routines.
  */
+}
 
+}
 
+}
 
-
-
-
-
-
-
-#ifdef	SIGTSTP
-
+}
 #endif
 
-#ifdef	SIGWINCH
-
+}
 #endif
 
 #ifdef	SIGINFO

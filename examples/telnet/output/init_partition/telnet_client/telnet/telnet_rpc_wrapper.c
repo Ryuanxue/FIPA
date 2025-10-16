@@ -1,6 +1,6 @@
 #include "telnet_rpc_wrapper.h"
 extern CLIENT *clnt;
-int tn_sense_1_wrapper(int *tn_sense_1_ret, int *err, char *hostp, char *user)
+int tn_sense_1_wrapper(int *tn_sense_1_ret, struct addrinfo *result, struct addrinfo *aip, const int on, int *err, char *hostp, char *user)
 {
     tn_sense_1_ret_ *result_rpc;
     int sensefun_ret;
@@ -16,6 +16,104 @@ for(int i0=0;i0<tn_sense_1_ret_rpc.int_ptr_len;i0++) {
 tn_sense_1_ret_rpc.int_ptr_val[i0]=tn_sense_1_ret[i0];
 	}
 }else{tn_sense_1_ret_rpc.int_ptr_len=0;tn_sense_1_ret_rpc.int_ptr_val=NULL;}
+addrinfo_rpc_ptr result_rpc_ptr;
+if(result==NULL) {
+result_rpc_ptr.addrinfo_rpc_ptr_len=0;
+result_rpc_ptr.addrinfo_rpc_ptr_val=NULL;
+} else {
+result_rpc_ptr.addrinfo_rpc_ptr_len=1;
+result_rpc_ptr.addrinfo_rpc_ptr_val=malloc(1*sizeof(addrinfo_rpc));
+if(result_rpc_ptr.addrinfo_rpc_ptr_val==NULL) {
+perror("malloc failed");
+exit(1);
+}
+for(int i0=0;i0<result_rpc_ptr.addrinfo_rpc_ptr_len;i0++) {
+result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_flags=result[i0].ai_flags;
+result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_family=result[i0].ai_family;
+result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_socktype=result[i0].ai_socktype;
+result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_protocol=result[i0].ai_protocol;
+result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addrlen=result[i0].ai_addrlen;
+if (result[i0].ai_addr == NULL) {result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len = 0;result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val = NULL;}
+else {result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len = 1;result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val = malloc(result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len * sizeof(sockaddr_rpc));
+	if (result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	for (int i1 = 0; i1 < result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len; i1++) {
+result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val[i1].sa_family=result[i0].ai_addr[i1].sa_family;
+	}
+}
+if (result[i0].ai_canonname == NULL) {result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len = 0;result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val = NULL;}
+else {result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len = strlen(result[i0].ai_canonname) + 1;
+
+	result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val = malloc(result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len * sizeof(char));
+	if (result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	memcpy(result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val, result[i0].ai_canonname, result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len);
+}
+if (result[i0].ai_next == NULL) {result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len = 0;result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val = NULL;}
+else {result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len = 1;result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val = malloc(result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len * sizeof(addrinfo_rpc));
+	if (result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	for (int i1 = 0; i1 < result_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len; i1++) {
+	}
+}
+}
+}
+addrinfo_rpc_ptr aip_rpc_ptr;
+if(aip==NULL) {
+aip_rpc_ptr.addrinfo_rpc_ptr_len=0;
+aip_rpc_ptr.addrinfo_rpc_ptr_val=NULL;
+} else {
+aip_rpc_ptr.addrinfo_rpc_ptr_len=1;
+aip_rpc_ptr.addrinfo_rpc_ptr_val=malloc(1*sizeof(addrinfo_rpc));
+if(aip_rpc_ptr.addrinfo_rpc_ptr_val==NULL) {
+perror("malloc failed");
+exit(1);
+}
+for(int i0=0;i0<aip_rpc_ptr.addrinfo_rpc_ptr_len;i0++) {
+aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_flags=aip[i0].ai_flags;
+aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_family=aip[i0].ai_family;
+aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_socktype=aip[i0].ai_socktype;
+aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_protocol=aip[i0].ai_protocol;
+aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addrlen=aip[i0].ai_addrlen;
+if (aip[i0].ai_addr == NULL) {aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len = 0;aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val = NULL;}
+else {aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len = 1;aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val = malloc(aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len * sizeof(sockaddr_rpc));
+	if (aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	for (int i1 = 0; i1 < aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len; i1++) {
+aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val[i1].sa_family=aip[i0].ai_addr[i1].sa_family;
+	}
+}
+if (aip[i0].ai_canonname == NULL) {aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len = 0;aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val = NULL;}
+else {aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len = strlen(aip[i0].ai_canonname) + 1;
+
+	aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val = malloc(aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len * sizeof(char));
+	if (aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	memcpy(aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val, aip[i0].ai_canonname, aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len);
+}
+if (aip[i0].ai_next == NULL) {aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len = 0;aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val = NULL;}
+else {aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len = 1;aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val = malloc(aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len * sizeof(addrinfo_rpc));
+	if (aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	for (int i1 = 0; i1 < aip_rpc_ptr.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len; i1++) {
+	}
+}
+}
+}
+int on_rpc;
+on_rpc=on;
 int_ptr err_rpc;
 if(err!=NULL) {
 err_rpc.int_ptr_len=1;
@@ -44,7 +142,7 @@ perror("malloc failed");
 exit(1);
 }
 memcpy(user_rpc.charptr.charptr_val,user,user_rpc.charptr.charptr_len);
-result_rpc=tn_sense_1_rpc_1(tn_sense_1_ret_rpc,err_rpc,hostp_rpc,user_rpc,clnt);
+result_rpc=tn_sense_1_rpc_1(tn_sense_1_ret_rpc,result_rpc_ptr,aip_rpc_ptr,on_rpc,err_rpc,hostp_rpc,user_rpc,clnt);
 if(result_rpc==(tn_sense_1_ret_ *)NULL) {
 clnt_perror(clnt,"call failed");
 }
@@ -61,6 +159,84 @@ for(int i0=0;i0<result_rpc->tn_sense_1_ret.int_ptr_len;i0++) {
 tn_sense_1_ret[i0]=result_rpc->tn_sense_1_ret.int_ptr_val[i0];
 }
 }
+    if(result_rpc->result.addrinfo_rpc_ptr_val==NULL) {
+        result=NULL;
+    } else {
+        result=malloc(result_rpc->result.addrinfo_rpc_ptr_len*sizeof(struct addrinfo));
+        if(result==NULL) {
+            perror("malloc failed");
+            exit(1);
+        }
+        for(int i0=0;i0<result_rpc->result.addrinfo_rpc_ptr_len;i0++) {
+result[i0].ai_flags=result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_flags;
+result[i0].ai_family=result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_family;
+result[i0].ai_socktype=result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_socktype;
+result[i0].ai_protocol=result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_protocol;
+result[i0].ai_addrlen=result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_addrlen;
+if (result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val == NULL) {result[i0].ai_addr = NULL;}
+else {
+	result[i0].ai_addr = (struct sockaddr *)malloc(result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len * sizeof( struct sockaddr));
+	if (result[i0].ai_addr == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	for (int i1 = 0; i1 < result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len; i1++) {
+result[i0].ai_addr[i1].sa_family=result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val[i1].sa_family;
+	}
+}
+if (result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val == NULL) {result[i0].ai_canonname = NULL;}
+else {result[i0].ai_canonname = strdup(result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val);}
+if (result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val == NULL) {result[i0].ai_next = NULL;}
+else {
+	result[i0].ai_next = (struct addrinfo *)malloc(result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len * sizeof( struct addrinfo));
+	if (result[i0].ai_next == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	for (int i1 = 0; i1 < result_rpc->result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len; i1++) {
+	}
+}
+        }
+    }
+    if(result_rpc->aip.addrinfo_rpc_ptr_val==NULL) {
+        aip=NULL;
+    } else {
+        aip=malloc(result_rpc->aip.addrinfo_rpc_ptr_len*sizeof(struct addrinfo));
+        if(aip==NULL) {
+            perror("malloc failed");
+            exit(1);
+        }
+        for(int i0=0;i0<result_rpc->aip.addrinfo_rpc_ptr_len;i0++) {
+aip[i0].ai_flags=result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_flags;
+aip[i0].ai_family=result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_family;
+aip[i0].ai_socktype=result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_socktype;
+aip[i0].ai_protocol=result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_protocol;
+aip[i0].ai_addrlen=result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_addrlen;
+if (result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val == NULL) {aip[i0].ai_addr = NULL;}
+else {
+	aip[i0].ai_addr = (struct sockaddr *)malloc(result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len * sizeof( struct sockaddr));
+	if (aip[i0].ai_addr == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	for (int i1 = 0; i1 < result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len; i1++) {
+aip[i0].ai_addr[i1].sa_family=result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val[i1].sa_family;
+	}
+}
+if (result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val == NULL) {aip[i0].ai_canonname = NULL;}
+else {aip[i0].ai_canonname = strdup(result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val);}
+if (result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val == NULL) {aip[i0].ai_next = NULL;}
+else {
+	aip[i0].ai_next = (struct addrinfo *)malloc(result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len * sizeof( struct addrinfo));
+	if (aip[i0].ai_next == NULL) {
+		perror("malloc failed");
+		exit(1);
+	}
+	for (int i1 = 0; i1 < result_rpc->aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len; i1++) {
+	}
+}
+        }
+    }
 if(result_rpc->err.int_ptr_val==NULL) {
 err=NULL;
 } else {
@@ -113,6 +289,68 @@ return sensefun_ret;
 }
 
 /* 全局变量访问函数 - 客户端Wrapper */
+unsigned char* get_ttyibuf_wrapper()
+{
+    ttyibuf_array *result;
+    static unsigned char local_copy[1024];
+    result = get_ttyibuf_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    memcpy(local_copy, result->ttyibuf, sizeof(local_copy));
+    return local_copy;
+}
+
+int set_ttyibuf_wrapper(const unsigned char *value)
+{
+    ttyibuf_array param;
+    void *result;
+    if (value == NULL) {
+        memset(param.ttyibuf, 0, sizeof(param.ttyibuf));
+    } else {
+        memcpy(param.ttyibuf, value, sizeof(param.ttyibuf));
+    }
+    result = set_ttyibuf_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned char* get_ttyobuf_wrapper()
+{
+    ttyobuf_array *result;
+    static unsigned char local_copy[2048];
+    result = get_ttyobuf_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    memcpy(local_copy, result->ttyobuf, sizeof(local_copy));
+    return local_copy;
+}
+
+int set_ttyobuf_wrapper(const unsigned char *value)
+{
+    ttyobuf_array param;
+    void *result;
+    if (value == NULL) {
+        memset(param.ttyobuf, 0, sizeof(param.ttyobuf));
+    } else {
+        memcpy(param.ttyobuf, value, sizeof(param.ttyobuf));
+    }
+    result = set_ttyobuf_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
 int get_localflow_wrapper()
 {
     localflow_ret_t *result;
@@ -136,37 +374,33 @@ int set_localflow_wrapper(int value)
     return 1; // 成功
 }
 
-struct termios get_old_tc_wrapper()
+Clocks get_clocks_wrapper()
 {
-    old_tc_ret_t *result_rpc;
-    struct termios default_value = {0};
-    result_rpc = get_old_tc_1(clnt);
+    clocks_ret_t *result_rpc;
+    Clocks default_value = {0};
+    result_rpc = get_clocks_1(clnt);
     if (result_rpc == NULL) {
         clnt_perror(clnt, "get call failed");
         return default_value;
     }
-    default_value.c_iflag=result_rpc->value.c_iflag;
-    default_value.c_oflag=result_rpc->value.c_oflag;
-    default_value.c_cflag=result_rpc->value.c_cflag;
-    default_value.c_lflag=result_rpc->value.c_lflag;
-    default_value.c_line=result_rpc->value.c_line;
-    default_value.c_ispeed=result_rpc->value.c_ispeed;
-    default_value.c_ospeed=result_rpc->value.c_ospeed;
+    default_value.system=result_rpc->value.system;
+    default_value.echotoggle=result_rpc->value.echotoggle;
+    default_value.modenegotiated=result_rpc->value.modenegotiated;
+    default_value.didnetreceive=result_rpc->value.didnetreceive;
+    default_value.gotDM=result_rpc->value.gotDM;
     return default_value;
 }
 
-int set_old_tc_wrapper(struct termios old_tc)
+int set_clocks_wrapper(Clocks clocks)
 {
     void *result;
-    termios_rpc old_tc_rpc;
-    old_tc_rpc.c_iflag=old_tc.c_iflag;
-    old_tc_rpc.c_oflag=old_tc.c_oflag;
-    old_tc_rpc.c_cflag=old_tc.c_cflag;
-    old_tc_rpc.c_lflag=old_tc.c_lflag;
-    old_tc_rpc.c_line=old_tc.c_line;
-    old_tc_rpc.c_ispeed=old_tc.c_ispeed;
-    old_tc_rpc.c_ospeed=old_tc.c_ospeed;
-    result = set_old_tc_1(old_tc_rpc, clnt);
+    Clocks_rpc clocks_rpc;
+    clocks_rpc.system=clocks.system;
+    clocks_rpc.echotoggle=clocks.echotoggle;
+    clocks_rpc.modenegotiated=clocks.modenegotiated;
+    clocks_rpc.didnetreceive=clocks.didnetreceive;
+    clocks_rpc.gotDM=clocks.gotDM;
+    result = set_clocks_1(clocks_rpc, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set call failed");
         return 0;
@@ -174,11 +408,11 @@ int set_old_tc_wrapper(struct termios old_tc)
     return 1;
 }
 
-unsigned int get_old_tc_c_iflag_wrapper()
+int get_clocks_system_wrapper()
 {
-    old_tc_c_iflag_ret_t *result;
-    unsigned int ret_val = 0; // 默认值
-    result = get_old_tc_c_iflag_1(clnt);
+    clocks_system_ret_t *result;
+    int ret_val = 0; // 默认值
+    result = get_clocks_system_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get member call failed");
         return ret_val;
@@ -187,10 +421,10 @@ unsigned int get_old_tc_c_iflag_wrapper()
     return ret_val;
 }
 
-int set_old_tc_c_iflag_wrapper(unsigned int value)
+int set_clocks_system_wrapper(int value)
 {
     void *result;
-    result = set_old_tc_c_iflag_1(value, clnt);
+    result = set_clocks_system_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set member call failed");
         return 0;
@@ -198,11 +432,11 @@ int set_old_tc_c_iflag_wrapper(unsigned int value)
     return 1;
 }
 
-unsigned int get_old_tc_c_oflag_wrapper()
+int get_clocks_echotoggle_wrapper()
 {
-    old_tc_c_oflag_ret_t *result;
-    unsigned int ret_val = 0; // 默认值
-    result = get_old_tc_c_oflag_1(clnt);
+    clocks_echotoggle_ret_t *result;
+    int ret_val = 0; // 默认值
+    result = get_clocks_echotoggle_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get member call failed");
         return ret_val;
@@ -211,10 +445,10 @@ unsigned int get_old_tc_c_oflag_wrapper()
     return ret_val;
 }
 
-int set_old_tc_c_oflag_wrapper(unsigned int value)
+int set_clocks_echotoggle_wrapper(int value)
 {
     void *result;
-    result = set_old_tc_c_oflag_1(value, clnt);
+    result = set_clocks_echotoggle_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set member call failed");
         return 0;
@@ -222,11 +456,11 @@ int set_old_tc_c_oflag_wrapper(unsigned int value)
     return 1;
 }
 
-unsigned int get_old_tc_c_cflag_wrapper()
+int get_clocks_modenegotiated_wrapper()
 {
-    old_tc_c_cflag_ret_t *result;
-    unsigned int ret_val = 0; // 默认值
-    result = get_old_tc_c_cflag_1(clnt);
+    clocks_modenegotiated_ret_t *result;
+    int ret_val = 0; // 默认值
+    result = get_clocks_modenegotiated_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get member call failed");
         return ret_val;
@@ -235,10 +469,10 @@ unsigned int get_old_tc_c_cflag_wrapper()
     return ret_val;
 }
 
-int set_old_tc_c_cflag_wrapper(unsigned int value)
+int set_clocks_modenegotiated_wrapper(int value)
 {
     void *result;
-    result = set_old_tc_c_cflag_1(value, clnt);
+    result = set_clocks_modenegotiated_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set member call failed");
         return 0;
@@ -246,11 +480,11 @@ int set_old_tc_c_cflag_wrapper(unsigned int value)
     return 1;
 }
 
-unsigned int get_old_tc_c_lflag_wrapper()
+int get_clocks_didnetreceive_wrapper()
 {
-    old_tc_c_lflag_ret_t *result;
-    unsigned int ret_val = 0; // 默认值
-    result = get_old_tc_c_lflag_1(clnt);
+    clocks_didnetreceive_ret_t *result;
+    int ret_val = 0; // 默认值
+    result = get_clocks_didnetreceive_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get member call failed");
         return ret_val;
@@ -259,10 +493,10 @@ unsigned int get_old_tc_c_lflag_wrapper()
     return ret_val;
 }
 
-int set_old_tc_c_lflag_wrapper(unsigned int value)
+int set_clocks_didnetreceive_wrapper(int value)
 {
     void *result;
-    result = set_old_tc_c_lflag_1(value, clnt);
+    result = set_clocks_didnetreceive_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set member call failed");
         return 0;
@@ -270,11 +504,11 @@ int set_old_tc_c_lflag_wrapper(unsigned int value)
     return 1;
 }
 
-unsigned char get_old_tc_c_line_wrapper()
+int get_clocks_gotDM_wrapper()
 {
-    old_tc_c_line_ret_t *result;
-    unsigned char ret_val = 0; // 默认值
-    result = get_old_tc_c_line_1(clnt);
+    clocks_gotDM_ret_t *result;
+    int ret_val = 0; // 默认值
+    result = get_clocks_gotDM_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get member call failed");
         return ret_val;
@@ -283,10 +517,10 @@ unsigned char get_old_tc_c_line_wrapper()
     return ret_val;
 }
 
-int set_old_tc_c_line_wrapper(unsigned char value)
+int set_clocks_gotDM_wrapper(int value)
 {
     void *result;
-    result = set_old_tc_c_line_1(value, clnt);
+    result = set_clocks_gotDM_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set member call failed");
         return 0;
@@ -294,59 +528,11 @@ int set_old_tc_c_line_wrapper(unsigned char value)
     return 1;
 }
 
-unsigned int get_old_tc_c_ispeed_wrapper()
+int get_telrcv_state_wrapper()
 {
-    old_tc_c_ispeed_ret_t *result;
-    unsigned int ret_val = 0; // 默认值
-    result = get_old_tc_c_ispeed_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_old_tc_c_ispeed_wrapper(unsigned int value)
-{
-    void *result;
-    result = set_old_tc_c_ispeed_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned int get_old_tc_c_ospeed_wrapper()
-{
-    old_tc_c_ospeed_ret_t *result;
-    unsigned int ret_val = 0; // 默认值
-    result = get_old_tc_c_ospeed_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_old_tc_c_ospeed_wrapper(unsigned int value)
-{
-    void *result;
-    result = set_old_tc_c_ospeed_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_flushout_wrapper()
-{
-    flushout_ret_t *result;
+    telrcv_state_ret_t *result;
     int default_value = {0}; // 初始化默认值
-    result = get_flushout_1(clnt);
+    result = get_telrcv_state_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get call failed");
         return default_value;
@@ -354,10 +540,268 @@ int get_flushout_wrapper()
     return result->value;
 }
 
-int set_flushout_wrapper(int value)
+int set_telrcv_state_wrapper(int value)
 {
     void *result;
-    result = set_flushout_1(value, clnt);
+    result = set_telrcv_state_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_localchars_wrapper()
+{
+    localchars_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_localchars_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_localchars_wrapper(int value)
+{
+    void *result;
+    result = set_localchars_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+unsigned char* get_str_lm_wrapper()
+{
+    str_lm_array *result;
+    static unsigned char local_copy[1];
+    result = get_str_lm_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    memcpy(local_copy, result->str_lm, sizeof(local_copy));
+    return local_copy;
+}
+
+int set_str_lm_wrapper(const unsigned char *value)
+{
+    str_lm_array param;
+    void *result;
+    if (value == NULL) {
+        memset(param.str_lm, 0, sizeof(param.str_lm));
+    } else {
+        memcpy(param.str_lm, value, sizeof(param.str_lm));
+    }
+    result = set_str_lm_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+char** get_margv_wrapper()
+{
+    margv_array *result;
+    static char *local_copy[20];
+    result = get_margv_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    for (int i = 0; i < 20; i++) {
+        if (result->margv[i].charptr.charptr_val != NULL) {
+            local_copy[i] = malloc(result->margv[i].charptr.charptr_len);
+            if (local_copy[i] != NULL) {
+                memcpy(local_copy[i], result->margv[i].charptr.charptr_val, result->margv[i].charptr.charptr_len);
+            }
+        } else {
+            local_copy[i] = NULL;
+        }
+    }
+    return local_copy;
+}
+
+int set_margv_wrapper(const char **value)
+{
+    margv_array param;
+    void *result;
+    for (int i = 0; i < 20; i++) {
+        if (value == NULL || value[i] == NULL) {
+            param.margv[i].charptr.charptr_len = 0;
+            param.margv[i].charptr.charptr_val = NULL;
+        } else {
+            int len = strlen(value[i]) + 1;
+            param.margv[i].charptr.charptr_len = len;
+            param.margv[i].charptr.charptr_val = malloc(len);
+            if (param.margv[i].charptr.charptr_val != NULL) {
+                memcpy(param.margv[i].charptr.charptr_val, value[i], len);
+            }
+        }
+    }
+    result = set_margv_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+char* get_options_wrapper()
+{
+    options_array *result;
+    static char local_copy[1];
+    result = get_options_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, 1);
+        return local_copy;
+    }
+    strncpy(local_copy, result->options, 1);
+    local_copy[1 - 1] = '\0'; // 确保字符串正确终止
+    return local_copy;
+}
+
+int set_options_wrapper(const char *value)
+{
+    options_array param;
+    void *result;
+    if (value == NULL) {
+        param.options[0] = '\0';
+    } else {
+        strncpy(param.options, value, 1);
+        param.options[1 - 1] = '\0';
+    }
+    result = set_options_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_restartany_wrapper()
+{
+    restartany_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_restartany_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_restartany_wrapper(int value)
+{
+    void *result;
+    result = set_restartany_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_telnetport_wrapper()
+{
+    telnetport_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_telnetport_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_telnetport_wrapper(int value)
+{
+    void *result;
+    result = set_telnetport_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_margc_wrapper()
+{
+    margc_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_margc_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_margc_wrapper(int value)
+{
+    void *result;
+    result = set_margc_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+unsigned char* get_netobuf_wrapper()
+{
+    netobuf_array *result;
+    static unsigned char local_copy[2048];
+    result = get_netobuf_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    memcpy(local_copy, result->netobuf, sizeof(local_copy));
+    return local_copy;
+}
+
+int set_netobuf_wrapper(const unsigned char *value)
+{
+    netobuf_array param;
+    void *result;
+    if (value == NULL) {
+        memset(param.netobuf, 0, sizeof(param.netobuf));
+    } else {
+        memcpy(param.netobuf, value, sizeof(param.netobuf));
+    }
+    result = set_netobuf_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_flushline_wrapper()
+{
+    flushline_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_flushline_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_flushline_wrapper(int value)
+{
+    void *result;
+    result = set_flushline_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set call failed");
         return 0; // 失败
@@ -687,93 +1131,6 @@ int set_ttyiring_supplytime_wrapper(unsigned long value)
     return 1;
 }
 
-int get_donebinarytoggle_wrapper()
-{
-    donebinarytoggle_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_donebinarytoggle_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_donebinarytoggle_wrapper(int value)
-{
-    void *result;
-    result = set_donebinarytoggle_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-char* get_prompt_wrapper()
-{
-    char_ptr *result;
-    char *ret_val = NULL;
-    result = get_prompt_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return NULL;
-    }
-    if (result->charptr.charptr_val != NULL) {
-        ret_val=malloc(result->charptr.charptr_len);
-        memcpy(ret_val, result->charptr.charptr_val, result->charptr.charptr_len);
-    }
-    return ret_val;
-}
-
-void set_prompt_wrapper(const char *value)
-{
-    void *result;
-    char_ptr rpc_value;
-    if (value == NULL) {
-        rpc_value.charptr.charptr_len = 0;
-        rpc_value.charptr.charptr_val = NULL;
-    } else {
-        rpc_value.charptr.charptr_len = strlen(value) + 1;
-        rpc_value.charptr.charptr_val = (char*)value;
-    }
-    result = set_prompt_1(rpc_value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-    }
-}
-
-unsigned char* get_slc_reply_wrapper()
-{
-    slc_reply_array *result;
-    static unsigned char local_copy[128];
-    result = get_slc_reply_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    memcpy(local_copy, result->slc_reply, sizeof(local_copy));
-    return local_copy;
-}
-
-int set_slc_reply_wrapper(const unsigned char *value)
-{
-    slc_reply_array param;
-    void *result;
-    if (value == NULL) {
-        memset(param.slc_reply, 0, sizeof(param.slc_reply));
-    } else {
-        memcpy(param.slc_reply, value, sizeof(param.slc_reply));
-    }
-    result = set_slc_reply_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
 Ring get_netiring_wrapper()
 {
     netiring_ret_t *result_rpc;
@@ -1096,53 +1453,30 @@ int set_netiring_supplytime_wrapper(unsigned long value)
     return 1;
 }
 
-int get_local_wrapper()
+unsigned char* get_netibuf_wrapper()
 {
-    local_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_local_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_local_wrapper(int value)
-{
-    void *result;
-    result = set_local_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-unsigned char* get_str_lm_wrapper()
-{
-    str_lm_array *result;
-    static unsigned char local_copy[1];
-    result = get_str_lm_1(clnt);
+    netibuf_array *result;
+    static unsigned char local_copy[1024];
+    result = get_netibuf_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
         memset(local_copy, 0, sizeof(local_copy));
         return local_copy;
     }
-    memcpy(local_copy, result->str_lm, sizeof(local_copy));
+    memcpy(local_copy, result->netibuf, sizeof(local_copy));
     return local_copy;
 }
 
-int set_str_lm_wrapper(const unsigned char *value)
+int set_netibuf_wrapper(const unsigned char *value)
 {
-    str_lm_array param;
+    netibuf_array param;
     void *result;
     if (value == NULL) {
-        memset(param.str_lm, 0, sizeof(param.str_lm));
+        memset(param.netibuf, 0, sizeof(param.netibuf));
     } else {
-        memcpy(param.str_lm, value, sizeof(param.str_lm));
+        memcpy(param.netibuf, value, sizeof(param.netibuf));
     }
-    result = set_str_lm_1(param, clnt);
+    result = set_netibuf_1(param, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
         return 0;
@@ -1150,11 +1484,11 @@ int set_str_lm_wrapper(const unsigned char *value)
     return 1;
 }
 
-int get_crmod_wrapper()
+int get_linemode_wrapper()
 {
-    crmod_ret_t *result;
+    linemode_ret_t *result;
     int default_value = {0}; // 初始化默认值
-    result = get_crmod_1(clnt);
+    result = get_linemode_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get call failed");
         return default_value;
@@ -1162,10 +1496,33 @@ int get_crmod_wrapper()
     return result->value;
 }
 
-int set_crmod_wrapper(int value)
+int set_linemode_wrapper(int value)
 {
     void *result;
-    result = set_crmod_1(value, clnt);
+    result = set_linemode_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_debug_wrapper()
+{
+    debug_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_debug_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_debug_wrapper(int value)
+{
+    void *result;
+    result = set_debug_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set call failed");
         return 0; // 失败
@@ -1196,11 +1553,357 @@ int set_tin_wrapper(int value)
     return 1; // 成功
 }
 
-int get_restartany_wrapper()
+fd_set get_xbits_wrapper()
 {
-    restartany_ret_t *result;
+    xbits_ret_t *result_rpc;
+    fd_set default_value = {0};
+    result_rpc = get_xbits_1(clnt);
+    if (result_rpc == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return default_value;
+}
+
+int set_xbits_wrapper(fd_set xbits)
+{
+    void *result;
+    fd_set_rpc xbits_rpc;
+    result = set_xbits_1(xbits_rpc, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0;
+    }
+    return 1;
+}
+
+Ring get_ttyoring_wrapper()
+{
+    ttyoring_ret_t *result_rpc;
+    Ring default_value = {0};
+    result_rpc = get_ttyoring_1(clnt);
+    if (result_rpc == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    if (result_rpc->value.consume_rpc.unsigned_ptr_val == NULL) {default_value.consume=NULL;}
+    else {default_value.consume=(unsigned *)malloc(result_rpc->value.consume_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (default_value.consume == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < result_rpc->value.consume_rpc.unsigned_ptr_len; i++) {
+    		default_value.consume[i] = result_rpc->value.consume_rpc.unsigned_ptr_val[i];
+    	}
+    }
+    if (result_rpc->value.supply_rpc.unsigned_ptr_val == NULL) {default_value.supply=NULL;}
+    else {default_value.supply=(unsigned *)malloc(result_rpc->value.supply_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (default_value.supply == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < result_rpc->value.supply_rpc.unsigned_ptr_len; i++) {
+    		default_value.supply[i] = result_rpc->value.supply_rpc.unsigned_ptr_val[i];
+    	}
+    }
+    if (result_rpc->value.bottom_rpc.unsigned_ptr_val == NULL) {default_value.bottom=NULL;}
+    else {default_value.bottom=(unsigned *)malloc(result_rpc->value.bottom_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (default_value.bottom == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < result_rpc->value.bottom_rpc.unsigned_ptr_len; i++) {
+    		default_value.bottom[i] = result_rpc->value.bottom_rpc.unsigned_ptr_val[i];
+    	}
+    }
+    if (result_rpc->value.top_rpc.unsigned_ptr_val == NULL) {default_value.top=NULL;}
+    else {default_value.top=(unsigned *)malloc(result_rpc->value.top_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (default_value.top == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < result_rpc->value.top_rpc.unsigned_ptr_len; i++) {
+    		default_value.top[i] = result_rpc->value.top_rpc.unsigned_ptr_val[i];
+    	}
+    }
+    if (result_rpc->value.mark_rpc.unsigned_ptr_val == NULL) {default_value.mark=NULL;}
+    else {default_value.mark=(unsigned *)malloc(result_rpc->value.mark_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (default_value.mark == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < result_rpc->value.mark_rpc.unsigned_ptr_len; i++) {
+    		default_value.mark[i] = result_rpc->value.mark_rpc.unsigned_ptr_val[i];
+    	}
+    }
+    default_value.size=result_rpc->value.size;
+    default_value.consumetime=result_rpc->value.consumetime;
+    default_value.supplytime=result_rpc->value.supplytime;
+    return default_value;
+}
+
+int set_ttyoring_wrapper(Ring ttyoring)
+{
+    void *result;
+    Ring_rpc ttyoring_rpc;
+    if (ttyoring.consume== NULL) {ttyoring_rpc.consume_rpc.unsigned_ptr_len = 0;ttyoring_rpc.consume_rpc.unsigned_ptr_val = NULL;}
+    else {ttyoring_rpc.consume_rpc.unsigned_ptr_len = 1;ttyoring_rpc.consume_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.consume_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (ttyoring_rpc.consume_rpc.unsigned_ptr_val == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < ttyoring_rpc.consume_rpc.unsigned_ptr_len; i++) {
+    		ttyoring_rpc.consume_rpc.unsigned_ptr_val[i] = ttyoring.consume[i];
+    	}
+    }
+    if (ttyoring.supply== NULL) {ttyoring_rpc.supply_rpc.unsigned_ptr_len = 0;ttyoring_rpc.supply_rpc.unsigned_ptr_val = NULL;}
+    else {ttyoring_rpc.supply_rpc.unsigned_ptr_len = 1;ttyoring_rpc.supply_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.supply_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (ttyoring_rpc.supply_rpc.unsigned_ptr_val == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < ttyoring_rpc.supply_rpc.unsigned_ptr_len; i++) {
+    		ttyoring_rpc.supply_rpc.unsigned_ptr_val[i] = ttyoring.supply[i];
+    	}
+    }
+    if (ttyoring.bottom== NULL) {ttyoring_rpc.bottom_rpc.unsigned_ptr_len = 0;ttyoring_rpc.bottom_rpc.unsigned_ptr_val = NULL;}
+    else {ttyoring_rpc.bottom_rpc.unsigned_ptr_len = 1;ttyoring_rpc.bottom_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.bottom_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (ttyoring_rpc.bottom_rpc.unsigned_ptr_val == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < ttyoring_rpc.bottom_rpc.unsigned_ptr_len; i++) {
+    		ttyoring_rpc.bottom_rpc.unsigned_ptr_val[i] = ttyoring.bottom[i];
+    	}
+    }
+    if (ttyoring.top== NULL) {ttyoring_rpc.top_rpc.unsigned_ptr_len = 0;ttyoring_rpc.top_rpc.unsigned_ptr_val = NULL;}
+    else {ttyoring_rpc.top_rpc.unsigned_ptr_len = 1;ttyoring_rpc.top_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.top_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (ttyoring_rpc.top_rpc.unsigned_ptr_val == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < ttyoring_rpc.top_rpc.unsigned_ptr_len; i++) {
+    		ttyoring_rpc.top_rpc.unsigned_ptr_val[i] = ttyoring.top[i];
+    	}
+    }
+    if (ttyoring.mark== NULL) {ttyoring_rpc.mark_rpc.unsigned_ptr_len = 0;ttyoring_rpc.mark_rpc.unsigned_ptr_val = NULL;}
+    else {ttyoring_rpc.mark_rpc.unsigned_ptr_len = 1;ttyoring_rpc.mark_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.mark_rpc.unsigned_ptr_len * sizeof(unsigned));
+    	if (ttyoring_rpc.mark_rpc.unsigned_ptr_val == NULL) {
+    		perror("malloc failed");
+    		exit(1);
+    	}
+    	for (int i = 0; i < ttyoring_rpc.mark_rpc.unsigned_ptr_len; i++) {
+    		ttyoring_rpc.mark_rpc.unsigned_ptr_val[i] = ttyoring.mark[i];
+    	}
+    }
+    ttyoring_rpc.size=ttyoring.size;
+    ttyoring_rpc.consumetime=ttyoring.consumetime;
+    ttyoring_rpc.supplytime=ttyoring.supplytime;
+    result = set_ttyoring_1(ttyoring_rpc, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned char * get_ttyoring_consume_wrapper()
+{
+    ttyoring_consume_ret_t *result;
+    unsigned char * ret_val = NULL;
+    result = get_ttyoring_consume_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_ttyoring_consume_wrapper(unsigned char * value)
+{
+    void *result;
+    result = set_ttyoring_consume_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned char * get_ttyoring_supply_wrapper()
+{
+    ttyoring_supply_ret_t *result;
+    unsigned char * ret_val = NULL;
+    result = get_ttyoring_supply_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_ttyoring_supply_wrapper(unsigned char * value)
+{
+    void *result;
+    result = set_ttyoring_supply_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned char * get_ttyoring_bottom_wrapper()
+{
+    ttyoring_bottom_ret_t *result;
+    unsigned char * ret_val = NULL;
+    result = get_ttyoring_bottom_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_ttyoring_bottom_wrapper(unsigned char * value)
+{
+    void *result;
+    result = set_ttyoring_bottom_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned char * get_ttyoring_top_wrapper()
+{
+    ttyoring_top_ret_t *result;
+    unsigned char * ret_val = NULL;
+    result = get_ttyoring_top_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_ttyoring_top_wrapper(unsigned char * value)
+{
+    void *result;
+    result = set_ttyoring_top_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned char * get_ttyoring_mark_wrapper()
+{
+    ttyoring_mark_ret_t *result;
+    unsigned char * ret_val = NULL;
+    result = get_ttyoring_mark_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_ttyoring_mark_wrapper(unsigned char * value)
+{
+    void *result;
+    result = set_ttyoring_mark_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_ttyoring_size_wrapper()
+{
+    ttyoring_size_ret_t *result;
+    int ret_val = 0; // 默认值
+    result = get_ttyoring_size_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_ttyoring_size_wrapper(int value)
+{
+    void *result;
+    result = set_ttyoring_size_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned long get_ttyoring_consumetime_wrapper()
+{
+    ttyoring_consumetime_ret_t *result;
+    unsigned long ret_val = 0; // 默认值
+    result = get_ttyoring_consumetime_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_ttyoring_consumetime_wrapper(unsigned long value)
+{
+    void *result;
+    result = set_ttyoring_consumetime_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned long get_ttyoring_supplytime_wrapper()
+{
+    ttyoring_supplytime_ret_t *result;
+    unsigned long ret_val = 0; // 默认值
+    result = get_ttyoring_supplytime_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_ttyoring_supplytime_wrapper(unsigned long value)
+{
+    void *result;
+    result = set_ttyoring_supplytime_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_eight_wrapper()
+{
+    eight_ret_t *result;
     int default_value = {0}; // 初始化默认值
-    result = get_restartany_1(clnt);
+    result = get_eight_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get call failed");
         return default_value;
@@ -1208,10 +1911,10 @@ int get_restartany_wrapper()
     return result->value;
 }
 
-int set_restartany_wrapper(int value)
+int set_eight_wrapper(int value)
 {
     void *result;
-    result = set_restartany_1(value, clnt);
+    result = set_eight_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set call failed");
         return 0; // 失败
@@ -1219,32 +1922,558 @@ int set_restartany_wrapper(int value)
     return 1; // 成功
 }
 
-unsigned char* get_netobuf_wrapper()
+char* get_saveline_wrapper()
 {
-    netobuf_array *result;
-    static unsigned char local_copy[2048];
-    result = get_netobuf_1(clnt);
+    saveline_array *result;
+    static char local_copy[256];
+    result = get_saveline_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, 256);
+        return local_copy;
+    }
+    strncpy(local_copy, result->saveline, 256);
+    local_copy[256 - 1] = '\0'; // 确保字符串正确终止
+    return local_copy;
+}
+
+int set_saveline_wrapper(const char *value)
+{
+    saveline_array param;
+    void *result;
+    if (value == NULL) {
+        param.saveline[0] = '\0';
+    } else {
+        strncpy(param.saveline, value, 256);
+        param.saveline[256 - 1] = '\0';
+    }
+    result = set_saveline_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+FILE* get_NetTrace_wrapper()
+{
+    char_ptr *result;
+    FILE *ret_val = NULL;
+    result = get_NetTrace_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return NULL;
+    }
+    if (result->charptr.charptr_val != NULL) {
+        if (strcmp(result->charptr.charptr_val, "stdin") == 0) {
+            ret_val = stdin;
+        } else if (strcmp(result->charptr.charptr_val, "stdout") == 0) {
+            ret_val = stdout;
+        } else if (strcmp(result->charptr.charptr_val, "stderr") == 0) {
+            ret_val = stderr;
+        } else {
+            ret_val = fopen(result->charptr.charptr_val, "r+");
+            if (ret_val == NULL) {
+                perror("fopen failed");
+                return NULL;
+            }
+        }
+    }
+    return ret_val;
+}
+
+void set_NetTrace_wrapper(FILE *file)
+{
+    void *result;
+    char_ptr rpc_value;
+    char *filename=get_filename_from_fp(file);
+    if (filename == NULL) {
+        rpc_value.charptr.charptr_len = 0;
+        rpc_value.charptr.charptr_val = NULL;
+    } else {
+        rpc_value.charptr.charptr_len = strlen(filename) + 1;
+        rpc_value.charptr.charptr_val = filename;
+    }
+    result = set_NetTrace_1(rpc_value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+    }
+}
+
+int get_dontlecho_wrapper()
+{
+    dontlecho_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_dontlecho_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_dontlecho_wrapper(int value)
+{
+    void *result;
+    result = set_dontlecho_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_connected_wrapper()
+{
+    connected_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_connected_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_connected_wrapper(int value)
+{
+    void *result;
+    result = set_connected_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_SYNCHing_wrapper()
+{
+    SYNCHing_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_SYNCHing_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_SYNCHing_wrapper(int value)
+{
+    void *result;
+    result = set_SYNCHing_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+fd_set get_obits_wrapper()
+{
+    obits_ret_t *result_rpc;
+    fd_set default_value = {0};
+    result_rpc = get_obits_1(clnt);
+    if (result_rpc == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return default_value;
+}
+
+int set_obits_wrapper(fd_set obits)
+{
+    void *result;
+    fd_set_rpc obits_rpc;
+    result = set_obits_1(obits_rpc, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_net_wrapper()
+{
+    net_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_net_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_net_wrapper(int value)
+{
+    void *result;
+    result = set_net_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+fd_set get_ibits_wrapper()
+{
+    ibits_ret_t *result_rpc;
+    fd_set default_value = {0};
+    result_rpc = get_ibits_1(clnt);
+    if (result_rpc == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return default_value;
+}
+
+int set_ibits_wrapper(fd_set ibits)
+{
+    void *result;
+    fd_set_rpc ibits_rpc;
+    result = set_ibits_1(ibits_rpc, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_tout_wrapper()
+{
+    tout_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_tout_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_tout_wrapper(int value)
+{
+    void *result;
+    result = set_tout_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_bol_wrapper()
+{
+    bol_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_bol_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_bol_wrapper(int value)
+{
+    void *result;
+    result = set_bol_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+unsigned char* get_slc_reply_wrapper()
+{
+    slc_reply_array *result;
+    static unsigned char local_copy[128];
+    result = get_slc_reply_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
         memset(local_copy, 0, sizeof(local_copy));
         return local_copy;
     }
-    memcpy(local_copy, result->netobuf, sizeof(local_copy));
+    memcpy(local_copy, result->slc_reply, sizeof(local_copy));
     return local_copy;
 }
 
-int set_netobuf_wrapper(const unsigned char *value)
+int set_slc_reply_wrapper(const unsigned char *value)
 {
-    netobuf_array param;
+    slc_reply_array param;
     void *result;
     if (value == NULL) {
-        memset(param.netobuf, 0, sizeof(param.netobuf));
+        memset(param.slc_reply, 0, sizeof(param.slc_reply));
     } else {
-        memcpy(param.netobuf, value, sizeof(param.netobuf));
+        memcpy(param.slc_reply, value, sizeof(param.slc_reply));
     }
-    result = set_netobuf_1(param, clnt);
+    result = set_slc_reply_1(param, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+char* get_line_wrapper()
+{
+    line_array *result;
+    static char local_copy[256];
+    result = get_line_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, 256);
+        return local_copy;
+    }
+    strncpy(local_copy, result->line, 256);
+    local_copy[256 - 1] = '\0'; // 确保字符串正确终止
+    return local_copy;
+}
+
+int set_line_wrapper(const char *value)
+{
+    line_array param;
+    void *result;
+    if (value == NULL) {
+        param.line[0] = '\0';
+    } else {
+        strncpy(param.line, value, 256);
+        param.line[256 - 1] = '\0';
+    }
+    result = set_line_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_flushout_wrapper()
+{
+    flushout_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_flushout_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_flushout_wrapper(int value)
+{
+    void *result;
+    result = set_flushout_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+struct termios get_old_tc_wrapper()
+{
+    old_tc_ret_t *result_rpc;
+    struct termios default_value = {0};
+    result_rpc = get_old_tc_1(clnt);
+    if (result_rpc == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    default_value.c_iflag=result_rpc->value.c_iflag;
+    default_value.c_oflag=result_rpc->value.c_oflag;
+    default_value.c_cflag=result_rpc->value.c_cflag;
+    default_value.c_lflag=result_rpc->value.c_lflag;
+    default_value.c_line=result_rpc->value.c_line;
+    default_value.c_ispeed=result_rpc->value.c_ispeed;
+    default_value.c_ospeed=result_rpc->value.c_ospeed;
+    return default_value;
+}
+
+int set_old_tc_wrapper(struct termios old_tc)
+{
+    void *result;
+    termios_rpc old_tc_rpc;
+    old_tc_rpc.c_iflag=old_tc.c_iflag;
+    old_tc_rpc.c_oflag=old_tc.c_oflag;
+    old_tc_rpc.c_cflag=old_tc.c_cflag;
+    old_tc_rpc.c_lflag=old_tc.c_lflag;
+    old_tc_rpc.c_line=old_tc.c_line;
+    old_tc_rpc.c_ispeed=old_tc.c_ispeed;
+    old_tc_rpc.c_ospeed=old_tc.c_ospeed;
+    result = set_old_tc_1(old_tc_rpc, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned int get_old_tc_c_iflag_wrapper()
+{
+    old_tc_c_iflag_ret_t *result;
+    unsigned int ret_val = 0; // 默认值
+    result = get_old_tc_c_iflag_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_old_tc_c_iflag_wrapper(unsigned int value)
+{
+    void *result;
+    result = set_old_tc_c_iflag_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned int get_old_tc_c_oflag_wrapper()
+{
+    old_tc_c_oflag_ret_t *result;
+    unsigned int ret_val = 0; // 默认值
+    result = get_old_tc_c_oflag_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_old_tc_c_oflag_wrapper(unsigned int value)
+{
+    void *result;
+    result = set_old_tc_c_oflag_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned int get_old_tc_c_cflag_wrapper()
+{
+    old_tc_c_cflag_ret_t *result;
+    unsigned int ret_val = 0; // 默认值
+    result = get_old_tc_c_cflag_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_old_tc_c_cflag_wrapper(unsigned int value)
+{
+    void *result;
+    result = set_old_tc_c_cflag_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned int get_old_tc_c_lflag_wrapper()
+{
+    old_tc_c_lflag_ret_t *result;
+    unsigned int ret_val = 0; // 默认值
+    result = get_old_tc_c_lflag_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_old_tc_c_lflag_wrapper(unsigned int value)
+{
+    void *result;
+    result = set_old_tc_c_lflag_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned char get_old_tc_c_line_wrapper()
+{
+    old_tc_c_line_ret_t *result;
+    unsigned char ret_val = 0; // 默认值
+    result = get_old_tc_c_line_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_old_tc_c_line_wrapper(unsigned char value)
+{
+    void *result;
+    result = set_old_tc_c_line_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned int get_old_tc_c_ispeed_wrapper()
+{
+    old_tc_c_ispeed_ret_t *result;
+    unsigned int ret_val = 0; // 默认值
+    result = get_old_tc_c_ispeed_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_old_tc_c_ispeed_wrapper(unsigned int value)
+{
+    void *result;
+    result = set_old_tc_c_ispeed_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
+        return 0;
+    }
+    return 1;
+}
+
+unsigned int get_old_tc_c_ospeed_wrapper()
+{
+    old_tc_c_ospeed_ret_t *result;
+    unsigned int ret_val = 0; // 默认值
+    result = get_old_tc_c_ospeed_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get member call failed");
+        return ret_val;
+    }
+    ret_val = result->value;
+    return ret_val;
+}
+
+int set_old_tc_c_ospeed_wrapper(unsigned int value)
+{
+    void *result;
+    result = set_old_tc_c_ospeed_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set member call failed");
         return 0;
     }
     return 1;
@@ -1456,61 +2685,50 @@ int set_new_tc_c_ospeed_wrapper(unsigned int value)
     return 1;
 }
 
-fd_set get_xbits_wrapper()
+int get_donebinarytoggle_wrapper()
 {
-    xbits_ret_t *result_rpc;
-    fd_set default_value = {0};
-    result_rpc = get_xbits_1(clnt);
-    if (result_rpc == NULL) {
+    donebinarytoggle_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_donebinarytoggle_1(clnt);
+    if (result == NULL) {
         clnt_perror(clnt, "get call failed");
         return default_value;
     }
-    return default_value;
+    return result->value;
 }
 
-int set_xbits_wrapper(fd_set xbits)
+int set_donebinarytoggle_wrapper(int value)
 {
     void *result;
-    fd_set_rpc xbits_rpc;
-    result = set_xbits_1(xbits_rpc, clnt);
+    result = set_donebinarytoggle_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set call failed");
-        return 0;
+        return 0; // 失败
     }
-    return 1;
+    return 1; // 成功
 }
 
-char* get_line_wrapper()
+int get_ISend_wrapper()
 {
-    line_array *result;
-    static char local_copy[256];
-    result = get_line_1(clnt);
+    ISend_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_ISend_1(clnt);
     if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, 256);
-        return local_copy;
+        clnt_perror(clnt, "get call failed");
+        return default_value;
     }
-    strncpy(local_copy, result->line, 256);
-    local_copy[256 - 1] = '\0'; // 确保字符串正确终止
-    return local_copy;
+    return result->value;
 }
 
-int set_line_wrapper(const char *value)
+int set_ISend_wrapper(int value)
 {
-    line_array param;
     void *result;
-    if (value == NULL) {
-        param.line[0] = '\0';
-    } else {
-        strncpy(param.line, value, 256);
-        param.line[256 - 1] = '\0';
-    }
-    result = set_line_1(param, clnt);
+    result = set_ISend_1(value, clnt);
     if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
     }
-    return 1;
+    return 1; // 成功
 }
 
 int get_globalmode_wrapper()
@@ -1536,32 +2754,32 @@ int set_globalmode_wrapper(int value)
     return 1; // 成功
 }
 
-char* get_will_wont_resp_wrapper()
+char* get_do_dont_resp_wrapper()
 {
-    will_wont_resp_array *result;
+    do_dont_resp_array *result;
     static char local_copy[256];
-    result = get_will_wont_resp_1(clnt);
+    result = get_do_dont_resp_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
         memset(local_copy, 0, 256);
         return local_copy;
     }
-    strncpy(local_copy, result->will_wont_resp, 256);
+    strncpy(local_copy, result->do_dont_resp, 256);
     local_copy[256 - 1] = '\0'; // 确保字符串正确终止
     return local_copy;
 }
 
-int set_will_wont_resp_wrapper(const char *value)
+int set_do_dont_resp_wrapper(const char *value)
 {
-    will_wont_resp_array param;
+    do_dont_resp_array param;
     void *result;
     if (value == NULL) {
-        param.will_wont_resp[0] = '\0';
+        param.do_dont_resp[0] = '\0';
     } else {
-        strncpy(param.will_wont_resp, value, 256);
-        param.will_wont_resp[256 - 1] = '\0';
+        strncpy(param.do_dont_resp, value, 256);
+        param.do_dont_resp[256 - 1] = '\0';
     }
-    result = set_will_wont_resp_1(param, clnt);
+    result = set_do_dont_resp_1(param, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
         return 0;
@@ -1569,59 +2787,11 @@ int set_will_wont_resp_wrapper(const char *value)
     return 1;
 }
 
-char** get_telopts_wrapper()
+int get_crmod_wrapper()
 {
-    telopts_array *result;
-    static char *local_copy[41];
-    result = get_telopts_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    for (int i = 0; i < 41; i++) {
-        if (result->telopts[i].charptr.charptr_val != NULL) {
-            local_copy[i] = malloc(result->telopts[i].charptr.charptr_len);
-            if (local_copy[i] != NULL) {
-                memcpy(local_copy[i], result->telopts[i].charptr.charptr_val, result->telopts[i].charptr.charptr_len);
-            }
-        } else {
-            local_copy[i] = NULL;
-        }
-    }
-    return local_copy;
-}
-
-int set_telopts_wrapper(const char **value)
-{
-    telopts_array param;
-    void *result;
-    for (int i = 0; i < 41; i++) {
-        if (value == NULL || value[i] == NULL) {
-            param.telopts[i].charptr.charptr_len = 0;
-            param.telopts[i].charptr.charptr_val = NULL;
-        } else {
-            int len = strlen(value[i]) + 1;
-            param.telopts[i].charptr.charptr_len = len;
-            param.telopts[i].charptr.charptr_val = malloc(len);
-            if (param.telopts[i].charptr.charptr_val != NULL) {
-                memcpy(param.telopts[i].charptr.charptr_val, value[i], len);
-            }
-        }
-    }
-    result = set_telopts_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_want_status_response_wrapper()
-{
-    want_status_response_ret_t *result;
+    crmod_ret_t *result;
     int default_value = {0}; // 初始化默认值
-    result = get_want_status_response_1(clnt);
+    result = get_crmod_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get call failed");
         return default_value;
@@ -1629,10 +2799,10 @@ int get_want_status_response_wrapper()
     return result->value;
 }
 
-int set_want_status_response_wrapper(int value)
+int set_crmod_wrapper(int value)
 {
     void *result;
-    result = set_want_status_response_1(value, clnt);
+    result = set_crmod_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set call failed");
         return 0; // 失败
@@ -1640,125 +2810,11 @@ int set_want_status_response_wrapper(int value)
     return 1; // 成功
 }
 
-char* get_hostname_wrapper()
+int get_skiprc_wrapper()
 {
-    char_ptr *result;
-    char *ret_val = NULL;
-    result = get_hostname_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return NULL;
-    }
-    if (result->charptr.charptr_val != NULL) {
-        ret_val=malloc(result->charptr.charptr_len);
-        memcpy(ret_val, result->charptr.charptr_val, result->charptr.charptr_len);
-    }
-    return ret_val;
-}
-
-void set_hostname_wrapper(const char *value)
-{
-    void *result;
-    char_ptr rpc_value;
-    if (value == NULL) {
-        rpc_value.charptr.charptr_len = 0;
-        rpc_value.charptr.charptr_val = NULL;
-    } else {
-        rpc_value.charptr.charptr_len = strlen(value) + 1;
-        rpc_value.charptr.charptr_val = (char*)value;
-    }
-    result = set_hostname_1(rpc_value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-    }
-}
-
-fd_set get_ibits_wrapper()
-{
-    ibits_ret_t *result_rpc;
-    fd_set default_value = {0};
-    result_rpc = get_ibits_1(clnt);
-    if (result_rpc == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return default_value;
-}
-
-int set_ibits_wrapper(fd_set ibits)
-{
-    void *result;
-    fd_set_rpc ibits_rpc;
-    result = set_ibits_1(ibits_rpc, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0;
-    }
-    return 1;
-}
-
-fd_set get_obits_wrapper()
-{
-    obits_ret_t *result_rpc;
-    fd_set default_value = {0};
-    result_rpc = get_obits_1(clnt);
-    if (result_rpc == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return default_value;
-}
-
-int set_obits_wrapper(fd_set obits)
-{
-    void *result;
-    fd_set_rpc obits_rpc;
-    result = set_obits_1(obits_rpc, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0;
-    }
-    return 1;
-}
-
-char* get_options_wrapper()
-{
-    options_array *result;
-    static char local_copy[1];
-    result = get_options_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, 1);
-        return local_copy;
-    }
-    strncpy(local_copy, result->options, 1);
-    local_copy[1 - 1] = '\0'; // 确保字符串正确终止
-    return local_copy;
-}
-
-int set_options_wrapper(const char *value)
-{
-    options_array param;
-    void *result;
-    if (value == NULL) {
-        param.options[0] = '\0';
-    } else {
-        strncpy(param.options, value, 1);
-        param.options[1 - 1] = '\0';
-    }
-    result = set_options_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_kludgelinemode_wrapper()
-{
-    kludgelinemode_ret_t *result;
+    skiprc_ret_t *result;
     int default_value = {0}; // 初始化默认值
-    result = get_kludgelinemode_1(clnt);
+    result = get_skiprc_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get call failed");
         return default_value;
@@ -1766,56 +2822,10 @@ int get_kludgelinemode_wrapper()
     return result->value;
 }
 
-int set_kludgelinemode_wrapper(int value)
+int set_skiprc_wrapper(int value)
 {
     void *result;
-    result = set_kludgelinemode_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_connected_wrapper()
-{
-    connected_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_connected_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_connected_wrapper(int value)
-{
-    void *result;
-    result = set_connected_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_SYNCHing_wrapper()
-{
-    SYNCHing_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_SYNCHing_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_SYNCHing_wrapper(int value)
-{
-    void *result;
-    result = set_SYNCHing_1(value, clnt);
+    result = set_skiprc_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set call failed");
         return 0; // 失败
@@ -1847,6 +2857,272 @@ int set_subbuffer_wrapper(const unsigned char *value)
         memcpy(param.subbuffer, value, sizeof(param.subbuffer));
     }
     result = set_subbuffer_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_kludgelinemode_wrapper()
+{
+    kludgelinemode_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_kludgelinemode_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_kludgelinemode_wrapper(int value)
+{
+    void *result;
+    result = set_kludgelinemode_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+unsigned char* get_slc_import_val_wrapper()
+{
+    slc_import_val_array *result;
+    static unsigned char local_copy[1];
+    result = get_slc_import_val_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    memcpy(local_copy, result->slc_import_val, sizeof(local_copy));
+    return local_copy;
+}
+
+int set_slc_import_val_wrapper(const unsigned char *value)
+{
+    slc_import_val_array param;
+    void *result;
+    if (value == NULL) {
+        memset(param.slc_import_val, 0, sizeof(param.slc_import_val));
+    } else {
+        memcpy(param.slc_import_val, value, sizeof(param.slc_import_val));
+    }
+    result = set_slc_import_val_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_local_wrapper()
+{
+    local_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_local_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_local_wrapper(int value)
+{
+    void *result;
+    result = set_local_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_resettermname_wrapper()
+{
+    resettermname_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_resettermname_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_resettermname_wrapper(int value)
+{
+    void *result;
+    result = set_resettermname_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+char* get_rcname_wrapper()
+{
+    char_ptr *result;
+    char *ret_val = NULL;
+    result = get_rcname_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return NULL;
+    }
+    if (result->charptr.charptr_val != NULL) {
+        ret_val=malloc(result->charptr.charptr_len);
+        memcpy(ret_val, result->charptr.charptr_val, result->charptr.charptr_len);
+    }
+    return ret_val;
+}
+
+void set_rcname_wrapper(const char *value)
+{
+    void *result;
+    char_ptr rpc_value;
+    if (value == NULL) {
+        rpc_value.charptr.charptr_len = 0;
+        rpc_value.charptr.charptr_val = NULL;
+    } else {
+        rpc_value.charptr.charptr_len = strlen(value) + 1;
+        rpc_value.charptr.charptr_val = (char*)value;
+    }
+    result = set_rcname_1(rpc_value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+    }
+}
+
+unsigned long get_ring_clock_wrapper()
+{
+    ring_clock_ret_t *result;
+    unsigned long default_value = {0}; // 初始化默认值
+    result = get_ring_clock_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_ring_clock_wrapper(unsigned long value)
+{
+    void *result;
+    result = set_ring_clock_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+int get_autoflush_wrapper()
+{
+    autoflush_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_autoflush_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_autoflush_wrapper(int value)
+{
+    void *result;
+    result = set_autoflush_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+char* get_user_wrapper()
+{
+    char_ptr *result;
+    char *ret_val = NULL;
+    result = get_user_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return NULL;
+    }
+    if (result->charptr.charptr_val != NULL) {
+        ret_val=malloc(result->charptr.charptr_len);
+        memcpy(ret_val, result->charptr.charptr_val, result->charptr.charptr_len);
+    }
+    return ret_val;
+}
+
+void set_user_wrapper(const char *value)
+{
+    void *result;
+    char_ptr rpc_value;
+    if (value == NULL) {
+        rpc_value.charptr.charptr_len = 0;
+        rpc_value.charptr.charptr_val = NULL;
+    } else {
+        rpc_value.charptr.charptr_len = strlen(value) + 1;
+        rpc_value.charptr.charptr_val = (char*)value;
+    }
+    result = set_user_1(rpc_value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+    }
+}
+
+int get_want_status_response_wrapper()
+{
+    want_status_response_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_want_status_response_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_want_status_response_wrapper(int value)
+{
+    void *result;
+    result = set_want_status_response_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+unsigned char* get_slc_import_def_wrapper()
+{
+    slc_import_def_array *result;
+    static unsigned char local_copy[1];
+    result = get_slc_import_def_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    memcpy(local_copy, result->slc_import_def, sizeof(local_copy));
+    return local_copy;
+}
+
+int set_slc_import_def_wrapper(const unsigned char *value)
+{
+    slc_import_def_array param;
+    void *result;
+    if (value == NULL) {
+        memset(param.slc_import_def, 0, sizeof(param.slc_import_def));
+    } else {
+        memcpy(param.slc_import_def, value, sizeof(param.slc_import_def));
+    }
+    result = set_slc_import_def_1(param, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
         return 0;
@@ -2176,11 +3452,92 @@ int set_netoring_supplytime_wrapper(unsigned long value)
     return 1;
 }
 
-int get_localchars_wrapper()
+char** get_telopts_wrapper()
 {
-    localchars_ret_t *result;
+    telopts_array *result;
+    static char *local_copy[41];
+    result = get_telopts_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    for (int i = 0; i < 41; i++) {
+        if (result->telopts[i].charptr.charptr_val != NULL) {
+            local_copy[i] = malloc(result->telopts[i].charptr.charptr_len);
+            if (local_copy[i] != NULL) {
+                memcpy(local_copy[i], result->telopts[i].charptr.charptr_val, result->telopts[i].charptr.charptr_len);
+            }
+        } else {
+            local_copy[i] = NULL;
+        }
+    }
+    return local_copy;
+}
+
+int set_telopts_wrapper(const char **value)
+{
+    telopts_array param;
+    void *result;
+    for (int i = 0; i < 41; i++) {
+        if (value == NULL || value[i] == NULL) {
+            param.telopts[i].charptr.charptr_len = 0;
+            param.telopts[i].charptr.charptr_val = NULL;
+        } else {
+            int len = strlen(value[i]) + 1;
+            param.telopts[i].charptr.charptr_len = len;
+            param.telopts[i].charptr.charptr_val = malloc(len);
+            if (param.telopts[i].charptr.charptr_val != NULL) {
+                memcpy(param.telopts[i].charptr.charptr_val, value[i], len);
+            }
+        }
+    }
+    result = set_telopts_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+char* get_will_wont_resp_wrapper()
+{
+    will_wont_resp_array *result;
+    static char local_copy[256];
+    result = get_will_wont_resp_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, 256);
+        return local_copy;
+    }
+    strncpy(local_copy, result->will_wont_resp, 256);
+    local_copy[256 - 1] = '\0'; // 确保字符串正确终止
+    return local_copy;
+}
+
+int set_will_wont_resp_wrapper(const char *value)
+{
+    will_wont_resp_array param;
+    void *result;
+    if (value == NULL) {
+        param.will_wont_resp[0] = '\0';
+    } else {
+        strncpy(param.will_wont_resp, value, 256);
+        param.will_wont_resp[256 - 1] = '\0';
+    }
+    result = set_will_wont_resp_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_slc_mode_wrapper()
+{
+    slc_mode_ret_t *result;
     int default_value = {0}; // 初始化默认值
-    result = get_localchars_1(clnt);
+    result = get_slc_mode_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "get call failed");
         return default_value;
@@ -2188,10 +3545,120 @@ int get_localchars_wrapper()
     return result->value;
 }
 
-int set_localchars_wrapper(int value)
+int set_slc_mode_wrapper(int value)
 {
     void *result;
-    result = set_localchars_1(value, clnt);
+    result = set_slc_mode_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+unsigned char* get_str_lm_mode_wrapper()
+{
+    str_lm_mode_array *result;
+    static unsigned char local_copy[1];
+    result = get_str_lm_mode_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        memset(local_copy, 0, sizeof(local_copy));
+        return local_copy;
+    }
+    memcpy(local_copy, result->str_lm_mode, sizeof(local_copy));
+    return local_copy;
+}
+
+int set_str_lm_mode_wrapper(const unsigned char *value)
+{
+    str_lm_mode_array param;
+    void *result;
+    if (value == NULL) {
+        memset(param.str_lm_mode, 0, sizeof(param.str_lm_mode));
+    } else {
+        memcpy(param.str_lm_mode, value, sizeof(param.str_lm_mode));
+    }
+    result = set_str_lm_mode_1(param, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return 0;
+    }
+    return 1;
+}
+
+int get_autologin_wrapper()
+{
+    autologin_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_autologin_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_autologin_wrapper(int value)
+{
+    void *result;
+    result = set_autologin_1(value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "set call failed");
+        return 0; // 失败
+    }
+    return 1; // 成功
+}
+
+char* get_prompt_wrapper()
+{
+    char_ptr *result;
+    char *ret_val = NULL;
+    result = get_prompt_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+        return NULL;
+    }
+    if (result->charptr.charptr_val != NULL) {
+        ret_val=malloc(result->charptr.charptr_len);
+        memcpy(ret_val, result->charptr.charptr_val, result->charptr.charptr_len);
+    }
+    return ret_val;
+}
+
+void set_prompt_wrapper(const char *value)
+{
+    void *result;
+    char_ptr rpc_value;
+    if (value == NULL) {
+        rpc_value.charptr.charptr_len = 0;
+        rpc_value.charptr.charptr_val = NULL;
+    } else {
+        rpc_value.charptr.charptr_len = strlen(value) + 1;
+        rpc_value.charptr.charptr_val = (char*)value;
+    }
+    result = set_prompt_1(rpc_value, clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "call failed");
+    }
+}
+
+int get_In3270_wrapper()
+{
+    In3270_ret_t *result;
+    int default_value = {0}; // 初始化默认值
+    result = get_In3270_1(clnt);
+    if (result == NULL) {
+        clnt_perror(clnt, "get call failed");
+        return default_value;
+    }
+    return result->value;
+}
+
+int set_In3270_wrapper(int value)
+{
+    void *result;
+    result = set_In3270_1(value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "set call failed");
         return 0; // 失败
@@ -2232,113 +3699,11 @@ int set_termbuf_wrapper(const char *value)
     return 1;
 }
 
-char** get_margv_wrapper()
-{
-    margv_array *result;
-    static char *local_copy[20];
-    result = get_margv_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    for (int i = 0; i < 20; i++) {
-        if (result->margv[i].charptr.charptr_val != NULL) {
-            local_copy[i] = malloc(result->margv[i].charptr.charptr_len);
-            if (local_copy[i] != NULL) {
-                memcpy(local_copy[i], result->margv[i].charptr.charptr_val, result->margv[i].charptr.charptr_len);
-            }
-        } else {
-            local_copy[i] = NULL;
-        }
-    }
-    return local_copy;
-}
-
-int set_margv_wrapper(const char **value)
-{
-    margv_array param;
-    void *result;
-    for (int i = 0; i < 20; i++) {
-        if (value == NULL || value[i] == NULL) {
-            param.margv[i].charptr.charptr_len = 0;
-            param.margv[i].charptr.charptr_val = NULL;
-        } else {
-            int len = strlen(value[i]) + 1;
-            param.margv[i].charptr.charptr_len = len;
-            param.margv[i].charptr.charptr_val = malloc(len);
-            if (param.margv[i].charptr.charptr_val != NULL) {
-                memcpy(param.margv[i].charptr.charptr_val, value[i], len);
-            }
-        }
-    }
-    result = set_margv_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char* get_ttyobuf_wrapper()
-{
-    ttyobuf_array *result;
-    static unsigned char local_copy[2048];
-    result = get_ttyobuf_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    memcpy(local_copy, result->ttyobuf, sizeof(local_copy));
-    return local_copy;
-}
-
-int set_ttyobuf_wrapper(const unsigned char *value)
-{
-    ttyobuf_array param;
-    void *result;
-    if (value == NULL) {
-        memset(param.ttyobuf, 0, sizeof(param.ttyobuf));
-    } else {
-        memcpy(param.ttyobuf, value, sizeof(param.ttyobuf));
-    }
-    result = set_ttyobuf_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_telnetport_wrapper()
-{
-    telnetport_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_telnetport_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_telnetport_wrapper(int value)
-{
-    void *result;
-    result = set_telnetport_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-char* get_user_wrapper()
+char* get_hostname_wrapper()
 {
     char_ptr *result;
     char *ret_val = NULL;
-    result = get_user_1(clnt);
+    result = get_hostname_1(clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
         return NULL;
@@ -2350,7 +3715,7 @@ char* get_user_wrapper()
     return ret_val;
 }
 
-void set_user_wrapper(const char *value)
+void set_hostname_wrapper(const char *value)
 {
     void *result;
     char_ptr rpc_value;
@@ -2361,1176 +3726,10 @@ void set_user_wrapper(const char *value)
         rpc_value.charptr.charptr_len = strlen(value) + 1;
         rpc_value.charptr.charptr_val = (char*)value;
     }
-    result = set_user_1(rpc_value, clnt);
+    result = set_hostname_1(rpc_value, clnt);
     if (result == NULL) {
         clnt_perror(clnt, "call failed");
     }
-}
-
-char* get_do_dont_resp_wrapper()
-{
-    do_dont_resp_array *result;
-    static char local_copy[256];
-    result = get_do_dont_resp_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, 256);
-        return local_copy;
-    }
-    strncpy(local_copy, result->do_dont_resp, 256);
-    local_copy[256 - 1] = '\0'; // 确保字符串正确终止
-    return local_copy;
-}
-
-int set_do_dont_resp_wrapper(const char *value)
-{
-    do_dont_resp_array param;
-    void *result;
-    if (value == NULL) {
-        param.do_dont_resp[0] = '\0';
-    } else {
-        strncpy(param.do_dont_resp, value, 256);
-        param.do_dont_resp[256 - 1] = '\0';
-    }
-    result = set_do_dont_resp_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_tout_wrapper()
-{
-    tout_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_tout_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_tout_wrapper(int value)
-{
-    void *result;
-    result = set_tout_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-unsigned long get_ring_clock_wrapper()
-{
-    ring_clock_ret_t *result;
-    unsigned long default_value = {0}; // 初始化默认值
-    result = get_ring_clock_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_ring_clock_wrapper(unsigned long value)
-{
-    void *result;
-    result = set_ring_clock_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_telrcv_state_wrapper()
-{
-    telrcv_state_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_telrcv_state_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_telrcv_state_wrapper(int value)
-{
-    void *result;
-    result = set_telrcv_state_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-unsigned char* get_str_lm_mode_wrapper()
-{
-    str_lm_mode_array *result;
-    static unsigned char local_copy[1];
-    result = get_str_lm_mode_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    memcpy(local_copy, result->str_lm_mode, sizeof(local_copy));
-    return local_copy;
-}
-
-int set_str_lm_mode_wrapper(const unsigned char *value)
-{
-    str_lm_mode_array param;
-    void *result;
-    if (value == NULL) {
-        memset(param.str_lm_mode, 0, sizeof(param.str_lm_mode));
-    } else {
-        memcpy(param.str_lm_mode, value, sizeof(param.str_lm_mode));
-    }
-    result = set_str_lm_mode_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_dontlecho_wrapper()
-{
-    dontlecho_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_dontlecho_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_dontlecho_wrapper(int value)
-{
-    void *result;
-    result = set_dontlecho_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_bol_wrapper()
-{
-    bol_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_bol_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_bol_wrapper(int value)
-{
-    void *result;
-    result = set_bol_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-Clocks get_clocks_wrapper()
-{
-    clocks_ret_t *result_rpc;
-    Clocks default_value = {0};
-    result_rpc = get_clocks_1(clnt);
-    if (result_rpc == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    default_value.system=result_rpc->value.system;
-    default_value.echotoggle=result_rpc->value.echotoggle;
-    default_value.modenegotiated=result_rpc->value.modenegotiated;
-    default_value.didnetreceive=result_rpc->value.didnetreceive;
-    default_value.gotDM=result_rpc->value.gotDM;
-    return default_value;
-}
-
-int set_clocks_wrapper(Clocks clocks)
-{
-    void *result;
-    Clocks_rpc clocks_rpc;
-    clocks_rpc.system=clocks.system;
-    clocks_rpc.echotoggle=clocks.echotoggle;
-    clocks_rpc.modenegotiated=clocks.modenegotiated;
-    clocks_rpc.didnetreceive=clocks.didnetreceive;
-    clocks_rpc.gotDM=clocks.gotDM;
-    result = set_clocks_1(clocks_rpc, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_clocks_system_wrapper()
-{
-    clocks_system_ret_t *result;
-    int ret_val = 0; // 默认值
-    result = get_clocks_system_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_clocks_system_wrapper(int value)
-{
-    void *result;
-    result = set_clocks_system_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_clocks_echotoggle_wrapper()
-{
-    clocks_echotoggle_ret_t *result;
-    int ret_val = 0; // 默认值
-    result = get_clocks_echotoggle_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_clocks_echotoggle_wrapper(int value)
-{
-    void *result;
-    result = set_clocks_echotoggle_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_clocks_modenegotiated_wrapper()
-{
-    clocks_modenegotiated_ret_t *result;
-    int ret_val = 0; // 默认值
-    result = get_clocks_modenegotiated_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_clocks_modenegotiated_wrapper(int value)
-{
-    void *result;
-    result = set_clocks_modenegotiated_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_clocks_didnetreceive_wrapper()
-{
-    clocks_didnetreceive_ret_t *result;
-    int ret_val = 0; // 默认值
-    result = get_clocks_didnetreceive_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_clocks_didnetreceive_wrapper(int value)
-{
-    void *result;
-    result = set_clocks_didnetreceive_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_clocks_gotDM_wrapper()
-{
-    clocks_gotDM_ret_t *result;
-    int ret_val = 0; // 默认值
-    result = get_clocks_gotDM_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_clocks_gotDM_wrapper(int value)
-{
-    void *result;
-    result = set_clocks_gotDM_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-Ring get_ttyoring_wrapper()
-{
-    ttyoring_ret_t *result_rpc;
-    Ring default_value = {0};
-    result_rpc = get_ttyoring_1(clnt);
-    if (result_rpc == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    if (result_rpc->value.consume_rpc.unsigned_ptr_val == NULL) {default_value.consume=NULL;}
-    else {default_value.consume=(unsigned *)malloc(result_rpc->value.consume_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (default_value.consume == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < result_rpc->value.consume_rpc.unsigned_ptr_len; i++) {
-    		default_value.consume[i] = result_rpc->value.consume_rpc.unsigned_ptr_val[i];
-    	}
-    }
-    if (result_rpc->value.supply_rpc.unsigned_ptr_val == NULL) {default_value.supply=NULL;}
-    else {default_value.supply=(unsigned *)malloc(result_rpc->value.supply_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (default_value.supply == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < result_rpc->value.supply_rpc.unsigned_ptr_len; i++) {
-    		default_value.supply[i] = result_rpc->value.supply_rpc.unsigned_ptr_val[i];
-    	}
-    }
-    if (result_rpc->value.bottom_rpc.unsigned_ptr_val == NULL) {default_value.bottom=NULL;}
-    else {default_value.bottom=(unsigned *)malloc(result_rpc->value.bottom_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (default_value.bottom == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < result_rpc->value.bottom_rpc.unsigned_ptr_len; i++) {
-    		default_value.bottom[i] = result_rpc->value.bottom_rpc.unsigned_ptr_val[i];
-    	}
-    }
-    if (result_rpc->value.top_rpc.unsigned_ptr_val == NULL) {default_value.top=NULL;}
-    else {default_value.top=(unsigned *)malloc(result_rpc->value.top_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (default_value.top == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < result_rpc->value.top_rpc.unsigned_ptr_len; i++) {
-    		default_value.top[i] = result_rpc->value.top_rpc.unsigned_ptr_val[i];
-    	}
-    }
-    if (result_rpc->value.mark_rpc.unsigned_ptr_val == NULL) {default_value.mark=NULL;}
-    else {default_value.mark=(unsigned *)malloc(result_rpc->value.mark_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (default_value.mark == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < result_rpc->value.mark_rpc.unsigned_ptr_len; i++) {
-    		default_value.mark[i] = result_rpc->value.mark_rpc.unsigned_ptr_val[i];
-    	}
-    }
-    default_value.size=result_rpc->value.size;
-    default_value.consumetime=result_rpc->value.consumetime;
-    default_value.supplytime=result_rpc->value.supplytime;
-    return default_value;
-}
-
-int set_ttyoring_wrapper(Ring ttyoring)
-{
-    void *result;
-    Ring_rpc ttyoring_rpc;
-    if (ttyoring.consume== NULL) {ttyoring_rpc.consume_rpc.unsigned_ptr_len = 0;ttyoring_rpc.consume_rpc.unsigned_ptr_val = NULL;}
-    else {ttyoring_rpc.consume_rpc.unsigned_ptr_len = 1;ttyoring_rpc.consume_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.consume_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (ttyoring_rpc.consume_rpc.unsigned_ptr_val == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < ttyoring_rpc.consume_rpc.unsigned_ptr_len; i++) {
-    		ttyoring_rpc.consume_rpc.unsigned_ptr_val[i] = ttyoring.consume[i];
-    	}
-    }
-    if (ttyoring.supply== NULL) {ttyoring_rpc.supply_rpc.unsigned_ptr_len = 0;ttyoring_rpc.supply_rpc.unsigned_ptr_val = NULL;}
-    else {ttyoring_rpc.supply_rpc.unsigned_ptr_len = 1;ttyoring_rpc.supply_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.supply_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (ttyoring_rpc.supply_rpc.unsigned_ptr_val == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < ttyoring_rpc.supply_rpc.unsigned_ptr_len; i++) {
-    		ttyoring_rpc.supply_rpc.unsigned_ptr_val[i] = ttyoring.supply[i];
-    	}
-    }
-    if (ttyoring.bottom== NULL) {ttyoring_rpc.bottom_rpc.unsigned_ptr_len = 0;ttyoring_rpc.bottom_rpc.unsigned_ptr_val = NULL;}
-    else {ttyoring_rpc.bottom_rpc.unsigned_ptr_len = 1;ttyoring_rpc.bottom_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.bottom_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (ttyoring_rpc.bottom_rpc.unsigned_ptr_val == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < ttyoring_rpc.bottom_rpc.unsigned_ptr_len; i++) {
-    		ttyoring_rpc.bottom_rpc.unsigned_ptr_val[i] = ttyoring.bottom[i];
-    	}
-    }
-    if (ttyoring.top== NULL) {ttyoring_rpc.top_rpc.unsigned_ptr_len = 0;ttyoring_rpc.top_rpc.unsigned_ptr_val = NULL;}
-    else {ttyoring_rpc.top_rpc.unsigned_ptr_len = 1;ttyoring_rpc.top_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.top_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (ttyoring_rpc.top_rpc.unsigned_ptr_val == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < ttyoring_rpc.top_rpc.unsigned_ptr_len; i++) {
-    		ttyoring_rpc.top_rpc.unsigned_ptr_val[i] = ttyoring.top[i];
-    	}
-    }
-    if (ttyoring.mark== NULL) {ttyoring_rpc.mark_rpc.unsigned_ptr_len = 0;ttyoring_rpc.mark_rpc.unsigned_ptr_val = NULL;}
-    else {ttyoring_rpc.mark_rpc.unsigned_ptr_len = 1;ttyoring_rpc.mark_rpc.unsigned_ptr_val = malloc(ttyoring_rpc.mark_rpc.unsigned_ptr_len * sizeof(unsigned));
-    	if (ttyoring_rpc.mark_rpc.unsigned_ptr_val == NULL) {
-    		perror("malloc failed");
-    		exit(1);
-    	}
-    	for (int i = 0; i < ttyoring_rpc.mark_rpc.unsigned_ptr_len; i++) {
-    		ttyoring_rpc.mark_rpc.unsigned_ptr_val[i] = ttyoring.mark[i];
-    	}
-    }
-    ttyoring_rpc.size=ttyoring.size;
-    ttyoring_rpc.consumetime=ttyoring.consumetime;
-    ttyoring_rpc.supplytime=ttyoring.supplytime;
-    result = set_ttyoring_1(ttyoring_rpc, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char * get_ttyoring_consume_wrapper()
-{
-    ttyoring_consume_ret_t *result;
-    unsigned char * ret_val = NULL;
-    result = get_ttyoring_consume_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_ttyoring_consume_wrapper(unsigned char * value)
-{
-    void *result;
-    result = set_ttyoring_consume_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char * get_ttyoring_supply_wrapper()
-{
-    ttyoring_supply_ret_t *result;
-    unsigned char * ret_val = NULL;
-    result = get_ttyoring_supply_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_ttyoring_supply_wrapper(unsigned char * value)
-{
-    void *result;
-    result = set_ttyoring_supply_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char * get_ttyoring_bottom_wrapper()
-{
-    ttyoring_bottom_ret_t *result;
-    unsigned char * ret_val = NULL;
-    result = get_ttyoring_bottom_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_ttyoring_bottom_wrapper(unsigned char * value)
-{
-    void *result;
-    result = set_ttyoring_bottom_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char * get_ttyoring_top_wrapper()
-{
-    ttyoring_top_ret_t *result;
-    unsigned char * ret_val = NULL;
-    result = get_ttyoring_top_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_ttyoring_top_wrapper(unsigned char * value)
-{
-    void *result;
-    result = set_ttyoring_top_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char * get_ttyoring_mark_wrapper()
-{
-    ttyoring_mark_ret_t *result;
-    unsigned char * ret_val = NULL;
-    result = get_ttyoring_mark_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_ttyoring_mark_wrapper(unsigned char * value)
-{
-    void *result;
-    result = set_ttyoring_mark_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_ttyoring_size_wrapper()
-{
-    ttyoring_size_ret_t *result;
-    int ret_val = 0; // 默认值
-    result = get_ttyoring_size_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_ttyoring_size_wrapper(int value)
-{
-    void *result;
-    result = set_ttyoring_size_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned long get_ttyoring_consumetime_wrapper()
-{
-    ttyoring_consumetime_ret_t *result;
-    unsigned long ret_val = 0; // 默认值
-    result = get_ttyoring_consumetime_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_ttyoring_consumetime_wrapper(unsigned long value)
-{
-    void *result;
-    result = set_ttyoring_consumetime_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned long get_ttyoring_supplytime_wrapper()
-{
-    ttyoring_supplytime_ret_t *result;
-    unsigned long ret_val = 0; // 默认值
-    result = get_ttyoring_supplytime_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get member call failed");
-        return ret_val;
-    }
-    ret_val = result->value;
-    return ret_val;
-}
-
-int set_ttyoring_supplytime_wrapper(unsigned long value)
-{
-    void *result;
-    result = set_ttyoring_supplytime_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set member call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_margc_wrapper()
-{
-    margc_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_margc_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_margc_wrapper(int value)
-{
-    void *result;
-    result = set_margc_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_ISend_wrapper()
-{
-    ISend_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_ISend_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_ISend_wrapper(int value)
-{
-    void *result;
-    result = set_ISend_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-FILE* get_NetTrace_wrapper()
-{
-    char_ptr *result;
-    FILE *ret_val = NULL;
-    result = get_NetTrace_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return NULL;
-    }
-    if (result->charptr.charptr_val != NULL) {
-        if (strcmp(result->charptr.charptr_val, "stdin") == 0) {
-            ret_val = stdin;
-        } else if (strcmp(result->charptr.charptr_val, "stdout") == 0) {
-            ret_val = stdout;
-        } else if (strcmp(result->charptr.charptr_val, "stderr") == 0) {
-            ret_val = stderr;
-        } else {
-            ret_val = fopen(result->charptr.charptr_val, "r+");
-            if (ret_val == NULL) {
-                perror("fopen failed");
-                return NULL;
-            }
-        }
-    }
-    return ret_val;
-}
-
-void set_NetTrace_wrapper(FILE *file)
-{
-    void *result;
-    char_ptr rpc_value;
-    char *filename=get_filename_from_fp(file);
-    if (filename == NULL) {
-        rpc_value.charptr.charptr_len = 0;
-        rpc_value.charptr.charptr_val = NULL;
-    } else {
-        rpc_value.charptr.charptr_len = strlen(filename) + 1;
-        rpc_value.charptr.charptr_val = filename;
-    }
-    result = set_NetTrace_1(rpc_value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-    }
-}
-
-int get_linemode_wrapper()
-{
-    linemode_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_linemode_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_linemode_wrapper(int value)
-{
-    void *result;
-    result = set_linemode_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_net_wrapper()
-{
-    net_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_net_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_net_wrapper(int value)
-{
-    void *result;
-    result = set_net_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_skiprc_wrapper()
-{
-    skiprc_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_skiprc_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_skiprc_wrapper(int value)
-{
-    void *result;
-    result = set_skiprc_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-char* get_rcname_wrapper()
-{
-    char_ptr *result;
-    char *ret_val = NULL;
-    result = get_rcname_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return NULL;
-    }
-    if (result->charptr.charptr_val != NULL) {
-        ret_val=malloc(result->charptr.charptr_len);
-        memcpy(ret_val, result->charptr.charptr_val, result->charptr.charptr_len);
-    }
-    return ret_val;
-}
-
-void set_rcname_wrapper(const char *value)
-{
-    void *result;
-    char_ptr rpc_value;
-    if (value == NULL) {
-        rpc_value.charptr.charptr_len = 0;
-        rpc_value.charptr.charptr_val = NULL;
-    } else {
-        rpc_value.charptr.charptr_len = strlen(value) + 1;
-        rpc_value.charptr.charptr_val = (char*)value;
-    }
-    result = set_rcname_1(rpc_value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-    }
-}
-
-int get_flushline_wrapper()
-{
-    flushline_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_flushline_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_flushline_wrapper(int value)
-{
-    void *result;
-    result = set_flushline_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-unsigned char* get_slc_import_def_wrapper()
-{
-    slc_import_def_array *result;
-    static unsigned char local_copy[1];
-    result = get_slc_import_def_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    memcpy(local_copy, result->slc_import_def, sizeof(local_copy));
-    return local_copy;
-}
-
-int set_slc_import_def_wrapper(const unsigned char *value)
-{
-    slc_import_def_array param;
-    void *result;
-    if (value == NULL) {
-        memset(param.slc_import_def, 0, sizeof(param.slc_import_def));
-    } else {
-        memcpy(param.slc_import_def, value, sizeof(param.slc_import_def));
-    }
-    result = set_slc_import_def_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char* get_ttyibuf_wrapper()
-{
-    ttyibuf_array *result;
-    static unsigned char local_copy[1024];
-    result = get_ttyibuf_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    memcpy(local_copy, result->ttyibuf, sizeof(local_copy));
-    return local_copy;
-}
-
-int set_ttyibuf_wrapper(const unsigned char *value)
-{
-    ttyibuf_array param;
-    void *result;
-    if (value == NULL) {
-        memset(param.ttyibuf, 0, sizeof(param.ttyibuf));
-    } else {
-        memcpy(param.ttyibuf, value, sizeof(param.ttyibuf));
-    }
-    result = set_ttyibuf_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char* get_slc_import_val_wrapper()
-{
-    slc_import_val_array *result;
-    static unsigned char local_copy[1];
-    result = get_slc_import_val_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    memcpy(local_copy, result->slc_import_val, sizeof(local_copy));
-    return local_copy;
-}
-
-int set_slc_import_val_wrapper(const unsigned char *value)
-{
-    slc_import_val_array param;
-    void *result;
-    if (value == NULL) {
-        memset(param.slc_import_val, 0, sizeof(param.slc_import_val));
-    } else {
-        memcpy(param.slc_import_val, value, sizeof(param.slc_import_val));
-    }
-    result = set_slc_import_val_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-unsigned char* get_netibuf_wrapper()
-{
-    netibuf_array *result;
-    static unsigned char local_copy[1024];
-    result = get_netibuf_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, sizeof(local_copy));
-        return local_copy;
-    }
-    memcpy(local_copy, result->netibuf, sizeof(local_copy));
-    return local_copy;
-}
-
-int set_netibuf_wrapper(const unsigned char *value)
-{
-    netibuf_array param;
-    void *result;
-    if (value == NULL) {
-        memset(param.netibuf, 0, sizeof(param.netibuf));
-    } else {
-        memcpy(param.netibuf, value, sizeof(param.netibuf));
-    }
-    result = set_netibuf_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_autoflush_wrapper()
-{
-    autoflush_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_autoflush_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_autoflush_wrapper(int value)
-{
-    void *result;
-    result = set_autoflush_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_resettermname_wrapper()
-{
-    resettermname_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_resettermname_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_resettermname_wrapper(int value)
-{
-    void *result;
-    result = set_resettermname_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-char* get_saveline_wrapper()
-{
-    saveline_array *result;
-    static char local_copy[256];
-    result = get_saveline_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        memset(local_copy, 0, 256);
-        return local_copy;
-    }
-    strncpy(local_copy, result->saveline, 256);
-    local_copy[256 - 1] = '\0'; // 确保字符串正确终止
-    return local_copy;
-}
-
-int set_saveline_wrapper(const char *value)
-{
-    saveline_array param;
-    void *result;
-    if (value == NULL) {
-        param.saveline[0] = '\0';
-    } else {
-        strncpy(param.saveline, value, 256);
-        param.saveline[256 - 1] = '\0';
-    }
-    result = set_saveline_1(param, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "call failed");
-        return 0;
-    }
-    return 1;
-}
-
-int get_In3270_wrapper()
-{
-    In3270_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_In3270_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_In3270_wrapper(int value)
-{
-    void *result;
-    result = set_In3270_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_slc_mode_wrapper()
-{
-    slc_mode_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_slc_mode_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_slc_mode_wrapper(int value)
-{
-    void *result;
-    result = set_slc_mode_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_eight_wrapper()
-{
-    eight_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_eight_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_eight_wrapper(int value)
-{
-    void *result;
-    result = set_eight_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
-}
-
-int get_autologin_wrapper()
-{
-    autologin_ret_t *result;
-    int default_value = {0}; // 初始化默认值
-    result = get_autologin_1(clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "get call failed");
-        return default_value;
-    }
-    return result->value;
-}
-
-int set_autologin_wrapper(int value)
-{
-    void *result;
-    result = set_autologin_1(value, clnt);
-    if (result == NULL) {
-        clnt_perror(clnt, "set call failed");
-        return 0; // 失败
-    }
-    return 1; // 成功
 }
 
 FunctionMapEntry function_map[] = {
@@ -3593,25 +3792,14 @@ unsigned long gsetter_ring_clock_prefix_wrapper()
        clnt_perror(clnt, "call failed");
    return *result;
 }
-int gsetter_margc_postfix_wrapper()
+int gsetter_want_status_response_prefix_wrapper()
 {
    int *result;
-   result=gsetter_margc_postfix_1(clnt);
+   result=gsetter_want_status_response_prefix_1(clnt);
    if (result == NULL) 
        clnt_perror(clnt, "call failed");
    return *result;
 }
-int gsetter_connected_postfix_wrapper()
-{
-   int *result;
-   result=gsetter_connected_postfix_1(clnt);
-   if (result == NULL) 
-       clnt_perror(clnt, "call failed");
-   return *result;
-}
-void gsetter_prompt_prefix_wrapper()
-{
-    gsetter_prompt_prefix_1(clnt);
 char* gsetter_subpointer_postfix_wrapper()
 {
    char_ptr *result;
@@ -3666,10 +3854,13 @@ char* gsetter_opt_replyp_postfix_wrapper()
    }
    return result->charptr.charptr_val;
 }
-int gsetter_want_status_response_prefix_wrapper()
+void gsetter_prompt_prefix_wrapper()
+{
+    gsetter_prompt_prefix_1(clnt);
+int gsetter_margc_postfix_wrapper()
 {
    int *result;
-   result=gsetter_want_status_response_prefix_1(clnt);
+   result=gsetter_margc_postfix_1(clnt);
    if (result == NULL) 
        clnt_perror(clnt, "call failed");
    return *result;

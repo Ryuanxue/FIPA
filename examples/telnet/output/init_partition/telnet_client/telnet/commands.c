@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1988, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -93,8 +95,6 @@
 #include "xvasprintf.h"
 #include "xalloc.h"
 
-#include "telnet_rpc_wrapper.h"
-
 #ifdef	ENCRYPTION
 # include <libtelnet/encrypt.h>
 #endif
@@ -115,7 +115,6 @@
 # include <netinet/ip.h>
 #endif
 
-char *hostname = 0;
 
 extern char *getenv (const char *);
 
@@ -134,10 +133,6 @@ typedef struct
   int needconnect;		/* Do we need to be connected to execute? */
 } Command;
 
-static char line[256];
-static char saveline[256];
-static int margc;
-static char *margv[20];
 
 static void makeargv(void)
 {
@@ -208,7 +203,6 @@ static void makeargv(void)
 
   *(argp++) = 0;
 }
-
 
 
 /*
@@ -345,7 +339,6 @@ static struct sendlist Sendlist[] = {
 
 #define GETSEND(name) ((struct sendlist *) genget(name, (char **) Sendlist, \
 				sizeof(struct sendlist)))
-
 static int sendcmd(int argc, char **argv)
 {
   int count;
@@ -397,9 +390,9 @@ static int sendcmd(int argc, char **argv)
   }
   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_2 = ring_empty_count(&temp_netoring);
+    int temp_result_20 = ring_empty_count(&temp_netoring);
     set_netoring_wrapper(temp_netoring);
-    if (temp_result_2 < count)
+    if (temp_result_20 < count)
     {
       printf("There is not enough room in the buffer TO the network\n");
       printf("to process your request.  Nothing will be done.\n");
@@ -452,8 +445,7 @@ static int sendcmd(int argc, char **argv)
   return count == success;
 }
 
-
-
+}
 static int send_esc(void)
 {
   {
@@ -468,8 +460,7 @@ static int send_esc(void)
   return 1;
 }
 
-
-
+}
 int send_tncmd(void (*func)(), char *cmd, char *name)
 {
   char **cpp;
@@ -539,7 +530,7 @@ int send_tncmd(void (*func)(), char *cmd, char *name)
   return 1;
 }
 
-
+}
 
 static int
 send_docmd (char *name)
@@ -587,18 +578,17 @@ lclchars (void)
 {
   donelclchars = 1;
   return 1;
-}
-
 static int togdebug(void)
 {
-  if ((get_net_wrapper() > 0) && (SetSockOpt(get_net_wrapper(), SOL_SOCKET, SO_DEBUG, debug) < 0))
+  if ((get_net_wrapper() > 0) && (SetSockOpt(get_net_wrapper(), SOL_SOCKET, SO_DEBUG, get_debug_wrapper()) < 0))
   {
     perror("setsockopt (SO_DEBUG)");
   }
   return 1;
 }
 
-
+  return 1;
+}
 
 
 static int
@@ -614,8 +604,6 @@ togcrlf (void)
     }
   return 1;
 }
-
-int binmode;
 
 static int togbinary(int val)
 {
@@ -664,8 +652,7 @@ static int togbinary(int val)
   return 1;
 }
 
-
-
+  return 1;
 static int togrbinary(int val)
 {
   set_donebinarytoggle_wrapper(1);
@@ -698,8 +685,7 @@ static int togrbinary(int val)
   return 1;
 }
 
-
-
+  return 1;
 static int togxbinary(int val)
 {
   set_donebinarytoggle_wrapper(1);
@@ -732,7 +718,8 @@ static int togxbinary(int val)
   return 1;
 }
 
-
+  return 1;
+}
 
 
 static int togglehelp (void);
@@ -976,7 +963,6 @@ toggle (int argc, char *argv[])
 
 /*
  * The following perform the "set" command.
- */
 
 #ifdef	USE_TERMIO
 struct termio new_tc = { 0 };
@@ -1053,9 +1039,6 @@ static struct setlist *
 getset (char *name)
 {
   return (struct setlist *)
-    genget (name, (char **) Setlist, sizeof (struct setlist));
-}
-
 void set_escape_char(char *s)
 {
   if (get_rlogin_wrapper() != ((cc_t) '\377'))
@@ -1070,7 +1053,9 @@ void set_escape_char(char *s)
   }
 }
 
-
+      printf ("Telnet escape character is '%s'.\n", control (escape));
+    }
+}
 
 static int
 setcmd (int argc, char *argv[])
@@ -1257,10 +1242,6 @@ dokludgemode (void)
   send_wont (TELOPT_LINEMODE, 1);
   send_dont (TELOPT_SGA, 1);
   send_dont (TELOPT_ECHO, 1);
-  return 0;
-}
-#endif
-
 static int dolinemode(void)
 {
   if (get_kludgelinemode_wrapper())
@@ -1270,8 +1251,7 @@ static int dolinemode(void)
   return 1;
 }
 
-
-
+  send_will (TELOPT_LINEMODE, 1);
 static int docharmode(void)
 {
   if (get_kludgelinemode_wrapper())
@@ -1282,8 +1262,7 @@ static int docharmode(void)
   return 1;
 }
 
-
-
+    send_wont (TELOPT_LINEMODE, 1);
 static int dolmmode(int bit, int on)
 {
   unsigned char c;
@@ -1302,7 +1281,10 @@ static int dolmmode(int bit, int on)
   return 1;
 }
 
-
+    c = (linemode & ~bit);
+  lm_mode (&c, 1, 1);
+  return 1;
+}
 
 int
 set_mode (int bit)
@@ -1379,10 +1361,6 @@ modehelp (void)
     }
   return 0;
 }
-
-#define GETMODECMD(name) (struct modelist *) \
-		genget(name, (char **) ModeList, sizeof(struct modelist))
-
 static int modecmd(int argc, char *argv[])
 {
   struct modelist *mt;
@@ -1415,7 +1393,10 @@ static int modecmd(int argc, char *argv[])
   return 0;
 }
 
-
+      return (*mt->handler) (mt->arg1);
+    }
+  return 0;
+}
 
 /*
  * The following data structures and routines implement the
@@ -1498,12 +1479,6 @@ display (int argc, char *argv[])
 
 /*
  * The following are the data structures, and many of the routines,
- * relating to command processing.
- */
-
-/*
- * Set the escape character.
- */
 static int setescape(int argc, char *argv[])
 {
   register char *arg;
@@ -1531,8 +1506,7 @@ static int setescape(int argc, char *argv[])
   return 1;
 }
 
-
-
+    {
 static int togcrmod(void)
 {
   set_crmod_wrapper(!get_crmod_wrapper());
@@ -1542,7 +1516,12 @@ static int togcrmod(void)
   return 1;
 }
 
-
+  crmod = !crmod;
+  printf ("Deprecated usage - please use 'toggle crmod' in the future.\n");
+  printf ("%s map carriage return on output.\n", crmod ? "Will" : "Won't");
+  fflush (stdout);
+  return 1;
+}
 
 int
 suspend (void)
@@ -1569,12 +1548,6 @@ suspend (void)
   TerminalSaveState ();
   setconnmode (0);
 #else
-  printf ("Suspend is not supported.  Try the '!' command instead\n");
-#endif
-  return 1;
-}
-
-#if !defined TN3270
 int shell(int argc, char *argv[])
 {
   long oldrows;
@@ -1624,14 +1597,13 @@ int shell(int argc, char *argv[])
   return 1;
 }
 
-
+	  sendnaws ();
+	}
+      break;
+    }
+  return 1;
+}
 #else /* !defined(TN3270) */
-extern int shell ();
-#endif /* !defined(TN3270) */
-
-
-/* int  argc;	 Number of arguments */
-/* char *argv[]; arguments */
 static int bye(int argc, char *argv[])
 {
   extern int resettermname;
@@ -1651,7 +1623,12 @@ static int bye(int argc, char *argv[])
   return 1;
 }
 
-
+  if ((argc != 2) || (strcmp (argv[1], "fromquit") != 0))
+    {
+      longjmp (toplevel, 1);
+    }
+  return 1;
+}
 
 int
 quit (void)
@@ -1677,25 +1654,7 @@ logout (void)
 struct slclist
 {
   const char *name;
-  const char *help;
-  void (*handler) ();
-  int arg;
-};
-
-static void slc_help (void);
-
-struct slclist SlcList[] = {
-  {"export", "Use local special character definitions",
-   slc_mode_export, 0},
-  {"import", "Use remote special character definitions",
    slc_mode_import, 1},
-  {"check", "Verify remote special character definitions",
-   slc_mode_import, 0},
-  {"help", 0, slc_help, 0},
-  {"?", "Print help information", slc_help, 0},
-  {NULL, NULL, NULL, 0},
-};
-
 static void slc_help(void)
 {
   struct slclist *c;
@@ -1712,14 +1671,19 @@ static void slc_help(void)
 
 }
 
-
-
+	  if (*c->help)
 static struct slclist *getslc(char *name)
 {
   return (struct slclist *) genget(name, (char **) get_SlcList_wrapper(), sizeof(struct slclist));
 }
 
 
+static struct slclist *
+getslc (char *name)
+{
+  return (struct slclist *)
+    genget (name, (char **) SlcList, sizeof (struct slclist));
+}
 
 static int
 slccmd (int argc, char **argv)
@@ -1871,14 +1835,6 @@ env_find (const char *var)
 {
   register struct env_lst *ep;
 
-  for (ep = envlisthead.next; ep; ep = ep->next)
-    {
-      if (strcmp ((char *) ep->var, var) == 0)
-	return (ep);
-    }
-  return (NULL);
-}
-
 void env_init(void)
 {
   extern char **environ;
@@ -1917,7 +1873,14 @@ void env_init(void)
   env_export("PRINTER");
 }
 
-
+  if ((env_find ("USER") == NULL) && (ep = env_find ("LOGNAME")))
+    {
+      env_define ("USER", ep->value);
+      env_unexport ("USER");
+    }
+  env_export ("DISPLAY");
+  env_export ("PRINTER");
+}
 
 struct env_lst *
 env_define (const char *var, unsigned char *value)
@@ -1967,14 +1930,6 @@ env_export (const char *var)
     ep->export = 1;
 }
 
-void
-env_unexport (const char *var)
-{
-  register struct env_lst *ep = env_find (var);
-  if (ep)
-    ep->export = 0;
-}
-
 void env_send(const char *var)
 {
   register struct env_lst *ep;
@@ -1994,7 +1949,14 @@ void env_send(const char *var)
   env_opt_end(0);
 }
 
-
+    {
+      fprintf (stderr, "Cannot send '%s': variable not defined\n", var);
+      return;
+    }
+  env_opt_start_info ();
+  env_opt_add (ep->var);
+  env_opt_end (0);
+}
 
 void
 env_list (void)
@@ -2322,14 +2284,6 @@ filestuff (int fd)
   if (res == -1)
     {
       perror ("fcntl");
-      return;
-    }
-}
-#endif /* (unix || __unix || __unix__) && TN3270 */
-
-/*
- * Print status about the connection.
- */
 static int status(int argc, char *argv[])
 {
   if (get_connected_wrapper())
@@ -2370,7 +2324,14 @@ static int status(int argc, char *argv[])
   return 1;
 }
 
-
+  fflush (stdout);
+  if (In3270)
+    {
+      return 0;
+    }
+#endif /* defined(TN3270) */
+  return 1;
+}
 
 #ifdef	SIGINFO
 /*
@@ -2378,14 +2339,6 @@ static int status(int argc, char *argv[])
  */
 int
 ayt_status ()
-{
-  call (status, "status", "notmuch", 0);
-  return 1;	/* not used */
-}
-#endif /* SIGINFO */
-
-static void cmdrc (char *m1, char *m2);
-
 int tn(int argc, char *argv[])
 {
   struct addrinfo *result;
@@ -2528,307 +2481,17 @@ int tn(int argc, char *argv[])
     return 0;
   }
   aip = result;
-  do
-  {
-    char buf[256];
-    err = getnameinfo(aip->ai_addr, aip->ai_addrlen, buf, sizeof(buf), 0, 0, NI_NUMERICHOST);
-    if (err)
-    {
-      const char *errmsg;
-      if (err == EAI_SYSTEM)
-        errmsg = strerror(errno);
-      else
-        errmsg = gai_strerror(err);
-      printf("getnameinfo error: %s\n", errmsg);
-      return 0;
-    }
-    printf("Trying %s...\n", buf);
-    set_net_wrapper(socket(aip->ai_family, SOCK_STREAM, 0));
-    if (get_net_wrapper() < 0)
-    {
-      perror("telnet: socket");
-      return 0;
-    }
-    if (debug)
-    {
-      err = setsockopt(get_net_wrapper(), SOL_SOCKET, SO_DEBUG, &on, sizeof(on));
-      if (err < 0)
-        perror("setsockopt (SO_DEBUG)");
-    }
-    err = connect(get_net_wrapper(), (struct sockaddr *) aip->ai_addr, aip->ai_addrlen);
-    if (err < 0)
-    {
-      if (aip->ai_next)
-      {
-        perror("Connection failed");
-        aip = aip->ai_next;
-        close(get_net_wrapper());
-        continue;
-      }
-      perror("telnet: Unable to connect to remote host");
-      return 0;
-    }
-    gsetter_connected_postfix_wrapper();
-  }
-  while (!get_connected_wrapper());
-  freeaddrinfo(result);
   {
     int tn_sense_1_ret = 0;
-    int tn_sense_1_return = tn_sense_1_wrapper(&tn_sense_1_ret, &err, hostp, get_user_wrapper());
+    int tn_sense_1_return = tn_sense_1_wrapper(&tn_sense_1_ret, result, aip, on, &err, hostp, get_user_wrapper());
     if (tn_sense_1_ret)
       return tn_sense_1_return;
   }
 }
 
-
-
-#define HELPINDENT (sizeof ("connect"))
-
-static char
-  openhelp[] = "connect to a site",
-  closehelp[] = "close current connection",
-  logouthelp[] = "forcibly logout remote user and close the connection",
-  quithelp[] = "exit telnet",
-  statushelp[] = "print status information",
-  helphelp[] = "print help information",
-  sendhelp[] = "transmit special characters ('send ?' for more)",
-  sethelp[] = "set operating parameters ('set ?' for more)",
-  unsethelp[] = "unset operating parameters ('unset ?' for more)",
-  togglestring[] = "toggle operating parameters ('toggle ?' for more)",
-  slchelp[] = "change state of special characters ('slc ?' for more)",
-  displayhelp[] = "display operating parameters",
-#if defined TN3270 && (defined unix || defined __unix || defined __unix__)
-  transcomhelp[] = "specify Unix command for transparent mode pipe",
-#endif /* TN3270 && (unix || __unix || __unix__) */
-#if defined AUTHENTICATION
-  authhelp[] = "turn on (off) authentication ('auth ?' for more)",
-#endif
-#ifdef	ENCRYPTION
-  encrypthelp[] = "turn on (off) encryption ('encrypt ?' for more)",
-#endif
-  /* ENCRYPTION */
-#if defined unix || defined __unix || defined __unix__
-  zhelp[] = "suspend telnet",
-#endif /* unix || __unix || __unix__ */
-  shellhelp[] = "invoke a subshell",
-  envhelp[] = "change environment variables ('environ ?' for more)",
-  modestring[] = "try to enter line or character mode ('mode ?' for more)";
-
-static int help (int argc, char **argv);
-
-static Command cmdtab[] = {
-  {"close", closehelp, bye, 1},
-  {"logout", logouthelp, logout, 1},
-  {"display", displayhelp, display, 0},
-  {"mode", modestring, modecmd, 0},
-  {"open", openhelp, tn, 0},
-  {"quit", quithelp, quit, 0},
-  {"send", sendhelp, sendcmd, 0},
-  {"set", sethelp, setcmd, 0},
-  {"unset", unsethelp, unsetcmd, 0},
-  {"status", statushelp, status, 0},
-  {"toggle", togglestring, toggle, 0},
-  {"slc", slchelp, slccmd, 0},
-#if defined TN3270 && (defined unix || defined __unix || defined __unix__)
-  {"transcom", transcomhelp, settranscom, 0},
-#endif /* TN3270 && (unix || __unix || __unix__) */
-#if defined AUTHENTICATION
-  {"auth", authhelp, auth_cmd, 0},
-#endif
-#ifdef	ENCRYPTION
-  {"encrypt", encrypthelp, encrypt_cmd, 0},
-#endif /* ENCRYPTION */
-#if defined unix || defined __unix || defined __unix__
-  {"z", zhelp, suspend, 0},
-#endif /* unix || __unix || __unix__ */
-#if defined TN3270
-  {"!", shellhelp, shell, 1},
-#else
-  {"!", shellhelp, shell, 0},
-#endif
-  {"environ", envhelp, env_cmd, 0},
-  {"?", helphelp, help, 0},
-  {NULL, NULL, NULL, 0}
-};
-
-static char crmodhelp[] = "deprecated command -- use 'toggle crmod' instead";
-static char escapehelp[] = "deprecated command -- use 'set escape' instead";
-
-static Command cmdtab2[] = {
-  {"help", 0, help, 0},
-  {"escape", escapehelp, setescape, 0},
-  {"crmod", crmodhelp, togcrmod, 0},
-  {NULL, NULL, NULL, 0}
-};
-
-
-/*
- * Call routine with argc, argv set from args (terminated by 0).
- */
-
-static int
-call (intrtn_t routine, ...)
-{
-  va_list ap;
-  char *args[100];
-  int argno = 0;
-
-  va_start (ap, routine);
-  while ((args[argno++] = va_arg (ap, char *)) != 0)
-    {
-      ;
-    }
-  va_end (ap);
-  return (*routine) (argno - 1, args);
-}
-
-
-static Command *getcmd(char *name)
-{
-  Command *cm;
-  if (cm = (Command *) genget(name, (char **) get_cmdtab_wrapper(), sizeof(Command)))
-    return cm;
-  return (Command *) genget(name, (char **) get_cmdtab2_wrapper(), sizeof(Command));
-}
-
-
-
-void command(int top, char *tbuf, int cnt)
-{
-  register Command *c;
-  setcommandmode();
-  if (!top)
-  {
-    putchar('\n');
-  }
   else
-  {
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
-  }
-  for (;;)
-  {
-    if (get_rlogin_wrapper() == ((cc_t) '\377'))
-      printf("%s> ", get_prompt_wrapper());
-    if (tbuf)
-    {
-      register char *cp;
-      cp = get_line_wrapper();
-      while ((cnt > 0) && ((*(cp++) = *(tbuf++)) != '\n'))
-        cnt--;
+    err = 1;
 
-      tbuf = 0;
-      if (((cp == get_line_wrapper()) || ((*(--cp)) != '\n')) || (cp == get_line_wrapper()))
-        goto getline;
-      *cp = '\0';
-      if (get_rlogin_wrapper() == ((cc_t) '\377'))
-        printf("%s\n", get_line_wrapper());
-    }
-    else
-    {
-      getline:
-      if (get_rlogin_wrapper() != ((cc_t) '\377'))
-        printf("%s> ", get_prompt_wrapper());
-
-      if (fgets(get_line_wrapper(), sizeof(get_line_wrapper()), stdin) == 0)
-      {
-        if (feof(stdin) || ferror(stdin))
-        {
-          printf("\n");
-          quit();
-        }
-        break;
-      }
-    }
-    if (get_line_wrapper()[0] == 0)
-      break;
-    makeargv();
-    if (get_margv_wrapper()[0] == 0)
-    {
-      break;
-    }
-    c = getcmd(get_margv_wrapper()[0]);
-    if (Ambiguous(c))
-    {
-      printf("?Ambiguous command\n");
-      continue;
-    }
-    if (c == 0)
-    {
-      printf("?Invalid command\n");
-      continue;
-    }
-    if (c->needconnect && (!get_connected_wrapper()))
-    {
-      printf("?Need to be connected first.\n");
-      continue;
-    }
-    if ((*c->handler)(get_margc_wrapper(), get_margv_wrapper()))
-    {
-      break;
-    }
-  }
-
-  if (!top)
-  {
-    if (!get_connected_wrapper())
-    {
-      longjmp(toplevel, 1);
-    }
-    setconnmode(0);
-  }
-}
-
-
-
-/*
- * Help command.
- */
-static int help(int argc, char *argv[])
-{
-  register Command *c;
-  if (argc == 1)
-  {
-    printf("Commands may be abbreviated.  Commands are:\n\n");
-    for (c = get_cmdtab_wrapper(); c->name; c++)
-      if (c->help)
-    {
-      printf("%-*s\t%s\n", (int) (sizeof("connect")), c->name, c->help);
-    }
-
-    return 0;
-  }
-  while ((--argc) > 0)
-  {
-    register char *arg;
-    arg = *(++argv);
-    c = getcmd(arg);
-    if (Ambiguous(c))
-      printf("?Ambiguous help command %s\n", arg);
-    else
-      if (c == ((Command *) 0))
-      printf("?Invalid help command %s\n", arg);
-    else
-      printf("%s\n", c->help);
-  }
-
-  return 0;
-}
-
-
-
-static char *rcname = 0;
-
-static void cmdrc(char *m1, char *m2)
-{
-  register Command *c;
-  FILE *rcfile;
-  int gotmachine = 0;
-  int l1 = strlen(m1);
-  int l2 = strlen(m2);
-  if (get_skiprc_wrapper())
-    return;
-  if (get_rcname_wrapper() == 0)
   {
     const char *home = getenv("HOME");
     if (home)
@@ -2896,4 +2559,12 @@ static void cmdrc(char *m1, char *m2)
   fclose(rcfile);
 }
 
-
+      if (c->needconnect && !connected)
+	{
+	  printf ("?Need to be connected first for %s.\n", margv[0]);
+	  continue;
+	}
+      (*c->handler) (margc, margv);
+    }
+  fclose (rcfile);
+}

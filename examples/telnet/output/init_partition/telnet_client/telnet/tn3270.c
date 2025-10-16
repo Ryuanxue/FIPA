@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -57,8 +59,6 @@
 #include "defines.h"
 #include "ring.h"
 #include "externs.h"
-
-#include "telnet_rpc_wrapper.h"
 
 #if defined TN3270
 

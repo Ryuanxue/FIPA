@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -66,8 +68,6 @@
 #include "defines.h"
 #include "externs.h"
 
-#include "telnet_rpc_wrapper.h"
-
 #ifdef AUTHENTICATION
 # include <libtelnet/auth.h>
 #endif
@@ -75,7 +75,6 @@
 # include <libtelnet/encrypt.h>
 #endif
 
-FILE *NetTrace = 0;		/* Not in bss, since needs to stay */
 int prettydump;
 
 /*
@@ -126,7 +125,6 @@ SetSockOpt (int fd, int level, int option, int yesno)
  */
 
 unsigned char NetTraceFile[256] = "(standard output)";
-
 void SetNetTrace(register char *file)
 {
   if (get_NetTrace_wrapper() && (get_NetTrace_wrapper() != stdout))
@@ -146,8 +144,7 @@ void SetNetTrace(register char *file)
   strcpy((char *) NetTraceFile, "(standard output)");
 }
 
-
-
+}
 void Dump(char direction, unsigned char *buffer, int length)
 {
   unsigned char *pThis;
@@ -199,8 +196,7 @@ void Dump(char direction, unsigned char *buffer, int length)
   fflush(get_NetTrace_wrapper());
 }
 
-
-
+}
 
 void printoption(char *direction, int cmd, int option)
 {
@@ -243,8 +239,7 @@ void printoption(char *direction, int cmd, int option)
   return;
 }
 
-
-
+}
 void optionstatus(void)
 {
   register int i;
@@ -342,11 +337,10 @@ void optionstatus(void)
 
 }
 
-
+}
 
 /* char direction; '<' or '>' */
 /* unsigned char *pointer; where suboption data sits */
-/* int		  length; length of suboption data */
 void printsub(char direction, unsigned char *pointer, int length)
 {
   register int i;
@@ -837,22 +831,21 @@ void printsub(char direction, unsigned char *pointer, int length)
   }
 }
 
-
+}
 
 /* EmptyTerminal - called to make sure that the terminal buffer is empty.
  *			Note that we consider the buffer to run all the
  *			way to the kernel (thus the select).
  */
-
 void EmptyTerminal(void)
 {
   fd_set o;
   FD_ZERO(&o);
   {
     Ring temp_ttyoring = get_ttyoring_wrapper();
-    int temp_result_18 = ring_full_count(&temp_ttyoring);
+    int temp_result_2 = ring_full_count(&temp_ttyoring);
     set_ttyoring_wrapper(temp_ttyoring);
-    if (temp_result_18 == 0)
+    if (temp_result_2 == 0)
     {
       FD_SET(get_tout_wrapper(), &o);
       select(get_tout_wrapper() + 1, (fd_set *) 0, &o, (fd_set *) 0, (struct timeval *) 0);
@@ -861,15 +854,15 @@ void EmptyTerminal(void)
     {
       {
         Ring temp_ttyoring = get_ttyoring_wrapper();
-        int temp_result_19 = ring_full_count(&temp_ttyoring);
+        int temp_result_3 = ring_full_count(&temp_ttyoring);
         set_ttyoring_wrapper(temp_ttyoring);
-        while (temp_result_19)
+        while (temp_result_3)
         {
           ttyflush(0);
           FD_SET(get_tout_wrapper(), &o);
           select(get_tout_wrapper() + 1, (fd_set *) 0, &o, (fd_set *) 0, (struct timeval *) 0);
           temp_ttyoring = get_ttyoring_wrapper();
-          temp_result_19 = ring_full_count(&temp_ttyoring);
+          temp_result_3 = ring_full_count(&temp_ttyoring);
           set_ttyoring_wrapper(temp_ttyoring);
         }
 
@@ -878,23 +871,22 @@ void EmptyTerminal(void)
   }
 }
 
-
-
+}
 void SetForExit(void)
 {
   setconnmode(0);
   {
     Ring temp_netiring;
-    int temp_result_20;
+    int temp_result_4;
     do
     {
       telrcv();
       EmptyTerminal();
       temp_netiring = get_netiring_wrapper();
-      temp_result_20 = ring_full_count(&temp_netiring);
+      temp_result_4 = ring_full_count(&temp_netiring);
       set_netiring_wrapper(temp_netiring);
     }
-    while (temp_result_20);
+    while (temp_result_4);
   }
   setcommandmode();
   fflush(stdout);
@@ -904,7 +896,7 @@ void SetForExit(void)
   setcommandmode();
 }
 
-
+}
 
 void
 Exit (int returnCode)

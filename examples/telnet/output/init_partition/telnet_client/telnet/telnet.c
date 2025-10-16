@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
+#include "telnet_rpc_wrapper.h"
+
 /*
  * Copyright (c) 1988, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -73,8 +75,6 @@
 #include "types.h"
 #include "general.h"
 
-#include "telnet_rpc_wrapper.h"
-
 #ifdef HAVE_TERMCAP_TGETENT
 # include <termcap.h>
 #elif defined HAVE_CURSES_TGETENT
@@ -94,9 +94,6 @@
 
 
 #define strip(x) ((my_want_state_is_wont(TELOPT_BINARY)) ? ((x)&0x7f) : (x))
-
-static unsigned char subbuffer[SUBBUFSIZE], *subpointer, *subend;	/* buffer for sub-options */
-#define SB_CLEAR()	subpointer = subbuffer;
 #define SB_TERM()	{ subend = subpointer; SB_CLEAR(); }
 #define SB_ACCUM(c)	if (subpointer < (subbuffer+sizeof subbuffer)) { \
 				*subpointer++ = (c); \
@@ -106,206 +103,7 @@ static unsigned char subbuffer[SUBBUFSIZE], *subpointer, *subend;	/* buffer for 
 #define SB_PEEK()	((*subpointer)&0xff)
 #define SB_EOF()	(subpointer >= subend)
 #define SB_LEN()	(subend - subpointer)
-
-char options[256] = { 0 };		/* The combined options */
-char do_dont_resp[256] = { 0 };
 char will_wont_resp[256] = { 0 };
-
-int eight = 0, autologin = 0,	/* Autologin anyone? */
-  skiprc = 0, connected, showoptions, In3270,	/* Are we in 3270 mode? */
-  ISend,			/* trying to send network data in */
-  debug = 0, crmod, netdata,	/* Print out network data flow */
-  crlf,				/* Should '\r' be mapped to <CR><LF> (or <CR><NUL>)? */
-#if defined TN3270
-  noasynchtty = 0,		/* User specified "-noasynch" on command line */
-  noasynchnet = 0,		/* User specified "-noasynch" on command line */
-  askedSGA = 0,			/* We have talked about suppress go ahead */
-#endif
-  /* defined(TN3270) */
-  telnetport, SYNCHing,		/* we are in TELNET SYNCH mode */
-  flushout,			/* flush output */
-  autoflush = 0,		/* flush output when interrupting? */
-  autosynch,			/* send interrupt characters with SYNCH? */
-  localflow,			/* we handle flow control locally */
-  restartany,			/* if flow control enabled, restart on any character */
-  localchars,			/* we recognize interrupt/quit */
-  donelclchars,			/* the user has set "localchars" */
-  donebinarytoggle,		/* the user has put us in binary */
-  dontlecho,			/* do we suppress local echoing right now? */
-  globalmode;
-
-char *prompt = 0;
-
-cc_t escape;
-cc_t rlogin;
-#ifdef	KLUDGELINEMODE
-cc_t echoc;
-#endif
-
-/*
- * Telnet receiver states for fsm
- */
-#define TS_DATA		0
-#define TS_IAC		1
-#define TS_WILL		2
-#define TS_WONT		3
-#define TS_DO		4
-#define TS_DONT		5
-#define TS_CR		6
-#define TS_SB		7	/* sub-option collection */
-#define TS_SE		8	/* looking for sub-option end */
-
-static int telrcv_state;
-#ifdef	OLD_ENVIRON
-unsigned char telopt_environ = TELOPT_NEW_ENVIRON;
-#else
-# define telopt_environ TELOPT_NEW_ENVIRON
-#endif
-
-jmp_buf toplevel;
-jmp_buf peerdied;
-
-int flushline;
-int linemode;
-
-#ifdef	KLUDGELINEMODE
-int kludgelinemode = 1;
-#endif
-
-/*
- * The following are some clocks used to decide how to interpret
- * the relationship between various variables.
- */
-
-Clocks clocks;
-
-
-
-/*
- * Initialize telnet environment.
- */
-
-void init_telnet(void)
-{
-  env_init();
-  set_subpointer_wrapper(subbuffer);
-  ;
-  set_connected_wrapper(In3270 = set_ISend_wrapper(localflow = set_donebinarytoggle_wrapper(0)));
-  set_restartany_wrapper(-1);
-  set_SYNCHing_wrapper(0);
-  set_escape_wrapper(']' & 0x1f);
-  set_rlogin_wrapper((cc_t) '\377');
-  set_echoc_wrapper('E' & 0x1f);
-  set_flushline_wrapper(1);
-  set_telrcv_state_wrapper(0);
-}
-
-
-
-/*
- * These routines are in charge of sending option negotiations
- * to the other side.
- *
- * The basic idea is that we send the negotiation if either side
- * is in disagreement as to what the current state should be.
- */
-
-void send_do(register int c, register int init)
-{
-  if (init)
-  {
-    if (((get_do_dont_resp_wrapper()[c] == 0) && (get_options_wrapper()[c] & 0x04)) || (get_options_wrapper()[c] & 0x08))
-      return;
-    {
-      get_options_wrapper()[c] |= 0x08;
-    }
-    ;
-    do_dont_resp[c]++;
-  }
-  {
-    {
-      *get_netoring_supply_wrapper() = 255;
-      {
-        Ring temp_netoring = get_netoring_wrapper();
-        ring_supplied(&temp_netoring, 1);
-        set_netoring_wrapper(temp_netoring);
-      }
-    }
-    ;
-    {
-      *get_netoring_supply_wrapper() = 253;
-      {
-        Ring temp_netoring = get_netoring_wrapper();
-        ring_supplied(&temp_netoring, 1);
-        set_netoring_wrapper(temp_netoring);
-      }
-    }
-    ;
-  }
-  ;
-  {
-    *get_netoring_supply_wrapper() = c;
-    {
-      Ring temp_netoring = get_netoring_wrapper();
-      ring_supplied(&temp_netoring, 1);
-      set_netoring_wrapper(temp_netoring);
-    }
-  }
-  ;
-  printoption("SENT", 253, c);
-}
-
-
-
-void send_dont(register int c, register int init)
-{
-  if (init)
-  {
-    if (((get_do_dont_resp_wrapper()[c] == 0) && (!(get_options_wrapper()[c] & 0x04))) || (!(get_options_wrapper()[c] & 0x08)))
-      return;
-    {
-      get_options_wrapper()[c] &= ~0x08;
-    }
-    ;
-    do_dont_resp[c]++;
-  }
-  {
-    {
-      *get_netoring_supply_wrapper() = 255;
-      {
-        Ring temp_netoring = get_netoring_wrapper();
-        ring_supplied(&temp_netoring, 1);
-        set_netoring_wrapper(temp_netoring);
-      }
-    }
-    ;
-    {
-      *get_netoring_supply_wrapper() = 254;
-      {
-        Ring temp_netoring = get_netoring_wrapper();
-        ring_supplied(&temp_netoring, 1);
-        set_netoring_wrapper(temp_netoring);
-      }
-    }
-    ;
-  }
-  ;
-  {
-    *get_netoring_supply_wrapper() = c;
-    {
-      Ring temp_netoring = get_netoring_wrapper();
-      ring_supplied(&temp_netoring, 1);
-      set_netoring_wrapper(temp_netoring);
-    }
-  }
-  ;
-  printoption("SENT", 254, c);
-}
-
-
-
-void send_will(register int c, register int init)
-{
   if (init)
   {
     if (((get_will_wont_resp_wrapper()[c] == 0) && (get_options_wrapper()[c] & 0x01)) || (get_options_wrapper()[c] & 0x02))
@@ -349,8 +147,7 @@ void send_will(register int c, register int init)
   printoption("SENT", 251, c);
 }
 
-
-
+  NET2ADD (IAC, WILL);
 void send_wont(register int c, register int init)
 {
   if (init)
@@ -396,9 +193,8 @@ void send_wont(register int c, register int init)
   printoption("SENT", 252, c);
 }
 
-
-
-
+  NET2ADD (IAC, WONT);
+  NETADD (c);
 void willoption(int option)
 {
   int new_state_ok = 0;
@@ -464,8 +260,7 @@ void willoption(int option)
   ;
 }
 
-
-
+  if (option == TELOPT_ENCRYPT)
 void wontoption(int option)
 {
   if (get_do_dont_resp_wrapper()[option])
@@ -528,8 +323,7 @@ void wontoption(int option)
   ;
 }
 
-
-
+      set_my_want_state_dont (option);
 static void dooption(int option)
 {
   int new_state_ok = 0;
@@ -642,8 +436,7 @@ static void dooption(int option)
   ;
 }
 
-
-
+	}
 static void dontoption(int option)
 {
   if (get_will_wont_resp_wrapper()[option])
@@ -676,7 +469,10 @@ static void dontoption(int option)
   ;
 }
 
-
+      setconnmode (0);		/* Set new tty mode */
+    }
+  set_my_state_wont (option);
+}
 
 int
 is_unique (register char *name, register char **as, register char **ae)
@@ -841,12 +637,7 @@ mklist (char *buf, char *name)
 }
 
 /* Claimed to be ignored by contemporary implementations,
- * but still modified by FreeBSD and NetBSD.
  * mklist will examine this buffer, so erase it
- * to cover corner cases.
- */
-char termbuf[2048] = { 0 };
-
 static int init_term(char *tname, int *errp)
 {
   int err = -1;
@@ -863,10 +654,8 @@ static int init_term(char *tname, int *errp)
   return -1;
 }
 
-
-
-int resettermname = 1;
-
+  if (errp)
+  return (-1);
 char *gettermname(void)
 {
   char *tname;
@@ -900,7 +689,10 @@ char *gettermname(void)
   return *(next++);
 }
 
-
+  if (*next == 0)
+    next = tnamep;
+  return (*next++);
+}
 
 /*
  * suboption()
@@ -912,10 +704,6 @@ char *gettermname(void)
  *
  *		Terminal type, send request.
  *		Terminal speed (send request).
- *		Local flow control (is request).
- *		Linemode
- */
-
 static void suboption(void)
 {
   unsigned char subchar;
@@ -938,9 +726,9 @@ static void suboption(void)
       len = (strlen(name) + 4) + 2;
       {
         Ring temp_netoring = get_netoring_wrapper();
-        int temp_result_3 = ring_empty_count(&temp_netoring);
+        int temp_result_9 = ring_empty_count(&temp_netoring);
         set_netoring_wrapper(temp_netoring);
-        if (len < temp_result_3)
+        if (len < temp_result_9)
         {
           sprintf((char *) temp, "%c%c%c%c%s%c%c", 255, 250, 24, 0, name, 255, 240);
           {
@@ -974,9 +762,9 @@ static void suboption(void)
       len = strlen(((char *) temp) + 4) + 4;
       {
         Ring temp_netoring = get_netoring_wrapper();
-        int temp_result_4 = ring_empty_count(&temp_netoring);
+        int temp_result_10 = ring_empty_count(&temp_netoring);
         set_netoring_wrapper(temp_netoring);
-        if (len < temp_result_4)
+        if (len < temp_result_10)
         {
           {
             Ring temp_netoring = get_netoring_wrapper();
@@ -1107,9 +895,9 @@ static void suboption(void)
       len = strlen(((char *) temp) + 4) + 4;
       {
         Ring temp_netoring = get_netoring_wrapper();
-        int temp_result_5 = ring_empty_count(&temp_netoring);
+        int temp_result_11 = ring_empty_count(&temp_netoring);
         set_netoring_wrapper(temp_netoring);
-        if (len < temp_result_5)
+        if (len < temp_result_11)
         {
           {
             Ring temp_netoring = get_netoring_wrapper();
@@ -1131,10 +919,8 @@ static void suboption(void)
 
 }
 
-
-
-static unsigned char str_lm[] = { IAC, SB, TELOPT_LINEMODE, 0, 0, IAC, SE };
-
+    default:
+    }
 void lm_will(unsigned char *cmd, int len)
 {
   if (len < 1)
@@ -1151,9 +937,9 @@ void lm_will(unsigned char *cmd, int len)
       get_str_lm_wrapper()[4] = cmd[0];
     {
       Ring temp_netoring = get_netoring_wrapper();
-      int temp_result_6 = ring_empty_count(&temp_netoring);
+      int temp_result_12 = ring_empty_count(&temp_netoring);
       set_netoring_wrapper(temp_netoring);
-      if (temp_result_6 > ((int) (sizeof(str_lm))))
+      if (temp_result_12 > ((int) (sizeof(str_lm))))
       {
         {
           Ring temp_netoring = get_netoring_wrapper();
@@ -1171,7 +957,10 @@ void lm_will(unsigned char *cmd, int len)
 
 }
 
-
+	printf ("lm_will: not enough room in buffer\n");
+      break;
+    }
+}
 
 void
 lm_wont (unsigned char *cmd, int len)
@@ -1187,10 +976,6 @@ lm_wont (unsigned char *cmd, int len)
     case LM_FORWARDMASK:	/* We shouldn't ever get this... */
     default:
       /* We are always DONT, so don't respond */
-      return;
-    }
-}
-
 void lm_do(unsigned char *cmd, int len)
 {
   if (len < 1)
@@ -1207,9 +992,9 @@ void lm_do(unsigned char *cmd, int len)
       get_str_lm_wrapper()[4] = cmd[0];
     {
       Ring temp_netoring = get_netoring_wrapper();
-      int temp_result_7 = ring_empty_count(&temp_netoring);
+      int temp_result_13 = ring_empty_count(&temp_netoring);
       set_netoring_wrapper(temp_netoring);
-      if (temp_result_7 > ((int) (sizeof(str_lm))))
+      if (temp_result_13 > ((int) (sizeof(str_lm))))
       {
         {
           Ring temp_netoring = get_netoring_wrapper();
@@ -1227,7 +1012,10 @@ void lm_do(unsigned char *cmd, int len)
 
 }
 
-
+	printf ("lm_do: not enough room in buffer\n");
+      break;
+    }
+}
 
 void
 lm_dont (unsigned char *cmd, int len)
@@ -1243,13 +1031,6 @@ lm_dont (unsigned char *cmd, int len)
     case LM_FORWARDMASK:
     default:
       /* we are always WONT, so don't respond */
-      break;
-    }
-}
-
-static unsigned char str_lm_mode[] = {
-  IAC, SB, TELOPT_LINEMODE, LM_MODE, 0, IAC, SE
-};
 
 void lm_mode(unsigned char *cmd, int len, int init)
 {
@@ -1265,9 +1046,9 @@ void lm_mode(unsigned char *cmd, int len, int init)
     get_str_lm_mode_wrapper()[4] |= 0x04;
   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_8 = ring_empty_count(&temp_netoring);
+    int temp_result_14 = ring_empty_count(&temp_netoring);
     set_netoring_wrapper(temp_netoring);
-    if (temp_result_8 > ((int) (sizeof(str_lm_mode))))
+    if (temp_result_14 > ((int) (sizeof(str_lm_mode))))
     {
       {
         Ring temp_netoring = get_netoring_wrapper();
@@ -1282,7 +1063,10 @@ void lm_mode(unsigned char *cmd, int len, int init)
   setconnmode(0);
 }
 
-
+  else
+    printf ("lm_mode: not enough room in buffer\n");
+  setconnmode (0);		/* set changed mode */
+}
 
 
 
@@ -1297,12 +1081,6 @@ struct spc
   cc_t *valp;
   char flags;			/* Current flags & level */
   char mylevel;			/* Maximum level & flags */
-} spc_data[NSLC + 1];
-
-#define SLC_IMPORT	0
-#define SLC_EXPORT	1
-#define SLC_RVALUE	2
-static int slc_mode = SLC_EXPORT;
 
 void slc_init(void)
 {
@@ -1545,15 +1323,13 @@ void slc_init(void)
     slc_import(1);
 }
 
-
-
+    slc_export ();
 void slcstate(void)
 {
   printf("Special characters are %s values\n", (get_slc_mode_wrapper() == 0) ? ("remote default") : ((get_slc_mode_wrapper() == 1) ? ("local") : ("remote")));
 }
 
-
-
+{
 void slc_mode_export(void)
 {
   set_slc_mode_wrapper(1);
@@ -1561,8 +1337,7 @@ void slc_mode_export(void)
     slc_export();
 }
 
-
-
+{
 void slc_mode_import(int def)
 {
   set_slc_mode_wrapper((def) ? (0) : (2));
@@ -1570,22 +1345,15 @@ void slc_mode_import(int def)
     slc_import(def);
 }
 
-
-
-unsigned char slc_import_val[] = {
+{
   IAC, SB, TELOPT_LINEMODE, LM_SLC, 0, SLC_VARIABLE, 0, IAC, SE
-};
-unsigned char slc_import_def[] = {
-  IAC, SB, TELOPT_LINEMODE, LM_SLC, 0, SLC_DEFAULT, 0, IAC, SE
-};
-
 void slc_import(int def)
 {
   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_9 = ring_empty_count(&temp_netoring);
+    int temp_result_15 = ring_empty_count(&temp_netoring);
     set_netoring_wrapper(temp_netoring);
-    if (temp_result_9 > ((int) (sizeof(slc_import_val))))
+    if (temp_result_15 > ((int) (sizeof(slc_import_val))))
     {
       if (def)
       {
@@ -1611,7 +1379,11 @@ void slc_import(int def)
   }
 }
 
-
+    }
+/*@*/
+  else
+    printf ("slc_import: not enough room\n");
+}
 
 void
 slc_export (void)
@@ -1733,14 +1505,7 @@ slc_check (void)
 	  slc_add_reply (spcp - spc_data, spcp->flags, spcp->val);
 	}
     }
-  slc_end_reply ();
-  setconnmode (1);
 }
-
-
-unsigned char slc_reply[128];
-unsigned char *slc_replyp;
-
 void slc_start_reply(void)
 {
   set_slc_replyp_wrapper(slc_reply);
@@ -1750,8 +1515,7 @@ void slc_start_reply(void)
   *gsetter_slc_replyp_postfix_wrapper() = 3;
 }
 
-
-
+  *slc_replyp++ = IAC;
 void slc_add_reply(unsigned char func, unsigned char flags, cc_t value)
 {
   if ((*gsetter_slc_replyp_postfix_wrapper() = func) == 255)
@@ -1762,8 +1526,7 @@ void slc_add_reply(unsigned char func, unsigned char flags, cc_t value)
     *gsetter_slc_replyp_postfix_wrapper() = 255;
 }
 
-
-
+  if ((*slc_replyp++ = flags) == IAC)
 void slc_end_reply(void)
 {
   register int len;
@@ -1774,9 +1537,9 @@ void slc_end_reply(void)
     return;
   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_10 = ring_empty_count(&temp_netoring);
+    int temp_result_16 = ring_empty_count(&temp_netoring);
     set_netoring_wrapper(temp_netoring);
-    if (temp_result_10 > len)
+    if (temp_result_16 > len)
     {
       {
         Ring temp_netoring = get_netoring_wrapper();
@@ -1790,7 +1553,11 @@ void slc_end_reply(void)
   }
 }
 
-
+    }
+/*@*/
+  else
+    printf ("slc_end_reply: not enough room\n");
+}
 
 int
 slc_update (void)
@@ -1903,14 +1670,6 @@ env_opt (register unsigned char *buf, register int len)
       break;
 
     default:
-      break;
-    }
-}
-
-#define OPT_REPLY_SIZE	256
-unsigned char *opt_reply;
-unsigned char *opt_replyp;
-unsigned char *opt_replyend;
 
 void env_opt_start(void)
 {
@@ -1932,8 +1691,7 @@ void env_opt_start(void)
   *gsetter_opt_replyp_postfix_wrapper() = 0;
 }
 
-
-
+  *opt_replyp++ = IAC;
 void env_opt_start_info(void)
 {
   env_opt_start();
@@ -1941,8 +1699,7 @@ void env_opt_start_info(void)
     get_opt_replyp_wrapper()[-1] = 2;
 }
 
-
-
+{
 void env_opt_add(register unsigned char *ep)
 {
   register unsigned char *vp;
@@ -2017,7 +1774,11 @@ void env_opt_add(register unsigned char *ep)
 
 }
 
-
+	}
+      else
+	break;
+    }
+}
 
 int
 opt_welldefined (char *ep)
@@ -2026,11 +1787,6 @@ opt_welldefined (char *ep)
       (strcmp (ep, "DISPLAY") == 0) ||
       (strcmp (ep, "PRINTER") == 0) ||
       (strcmp (ep, "SYSTEMTYPE") == 0) ||
-      (strcmp (ep, "JOB") == 0) || (strcmp (ep, "ACCT") == 0))
-    return (1);
-  return (0);
-}
-
 void env_opt_end(register int emptyok)
 {
   register int len;
@@ -2041,9 +1797,9 @@ void env_opt_end(register int emptyok)
     *gsetter_opt_replyp_postfix_wrapper() = 240;
     {
       Ring temp_netoring = get_netoring_wrapper();
-      int temp_result_11 = ring_empty_count(&temp_netoring);
+      int temp_result_17 = ring_empty_count(&temp_netoring);
       set_netoring_wrapper(temp_netoring);
-      if (temp_result_11 > len)
+      if (temp_result_17 > len)
       {
         {
           Ring temp_netoring = get_netoring_wrapper();
@@ -2063,10 +1819,9 @@ void env_opt_end(register int emptyok)
   }
 }
 
-
-
-
-
+    {
+      free (opt_reply);
+      opt_reply = opt_replyp = opt_replyend = NULL;
 int telrcv(void)
 {
   register int c;
@@ -2098,9 +1853,9 @@ int telrcv(void)
       sbp = get_netiring_consume_wrapper();
       {
         Ring temp_netiring = get_netiring_wrapper();
-        int temp_result_12 = ring_full_consecutive(&temp_netiring);
+        int temp_result_18 = ring_full_consecutive(&temp_netiring);
         set_netiring_wrapper(temp_netiring);
-        scc = temp_result_12;
+        scc = temp_result_18;
       }
       if (scc == 0)
       {
@@ -2434,10 +2189,7 @@ int telrcv(void)
   return returnValue || count;
 }
 
-
-
-static int bol = 1, local = 0;
-
+	}
 int rlogin_susp(void)
 {
   if (get_local_wrapper())
@@ -2450,8 +2202,7 @@ int rlogin_susp(void)
   return 0;
 }
 
-
-
+      bol = 1;
 static int telsnd(void)
 {
   int tcc;
@@ -2484,9 +2235,9 @@ static int telsnd(void)
       tbp = get_ttyiring_consume_wrapper();
       {
         Ring temp_ttyiring = get_ttyiring_wrapper();
-        int temp_result_12 = ring_full_consecutive(&temp_ttyiring);
+        int temp_result_18 = ring_full_consecutive(&temp_ttyiring);
         set_ttyiring_wrapper(temp_ttyiring);
-        tcc = temp_result_12;
+        tcc = temp_result_18;
       }
       if (tcc == 0)
       {
@@ -2757,19 +2508,17 @@ static int telsnd(void)
   return returnValue || count;
 }
 
-
+	}
+    }
+  if (count)
+    ring_consumed (&ttyiring, count);
+  return returnValue || count;	/* Non-zero if we did anything */
+}
 
 /*
  * Scheduler()
  *
  * Try to do something.
- *
- * If we do something useful, return 1; else return 0.
- *
- */
-
-
-/* block; should we block in the select ? */
 int Scheduler(int block)
 {
   int returnValue;
@@ -2780,27 +2529,27 @@ int Scheduler(int block)
   int ttyout;
   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_12 = ring_full_count(&temp_netoring);
+    int temp_result_18 = ring_full_count(&temp_netoring);
     set_netoring_wrapper(temp_netoring);
-    netout = temp_result_12 && ((flushline || ((!(options[34] & 0x02)) && ((!kludgelinemode) || (options[3] & 0x08)))) || (options[0] & 0x02));
+    netout = temp_result_18 && ((flushline || ((!(options[34] & 0x02)) && ((!kludgelinemode) || (options[3] & 0x08)))) || (options[0] & 0x02));
   }
   {
     Ring temp_ttyoring = get_ttyoring_wrapper();
-    int temp_result_12 = ring_full_count(&temp_ttyoring);
+    int temp_result_18 = ring_full_count(&temp_ttyoring);
     set_ttyoring_wrapper(temp_ttyoring);
-    ttyout = temp_result_12;
+    ttyout = temp_result_18;
   }
   {
     Ring temp_ttyiring = get_ttyiring_wrapper();
-    int temp_result_12 = ring_empty_count(&temp_ttyiring);
+    int temp_result_18 = ring_empty_count(&temp_ttyiring);
     set_ttyiring_wrapper(temp_ttyiring);
-    ttyin = temp_result_12;
+    ttyin = temp_result_18;
   }
   {
     Ring temp_netiring = get_netiring_wrapper();
-    int temp_result_12 = ring_empty_count(&temp_netiring);
+    int temp_result_18 = ring_empty_count(&temp_netiring);
     set_netiring_wrapper(temp_netiring);
-    netin = (!ISend) && temp_result_12;
+    netin = (!ISend) && temp_result_18;
   }
   netex = !get_SYNCHing_wrapper();
   returnValue = process_rings(netin, netout, netex, ttyin, ttyout, !block);
@@ -2825,11 +2574,10 @@ int Scheduler(int block)
   return returnValue;
 }
 
-
-
-/*
- * Select from tty and network...
- */
+      returnValue |= telrcv ();
+#else /* !defined(TN3270) */
+      returnValue = Push3270 ();
+#endif /* !defined(TN3270) */
 void telnet(char *user)
 {
   sys_telnet_init();
@@ -2870,7 +2618,14 @@ void telnet(char *user)
 
 }
 
-
+	    {
+	      setcommandmode ();
+	      return;
+	    }
+	}
+    }
+#endif /* !defined(TN3270) */
+}
 
 #if 0				/* XXX - this not being in is a bug */
 /*
@@ -2977,15 +2732,6 @@ netclear (void)
 	{
 	  thisitem = nextitem (thisitem);
 	}
-    }
-
-#endif /* 0 */
-}
-
-/*
- * These routines add various telnet commands to the data stream.
- */
-
 static void doflush(void)
 {
   {
@@ -3024,8 +2770,7 @@ static void doflush(void)
   printoption("SENT", 253, 6);
 }
 
-
-
+doflush (void)
 void xmitAO(void)
 {
   {
@@ -3056,9 +2801,8 @@ void xmitAO(void)
   }
 }
 
-
-
-
+void
+xmitAO (void)
 void xmitEL(void)
 {
   {
@@ -3085,8 +2829,7 @@ void xmitEL(void)
   printoption("SENT", 255, 248);
 }
 
-
-
+    }
 void xmitEC(void)
 {
   {
@@ -3113,9 +2856,8 @@ void xmitEC(void)
   printoption("SENT", 255, 247);
 }
 
-
-
-
+  NET2ADD (IAC, EL);
+  printoption ("SENT", IAC, EL);
 int dosynch(void)
 {
   netclear();
@@ -3142,10 +2884,8 @@ int dosynch(void)
   return 1;
 }
 
-
-
-int want_status_response = 0;
-
+int
+{
 int get_status(void)
 {
   unsigned char tmp[16];
@@ -3164,9 +2904,9 @@ int get_status(void)
   *(cp++) = 240;
   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_12 = ring_empty_count(&temp_netoring);
+    int temp_result_18 = ring_empty_count(&temp_netoring);
     set_netoring_wrapper(temp_netoring);
-    if (temp_result_12 >= (cp - tmp))
+    if (temp_result_18 >= (cp - tmp))
     {
       {
         Ring temp_netoring = get_netoring_wrapper();
@@ -3180,8 +2920,7 @@ int get_status(void)
   return 1;
 }
 
-
-
+  *cp++ = IAC;
 void intp(void)
 {
   {
@@ -3217,8 +2956,7 @@ void intp(void)
   }
 }
 
-
-
+  flushline = 1;
 void sendbrk(void)
 {
   {
@@ -3254,8 +2992,7 @@ void sendbrk(void)
   }
 }
 
-
-
+  flushline = 1;
 void sendabort(void)
 {
   {
@@ -3291,8 +3028,7 @@ void sendabort(void)
   }
 }
 
-
-
+  flushline = 1;
 void sendsusp(void)
 {
   {
@@ -3328,8 +3064,7 @@ void sendsusp(void)
   }
 }
 
-
-
+  flushline = 1;
 void sendeof(void)
 {
   {
@@ -3356,8 +3091,7 @@ void sendeof(void)
   printoption("SENT", 255, 236);
 }
 
-
-
+      dosynch ();
 void sendayt(void)
 {
   {
@@ -3384,12 +3118,11 @@ void sendayt(void)
   printoption("SENT", 255, 246);
 }
 
+  NET2ADD (IAC, xEOF);
+  printoption ("SENT", IAC, xEOF);
+}
 
-
-/*
- * Send a window size update to the remote system.
- */
-
+void
 void sendnaws(void)
 {
   long rows;
@@ -3424,9 +3157,9 @@ void sendnaws(void)
   *(cp++) = 240;
   {
     Ring temp_netoring = get_netoring_wrapper();
-    int temp_result_13 = ring_empty_count(&temp_netoring);
+    int temp_result_19 = ring_empty_count(&temp_netoring);
     set_netoring_wrapper(temp_netoring);
-    if (temp_result_13 >= (cp - tmp))
+    if (temp_result_19 >= (cp - tmp))
     {
       {
         Ring temp_netoring = get_netoring_wrapper();
@@ -3438,7 +3171,16 @@ void sendnaws(void)
   }
 }
 
-
+  PUTSHORT (cp, cols);
+  PUTSHORT (cp, rows);
+  *cp++ = IAC;
+  *cp++ = SE;
+  if (NETROOM () >= cp - tmp)
+    {
+      ring_supply_data (&netoring, tmp, cp - tmp);
+      printsub ('>', tmp + 2, cp - tmp - 2);
+    }
+}
 
 void
 tel_enter_binary (int rw)

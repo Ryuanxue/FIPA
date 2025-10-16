@@ -102,8 +102,7 @@ tninit (void)
   init_3270 ();
 #endif
 }
-
-int family = 0;
+int family = 0;
 char *user;
 #ifdef	FORWARD
 extern int forward_flags;
@@ -118,97 +117,13 @@ enum {
 #if defined KERBEROS || defined SHISHI
 extern char *dest_realm;
 #endif
-
-static struct argp_option argp_options[] = {
-#define GRID 10
-  { NULL, 0, NULL, 0,
-    "General options:", GRID },
-
-  { "ipv4", '4', NULL, 0,
-    "use only IPv4", GRID+1 },
-  { "ipv6", '6', NULL, 0,
-    "use only IPv6", GRID+1 },
-  /* FIXME: Called "8bit" in r* utils */
-  { "binary", '8', NULL, 0,
-    "use an 8-bit data transmission", GRID+1 },
-  { "login", 'a', NULL, 0,
-    "attempt automatic login", GRID+1 },
-  { "no-rc", 'c', NULL, 0,
-    "do not read the user's .telnetrc file", GRID+1 },
-  { "debug", 'd', NULL, 0,
-    "turn on debugging", GRID+1 },
-  { "escape", 'e', "CHAR", 0,
-    "use CHAR as an escape character", GRID+1 },
-  { "no-escape", 'E', NULL, 0,
-    "use no escape character", GRID+1 },
-  { "no-login", 'K', NULL, 0,
-    "do not automatically login to the remote system", GRID+1 },
-  { "user", 'l', "USER", 0,
-    "attempt automatic login as USER", GRID+1 },
-  { "binary-output", 'L', NULL, 0, /* FIXME: Why L?? */
-    "use an 8-bit data transmission for output only", GRID+1 },
-  { "trace", 'n', "FILE", 0,
-    "record trace information into FILE", GRID+1 },
-  { "rlogin", 'r', NULL, 0,
-    "use a user-interface similar to rlogin", GRID+1 },
-#undef GRID
-
-#ifdef ENCRYPTION
-# define GRID 20
-  { NULL, 0, NULL, 0,
-    "Encryption control:", GRID },
-  { "encrypt", 'x', NULL, 0,
-    "encrypt the data stream, if possible", GRID+1 },
-# undef GRID
-#endif
-
-#ifdef AUTHENTICATION
-# define GRID 30
-  { NULL, 0, NULL, 0,
-    "Authentication and Kerberos options:", GRID },
-  { "disable-auth", 'X', "ATYPE", 0,
-    "disable type ATYPE authentication", GRID+1 },
-# if defined KERBEROS || defined SHISHI
-  { "realm", 'k', "REALM", 0,
-    "obtain tickets for the remote host in REALM "
-    "instead of the remote host's realm", GRID+1 },
-# endif
-# if defined KRB5 && defined FORWARD
-  { "fwd-credentials", 'f', NULL, 0,
-    "allow the local credentials to be forwarded", GRID+1 },
-  { NULL, 'F', NULL, 0,
-    "forward a forwardable copy of the local credentials "
-    "to the remote system", GRID+1 },
-# endif
-# undef GRID
-#endif
-
-#if defined TN3270 && (defined unix || defined __unix || defined __unix__)
-# define GRID 40
-  { NULL, 0, NULL, 0,
-    "TN3270 support:", GRID },
-  /* FIXME: Do we need it? */
-  { "transcom", 't', "ARG", 0, "", GRID+1 },
-  { "noasynch", OPTION_NOASYNCH, NULL, 0, "", GRID+1 },
-  { "noasynctty", OPTION_NOASYNCTTY, NULL, 0, "", GRID+1 },
-  { "noasyncnet", OPTION_NOASYNCNET, NULL, 0, "", GRID+1 },
-# undef GRID
-#endif /* TN3270 && (unix || __unix || __unix__) */
-  { NULL, 0, NULL, 0, NULL, 0 }
 };
+}
 
-
-
-
-const char args_doc[] = "[HOST [PORT]]";
-const char doc[] = "Login to remote system HOST "
-                   "(optionally, on service port PORT)";
-static struct argp argp =
   { argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 
 
 /*
- * main.  Parse arguments, invoke the protocol or command parser.
- */
-
+  /* NOT REACHED */
+}
