@@ -250,7 +250,7 @@ make install
 - **Terminal 2 (Client):** Start the client program. It will handle incoming HTTP requests and communicate with the server for sensitive operations.
   ```bash
   cd examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5
-  ./objs/nginx_client -g "daemon off;"
+  ./objs/nginx -g "daemon off;"
   ```
 
 ### 3. Testing
