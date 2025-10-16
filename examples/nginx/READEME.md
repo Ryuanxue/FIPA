@@ -93,7 +93,7 @@ Before running the partitioning workflow, generate the following artifacts:
         ```
 
         In the nginx_32 installation directory (the path specified by --prefix during configure), locate the conf/nginx.conf file. Configure authentication, port, and the location of the authentication file in the server block, for example:
-        ```nginx
+        ```
         listen       8080;
         server_name  localhost;
         auth_basic "Experiment";
@@ -120,7 +120,7 @@ Before running the partitioning workflow, generate the following artifacts:
    - On the host machine, run the 64-bit executable with Pin to generate `.pinout` trace files. This requires running the server under Pin in one terminal and using `curl` to interact with it from another.
 
    - In the nginx_64 installation directory (the path specified by --prefix during configure), locate the conf/nginx.conf file. Configure authentication, port, and the location of the authentication file in the server block, for example:
-        ```nginx
+        ```
         listen       8080;
         server_name  localhost;
         auth_basic "Experiment";
@@ -238,6 +238,21 @@ cd examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5
 make -j8
 make install
 # The nginx_client executable will be in the objs/ directory and nginx_install/sbin/ directory.
+```
+- **Configure the nginx_client:**
+After compilation, configure the nginx configuration file at `examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5/nginx_install/conf/nginx.conf`. Specifically, set up the authentication parameters in the server block:
+
+  ```
+    server {
+        listen       8080;
+        server_name  localhost;
+        auth_basic "Experiment";
+        auth_basic_user_file "/abspath/to/FIPA/examples/nginx/auth/.htpasswd";
+        }
+  ```
+**Note:** Replace `/abspath/to/FIPA` with the actual absolute path to your FIPA directory. The `.htpasswd` file must be prepared in advance and placed in the `/abspath/to/FIPA/examples/nginx/auth/` directory.
+
+
 ```
 
 ### 2. Execution
