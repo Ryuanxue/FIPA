@@ -222,7 +222,7 @@ Then, compile the client and server components similarly to the 64-bit executabl
 
 **Compile wget_client:**
 ```bash
-cd examples/wget/output/finally_partition/wget_client/wget-1.18
+cd examples/wget/output/finally_partition/wget-1.18_client/wget-1.18
 ./configure
 make CFLAGS+="-g -O0" -j8
 # The wget executable will be generated in the src/ directory.
@@ -230,7 +230,7 @@ make CFLAGS+="-g -O0" -j8
 
 **Compile wget_server:**
 ```bash
-cd examples/wget/output/finally_partition/wget_server/wget-1.18
+cd examples/wget/output/finally_partition/wget-1.18_server/wget-1.18
 ./configure
 make CFLAGS+="-g -O0" -j8
 # The wget executable will be generated in the src/ directory.
@@ -243,17 +243,17 @@ Run the client and server in two separate terminals.
 **Example 1: Test HTTP redirect**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/wget/output/finally_partition/wget_server/wget-1.18/src/wget
+  ./examples/wget/output/finally_partition/wget-1.18_server/wget-1.18/src/wget
   ```
 - **Terminal 2 (Client):**
   ```bash
-  ./examples/wget/output/finally_partition/wget_client/wget-1.18/src/wget www.baidu.com 80
+  ./examples/wget/output/finally_partition/wget-1.18_client/wget-1.18/src/wget www.baidu.com 80
   ```
 
 **Example 2: Download a local file via HTTP**
 - **Terminal 1 (Server):**
   ```bash
-  ./examples/wget/output/finally_partition/wget_server/wget-1.18/src/wget
+  ./examples/wget/output/finally_partition/wget-1.18_server/wget-1.18/src/wget
   ```
 - **Terminal 2 (HTTP Server on host):**
   ```bash
@@ -262,5 +262,5 @@ Run the client and server in two separate terminals.
   ```
 - **Terminal 3 (Client):**
   ```bash
-  ./examples/wget/output/finally_partition/wget_client/wget-1.18/src/wget http://localhost:8000/test.txt
+  ./examples/wget/output/finally_partition/wget-1.18_client/wget-1.18/src/wget http://localhost:8000/test.txt
   ```

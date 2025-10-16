@@ -238,7 +238,6 @@ Then, compile the client and server components similarly to the 64-bit executabl
 **Compile telnet_client:**
 ```bash
 cd examples/telnet/output/finally_partition/telnet_client/inetutils-1.9.4
-./configure --disable-servers --disable-clients --enable-telnet
 make -j8
 # The telnet executable will be generated in the telnet/ directory.
 ```
@@ -246,7 +245,6 @@ make -j8
 **Compile telnet_server:**
 ```bash
 cd examples/telnet/output/finally_partition/telnet_server/inetutils-1.9.4
-./configure --disable-servers --disable-clients --enable-telnet
 make -j8
 # The telnet executable will be generated in the telnet/ directory.
 ```

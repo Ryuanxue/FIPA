@@ -119,7 +119,7 @@ Before running the partitioning workflow, generate the following artifacts:
 3. **Collect Edge Information**
    - On the host machine, run the 64-bit executable with Pin to generate `.pinout` trace files. This requires running the server under Pin in one terminal and using `curl` to interact with it from another.
 
-   - In the nginx_32 installation directory (the path specified by --prefix during configure), locate the conf/nginx.conf file. Configure authentication, port, and the location of the authentication file in the server block, for example:
+   - In the nginx_64 installation directory (the path specified by --prefix during configure), locate the conf/nginx.conf file. Configure authentication, port, and the location of the authentication file in the server block, for example:
         ```nginx
         listen       8080;
         server_name  localhost;
@@ -128,7 +128,7 @@ Before running the partitioning workflow, generate the following artifacts:
         ```
         The .htpasswd file should be prepared in advance and placed in the /abspath/to/FIPA/examples/nginx/auth/ directory.
 
-     - In your first terminal, start the `nginx` server under Pin. We'll use port 8081 to avoid conflicts.
+     - In your first terminal, start the `nginx` server under Pin. 
        ```bash
        src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/nginx/output/temp/nginx_protected.pinout -- ./examples/nginx/input/nginx_64 -g "daemon off;"
        ```
