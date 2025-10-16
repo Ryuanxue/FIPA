@@ -50,6 +50,7 @@
  */
 
 #include <config.h>
+#include "telnet_rpc_wrapper.h"
 
 #include <stdlib.h>
 

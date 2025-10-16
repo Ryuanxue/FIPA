@@ -132,92 +132,6 @@ else {
 		result.tn_sense_1_ret.int_ptr_val[i0]=tn_sense_1_ret[i0];
 	}
 }
-    if(result==NULL) {
-        result.result.addrinfo_rpc_ptr_len=0;
-        result.result.addrinfo_rpc_ptr_val=NULL;
-    } else {
-        result.result.addrinfo_rpc_ptr_len=1;
-        result.result.addrinfo_rpc_ptr_val=malloc(1*sizeof(addrinfo_rpc));
-        if(result.result.addrinfo_rpc_ptr_val==NULL) {
-            perror("malloc failed");
-            exit(1);
-        }
-        for(int i0=0;i0<result.result.addrinfo_rpc_ptr_len;i0++) {
-result.result.addrinfo_rpc_ptr_val[i0].ai_flags=result[i0].ai_flags;
-result.result.addrinfo_rpc_ptr_val[i0].ai_family=result[i0].ai_family;
-result.result.addrinfo_rpc_ptr_val[i0].ai_socktype=result[i0].ai_socktype;
-result.result.addrinfo_rpc_ptr_val[i0].ai_protocol=result[i0].ai_protocol;
-result.result.addrinfo_rpc_ptr_val[i0].ai_addrlen=result[i0].ai_addrlen;
-if (result[i0].ai_addr == NULL) {result.result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len = 0;result.result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val = NULL;}
-
-else {result.result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len = 1;result.result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val = malloc(result.result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len * sizeof(sockaddr_rpc));
-
-	if (result.result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val == NULL) {perror("malloc failed");exit(1);
-}
-	for (int i1 = 0; i1 < result.result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len; i1++) {
-
-result.result.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val[i1].sa_family=result[i0].ai_addr->sa_family;
-	}
-}
-if (result[i0].ai_canonname == NULL) {result.result.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len = 0;result.result.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val = NULL;}
-
-else {result.result.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len = strlen(result[i0].ai_canonname)+1;result.result.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val = result[i0].ai_canonname;}
-
-if (result[i0].ai_next == NULL) {result.result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len = 0;result.result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val = NULL;}
-
-else {result.result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len = 1;result.result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val = malloc(result.result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len * sizeof(addrinfo_rpc));
-
-	if (result.result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val == NULL) {perror("malloc failed");exit(1);
-}
-	for (int i1 = 0; i1 < result.result.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len; i1++) {
-
-	}
-}
-        }
-    }
-    if(aip==NULL) {
-        result.aip.addrinfo_rpc_ptr_len=0;
-        result.aip.addrinfo_rpc_ptr_val=NULL;
-    } else {
-        result.aip.addrinfo_rpc_ptr_len=1;
-        result.aip.addrinfo_rpc_ptr_val=malloc(1*sizeof(addrinfo_rpc));
-        if(result.aip.addrinfo_rpc_ptr_val==NULL) {
-            perror("malloc failed");
-            exit(1);
-        }
-        for(int i0=0;i0<result.aip.addrinfo_rpc_ptr_len;i0++) {
-result.aip.addrinfo_rpc_ptr_val[i0].ai_flags=aip[i0].ai_flags;
-result.aip.addrinfo_rpc_ptr_val[i0].ai_family=aip[i0].ai_family;
-result.aip.addrinfo_rpc_ptr_val[i0].ai_socktype=aip[i0].ai_socktype;
-result.aip.addrinfo_rpc_ptr_val[i0].ai_protocol=aip[i0].ai_protocol;
-result.aip.addrinfo_rpc_ptr_val[i0].ai_addrlen=aip[i0].ai_addrlen;
-if (aip[i0].ai_addr == NULL) {result.aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len = 0;result.aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val = NULL;}
-
-else {result.aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len = 1;result.aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val = malloc(result.aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len * sizeof(sockaddr_rpc));
-
-	if (result.aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val == NULL) {perror("malloc failed");exit(1);
-}
-	for (int i1 = 0; i1 < result.aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_len; i1++) {
-
-result.aip.addrinfo_rpc_ptr_val[i0].ai_addr.sockaddr_rpc_ptr_val[i1].sa_family=aip[i0].ai_addr->sa_family;
-	}
-}
-if (aip[i0].ai_canonname == NULL) {result.aip.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len = 0;result.aip.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val = NULL;}
-
-else {result.aip.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_len = strlen(aip[i0].ai_canonname)+1;result.aip.addrinfo_rpc_ptr_val[i0].ai_canonname.charptr.charptr_val = aip[i0].ai_canonname;}
-
-if (aip[i0].ai_next == NULL) {result.aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len = 0;result.aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val = NULL;}
-
-else {result.aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len = 1;result.aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val = malloc(result.aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len * sizeof(addrinfo_rpc));
-
-	if (result.aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_val == NULL) {perror("malloc failed");exit(1);
-}
-	for (int i1 = 0; i1 < result.aip.addrinfo_rpc_ptr_val[i0].ai_next.addrinfo_rpc_ptr_len; i1++) {
-
-	}
-}
-        }
-    }
 if(err==NULL) {result.err.int_ptr_len=0;result.err.int_ptr_val=NULL;}
 else {
 	result.err.int_ptr_len=1;
@@ -268,237 +182,239 @@ return &result;
 }
 
 /* 全局变量访问函数 - 服务端 */
-ttyibuf_array *get_ttyibuf_1_svc(struct svc_req *rqstp)
+char_ptr *get_prompt_1_svc(struct svc_req *rqstp)
 {
-    static ttyibuf_array result;
-    memcpy(result.ttyibuf, ttyibuf, sizeof(ttyibuf));
-    return &result;
-}
-
-void *set_ttyibuf_1_svc(ttyibuf_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    memcpy(ttyibuf, value.ttyibuf, sizeof(ttyibuf));
-    return (void *)&result;
-}
-
-ttyobuf_array *get_ttyobuf_1_svc(struct svc_req *rqstp)
-{
-    static ttyobuf_array result;
-    memcpy(result.ttyobuf, ttyobuf, sizeof(ttyobuf));
-    return &result;
-}
-
-void *set_ttyobuf_1_svc(ttyobuf_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    memcpy(ttyobuf, value.ttyobuf, sizeof(ttyobuf));
-    return (void *)&result;
-}
-
-localflow_ret_t *get_localflow_1_svc(struct svc_req *rqstp)
-{
-    static localflow_ret_t result;
-    result.value = localflow;
-    return &result;
-}
-
-void *set_localflow_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    localflow = value;
-    return (void *)&result;
-}
-
-clocks_ret_t *get_clocks_1_svc(struct svc_req *rqstp)
-{
-    static clocks_ret_t result;
-    return &result;
-}
-
-void *set_clocks_1_svc(Clocks_rpc value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    Clocks_rpc arg1
-    return (void *)&result;
-}
-
-clocks_system_ret_t *get_clocks_system_1_svc(struct svc_req *rqstp)
-{
-    static clocks_system_ret_t result;
-    result.value = clocks.system;
-    return &result;
-}
-
-void *set_clocks_system_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    clocks.system = value;
-    return (void *)&result;
-}
-
-clocks_echotoggle_ret_t *get_clocks_echotoggle_1_svc(struct svc_req *rqstp)
-{
-    static clocks_echotoggle_ret_t result;
-    result.value = clocks.echotoggle;
-    return &result;
-}
-
-void *set_clocks_echotoggle_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    clocks.echotoggle = value;
-    return (void *)&result;
-}
-
-clocks_modenegotiated_ret_t *get_clocks_modenegotiated_1_svc(struct svc_req *rqstp)
-{
-    static clocks_modenegotiated_ret_t result;
-    result.value = clocks.modenegotiated;
-    return &result;
-}
-
-void *set_clocks_modenegotiated_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    clocks.modenegotiated = value;
-    return (void *)&result;
-}
-
-clocks_didnetreceive_ret_t *get_clocks_didnetreceive_1_svc(struct svc_req *rqstp)
-{
-    static clocks_didnetreceive_ret_t result;
-    result.value = clocks.didnetreceive;
-    return &result;
-}
-
-void *set_clocks_didnetreceive_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    clocks.didnetreceive = value;
-    return (void *)&result;
-}
-
-clocks_gotDM_ret_t *get_clocks_gotDM_1_svc(struct svc_req *rqstp)
-{
-    static clocks_gotDM_ret_t result;
-    result.value = clocks.gotDM;
-    return &result;
-}
-
-void *set_clocks_gotDM_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    clocks.gotDM = value;
-    return (void *)&result;
-}
-
-telrcv_state_ret_t *get_telrcv_state_1_svc(struct svc_req *rqstp)
-{
-    static telrcv_state_ret_t result;
-    result.value = telrcv_state;
-    return &result;
-}
-
-void *set_telrcv_state_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    telrcv_state = value;
-    return (void *)&result;
-}
-
-localchars_ret_t *get_localchars_1_svc(struct svc_req *rqstp)
-{
-    static localchars_ret_t result;
-    result.value = localchars;
-    return &result;
-}
-
-void *set_localchars_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    localchars = value;
-    return (void *)&result;
-}
-
-str_lm_array *get_str_lm_1_svc(struct svc_req *rqstp)
-{
-    static str_lm_array result;
-    memcpy(result.str_lm, str_lm, sizeof(str_lm));
-    return &result;
-}
-
-void *set_str_lm_1_svc(str_lm_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    memcpy(str_lm, value.str_lm, sizeof(str_lm));
-    return (void *)&result;
-}
-
-margv_array *get_margv_1_svc(struct svc_req *rqstp)
-{
-    static margv_array result;
-    for (int i = 0; i < 20; i++) {
-        if (margv[i] != NULL) {
-            int len = strlen(margv[i]) + 1;
-            result.margv[i].charptr.charptr_len = len;
-            result.margv[i].charptr.charptr_val = malloc(len);
-            if (result.margv[i].charptr.charptr_val != NULL) {
-                memcpy(result.margv[i].charptr.charptr_val, margv[i], len);
-            }
-        } else {
-            result.margv[i].charptr.charptr_len = 0;
-            result.margv[i].charptr.charptr_val = NULL;
-        }
+    static char_ptr result;
+    if (prompt == NULL) {
+        result.charptr.charptr_len = 0;
+        result.charptr.charptr_val = NULL;
+    } else {
+        result.charptr.charptr_len = strlen(prompt) + 1;
+        result.charptr.charptr_val = prompt;
     }
     return &result;
 }
 
-void *set_margv_1_svc(margv_array value, struct svc_req *rqstp)
+void *set_prompt_1_svc(char_ptr value, struct svc_req *rqstp)
 {
-    static int result = 1;
-    for (int i = 0; i < 20; i++) {
-        if (margv[i] != NULL) {
-            free(margv[i]);
-            margv[i] = NULL;
-        }
-        if (value.margv[i].charptr.charptr_val != NULL && value.margv[i].charptr.charptr_len > 0) {
-            margv[i] = malloc(value.margv[i].charptr.charptr_len);
-            if (margv[i] != NULL) {
-                memcpy(margv[i], value.margv[i].charptr.charptr_val, value.margv[i].charptr.charptr_len);
-            }
-        }
+    static int result;
+    if (prompt != NULL) {
+        free(prompt);
+    }
+    if (value.charptr.charptr_val == NULL) {
+        prompt = NULL;
+    } else {
+        prompt=malloc(value.charptr.charptr_len);
+        memcpy(prompt, value.charptr.charptr_val, value.charptr.charptr_len);
     }
     return (void *)&result;
 }
 
-options_array *get_options_1_svc(struct svc_req *rqstp)
+In3270_ret_t *get_In3270_1_svc(struct svc_req *rqstp)
 {
-    static options_array result;
-    strncpy(result.options, options, 1);
-    result.options[1 - 1] = '\0'; // 确保字符串正确终止
+    static In3270_ret_t result;
+    result.value = In3270;
     return &result;
 }
 
-void *set_options_1_svc(options_array value, struct svc_req *rqstp)
+void *set_In3270_1_svc(int value, struct svc_req *rqstp)
 {
-    static int result = 1;
-    strncpy(options, value.options, 1);
-    options[1 - 1] = '\0'; // 确保字符串正确终止
+    static int result = 1; // 成功标志
+    In3270 = value;
     return (void *)&result;
 }
 
-restartany_ret_t *get_restartany_1_svc(struct svc_req *rqstp)
+xbits_ret_t *get_xbits_1_svc(struct svc_req *rqstp)
 {
-    static restartany_ret_t result;
-    result.value = restartany;
+    static xbits_ret_t result;
     return &result;
 }
 
-void *set_restartany_1_svc(int value, struct svc_req *rqstp)
+void *set_xbits_1_svc(fd_set_rpc value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    fd_set_rpc arg1
+    return (void *)&result;
+}
+
+netibuf_array *get_netibuf_1_svc(struct svc_req *rqstp)
+{
+    static netibuf_array result;
+    memcpy(result.netibuf, netibuf, sizeof(netibuf));
+    return &result;
+}
+
+void *set_netibuf_1_svc(netibuf_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    memcpy(netibuf, value.netibuf, sizeof(netibuf));
+    return (void *)&result;
+}
+
+slc_import_def_array *get_slc_import_def_1_svc(struct svc_req *rqstp)
+{
+    static slc_import_def_array result;
+    memcpy(result.slc_import_def, slc_import_def, sizeof(slc_import_def));
+    return &result;
+}
+
+void *set_slc_import_def_1_svc(slc_import_def_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    memcpy(slc_import_def, value.slc_import_def, sizeof(slc_import_def));
+    return (void *)&result;
+}
+
+old_tc_ret_t *get_old_tc_1_svc(struct svc_req *rqstp)
+{
+    static old_tc_ret_t result;
+    return &result;
+}
+
+void *set_old_tc_1_svc(termios_rpc value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    termios_rpc arg1
+    return (void *)&result;
+}
+
+old_tc_c_iflag_ret_t *get_old_tc_c_iflag_1_svc(struct svc_req *rqstp)
+{
+    static old_tc_c_iflag_ret_t result;
+    result.value = old_tc.c_iflag;
+    return &result;
+}
+
+void *set_old_tc_c_iflag_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    old_tc.c_iflag = value;
+    return (void *)&result;
+}
+
+old_tc_c_oflag_ret_t *get_old_tc_c_oflag_1_svc(struct svc_req *rqstp)
+{
+    static old_tc_c_oflag_ret_t result;
+    result.value = old_tc.c_oflag;
+    return &result;
+}
+
+void *set_old_tc_c_oflag_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    old_tc.c_oflag = value;
+    return (void *)&result;
+}
+
+old_tc_c_cflag_ret_t *get_old_tc_c_cflag_1_svc(struct svc_req *rqstp)
+{
+    static old_tc_c_cflag_ret_t result;
+    result.value = old_tc.c_cflag;
+    return &result;
+}
+
+void *set_old_tc_c_cflag_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    old_tc.c_cflag = value;
+    return (void *)&result;
+}
+
+old_tc_c_lflag_ret_t *get_old_tc_c_lflag_1_svc(struct svc_req *rqstp)
+{
+    static old_tc_c_lflag_ret_t result;
+    result.value = old_tc.c_lflag;
+    return &result;
+}
+
+void *set_old_tc_c_lflag_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    old_tc.c_lflag = value;
+    return (void *)&result;
+}
+
+old_tc_c_line_ret_t *get_old_tc_c_line_1_svc(struct svc_req *rqstp)
+{
+    static old_tc_c_line_ret_t result;
+    result.value = old_tc.c_line;
+    return &result;
+}
+
+void *set_old_tc_c_line_1_svc(unsigned char value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    old_tc.c_line = value;
+    return (void *)&result;
+}
+
+old_tc_c_ispeed_ret_t *get_old_tc_c_ispeed_1_svc(struct svc_req *rqstp)
+{
+    static old_tc_c_ispeed_ret_t result;
+    result.value = old_tc.c_ispeed;
+    return &result;
+}
+
+void *set_old_tc_c_ispeed_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    old_tc.c_ispeed = value;
+    return (void *)&result;
+}
+
+old_tc_c_ospeed_ret_t *get_old_tc_c_ospeed_1_svc(struct svc_req *rqstp)
+{
+    static old_tc_c_ospeed_ret_t result;
+    result.value = old_tc.c_ospeed;
+    return &result;
+}
+
+void *set_old_tc_c_ospeed_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    old_tc.c_ospeed = value;
+    return (void *)&result;
+}
+
+skiprc_ret_t *get_skiprc_1_svc(struct svc_req *rqstp)
+{
+    static skiprc_ret_t result;
+    result.value = skiprc;
+    return &result;
+}
+
+void *set_skiprc_1_svc(int value, struct svc_req *rqstp)
 {
     static int result = 1; // 成功标志
-    restartany = value;
+    skiprc = value;
+    return (void *)&result;
+}
+
+donebinarytoggle_ret_t *get_donebinarytoggle_1_svc(struct svc_req *rqstp)
+{
+    static donebinarytoggle_ret_t result;
+    result.value = donebinarytoggle;
+    return &result;
+}
+
+void *set_donebinarytoggle_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    donebinarytoggle = value;
+    return (void *)&result;
+}
+
+autoflush_ret_t *get_autoflush_1_svc(struct svc_req *rqstp)
+{
+    static autoflush_ret_t result;
+    result.value = autoflush;
+    return &result;
+}
+
+void *set_autoflush_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    autoflush = value;
     return (void *)&result;
 }
 
@@ -516,45 +432,105 @@ void *set_telnetport_1_svc(int value, struct svc_req *rqstp)
     return (void *)&result;
 }
 
-margc_ret_t *get_margc_1_svc(struct svc_req *rqstp)
+will_wont_resp_array *get_will_wont_resp_1_svc(struct svc_req *rqstp)
 {
-    static margc_ret_t result;
-    result.value = margc;
+    static will_wont_resp_array result;
+    strncpy(result.will_wont_resp, will_wont_resp, 256);
+    result.will_wont_resp[256 - 1] = '\0'; // 确保字符串正确终止
     return &result;
 }
 
-void *set_margc_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    margc = value;
-    return (void *)&result;
-}
-
-netobuf_array *get_netobuf_1_svc(struct svc_req *rqstp)
-{
-    static netobuf_array result;
-    memcpy(result.netobuf, netobuf, sizeof(netobuf));
-    return &result;
-}
-
-void *set_netobuf_1_svc(netobuf_array value, struct svc_req *rqstp)
+void *set_will_wont_resp_1_svc(will_wont_resp_array value, struct svc_req *rqstp)
 {
     static int result = 1;
-    memcpy(netobuf, value.netobuf, sizeof(netobuf));
+    strncpy(will_wont_resp, value.will_wont_resp, 256);
+    will_wont_resp[256 - 1] = '\0'; // 确保字符串正确终止
     return (void *)&result;
 }
 
-flushline_ret_t *get_flushline_1_svc(struct svc_req *rqstp)
+localflow_ret_t *get_localflow_1_svc(struct svc_req *rqstp)
 {
-    static flushline_ret_t result;
-    result.value = flushline;
+    static localflow_ret_t result;
+    result.value = localflow;
     return &result;
 }
 
-void *set_flushline_1_svc(int value, struct svc_req *rqstp)
+void *set_localflow_1_svc(int value, struct svc_req *rqstp)
 {
     static int result = 1; // 成功标志
-    flushline = value;
+    localflow = value;
+    return (void *)&result;
+}
+
+ISend_ret_t *get_ISend_1_svc(struct svc_req *rqstp)
+{
+    static ISend_ret_t result;
+    result.value = ISend;
+    return &result;
+}
+
+void *set_ISend_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    ISend = value;
+    return (void *)&result;
+}
+
+want_status_response_ret_t *get_want_status_response_1_svc(struct svc_req *rqstp)
+{
+    static want_status_response_ret_t result;
+    result.value = want_status_response;
+    return &result;
+}
+
+void *set_want_status_response_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    want_status_response = value;
+    return (void *)&result;
+}
+
+debug_ret_t *get_debug_1_svc(struct svc_req *rqstp)
+{
+    static debug_ret_t result;
+    result.value = debug;
+    return &result;
+}
+
+void *set_debug_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    debug = value;
+    return (void *)&result;
+}
+
+subbuffer_array *get_subbuffer_1_svc(struct svc_req *rqstp)
+{
+    static subbuffer_array result;
+    memcpy(result.subbuffer, subbuffer, sizeof(subbuffer));
+    return &result;
+}
+
+void *set_subbuffer_1_svc(subbuffer_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    memcpy(subbuffer, value.subbuffer, sizeof(subbuffer));
+    return (void *)&result;
+}
+
+termbuf_array *get_termbuf_1_svc(struct svc_req *rqstp)
+{
+    static termbuf_array result;
+    strncpy(result.termbuf, termbuf, 2048);
+    result.termbuf[2048 - 1] = '\0'; // 确保字符串正确终止
+    return &result;
+}
+
+void *set_termbuf_1_svc(termbuf_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    strncpy(termbuf, value.termbuf, 2048);
+    termbuf[2048 - 1] = '\0'; // 确保字符串正确终止
     return (void *)&result;
 }
 
@@ -683,6 +659,214 @@ void *set_ttyiring_supplytime_1_svc(unsigned long value, struct svc_req *rqstp)
     return (void *)&result;
 }
 
+netobuf_array *get_netobuf_1_svc(struct svc_req *rqstp)
+{
+    static netobuf_array result;
+    memcpy(result.netobuf, netobuf, sizeof(netobuf));
+    return &result;
+}
+
+void *set_netobuf_1_svc(netobuf_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    memcpy(netobuf, value.netobuf, sizeof(netobuf));
+    return (void *)&result;
+}
+
+autologin_ret_t *get_autologin_1_svc(struct svc_req *rqstp)
+{
+    static autologin_ret_t result;
+    result.value = autologin;
+    return &result;
+}
+
+void *set_autologin_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    autologin = value;
+    return (void *)&result;
+}
+
+margv_array *get_margv_1_svc(struct svc_req *rqstp)
+{
+    static margv_array result;
+    for (int i = 0; i < 20; i++) {
+        if (margv[i] != NULL) {
+            int len = strlen(margv[i]) + 1;
+            result.margv[i].charptr.charptr_len = len;
+            result.margv[i].charptr.charptr_val = malloc(len);
+            if (result.margv[i].charptr.charptr_val != NULL) {
+                memcpy(result.margv[i].charptr.charptr_val, margv[i], len);
+            }
+        } else {
+            result.margv[i].charptr.charptr_len = 0;
+            result.margv[i].charptr.charptr_val = NULL;
+        }
+    }
+    return &result;
+}
+
+void *set_margv_1_svc(margv_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    for (int i = 0; i < 20; i++) {
+        if (margv[i] != NULL) {
+            free(margv[i]);
+            margv[i] = NULL;
+        }
+        if (value.margv[i].charptr.charptr_val != NULL && value.margv[i].charptr.charptr_len > 0) {
+            margv[i] = malloc(value.margv[i].charptr.charptr_len);
+            if (margv[i] != NULL) {
+                memcpy(margv[i], value.margv[i].charptr.charptr_val, value.margv[i].charptr.charptr_len);
+            }
+        }
+    }
+    return (void *)&result;
+}
+
+line_array *get_line_1_svc(struct svc_req *rqstp)
+{
+    static line_array result;
+    strncpy(result.line, line, 256);
+    result.line[256 - 1] = '\0'; // 确保字符串正确终止
+    return &result;
+}
+
+void *set_line_1_svc(line_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    strncpy(line, value.line, 256);
+    line[256 - 1] = '\0'; // 确保字符串正确终止
+    return (void *)&result;
+}
+
+char_ptr *get_user_1_svc(struct svc_req *rqstp)
+{
+    static char_ptr result;
+    if (user == NULL) {
+        result.charptr.charptr_len = 0;
+        result.charptr.charptr_val = NULL;
+    } else {
+        result.charptr.charptr_len = strlen(user) + 1;
+        result.charptr.charptr_val = user;
+    }
+    return &result;
+}
+
+void *set_user_1_svc(char_ptr value, struct svc_req *rqstp)
+{
+    static int result;
+    if (user != NULL) {
+        free(user);
+    }
+    if (value.charptr.charptr_val == NULL) {
+        user = NULL;
+    } else {
+        user=malloc(value.charptr.charptr_len);
+        memcpy(user, value.charptr.charptr_val, value.charptr.charptr_len);
+    }
+    return (void *)&result;
+}
+
+obits_ret_t *get_obits_1_svc(struct svc_req *rqstp)
+{
+    static obits_ret_t result;
+    return &result;
+}
+
+void *set_obits_1_svc(fd_set_rpc value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    fd_set_rpc arg1
+    return (void *)&result;
+}
+
+str_lm_array *get_str_lm_1_svc(struct svc_req *rqstp)
+{
+    static str_lm_array result;
+    memcpy(result.str_lm, str_lm, sizeof(str_lm));
+    return &result;
+}
+
+void *set_str_lm_1_svc(str_lm_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    memcpy(str_lm, value.str_lm, sizeof(str_lm));
+    return (void *)&result;
+}
+
+margc_ret_t *get_margc_1_svc(struct svc_req *rqstp)
+{
+    static margc_ret_t result;
+    result.value = margc;
+    return &result;
+}
+
+void *set_margc_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    margc = value;
+    return (void *)&result;
+}
+
+net_ret_t *get_net_1_svc(struct svc_req *rqstp)
+{
+    static net_ret_t result;
+    result.value = net;
+    return &result;
+}
+
+void *set_net_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    net = value;
+    return (void *)&result;
+}
+
+saveline_array *get_saveline_1_svc(struct svc_req *rqstp)
+{
+    static saveline_array result;
+    strncpy(result.saveline, saveline, 256);
+    result.saveline[256 - 1] = '\0'; // 确保字符串正确终止
+    return &result;
+}
+
+void *set_saveline_1_svc(saveline_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    strncpy(saveline, value.saveline, 256);
+    saveline[256 - 1] = '\0'; // 确保字符串正确终止
+    return (void *)&result;
+}
+
+SYNCHing_ret_t *get_SYNCHing_1_svc(struct svc_req *rqstp)
+{
+    static SYNCHing_ret_t result;
+    result.value = SYNCHing;
+    return &result;
+}
+
+void *set_SYNCHing_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    SYNCHing = value;
+    return (void *)&result;
+}
+
+kludgelinemode_ret_t *get_kludgelinemode_1_svc(struct svc_req *rqstp)
+{
+    static kludgelinemode_ret_t result;
+    result.value = kludgelinemode;
+    return &result;
+}
+
+void *set_kludgelinemode_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    kludgelinemode = value;
+    return (void *)&result;
+}
+
 netiring_ret_t *get_netiring_1_svc(struct svc_req *rqstp)
 {
     static netiring_ret_t result;
@@ -808,17 +992,308 @@ void *set_netiring_supplytime_1_svc(unsigned long value, struct svc_req *rqstp)
     return (void *)&result;
 }
 
-netibuf_array *get_netibuf_1_svc(struct svc_req *rqstp)
+dontlecho_ret_t *get_dontlecho_1_svc(struct svc_req *rqstp)
 {
-    static netibuf_array result;
-    memcpy(result.netibuf, netibuf, sizeof(netibuf));
+    static dontlecho_ret_t result;
+    result.value = dontlecho;
     return &result;
 }
 
-void *set_netibuf_1_svc(netibuf_array value, struct svc_req *rqstp)
+void *set_dontlecho_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    dontlecho = value;
+    return (void *)&result;
+}
+
+slc_mode_ret_t *get_slc_mode_1_svc(struct svc_req *rqstp)
+{
+    static slc_mode_ret_t result;
+    result.value = slc_mode;
+    return &result;
+}
+
+void *set_slc_mode_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    slc_mode = value;
+    return (void *)&result;
+}
+
+str_lm_mode_array *get_str_lm_mode_1_svc(struct svc_req *rqstp)
+{
+    static str_lm_mode_array result;
+    memcpy(result.str_lm_mode, str_lm_mode, sizeof(str_lm_mode));
+    return &result;
+}
+
+void *set_str_lm_mode_1_svc(str_lm_mode_array value, struct svc_req *rqstp)
 {
     static int result = 1;
-    memcpy(netibuf, value.netibuf, sizeof(netibuf));
+    memcpy(str_lm_mode, value.str_lm_mode, sizeof(str_lm_mode));
+    return (void *)&result;
+}
+
+flushline_ret_t *get_flushline_1_svc(struct svc_req *rqstp)
+{
+    static flushline_ret_t result;
+    result.value = flushline;
+    return &result;
+}
+
+void *set_flushline_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    flushline = value;
+    return (void *)&result;
+}
+
+char_ptr *get_NetTrace_1_svc(struct svc_req *rqstp)
+{
+    static char_ptr result;
+    char *filename=get_filename_from_fp(NetTrace);
+    if (filename == NULL) {
+        result.charptr.charptr_len = 0;
+        result.charptr.charptr_val = NULL;
+    } else {
+        result.charptr.charptr_len = strlen(filename) + 1;
+        result.charptr.charptr_val = filename;
+    }
+    return &result;
+}
+
+            NetTrace = stdin;
+        } else if (strcmp(value.charptr.charptr_val, "stdout") == 0) {
+            NetTrace = stdout;
+        } else if (strcmp(value.charptr.charptr_val, "stderr") == 0) {
+            NetTrace = stderr;
+        } else {
+            NetTrace = fopen(value.charptr.charptr_val, "r+");
+            if ({var_name} == NULL) {
+                perror("fopen failed");
+                return NULL;
+            }
+        }
+void *set_NetTrace_1_svc(char_ptr value, struct svc_req *rqstp)
+{
+    static int result;
+    if (value.charptr.charptr_val == NULL) {
+        NetTrace = NULL;
+    } else {
+        // 假设文件模式为读写
+      if (strcmp(value.charptr.charptr_val, "stdin") == 0) {
+j    }
+    return (void *)&result;
+}
+
+crmod_ret_t *get_crmod_1_svc(struct svc_req *rqstp)
+{
+    static crmod_ret_t result;
+    result.value = crmod;
+    return &result;
+}
+
+void *set_crmod_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    crmod = value;
+    return (void *)&result;
+}
+
+slc_reply_array *get_slc_reply_1_svc(struct svc_req *rqstp)
+{
+    static slc_reply_array result;
+    memcpy(result.slc_reply, slc_reply, sizeof(slc_reply));
+    return &result;
+}
+
+void *set_slc_reply_1_svc(slc_reply_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    memcpy(slc_reply, value.slc_reply, sizeof(slc_reply));
+    return (void *)&result;
+}
+
+bol_ret_t *get_bol_1_svc(struct svc_req *rqstp)
+{
+    static bol_ret_t result;
+    result.value = bol;
+    return &result;
+}
+
+void *set_bol_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    bol = value;
+    return (void *)&result;
+}
+
+local_ret_t *get_local_1_svc(struct svc_req *rqstp)
+{
+    static local_ret_t result;
+    result.value = local;
+    return &result;
+}
+
+void *set_local_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    local = value;
+    return (void *)&result;
+}
+
+clocks_ret_t *get_clocks_1_svc(struct svc_req *rqstp)
+{
+    static clocks_ret_t result;
+    return &result;
+}
+
+void *set_clocks_1_svc(Clocks_rpc value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    Clocks_rpc arg1
+    return (void *)&result;
+}
+
+clocks_system_ret_t *get_clocks_system_1_svc(struct svc_req *rqstp)
+{
+    static clocks_system_ret_t result;
+    result.value = clocks.system;
+    return &result;
+}
+
+void *set_clocks_system_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    clocks.system = value;
+    return (void *)&result;
+}
+
+clocks_echotoggle_ret_t *get_clocks_echotoggle_1_svc(struct svc_req *rqstp)
+{
+    static clocks_echotoggle_ret_t result;
+    result.value = clocks.echotoggle;
+    return &result;
+}
+
+void *set_clocks_echotoggle_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    clocks.echotoggle = value;
+    return (void *)&result;
+}
+
+clocks_modenegotiated_ret_t *get_clocks_modenegotiated_1_svc(struct svc_req *rqstp)
+{
+    static clocks_modenegotiated_ret_t result;
+    result.value = clocks.modenegotiated;
+    return &result;
+}
+
+void *set_clocks_modenegotiated_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    clocks.modenegotiated = value;
+    return (void *)&result;
+}
+
+clocks_didnetreceive_ret_t *get_clocks_didnetreceive_1_svc(struct svc_req *rqstp)
+{
+    static clocks_didnetreceive_ret_t result;
+    result.value = clocks.didnetreceive;
+    return &result;
+}
+
+void *set_clocks_didnetreceive_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    clocks.didnetreceive = value;
+    return (void *)&result;
+}
+
+clocks_gotDM_ret_t *get_clocks_gotDM_1_svc(struct svc_req *rqstp)
+{
+    static clocks_gotDM_ret_t result;
+    result.value = clocks.gotDM;
+    return &result;
+}
+
+void *set_clocks_gotDM_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    clocks.gotDM = value;
+    return (void *)&result;
+}
+
+localchars_ret_t *get_localchars_1_svc(struct svc_req *rqstp)
+{
+    static localchars_ret_t result;
+    result.value = localchars;
+    return &result;
+}
+
+void *set_localchars_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    localchars = value;
+    return (void *)&result;
+}
+
+options_array *get_options_1_svc(struct svc_req *rqstp)
+{
+    static options_array result;
+    strncpy(result.options, options, 1);
+    result.options[1 - 1] = '\0'; // 确保字符串正确终止
+    return &result;
+}
+
+void *set_options_1_svc(options_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    strncpy(options, value.options, 1);
+    options[1 - 1] = '\0'; // 确保字符串正确终止
+    return (void *)&result;
+}
+
+ttyibuf_array *get_ttyibuf_1_svc(struct svc_req *rqstp)
+{
+    static ttyibuf_array result;
+    memcpy(result.ttyibuf, ttyibuf, sizeof(ttyibuf));
+    return &result;
+}
+
+void *set_ttyibuf_1_svc(ttyibuf_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    memcpy(ttyibuf, value.ttyibuf, sizeof(ttyibuf));
+    return (void *)&result;
+}
+
+char_ptr *get_hostname_1_svc(struct svc_req *rqstp)
+{
+    static char_ptr result;
+    if (hostname == NULL) {
+        result.charptr.charptr_len = 0;
+        result.charptr.charptr_val = NULL;
+    } else {
+        result.charptr.charptr_len = strlen(hostname) + 1;
+        result.charptr.charptr_val = hostname;
+    }
+    return &result;
+}
+
+void *set_hostname_1_svc(char_ptr value, struct svc_req *rqstp)
+{
+    static int result;
+    if (hostname != NULL) {
+        free(hostname);
+    }
+    if (value.charptr.charptr_val == NULL) {
+        hostname = NULL;
+    } else {
+        hostname=malloc(value.charptr.charptr_len);
+        memcpy(hostname, value.charptr.charptr_val, value.charptr.charptr_len);
+    }
     return (void *)&result;
 }
 
@@ -836,44 +1311,17 @@ void *set_linemode_1_svc(int value, struct svc_req *rqstp)
     return (void *)&result;
 }
 
-debug_ret_t *get_debug_1_svc(struct svc_req *rqstp)
+flushout_ret_t *get_flushout_1_svc(struct svc_req *rqstp)
 {
-    static debug_ret_t result;
-    result.value = debug;
+    static flushout_ret_t result;
+    result.value = flushout;
     return &result;
 }
 
-void *set_debug_1_svc(int value, struct svc_req *rqstp)
+void *set_flushout_1_svc(int value, struct svc_req *rqstp)
 {
     static int result = 1; // 成功标志
-    debug = value;
-    return (void *)&result;
-}
-
-tin_ret_t *get_tin_1_svc(struct svc_req *rqstp)
-{
-    static tin_ret_t result;
-    result.value = tin;
-    return &result;
-}
-
-void *set_tin_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    tin = value;
-    return (void *)&result;
-}
-
-xbits_ret_t *get_xbits_1_svc(struct svc_req *rqstp)
-{
-    static xbits_ret_t result;
-    return &result;
-}
-
-void *set_xbits_1_svc(fd_set_rpc value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    fd_set_rpc arg1
+    flushout = value;
     return (void *)&result;
 }
 
@@ -1002,606 +1450,6 @@ void *set_ttyoring_supplytime_1_svc(unsigned long value, struct svc_req *rqstp)
     return (void *)&result;
 }
 
-eight_ret_t *get_eight_1_svc(struct svc_req *rqstp)
-{
-    static eight_ret_t result;
-    result.value = eight;
-    return &result;
-}
-
-void *set_eight_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    eight = value;
-    return (void *)&result;
-}
-
-saveline_array *get_saveline_1_svc(struct svc_req *rqstp)
-{
-    static saveline_array result;
-    strncpy(result.saveline, saveline, 256);
-    result.saveline[256 - 1] = '\0'; // 确保字符串正确终止
-    return &result;
-}
-
-void *set_saveline_1_svc(saveline_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    strncpy(saveline, value.saveline, 256);
-    saveline[256 - 1] = '\0'; // 确保字符串正确终止
-    return (void *)&result;
-}
-
-char_ptr *get_NetTrace_1_svc(struct svc_req *rqstp)
-{
-    static char_ptr result;
-    char *filename=get_filename_from_fp(NetTrace);
-    if (filename == NULL) {
-        result.charptr.charptr_len = 0;
-        result.charptr.charptr_val = NULL;
-    } else {
-        result.charptr.charptr_len = strlen(filename) + 1;
-        result.charptr.charptr_val = filename;
-    }
-    return &result;
-}
-
-            NetTrace = stdin;
-        } else if (strcmp(value.charptr.charptr_val, "stdout") == 0) {
-            NetTrace = stdout;
-        } else if (strcmp(value.charptr.charptr_val, "stderr") == 0) {
-            NetTrace = stderr;
-        } else {
-            NetTrace = fopen(value.charptr.charptr_val, "r+");
-            if ({var_name} == NULL) {
-                perror("fopen failed");
-                return NULL;
-            }
-        }
-void *set_NetTrace_1_svc(char_ptr value, struct svc_req *rqstp)
-{
-    static int result;
-    if (value.charptr.charptr_val == NULL) {
-        NetTrace = NULL;
-    } else {
-        // 假设文件模式为读写
-      if (strcmp(value.charptr.charptr_val, "stdin") == 0) {
-j    }
-    return (void *)&result;
-}
-
-dontlecho_ret_t *get_dontlecho_1_svc(struct svc_req *rqstp)
-{
-    static dontlecho_ret_t result;
-    result.value = dontlecho;
-    return &result;
-}
-
-void *set_dontlecho_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    dontlecho = value;
-    return (void *)&result;
-}
-
-connected_ret_t *get_connected_1_svc(struct svc_req *rqstp)
-{
-    static connected_ret_t result;
-    result.value = connected;
-    return &result;
-}
-
-void *set_connected_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    connected = value;
-    return (void *)&result;
-}
-
-SYNCHing_ret_t *get_SYNCHing_1_svc(struct svc_req *rqstp)
-{
-    static SYNCHing_ret_t result;
-    result.value = SYNCHing;
-    return &result;
-}
-
-void *set_SYNCHing_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    SYNCHing = value;
-    return (void *)&result;
-}
-
-obits_ret_t *get_obits_1_svc(struct svc_req *rqstp)
-{
-    static obits_ret_t result;
-    return &result;
-}
-
-void *set_obits_1_svc(fd_set_rpc value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    fd_set_rpc arg1
-    return (void *)&result;
-}
-
-net_ret_t *get_net_1_svc(struct svc_req *rqstp)
-{
-    static net_ret_t result;
-    result.value = net;
-    return &result;
-}
-
-void *set_net_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    net = value;
-    return (void *)&result;
-}
-
-ibits_ret_t *get_ibits_1_svc(struct svc_req *rqstp)
-{
-    static ibits_ret_t result;
-    return &result;
-}
-
-void *set_ibits_1_svc(fd_set_rpc value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    fd_set_rpc arg1
-    return (void *)&result;
-}
-
-tout_ret_t *get_tout_1_svc(struct svc_req *rqstp)
-{
-    static tout_ret_t result;
-    result.value = tout;
-    return &result;
-}
-
-void *set_tout_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    tout = value;
-    return (void *)&result;
-}
-
-bol_ret_t *get_bol_1_svc(struct svc_req *rqstp)
-{
-    static bol_ret_t result;
-    result.value = bol;
-    return &result;
-}
-
-void *set_bol_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    bol = value;
-    return (void *)&result;
-}
-
-slc_reply_array *get_slc_reply_1_svc(struct svc_req *rqstp)
-{
-    static slc_reply_array result;
-    memcpy(result.slc_reply, slc_reply, sizeof(slc_reply));
-    return &result;
-}
-
-void *set_slc_reply_1_svc(slc_reply_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    memcpy(slc_reply, value.slc_reply, sizeof(slc_reply));
-    return (void *)&result;
-}
-
-line_array *get_line_1_svc(struct svc_req *rqstp)
-{
-    static line_array result;
-    strncpy(result.line, line, 256);
-    result.line[256 - 1] = '\0'; // 确保字符串正确终止
-    return &result;
-}
-
-void *set_line_1_svc(line_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    strncpy(line, value.line, 256);
-    line[256 - 1] = '\0'; // 确保字符串正确终止
-    return (void *)&result;
-}
-
-flushout_ret_t *get_flushout_1_svc(struct svc_req *rqstp)
-{
-    static flushout_ret_t result;
-    result.value = flushout;
-    return &result;
-}
-
-void *set_flushout_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    flushout = value;
-    return (void *)&result;
-}
-
-old_tc_ret_t *get_old_tc_1_svc(struct svc_req *rqstp)
-{
-    static old_tc_ret_t result;
-    return &result;
-}
-
-void *set_old_tc_1_svc(termios_rpc value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    termios_rpc arg1
-    return (void *)&result;
-}
-
-old_tc_c_iflag_ret_t *get_old_tc_c_iflag_1_svc(struct svc_req *rqstp)
-{
-    static old_tc_c_iflag_ret_t result;
-    result.value = old_tc.c_iflag;
-    return &result;
-}
-
-void *set_old_tc_c_iflag_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    old_tc.c_iflag = value;
-    return (void *)&result;
-}
-
-old_tc_c_oflag_ret_t *get_old_tc_c_oflag_1_svc(struct svc_req *rqstp)
-{
-    static old_tc_c_oflag_ret_t result;
-    result.value = old_tc.c_oflag;
-    return &result;
-}
-
-void *set_old_tc_c_oflag_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    old_tc.c_oflag = value;
-    return (void *)&result;
-}
-
-old_tc_c_cflag_ret_t *get_old_tc_c_cflag_1_svc(struct svc_req *rqstp)
-{
-    static old_tc_c_cflag_ret_t result;
-    result.value = old_tc.c_cflag;
-    return &result;
-}
-
-void *set_old_tc_c_cflag_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    old_tc.c_cflag = value;
-    return (void *)&result;
-}
-
-old_tc_c_lflag_ret_t *get_old_tc_c_lflag_1_svc(struct svc_req *rqstp)
-{
-    static old_tc_c_lflag_ret_t result;
-    result.value = old_tc.c_lflag;
-    return &result;
-}
-
-void *set_old_tc_c_lflag_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    old_tc.c_lflag = value;
-    return (void *)&result;
-}
-
-old_tc_c_line_ret_t *get_old_tc_c_line_1_svc(struct svc_req *rqstp)
-{
-    static old_tc_c_line_ret_t result;
-    result.value = old_tc.c_line;
-    return &result;
-}
-
-void *set_old_tc_c_line_1_svc(unsigned char value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    old_tc.c_line = value;
-    return (void *)&result;
-}
-
-old_tc_c_ispeed_ret_t *get_old_tc_c_ispeed_1_svc(struct svc_req *rqstp)
-{
-    static old_tc_c_ispeed_ret_t result;
-    result.value = old_tc.c_ispeed;
-    return &result;
-}
-
-void *set_old_tc_c_ispeed_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    old_tc.c_ispeed = value;
-    return (void *)&result;
-}
-
-old_tc_c_ospeed_ret_t *get_old_tc_c_ospeed_1_svc(struct svc_req *rqstp)
-{
-    static old_tc_c_ospeed_ret_t result;
-    result.value = old_tc.c_ospeed;
-    return &result;
-}
-
-void *set_old_tc_c_ospeed_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    old_tc.c_ospeed = value;
-    return (void *)&result;
-}
-
-new_tc_ret_t *get_new_tc_1_svc(struct svc_req *rqstp)
-{
-    static new_tc_ret_t result;
-    return &result;
-}
-
-void *set_new_tc_1_svc(termios_rpc value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    termios_rpc arg1
-    return (void *)&result;
-}
-
-new_tc_c_iflag_ret_t *get_new_tc_c_iflag_1_svc(struct svc_req *rqstp)
-{
-    static new_tc_c_iflag_ret_t result;
-    result.value = new_tc.c_iflag;
-    return &result;
-}
-
-void *set_new_tc_c_iflag_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    new_tc.c_iflag = value;
-    return (void *)&result;
-}
-
-new_tc_c_oflag_ret_t *get_new_tc_c_oflag_1_svc(struct svc_req *rqstp)
-{
-    static new_tc_c_oflag_ret_t result;
-    result.value = new_tc.c_oflag;
-    return &result;
-}
-
-void *set_new_tc_c_oflag_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    new_tc.c_oflag = value;
-    return (void *)&result;
-}
-
-new_tc_c_cflag_ret_t *get_new_tc_c_cflag_1_svc(struct svc_req *rqstp)
-{
-    static new_tc_c_cflag_ret_t result;
-    result.value = new_tc.c_cflag;
-    return &result;
-}
-
-void *set_new_tc_c_cflag_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    new_tc.c_cflag = value;
-    return (void *)&result;
-}
-
-new_tc_c_lflag_ret_t *get_new_tc_c_lflag_1_svc(struct svc_req *rqstp)
-{
-    static new_tc_c_lflag_ret_t result;
-    result.value = new_tc.c_lflag;
-    return &result;
-}
-
-void *set_new_tc_c_lflag_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    new_tc.c_lflag = value;
-    return (void *)&result;
-}
-
-new_tc_c_line_ret_t *get_new_tc_c_line_1_svc(struct svc_req *rqstp)
-{
-    static new_tc_c_line_ret_t result;
-    result.value = new_tc.c_line;
-    return &result;
-}
-
-void *set_new_tc_c_line_1_svc(unsigned char value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    new_tc.c_line = value;
-    return (void *)&result;
-}
-
-new_tc_c_ispeed_ret_t *get_new_tc_c_ispeed_1_svc(struct svc_req *rqstp)
-{
-    static new_tc_c_ispeed_ret_t result;
-    result.value = new_tc.c_ispeed;
-    return &result;
-}
-
-void *set_new_tc_c_ispeed_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    new_tc.c_ispeed = value;
-    return (void *)&result;
-}
-
-new_tc_c_ospeed_ret_t *get_new_tc_c_ospeed_1_svc(struct svc_req *rqstp)
-{
-    static new_tc_c_ospeed_ret_t result;
-    result.value = new_tc.c_ospeed;
-    return &result;
-}
-
-void *set_new_tc_c_ospeed_1_svc(unsigned int value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    new_tc.c_ospeed = value;
-    return (void *)&result;
-}
-
-donebinarytoggle_ret_t *get_donebinarytoggle_1_svc(struct svc_req *rqstp)
-{
-    static donebinarytoggle_ret_t result;
-    result.value = donebinarytoggle;
-    return &result;
-}
-
-void *set_donebinarytoggle_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    donebinarytoggle = value;
-    return (void *)&result;
-}
-
-ISend_ret_t *get_ISend_1_svc(struct svc_req *rqstp)
-{
-    static ISend_ret_t result;
-    result.value = ISend;
-    return &result;
-}
-
-void *set_ISend_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    ISend = value;
-    return (void *)&result;
-}
-
-globalmode_ret_t *get_globalmode_1_svc(struct svc_req *rqstp)
-{
-    static globalmode_ret_t result;
-    result.value = globalmode;
-    return &result;
-}
-
-void *set_globalmode_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    globalmode = value;
-    return (void *)&result;
-}
-
-do_dont_resp_array *get_do_dont_resp_1_svc(struct svc_req *rqstp)
-{
-    static do_dont_resp_array result;
-    strncpy(result.do_dont_resp, do_dont_resp, 256);
-    result.do_dont_resp[256 - 1] = '\0'; // 确保字符串正确终止
-    return &result;
-}
-
-void *set_do_dont_resp_1_svc(do_dont_resp_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    strncpy(do_dont_resp, value.do_dont_resp, 256);
-    do_dont_resp[256 - 1] = '\0'; // 确保字符串正确终止
-    return (void *)&result;
-}
-
-crmod_ret_t *get_crmod_1_svc(struct svc_req *rqstp)
-{
-    static crmod_ret_t result;
-    result.value = crmod;
-    return &result;
-}
-
-void *set_crmod_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    crmod = value;
-    return (void *)&result;
-}
-
-skiprc_ret_t *get_skiprc_1_svc(struct svc_req *rqstp)
-{
-    static skiprc_ret_t result;
-    result.value = skiprc;
-    return &result;
-}
-
-void *set_skiprc_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    skiprc = value;
-    return (void *)&result;
-}
-
-subbuffer_array *get_subbuffer_1_svc(struct svc_req *rqstp)
-{
-    static subbuffer_array result;
-    memcpy(result.subbuffer, subbuffer, sizeof(subbuffer));
-    return &result;
-}
-
-void *set_subbuffer_1_svc(subbuffer_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    memcpy(subbuffer, value.subbuffer, sizeof(subbuffer));
-    return (void *)&result;
-}
-
-kludgelinemode_ret_t *get_kludgelinemode_1_svc(struct svc_req *rqstp)
-{
-    static kludgelinemode_ret_t result;
-    result.value = kludgelinemode;
-    return &result;
-}
-
-void *set_kludgelinemode_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    kludgelinemode = value;
-    return (void *)&result;
-}
-
-slc_import_val_array *get_slc_import_val_1_svc(struct svc_req *rqstp)
-{
-    static slc_import_val_array result;
-    memcpy(result.slc_import_val, slc_import_val, sizeof(slc_import_val));
-    return &result;
-}
-
-void *set_slc_import_val_1_svc(slc_import_val_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    memcpy(slc_import_val, value.slc_import_val, sizeof(slc_import_val));
-    return (void *)&result;
-}
-
-local_ret_t *get_local_1_svc(struct svc_req *rqstp)
-{
-    static local_ret_t result;
-    result.value = local;
-    return &result;
-}
-
-void *set_local_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    local = value;
-    return (void *)&result;
-}
-
-resettermname_ret_t *get_resettermname_1_svc(struct svc_req *rqstp)
-{
-    static resettermname_ret_t result;
-    result.value = resettermname;
-    return &result;
-}
-
-void *set_resettermname_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    resettermname = value;
-    return (void *)&result;
-}
-
 char_ptr *get_rcname_1_svc(struct svc_req *rqstp)
 {
     static char_ptr result;
@@ -1630,87 +1478,31 @@ void *set_rcname_1_svc(char_ptr value, struct svc_req *rqstp)
     return (void *)&result;
 }
 
-ring_clock_ret_t *get_ring_clock_1_svc(struct svc_req *rqstp)
+resettermname_ret_t *get_resettermname_1_svc(struct svc_req *rqstp)
 {
-    static ring_clock_ret_t result;
-    result.value = ring_clock;
+    static resettermname_ret_t result;
+    result.value = resettermname;
     return &result;
 }
 
-void *set_ring_clock_1_svc(unsigned long value, struct svc_req *rqstp)
+void *set_resettermname_1_svc(int value, struct svc_req *rqstp)
 {
     static int result = 1; // 成功标志
-    ring_clock = value;
+    resettermname = value;
     return (void *)&result;
 }
 
-autoflush_ret_t *get_autoflush_1_svc(struct svc_req *rqstp)
+slc_import_val_array *get_slc_import_val_1_svc(struct svc_req *rqstp)
 {
-    static autoflush_ret_t result;
-    result.value = autoflush;
+    static slc_import_val_array result;
+    memcpy(result.slc_import_val, slc_import_val, sizeof(slc_import_val));
     return &result;
 }
 
-void *set_autoflush_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    autoflush = value;
-    return (void *)&result;
-}
-
-char_ptr *get_user_1_svc(struct svc_req *rqstp)
-{
-    static char_ptr result;
-    if (user == NULL) {
-        result.charptr.charptr_len = 0;
-        result.charptr.charptr_val = NULL;
-    } else {
-        result.charptr.charptr_len = strlen(user) + 1;
-        result.charptr.charptr_val = user;
-    }
-    return &result;
-}
-
-void *set_user_1_svc(char_ptr value, struct svc_req *rqstp)
-{
-    static int result;
-    if (user != NULL) {
-        free(user);
-    }
-    if (value.charptr.charptr_val == NULL) {
-        user = NULL;
-    } else {
-        user=malloc(value.charptr.charptr_len);
-        memcpy(user, value.charptr.charptr_val, value.charptr.charptr_len);
-    }
-    return (void *)&result;
-}
-
-want_status_response_ret_t *get_want_status_response_1_svc(struct svc_req *rqstp)
-{
-    static want_status_response_ret_t result;
-    result.value = want_status_response;
-    return &result;
-}
-
-void *set_want_status_response_1_svc(int value, struct svc_req *rqstp)
-{
-    static int result = 1; // 成功标志
-    want_status_response = value;
-    return (void *)&result;
-}
-
-slc_import_def_array *get_slc_import_def_1_svc(struct svc_req *rqstp)
-{
-    static slc_import_def_array result;
-    memcpy(result.slc_import_def, slc_import_def, sizeof(slc_import_def));
-    return &result;
-}
-
-void *set_slc_import_def_1_svc(slc_import_def_array value, struct svc_req *rqstp)
+void *set_slc_import_val_1_svc(slc_import_val_array value, struct svc_req *rqstp)
 {
     static int result = 1;
-    memcpy(slc_import_def, value.slc_import_def, sizeof(slc_import_def));
+    memcpy(slc_import_val, value.slc_import_val, sizeof(slc_import_val));
     return (void *)&result;
 }
 
@@ -1839,6 +1631,62 @@ void *set_netoring_supplytime_1_svc(unsigned long value, struct svc_req *rqstp)
     return (void *)&result;
 }
 
+globalmode_ret_t *get_globalmode_1_svc(struct svc_req *rqstp)
+{
+    static globalmode_ret_t result;
+    result.value = globalmode;
+    return &result;
+}
+
+void *set_globalmode_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    globalmode = value;
+    return (void *)&result;
+}
+
+connected_ret_t *get_connected_1_svc(struct svc_req *rqstp)
+{
+    static connected_ret_t result;
+    result.value = connected;
+    return &result;
+}
+
+void *set_connected_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    connected = value;
+    return (void *)&result;
+}
+
+telrcv_state_ret_t *get_telrcv_state_1_svc(struct svc_req *rqstp)
+{
+    static telrcv_state_ret_t result;
+    result.value = telrcv_state;
+    return &result;
+}
+
+void *set_telrcv_state_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    telrcv_state = value;
+    return (void *)&result;
+}
+
+restartany_ret_t *get_restartany_1_svc(struct svc_req *rqstp)
+{
+    static restartany_ret_t result;
+    result.value = restartany;
+    return &result;
+}
+
+void *set_restartany_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    restartany = value;
+    return (void *)&result;
+}
+
 telopts_array *get_telopts_1_svc(struct svc_req *rqstp)
 {
     static telopts_array result;
@@ -1876,147 +1724,213 @@ void *set_telopts_1_svc(telopts_array value, struct svc_req *rqstp)
     return (void *)&result;
 }
 
-will_wont_resp_array *get_will_wont_resp_1_svc(struct svc_req *rqstp)
+ring_clock_ret_t *get_ring_clock_1_svc(struct svc_req *rqstp)
 {
-    static will_wont_resp_array result;
-    strncpy(result.will_wont_resp, will_wont_resp, 256);
-    result.will_wont_resp[256 - 1] = '\0'; // 确保字符串正确终止
+    static ring_clock_ret_t result;
+    result.value = ring_clock;
     return &result;
 }
 
-void *set_will_wont_resp_1_svc(will_wont_resp_array value, struct svc_req *rqstp)
-{
-    static int result = 1;
-    strncpy(will_wont_resp, value.will_wont_resp, 256);
-    will_wont_resp[256 - 1] = '\0'; // 确保字符串正确终止
-    return (void *)&result;
-}
-
-slc_mode_ret_t *get_slc_mode_1_svc(struct svc_req *rqstp)
-{
-    static slc_mode_ret_t result;
-    result.value = slc_mode;
-    return &result;
-}
-
-void *set_slc_mode_1_svc(int value, struct svc_req *rqstp)
+void *set_ring_clock_1_svc(unsigned long value, struct svc_req *rqstp)
 {
     static int result = 1; // 成功标志
-    slc_mode = value;
+    ring_clock = value;
     return (void *)&result;
 }
 
-str_lm_mode_array *get_str_lm_mode_1_svc(struct svc_req *rqstp)
+ttyobuf_array *get_ttyobuf_1_svc(struct svc_req *rqstp)
 {
-    static str_lm_mode_array result;
-    memcpy(result.str_lm_mode, str_lm_mode, sizeof(str_lm_mode));
+    static ttyobuf_array result;
+    memcpy(result.ttyobuf, ttyobuf, sizeof(ttyobuf));
     return &result;
 }
 
-void *set_str_lm_mode_1_svc(str_lm_mode_array value, struct svc_req *rqstp)
+void *set_ttyobuf_1_svc(ttyobuf_array value, struct svc_req *rqstp)
 {
     static int result = 1;
-    memcpy(str_lm_mode, value.str_lm_mode, sizeof(str_lm_mode));
+    memcpy(ttyobuf, value.ttyobuf, sizeof(ttyobuf));
     return (void *)&result;
 }
 
-autologin_ret_t *get_autologin_1_svc(struct svc_req *rqstp)
+eight_ret_t *get_eight_1_svc(struct svc_req *rqstp)
 {
-    static autologin_ret_t result;
-    result.value = autologin;
+    static eight_ret_t result;
+    result.value = eight;
     return &result;
 }
 
-void *set_autologin_1_svc(int value, struct svc_req *rqstp)
+void *set_eight_1_svc(int value, struct svc_req *rqstp)
 {
     static int result = 1; // 成功标志
-    autologin = value;
+    eight = value;
     return (void *)&result;
 }
 
-char_ptr *get_prompt_1_svc(struct svc_req *rqstp)
+tin_ret_t *get_tin_1_svc(struct svc_req *rqstp)
 {
-    static char_ptr result;
-    if (prompt == NULL) {
-        result.charptr.charptr_len = 0;
-        result.charptr.charptr_val = NULL;
-    } else {
-        result.charptr.charptr_len = strlen(prompt) + 1;
-        result.charptr.charptr_val = prompt;
-    }
+    static tin_ret_t result;
+    result.value = tin;
     return &result;
 }
 
-void *set_prompt_1_svc(char_ptr value, struct svc_req *rqstp)
-{
-    static int result;
-    if (prompt != NULL) {
-        free(prompt);
-    }
-    if (value.charptr.charptr_val == NULL) {
-        prompt = NULL;
-    } else {
-        prompt=malloc(value.charptr.charptr_len);
-        memcpy(prompt, value.charptr.charptr_val, value.charptr.charptr_len);
-    }
-    return (void *)&result;
-}
-
-In3270_ret_t *get_In3270_1_svc(struct svc_req *rqstp)
-{
-    static In3270_ret_t result;
-    result.value = In3270;
-    return &result;
-}
-
-void *set_In3270_1_svc(int value, struct svc_req *rqstp)
+void *set_tin_1_svc(int value, struct svc_req *rqstp)
 {
     static int result = 1; // 成功标志
-    In3270 = value;
+    tin = value;
     return (void *)&result;
 }
 
-termbuf_array *get_termbuf_1_svc(struct svc_req *rqstp)
+tout_ret_t *get_tout_1_svc(struct svc_req *rqstp)
 {
-    static termbuf_array result;
-    strncpy(result.termbuf, termbuf, 2048);
-    result.termbuf[2048 - 1] = '\0'; // 确保字符串正确终止
+    static tout_ret_t result;
+    result.value = tout;
     return &result;
 }
 
-void *set_termbuf_1_svc(termbuf_array value, struct svc_req *rqstp)
+void *set_tout_1_svc(int value, struct svc_req *rqstp)
+{
+    static int result = 1; // 成功标志
+    tout = value;
+    return (void *)&result;
+}
+
+ibits_ret_t *get_ibits_1_svc(struct svc_req *rqstp)
+{
+    static ibits_ret_t result;
+    return &result;
+}
+
+void *set_ibits_1_svc(fd_set_rpc value, struct svc_req *rqstp)
 {
     static int result = 1;
-    strncpy(termbuf, value.termbuf, 2048);
-    termbuf[2048 - 1] = '\0'; // 确保字符串正确终止
+    fd_set_rpc arg1
     return (void *)&result;
 }
 
-char_ptr *get_hostname_1_svc(struct svc_req *rqstp)
+new_tc_ret_t *get_new_tc_1_svc(struct svc_req *rqstp)
 {
-    static char_ptr result;
-    if (hostname == NULL) {
-        result.charptr.charptr_len = 0;
-        result.charptr.charptr_val = NULL;
-    } else {
-        result.charptr.charptr_len = strlen(hostname) + 1;
-        result.charptr.charptr_val = hostname;
-    }
+    static new_tc_ret_t result;
     return &result;
 }
 
-void *set_hostname_1_svc(char_ptr value, struct svc_req *rqstp)
+void *set_new_tc_1_svc(termios_rpc value, struct svc_req *rqstp)
 {
-    static int result;
-    if (hostname != NULL) {
-        free(hostname);
-    }
-    if (value.charptr.charptr_val == NULL) {
-        hostname = NULL;
-    } else {
-        hostname=malloc(value.charptr.charptr_len);
-        memcpy(hostname, value.charptr.charptr_val, value.charptr.charptr_len);
-    }
+    static int result = 1;
+    termios_rpc arg1
+    return (void *)&result;
+}
+
+new_tc_c_iflag_ret_t *get_new_tc_c_iflag_1_svc(struct svc_req *rqstp)
+{
+    static new_tc_c_iflag_ret_t result;
+    result.value = new_tc.c_iflag;
+    return &result;
+}
+
+void *set_new_tc_c_iflag_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    new_tc.c_iflag = value;
+    return (void *)&result;
+}
+
+new_tc_c_oflag_ret_t *get_new_tc_c_oflag_1_svc(struct svc_req *rqstp)
+{
+    static new_tc_c_oflag_ret_t result;
+    result.value = new_tc.c_oflag;
+    return &result;
+}
+
+void *set_new_tc_c_oflag_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    new_tc.c_oflag = value;
+    return (void *)&result;
+}
+
+new_tc_c_cflag_ret_t *get_new_tc_c_cflag_1_svc(struct svc_req *rqstp)
+{
+    static new_tc_c_cflag_ret_t result;
+    result.value = new_tc.c_cflag;
+    return &result;
+}
+
+void *set_new_tc_c_cflag_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    new_tc.c_cflag = value;
+    return (void *)&result;
+}
+
+new_tc_c_lflag_ret_t *get_new_tc_c_lflag_1_svc(struct svc_req *rqstp)
+{
+    static new_tc_c_lflag_ret_t result;
+    result.value = new_tc.c_lflag;
+    return &result;
+}
+
+void *set_new_tc_c_lflag_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    new_tc.c_lflag = value;
+    return (void *)&result;
+}
+
+new_tc_c_line_ret_t *get_new_tc_c_line_1_svc(struct svc_req *rqstp)
+{
+    static new_tc_c_line_ret_t result;
+    result.value = new_tc.c_line;
+    return &result;
+}
+
+void *set_new_tc_c_line_1_svc(unsigned char value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    new_tc.c_line = value;
+    return (void *)&result;
+}
+
+new_tc_c_ispeed_ret_t *get_new_tc_c_ispeed_1_svc(struct svc_req *rqstp)
+{
+    static new_tc_c_ispeed_ret_t result;
+    result.value = new_tc.c_ispeed;
+    return &result;
+}
+
+void *set_new_tc_c_ispeed_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    new_tc.c_ispeed = value;
+    return (void *)&result;
+}
+
+new_tc_c_ospeed_ret_t *get_new_tc_c_ospeed_1_svc(struct svc_req *rqstp)
+{
+    static new_tc_c_ospeed_ret_t result;
+    result.value = new_tc.c_ospeed;
+    return &result;
+}
+
+void *set_new_tc_c_ospeed_1_svc(unsigned int value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    new_tc.c_ospeed = value;
+    return (void *)&result;
+}
+
+do_dont_resp_array *get_do_dont_resp_1_svc(struct svc_req *rqstp)
+{
+    static do_dont_resp_array result;
+    strncpy(result.do_dont_resp, do_dont_resp, 256);
+    result.do_dont_resp[256 - 1] = '\0'; // 确保字符串正确终止
+    return &result;
+}
+
+void *set_do_dont_resp_1_svc(do_dont_resp_array value, struct svc_req *rqstp)
+{
+    static int result = 1;
+    strncpy(do_dont_resp, value.do_dont_resp, 256);
+    do_dont_resp[256 - 1] = '\0'; // 确保字符串正确终止
     return (void *)&result;
 }
 

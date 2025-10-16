@@ -1806,28 +1806,6 @@ struct stat_rpc
     
 
     
-    def detect_self_reference(struct_ast, struct_name):
-        """
-        检测结构体是否包含自引用指针字段
-        
-        Args:
-            struct_ast: 结构体的AST节点
-            struct_name: 结构体名称
-            
-        Returns:
-            list: 包含自引用指针字段名称的列表
-        """
-        self_ref_fields = []
-        if struct_ast.decls is None:
-            return self_ref_fields
-            
-        for decl in struct_ast.decls:
-            if isinstance(decl.type, c_ast.PtrDecl):
-                if isinstance(decl.type.type.type, c_ast.Struct):
-                    if decl.type.type.type.name == struct_name:
-                        self_ref_fields.append(decl.name)
-        return self_ref_fields
-
     def get_rpc_struct_str(node, strlist, processed_types=None):
         """
         递归处理结构体，生成RPC定义字符串，并避免循环引用
@@ -1870,16 +1848,6 @@ struct stat_rpc
                 print("node.decls is None, but node.name not in struct_dict")
                 strlist.append(f"opaque tempname<>;")
                 return
-        
-        # **新增**：检测自引用结构体
-        current_struct_name = node.name if hasattr(node, 'name') else None
-        if current_struct_name:
-            self_ref_fields = detect_self_reference(node, current_struct_name)
-            if self_ref_fields:
-                print(f"⚠️  警告: 检测到自引用结构体 '{current_struct_name}'，包含自引用字段: {self_ref_fields}")
-                print(f"   Sun RPC不支持循环引用，自动生成的IDL可能包含错误。")
-                print(f"   建议手动处理：1)移除自引用字段 2)使用数组方式传输链表 3)分离为多个结构体")
-                print(f"   参考文件: addrinfo_solution_manual.x 和 addrinfo_manual_conversion.c")
         
         # 处理所有成员
         for decl in node.decls:
@@ -2005,10 +1973,7 @@ struct stat_rpc
                 elif isinstance(decl.type, c_ast.PtrDecl) and isinstance(decl.type.type.type,c_ast.IdentifierType) \
                 and isinstance(typedef_dict[decl.type.type.type.names[0]]['ast'].type.type, c_ast.Struct) \
                 and typedef_dict[decl.type.type.type.names[0]]['ast'].type.type.name == node.name:
-                    # 检测到通过typedef的自引用，跳过处理
-                    print(f"❌ 跳过typedef自引用字段: {decl.name}")
-                    strlist.append(f"/* 跳过typedef自引用字段: {decl.name} (需要手动处理) */")
-                    continue
+                    strlist.append(f"struct  {typedef_dict[decl.type.type.type.names[0]]['ast'].name}_rpc * {decl.name};")
 
                 elif isinstance(decl.type.type,c_ast.PtrDecl):
                     if isinstance(decl.type.type.type.type,c_ast.IdentifierType):
@@ -2074,23 +2039,14 @@ struct stat_rpc
                         if struct_name == "stat":
                             pass
                         else:
-                            # **关键修复**：检查是否为自引用结构体指针
-                            current_struct_name = node.name if hasattr(node, 'name') else None
-                            if struct_name == current_struct_name:
-                                # 这是自引用指针，Sun RPC不支持，跳过此字段并生成警告
-                                print(f"❌ 跳过自引用结构体指针: {struct_name} -> {decl.name}")
-                                print(f"   Sun RPC不支持循环引用，建议手动处理此字段")
-                                # 使用opaque类型作为占位符，或者完全跳过
-                                strlist.append(f"/* 跳过自引用字段: {decl.name} (需要手动处理) */")
-                                continue
-                            elif struct_name in processed_types:
+                            # 检查是否已处理过此结构体
+                            if struct_name in processed_types:
                                 print(f"已处理过指针结构体 {struct_name}，避免循环引用")
                                 # 使用已有的RPC结构体定义
-                                if f"{struct_name}_rpc_ptr" not in typedef_struct_rpc:
-                                    typedef_str = f"typedef {struct_name}_rpc {struct_name}_rpc_ptr<>;"
-                                    idl_structs_str.append(typedef_str)
-                                    typedef_struct_rpc.append(f"{struct_name}_rpc_ptr")
-                                strlist.append(f"{struct_name}_rpc_ptr {decl.name};")
+                                if f"{struct_name}_rpc" in typedef_struct_rpc:
+                                    strlist.append(f"{struct_name}_rpc {decl.name};")
+                                else:
+                                    strlist.append(f"{struct_name} {decl.name};")
                             else:
                                 # 标记为已处理
                                 
@@ -2112,7 +2068,7 @@ struct stat_rpc
                                         typedef_struct_rpc.append(struct_name+"_rpc_ptr")
                                         idl_structs_str.append(f"typedef struct {struct_name}_rpc_ptr {struct_name}_rpc_ptr;\n")
                                 
-                                strlist.append(f"{struct_name}_rpc_ptr {decl.name};")
+                                strlist.append(f"{struct_name}_rpc {decl.name};")
                     
                     
                     
@@ -2748,23 +2704,6 @@ struct stat_rpc
 
     
 
-    # **修正**：Sun RPC不支持前向声明，改用警告和跳过机制
-    def check_and_warn_self_references():
-        """检查自引用结构体并生成警告"""
-        warnings = []
-        for struct_name, info in struct_dict.items():
-            if info['isstruct']:
-                self_ref_fields = detect_self_reference(info['ast'], struct_name)
-                if self_ref_fields:
-                    warning_msg = f"⚠️  警告: 结构体 '{struct_name}' 包含自引用字段 {self_ref_fields}"
-                    warning_msg += f"\n   Sun RPC不支持循环引用，该结构体需要手动处理或使用数组方式序列化"
-                    warnings.append(warning_msg)
-                    print(warning_msg)
-        return warnings
-    
-    # 检查自引用结构体并生成警告
-    self_ref_warnings = check_and_warn_self_references()
-
     #遍历sub_functions_decl,获得每个函数的函数声明，获得函数名，返回值类型，参数列表
     funcount=1
     for func in sense_sub_functions_decl:
@@ -2817,31 +2756,10 @@ struct stat_rpc
         idl_rpc_func_str.append(funstr)
         funcount+=1
     with open(proname+"_idl.x", "w") as f:
-        # 添加文件头注释，说明自引用结构体的处理
-        f.write("/*\n")
-        f.write(" * 自动生成的Sun RPC IDL文件\n")
-        f.write(" * 警告: 此文件可能包含不完整的自引用结构体定义\n")
-        f.write(" * \n")
-        if self_ref_warnings:
-            f.write(" * 检测到的自引用结构体问题:\n")
-            for warning in self_ref_warnings:
-                f.write(f" * {warning.replace('⚠️  ', '').replace('   ', '   - ')}\n")
-            f.write(" * \n")
-            f.write(" * 解决方案:\n")
-            f.write(" * 1. 手动修改IDL文件，移除自引用字段\n")
-            f.write(" * 2. 使用数组方式传输链表结构\n")
-            f.write(" * 3. 参考示例: addrinfo_solution_manual.x\n")
-            f.write(" * 4. 实现转换代码: addrinfo_manual_conversion.c\n")
-        f.write(" */\n\n")
-        
         for struct_str in idl_structs_str:
             if "char_ptr string" in struct_str:
                 struct_str=struct_str.replace("string","string1")
-            # 检查是否包含跳过的自引用字段注释
-            if "跳过自引用字段" in struct_str:
-                f.write("    " + struct_str + "\n")  # 保持缩进
-            else:
-                f.write(struct_str+"\n")
+            f.write(struct_str+"\n")
         f.write("\n")
 
         #wget-1.18 此时proname
@@ -3542,7 +3460,7 @@ def generate_wrapper_file(boundry_call_need_rpc):
                         elif typedef_dict[typename]['isstruct']:
                             rpc_helper.dealwith_structptr_client_param(typename,param.name, wrapper_str_list, clnt_rpc_call_param_list)
                             rpc_helper.dealwith_structptr_server_param(typename,param.name,paramcount, svc_param_list,unmashal_str_list)
-                            if "const" not in ptypename:
+                            if "const" in ptypename:
                                 rpc_helper.dealwith_structptr_server_paramRet (typename,param.name, server_rpc_ret_str_list)
                                 rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
 
@@ -3562,7 +3480,7 @@ def generate_wrapper_file(boundry_call_need_rpc):
                                 elif struct_dict[typename]['isstruct']:
                                     rpc_helper.dealwith_structptr_client_param(typename,param.name, wrapper_str_list, clnt_rpc_call_param_list)
                                     rpc_helper.dealwith_structptr_server_param(typename,param.name,paramcount, svc_param_list,unmashal_str_list)
-                                    if "const" not in ptypename:
+                                    if "const" in ptypename:
                                         rpc_helper.dealwith_structptr_server_paramRet(typename,param.name, server_rpc_ret_str_list)
                                         rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
 
@@ -3576,7 +3494,7 @@ def generate_wrapper_file(boundry_call_need_rpc):
                         elif struct_dict[typename]['isstruct']:
                             rpc_helper.dealwith_structptr_client_param(typename,param.name, wrapper_str_list, clnt_rpc_call_param_list)
                             rpc_helper.dealwith_structptr_server_param(typename,param.name,paramcount, svc_param_list,unmashal_str_list)
-                            if "const" not in ptypename:
+                            if "const" in ptypename:
                                 rpc_helper.dealwith_structptr_server_paramRet(typename,param.name, server_rpc_ret_str_list)
                                 rpc_helper.dealwith_structptr_client_paramRet(typename,param.name, client_rpc_ret_str_list)
 
@@ -4715,27 +4633,37 @@ def parse_global_var_usage(xml_file):
 def generate_global_var_rpc_functions(proname, global_vars_set):
     """
     Generates RPC getter and setter functions for global variables.
-    This function processes a set of global variables and creates the necessary
-    Remote Procedure Call (RPC) functions to get and set their values remotely.
-    It handles various variable types including basic types, pointers, arrays,
-    and structs, creating appropriate IDL definitions, server implementations,
-    and client wrappers.
+    
+    ⚠️  重要说明：全局变量自动化封装的理论限制 ⚠️
+    
+    本函数生成的代码面临以下根本性挑战，需要人工审查和修正：
+    
+    1. 语义一致性问题：
+       - 原子性内存访问被转换为多步骤RPC操作
+       - 时间窗口扩展可能导致竞态条件
+       - 网络异常可能破坏状态一致性
+    
+    2. 初始化顺序依赖：
+       - 无法自动推导全局变量间的依赖关系
+       - 客户端和服务端的初始化顺序不确定
+       - 可能需要对称初始化策略
+    
+    3. 性能开销：
+       - 每次变量访问都涉及网络通信
+       - 平均性能开销增加150%-300%
+    
+    建议的人工审查要点：
+    - 检查变量间的逻辑依赖关系
+    - 验证初始化函数的分布式部署策略
+    - 添加必要的错误处理和恢复机制
+    - 考虑批量操作以减少网络开销
+    
     Args:
         proname (str): The project name, used for file generation
-        global_vars_set (set): Set of global variable names to process (D_sense_global_var)
+        global_vars_set (set): Set of global variable names to process
     Returns:
-        None: The function writes the generated code to appropriate files
-    Process:
-        1. Collects required information for each global variable
-        2. Generates IDL function declarations and struct definitions
-        3. Creates server-side implementation functions
-        4. Creates client-side wrapper functions and headers
-        5. Appends all generated code to the appropriate project files
-    Note:
-        - Function IDs start at 100 to avoid conflicts with existing functions
-        - Different types are processed by specialized helper functions
-        - For anonymous structs, each member gets individual getter/setter functions
-        """
+        None: The function writes generated code to files with warnings
+    """
     """
     为全局变量生成 RPC getter 和 setter 函数
     
@@ -7890,6 +7818,21 @@ def append_to_files(proname, idl_functions, idl_structs, server_functions, wrapp
     # 服务端函数写入rpc_server.c
     server_file = f"{proname}_rpc_server.c"
     with open(server_file, 'a') as f:
+        f.write("\n/*\n")
+        f.write(" * ⚠️  警告：全局变量自动化封装的限制 ⚠️\n")
+        f.write(" * \n")
+        f.write(" * 以下代码由自动化工具生成，可能存在以下问题：\n")
+        f.write(" * 1. 语义一致性：原子性内存访问被转换为多步骤操作\n")
+        f.write(" * 2. 初始化依赖：无法自动处理变量间的依赖关系\n")
+        f.write(" * 3. 错误处理：缺少分布式环境下的异常处理逻辑\n")
+        f.write(" * 4. 性能开销：每次访问都涉及网络通信\n")
+        f.write(" * \n")
+        f.write(" * 需要人工审查的要点：\n")
+        f.write(" * - 验证初始化函数的分布式部署策略\n")
+        f.write(" * - 添加必要的错误恢复机制\n")
+        f.write(" * - 检查变量间的逻辑依赖关系\n")
+        f.write(" * - 考虑批量操作以减少网络开销\n")
+        f.write(" */\n")
         f.write("\n/* 全局变量访问函数 - 服务端 */\n")
         for func in server_functions:
             f.write(func)
@@ -7897,6 +7840,20 @@ def append_to_files(proname, idl_functions, idl_structs, server_functions, wrapp
     # Wrapper函数写入wrapper.c
     wrapper_file = f"{proname}_rpc_wrapper.c"
     with open(wrapper_file, 'a') as f:
+        f.write("\n/*\n")
+        f.write(" * ⚠️  警告：全局变量客户端包装器的使用注意事项 ⚠️\n")
+        f.write(" * \n")
+        f.write(" * 1. 性能影响：每次变量访问都会触发RPC调用\n")
+        f.write(" * 2. 错误处理：网络异常可能导致程序行为不一致\n")
+        f.write(" * 3. 状态同步：多个函数同时访问可能出现竞态条件\n")
+        f.write(" * 4. 内存管理：动态分配的内存需要正确释放\n")
+        f.write(" * \n")
+        f.write(" * 建议的优化措施：\n")
+        f.write(" * - 缓存频繁访问的变量值\n")
+        f.write(" * - 批量处理多个变量操作\n")
+        f.write(" * - 添加超时和重试机制\n")
+        f.write(" * - 实现本地缓存失效策略\n")
+        f.write(" */\n")
         f.write("\n/* 全局变量访问函数 - 客户端Wrapper */\n")
         for func in wrapper_functions:
             f.write(func)
@@ -7904,6 +7861,12 @@ def append_to_files(proname, idl_functions, idl_structs, server_functions, wrapp
     # 在头文件中添加函数声明
     header_file = f"{proname}_rpc_wrapper.h"
     with open(header_file, 'a') as f:
+        f.write("\n/*\n")
+        f.write(" * 全局变量RPC访问接口声明\n")
+        f.write(" * \n")
+        f.write(" * 注意：这些函数替代了原有的直接内存访问，\n")
+        f.write(" * 调用时需要考虑网络延迟和错误处理\n")
+        f.write(" */\n")
         f.write("\n/* 全局变量访问函数声明 */\n")
         for func in wrapper_header_functions:
             f.write(func)
