@@ -2,17 +2,30 @@
 
 ## **Installation Guide**
 
-This project consists of several independent submodules that must be compiled and installed in order. 
-- Sliver has been tested on Ubuntu 20.04.
-- Install dependencies including LLVM-12, various development libraries,  `rpcbind` and `pycparser`:
-```bash
-sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev libpugixml-dev rpcbind
-pip3 install pycparser
-pip3 install numexpr
-pip3 install clang==12.0.1
-```
+### **Prerequisites**
 
-- To install Docker, please refer to: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
+This project consists of several independent submodules that must be compiled and installed sequentially. 
+
+**System Requirements:**
+- **Operating System:** Ubuntu 20.04 (tested and verified)
+- **Architecture:** x86_64
+
+**Required Dependencies:**
+
+1. **System packages** - Install LLVM-12, development libraries, and RPC services:
+   ```bash
+   sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev libpugixml-dev rpcbind
+   ```
+
+2. **Python packages** - Install required Python libraries:
+   ```bash
+   pip3 install pycparser
+   pip3 install numexpr
+   pip3 install clang==12.0.1
+   ```
+
+3. **Docker** - Follow the official installation guide for Ubuntu:
+   - Installation instructions: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
 
 #### **Step 1: Clone the Project Repository**
 
@@ -131,34 +144,15 @@ sudo apt install -y libsemanage-dev libselinux1-dev
 
 This process ensures you have all required artifacts (64-bit binary, 32-bit binary, compilation database, bitcode file) for the partitioning workflow. Adjust paths and filenames as needed for your own project.
 
-## Subproject Documentation
+## **Usage Workflow**
 
-The `examples` directory contains partitioning workflows for ten representative applications. Each subproject has its own README.md with detailed instructions for annotation, compilation, usage, and partitioning. Click the links below for step-by-step guides:
+Once you have completed the installation and project preprocessing steps, you can begin the partitioning workflow. The FIPA toolchain follows a systematic 6-step pipeline to analyze and partition your target application.
 
-- [chage](./examples/chage/READEME.md): Partitioning the password expiry utility from shadow-utils.
-- [chsh](./examples/chsh/READEME.md): Partitioning the shell change utility from shadow-utils.
-- [passwd](./examples/passwd/READEME.md): Partitioning the password change utility from shadow-utils.
-- [useradd](./examples/useradd/READEME.md): Partitioning the user account creation utility from shadow-utils.
-- [mavlink-client](./examples/mavlink-client/READEME.md): Partitioning a MAVLink protocol client.
-- [mavlink-server](./examples/mavlink-server/READEME.md): Partitioning a MAVLink protocol server.
-- [telnet](./examples/telnet/READEME.md): Partitioning the telnet client from inetutils.
-- [thttpd](./examples/thttpd/READEME.md): Partitioning the lightweight web server thttpd.
-- [wget](./examples/wget/READEME.md): Partitioning the network download utility wget.
-- [nginx](./examples/nginx/READEME.md): Partitioning the high-performance web server nginx.
+**Overview:** The workflow combines static analysis, dynamic information flow tracking, and constraint solving to automatically generate partitioned code with minimal information leakage between security domains.
 
-Each README covers:
-- Sensitive source annotation strategy
-- Preprocessing and compilation steps
-- Partitioning workflow and usage pipeline
-- Project-specific notes and troubleshooting
+Below we demonstrate the complete workflow using `chage` as an example. The same process applies to any target application—simply replace the project paths and parameters as needed.
 
-Refer to these documents for reproducible partitioning of each application.
-
-## Usage
-
-Below we use `chage` as an example. For other partitioned projects, see the subproject documentation above for details on annotation, compilation, usage, and partitioning.
-
-The usage pipeline consists of 5 steps:
+### **Partitioning Pipeline (6 Steps)**
 
 ### Step 1: Extract Statement Ranges
 ```bash
@@ -274,11 +268,30 @@ python3 scripts/prepare_refactor_data.py --project_root examples/chage --output_
    - `--comm-type`: Communication model (`u` for unidirectional, `b` for bidirectional)
    - `--quan`: Leakage budget in bits (e.g., `0`, `64`)
 
-See complete examples and project-specific instructions in the `examples/` directory. Each subproject's README.md provides details for annotation, compilation, and usage.
+## **Example Applications**
 
-## Examples
+The `examples/` directory contains complete partitioning workflows for ten representative applications, demonstrating FIPA's capabilities across different domains and security models. Each example includes detailed instructions for annotation strategies, compilation steps, and project-specific configurations.
 
-See the subproject documentation above for complete, real-world partitioning workflows. Each subproject's README.md provides details for annotation, compilation, and usage.
+### **Available Examples:**
+
+- [**chage**](./examples/chage/READEME.md): Password expiry utility from shadow-utils
+- [**chsh**](./examples/chsh/READEME.md): Shell change utility from shadow-utils  
+- [**passwd**](./examples/passwd/READEME.md): Password change utility from shadow-utils
+- [**useradd**](./examples/useradd/READEME.md): User account creation utility from shadow-utils
+- [**mavlink-client**](./examples/mavlink-client/READEME.md): MAVLink protocol client application
+- [**mavlink-server**](./examples/mavlink-server/READEME.md): MAVLink protocol server application
+- [**telnet**](./examples/telnet/READEME.md): Telnet client from inetutils
+- [**thttpd**](./examples/thttpd/READEME.md): Lightweight web server
+- [**wget**](./examples/wget/READEME.md): Network download utility
+- [**nginx**](./examples/nginx/READEME.md): High-performance web server
+
+Each example provides:
+- **Annotation Strategy**: How to identify and mark sensitive data sources
+- **Build Configuration**: Project-specific compilation and dependency setup  
+- **Workflow Execution**: Step-by-step partitioning process with actual commands
+- **Troubleshooting**: Common issues and solutions for each application
+
+These examples serve as templates that you can adapt for partitioning your own applications with FIPA.
 
 ## Contributing
 PRs are welcome! Please fork the repo, create a branch, and add tests. Use Issues for bug reports or feature requests.
