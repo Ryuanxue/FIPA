@@ -54,10 +54,8 @@ def recur_dealwith_struct_server_param(structast,leftname,righname,opname,unmash
         if structast.name in struct_dict:
             structast=struct_dict[structast.name]['ast']
         else:
-            print("Error: struct "+structast.name+" not found in struct_dict")
             return
     for decl in structast.decls:
-        print("recur_dealwith_struct_server_param",decl)
         decltype=decl.type
         decltypename=generator.visit(decltype)
         if isinstance(decltype,c_ast.TypeDecl):
@@ -190,10 +188,8 @@ def recur_dealwith_struct_client_retvalue(structast,leftname,righname,opname,unm
         if structast.name in struct_dict:
             structast=struct_dict[structast.name]['ast']
         else:
-            print("Error: struct "+structast.name+" not found in struct_dict")
             return
     for decl in structast.decls:
-        print("recur_dealwith_struct_server_param",decl)
         decltype=decl.type
         decltypename=generator.visit(decltype)
         if isinstance(decltype,c_ast.TypeDecl):
@@ -407,7 +403,6 @@ def dealwith_struct_server_param_global_basic(typename,paramname,unmashal_str_li
         recur_dealwith_struct_server_param(struct_dict[typename]['ast'],paramname,"value",".",unmashal_str_list,None)
 
 def dealwith_structptr_client_paramRet(typename,paramname, client_rpc_ret_str_list):
-    print("dealwith_structptr_client_paramRet",typename,paramname)
     client_rpc_ret_str_list.append(space4+"if(result_rpc->"+paramname+"."+typename+"_rpc_ptr_val==NULL) {")
     client_rpc_ret_str_list.append(space8+paramname+"=NULL;")
     client_rpc_ret_str_list.append(space4+"} else {")
@@ -724,24 +719,17 @@ def recur_dealwith_struct_client_retvalue(structast,leftname,righname,opname,cli
     processed_types.add(struct_name)
 
     #检查是否是typedef
-    print(structast)
     if isinstance(structast,c_ast.Typedef):
         structast=structast.type.type
     if structast.decls is None:
-        print("structast.decls is None")
         if structast.name in struct_dict:
-            print("structast.name in struct_dict")
             structast=struct_dict[structast.name]['ast']
         else:
-            print("structast.name not in struct_dict")
-            return
+            pass
     if structast.name=="stat":
         return
-    print(structast)
     for decl in structast.decls:
         decltype=decl.type
-        print (decl)
-        print(generator.visit(decl))
         decltypename=generator.visit(decltype)
         if isinstance(decltype,c_ast.TypeDecl):
             decltypename=decltypename.split(" ")[-1]
@@ -759,7 +747,6 @@ def recur_dealwith_struct_client_retvalue(structast,leftname,righname,opname,cli
                         continue
                     if isinstance(typedef_dict[decltypename]['ast'].type.type,c_ast.FuncDecl):
                         continue
-                    print(typedef_dict[decltypename]['ast'])
                     # print(generator.visit(typedef_dict[decltypename]['ast'].type))
                     # print(generator.visit(typedef_dict[decltypename]['ast'].type.type))
                     #跳过void *
@@ -1081,7 +1068,6 @@ def recur_dealwith_struct_client_param(structast,leftname,righname,opname,wrappe
         if structast.name in struct_dict:
             structast=struct_dict[structast.name]['ast']
         else:
-            print("Error: struct "+structast.name+" not found in struct_dict")
             return
         
     for decl in structast.decls:
@@ -1176,8 +1162,6 @@ def recur_dealwith_struct_client_param(structast,leftname,righname,opname,wrappe
                     continue
                 if isinstance(decltype.type,c_ast.PtrDecl):
                     continue
-                print(generator.visit(decl))
-                print(decl)
 
                 if isinstance(decltype.type.type,c_ast.Struct):
                     typename=decltype.type.type.name
@@ -1188,8 +1172,6 @@ def recur_dealwith_struct_client_param(structast,leftname,righname,opname,wrappe
                     recur_dealwith_basicptr_client_param(leftname+opname+decl.name,righname+opname+decl.name,".",typename,wrapper_str_list)
 
                 elif typename in typedef_dict:
-                    print("客户端处理typedef指针类型:",typename)
-                    print(decl)
                     if typedef_dict[typename]['isenum']:
                         recur_dealwith_basicptr_client_param(leftname+opname+decl.name,righname+opname+decl.name,".",typename,wrapper_str_list)
                     elif typedef_dict[typename]['isstruct']:

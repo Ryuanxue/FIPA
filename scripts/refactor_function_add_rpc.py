@@ -140,14 +140,12 @@ def setup_project_directories(proname, so_type, quan_str):
     for item in os.listdir(source_code_dir):
         item_path = os.path.join(source_code_dir, item)
         if os.path.isdir(item_path) and not item.endswith('.tar.xz'):
-            print(f"找到非压缩目录: {item_path}，准备删除")
             shutil.rmtree(item_path)
     
     # 查找并解压对应的tar.xz压缩包
     for item in os.listdir(source_code_dir):
         if item.endswith('.tar.xz'):
             tar_path = os.path.join(source_code_dir, item)
-            print(f"找到压缩包: {tar_path}，准备解压")
             with tarfile.open(tar_path, 'r:xz') as tar:
                 tar.extractall(path=source_code_dir)
                 print(f"解压完成: {tar_path}")
@@ -426,8 +424,6 @@ def refactor_ast(ast, sensitive_blocks,file):
     new_funcdecls = [] #用于存放新生成的函数的声明
     func_counter = 1 # 用于生成新函数的名称
 
-    if len(sensitive_blocks) == 0:
-        print("No sensitive blocks found")
     
     #打印sensitive_blocks
     # for block in sensitive_blocks:
@@ -694,7 +690,7 @@ def refactor_ast(ast, sensitive_blocks,file):
                                         setattr(node, child_name, new_child)
                                 except Exception as e:
                                     # 处理可能的错误，提供更多信息
-                                    print(f"Error processing {type(node)} with child {child_name}: {e}")
+                                    pass
                         return node
 
 
@@ -703,7 +699,6 @@ def refactor_ast(ast, sensitive_blocks,file):
 
                     #如果len(goto_labels)>0,在new_func.body.block_items的第一个位置声明和new_func函数返回值类型相同的变量label_return
                     if len(goto_labels)>0:
-                        print("have return goto funname"+new_func_name)
                         #在new_func的参数列表中添加相应的参数
                         for label_decl in label_decl_ast:
                             new_func.decl.type.args.params.insert(0,label_decl)
@@ -739,8 +734,6 @@ def refactor_ast(ast, sensitive_blocks,file):
                             label_return.type.declname='label_return'
                         if isinstance(label_return.type,c_ast.PtrDecl):
                             label_return.type.type.declname='label_return'
-                        print("this is label_return")
-                        print(c_generator.CGenerator().visit(label_return))
                         new_func.body.block_items.insert(0,label_return)
                         for label in goto_labels:
                             new_func.body.block_items=replace_goto_label(new_func.body.block_items,label)
@@ -772,7 +765,6 @@ def refactor_ast(ast, sensitive_blocks,file):
 
                     if len(goto_labels)>0:
                         #在new_func的参数列表中添加相应的参数
-                        print("void return goto funname"+new_func_name)
                         for label_decl in label_decl_ast:
                             new_func.decl.type.args.params.insert(0,label_decl)
                             decl_ast_name.insert(0,c_ast.UnaryOp(op='&',expr=c_ast.ID(label_decl.name)))
@@ -1044,7 +1036,6 @@ def refactor_mixed_function_ast(policy_file):
 
         # #打印mixed_sensitive_nodes
         # for node in mixed_sensitive_nodes:
-        #     print("mixed sensitive node is: " + str(node))
         
         for node in mixed_sensitive_nodes:
             # 找到第一个敏感且quantity不为0的节点，开始构建敏感块
@@ -1314,10 +1305,6 @@ def find_nonsense_upto_sense_duplicate():
         for fun,idnamelist in idnamedict.items():
             # print(idnamelist)
             fun_IDname_dict[fun]=idnamelist
-
-    print("non_sense_fun_list:")
-    for fun in non_sense_fun_list:
-        print(fun)
         
 
     # print()
@@ -1326,12 +1313,6 @@ def find_nonsense_upto_sense_duplicate():
     # for call in sense_to_non_sense_call:
     #     print(call)
 
-    print("typedef_dict:")
-    for typedef, info in typedef_dict.items():
-        print(f"{typedef}: isstruct={info['isstruct']}, isenum={info['isenum']}, ast={info['ast']}")
-    print("struct_dict:")
-    for struct, info in struct_dict.items():
-        print(f"{struct}: isstruct={info['isstruct']}, isenum={info['isenum']}, ast={info['ast']}")
 
     
     # print("difference set:")
@@ -1361,7 +1342,6 @@ def find_nonsense_upto_sense_duplicate():
     processed_callees = set()
     
 
-    print("sense to non-sense call:")
     for call in sense_to_non_sense_call:
         # print(call)
         caller = call[0]
@@ -1396,10 +1376,7 @@ def find_nonsense_upto_sense_duplicate():
                 static_indirect_fun_upto_sense.add(name)
     nonsense_upto_sense_function.update(static_indirect_fun_upto_sense)
     
-    print()
-    print ("nonsense upto(copy) sense function:")              
-    for callee in sorted(nonsense_upto_sense_function):
-        print(callee)
+    
 
     
 
@@ -1470,14 +1447,7 @@ def find_sense_down_to_nonsese_dipication():
         # 对当前函数进行敏感性判断
         if judge_is_nonsense(fun, sense_fun_list, sensefun_cant_copy):
             sensefun_can_copy.append(fun)
-    print()
-    print("can copy:")
-    for fun in sensefun_can_copy:
-        print(fun)
-    print()
-    print("cant copy:")
-    for fun in sensefun_cant_copy:
-        print(fun)
+   
 
     for fun in nonsense_upto_sense_function.union(sense_fun_list):
         #如果函数名结尾是_sense_1,提取函数名的去处_sense_1后的部分，如果这个不分在nonsense_upto_sense_function中，则continue
@@ -1509,21 +1479,17 @@ def judge_boundary_call_need_rpc():
     static_callpair=[]
     # print("difference set:")
     # print(sense_fun_list.difference(sensefun_can_copy))
-    print("funcall pair:")
     for func, calls in call_list.items():
         for callee,locinfo in calls:
             # print(type(func))
             # print(type(callee))
             # print(callee)
-            print(func + " " + callee)
             if (func,callee) not in static_callpair:
                 static_callpair.append((func,callee))
             if func in non_sense_fun_list.union(sensefun_can_copy) and callee in sense_fun_list.difference(sensefun_can_copy):
                 nosensedomain_to_sensedomain_call.append((func,callee,locinfo))
     
     indirect_callpair=[]
-    print()
-    print("dynamin indirect call:")
     for call in dynamie_callpair:
         # print(call)
         if call not in static_callpair:
@@ -1532,9 +1498,7 @@ def judge_boundary_call_need_rpc():
             # print(call)
             indirect_callpair.append(call)
 
-    print("cross domain call")
-    for call in nosensedomain_to_sensedomain_call:
-        print(call[0]+" "+call[1])
+   
     
     for cr in nosensedomain_to_sensedomain_call:  # cr是一个元组，元组的第一个元素是caller，第二个元素是callee，第三个元素是locinfo，此集合小了
         
@@ -1582,11 +1546,7 @@ def judge_boundary_call_need_rpc():
             boundry_call_need_rpc.append((func,callee,None))
 
 
-    print()
-    print("boundary call need rpc:")
-    for call in boundry_call_need_rpc:
-        print(call)
-    print()
+    
     return boundry_call_need_rpc
 
 # 初始化 libclang
@@ -1611,7 +1571,6 @@ def copy_and_modify_ast(proname,abs_path_policy_file):
                 break
 
         if not function_code:
-            print(f"函数 '{function_name}' 未找到。")
             return None
 
         # print(f"提取的函数 '{function_name}' 内容：\n{function_code}")
@@ -1621,7 +1580,6 @@ def copy_and_modify_ast(proname,abs_path_policy_file):
         with open(filename, 'w') as file:
             file.write(new_content)
             file.flush()
-        print(f"函数 '{function_name}' 已替换为新函数。")
 
         return function_code
     
@@ -1815,7 +1773,6 @@ struct stat_rpc
             strlist: 输出字符串的列表
             processed_types: 已处理过的类型集合，用于避免循环引用
         """
-        print(node)
         # 初始化已处理类型的集合
         if processed_types is None:
             processed_types = set()
@@ -1824,7 +1781,6 @@ struct stat_rpc
         if isinstance(node, c_ast.Typedef):
             # 检查是否已经处理过此类型
             if node.name in processed_types:
-                print(f"已处理过类型 {node.name}，避免循环引用")
                 return
             
             # 标记为已处理
@@ -1833,26 +1789,21 @@ struct stat_rpc
 
         # 结构体为空的情况
         if node.decls is None:
-            print("node.decls is None")
             # 根据node.name到struct_dict中查找
             if hasattr(node, 'name') and node.name in struct_dict:
                 # 检查是否已处理过此结构体
                 if node.name in processed_types:
-                    print(f"已处理过结构体 {node.name}，避免循环引用")
                     return
                 
                 # 标记为已处理
                 processed_types.add(node.name)
                 node = struct_dict[node.name]['ast']
             else:
-                print("node.decls is None, but node.name not in struct_dict")
                 strlist.append(f"opaque tempname<>;")
                 return
         
         # 处理所有成员
         for decl in node.decls:
-            print("处理结构体成员:",node.name," ",decl.name)
-            print(decl)
             decltype = generator.visit(decl.type)
             decltypearray = decltype.split(" ")
             if len(decltypearray) > 2:
@@ -1862,12 +1813,9 @@ struct stat_rpc
             # 处理不同类型的成员
             if isinstance(decl.type, c_ast.TypeDecl):
                 if isinstance(decl.type.type, c_ast.Struct):
-                    print("处理结构体成员1:", node.name, " ", decl.name)
                     # 检查是否已处理过此结构体成员
                     struct_name = decl.type.type.name if hasattr(decl.type.type, 'name') else f"anon_struct_{decl.name}"
                     if struct_name in processed_types:
-                        print("处理结构体成员2:", node.name, " ", decl.name)
-                        print(f"已处理过结构体成员 {struct_name}，避免循环引用")
                         # 添加引用，而不是递归展开
                         strlist.append(f"{struct_name}_rpc {decl.name};")
                     else:
@@ -1875,7 +1823,6 @@ struct stat_rpc
                         # 这里选择添加引用，避免复杂嵌套
                         strlist.append(f"{struct_name} {decl.name};")
                 elif isinstance(decl.type.type, c_ast.Enum):
-                    print(decl)
                     strlist.append(f"int {decl.name};")
                 elif isinstance(decl.type.type, c_ast.Union):
                     # 如果是union类型，跳过
@@ -1891,7 +1838,6 @@ struct stat_rpc
                 elif decl.type.type.names[0] in typedef_dict:   
                     typename = decl.type.type.names[0]
                     typeast=typedef_dict[typename]['ast']
-                    print(typeast)
                     if isinstance(typeast.type,c_ast.PtrDecl) and isinstance(typeast.type.type.type,c_ast.IdentifierType):
                         ptrname = typeast.type.type.type.names[0]
                         if ptrname=="void":
@@ -1901,9 +1847,7 @@ struct stat_rpc
                         strlist.append(f"unsigned long int {decl.name};")
                     else:
                         if typedef_dict[typename]['isstruct']:
-                            print("处理结构体成员3:", node.name, " ", decl.name)
                             if typename in processed_types:
-                                print(f"已处理过typedef类型 {typename}，避免循环引用")
                                 # 添加引用，而不是递归处理
                                 if typedef_dict[typename]['isenum']:
                                     strlist.append(f"int {decl.name};")
@@ -1917,18 +1861,14 @@ struct stat_rpc
 
                             else:
                                 if f"{typename}_rpc" not in typedef_struct_rpc:
-                                    print(f"添加新的RPC结构体类型 {typename}_rpc")
                                     typedef_struct_rpc.append(f"{typename}_rpc")
                                     struct_def = f"struct {typename}_rpc {{\n"
                                     rpcstruct_str_list = []
-                                    print("处理结构体成员4:", node.name, " ", decl.name)
                                     get_rpc_struct_str(typeast, rpcstruct_str_list, processed_types)
                                     processed_types.add(f"{typename}")
                                     for rpcstruct_str in rpcstruct_str_list:
                                         struct_def += rpcstruct_str + "\n"
                                     struct_def += "};\n"
-                                    print("处理结构体成员5:", node.name, " ", decl.name)
-                                    print(struct_def)
                                     idl_structs_str.append(struct_def)
                                     
 
@@ -1941,7 +1881,6 @@ struct stat_rpc
                                 dealwith_charptr()
                             strlist.append(f"char_ptr {decl.name};")
                         else:
-                            print("处理结构体成员4:", node.name, " ", decl.name)
                             ptypename = generator.visit(typedef_dict[typename]['ast'].type)
                             if ptypename.startswith("union"):
                                 continue
@@ -1953,7 +1892,6 @@ struct stat_rpc
                             else:
                                 strlist.append(ptypename + " " + decl.name + ";")
                 else:
-                    print("without dealwith")
                     # print(decl)
                     pass
                     
@@ -1996,7 +1934,6 @@ struct stat_rpc
 
                                 # 检查是否已处理过此结构体
                                 if struct_name in processed_types:
-                                    print(f"已处理过指针结构体 {struct_name}，避免循环引用")
                                     # 使用已有的RPC结构体定义
                                     if f"{struct_name}_rpc_twoptr" in typedef_struct_rpc:
                                         strlist.append(f"{struct_name}_rpc_twoptr {decl.name};")
@@ -2029,11 +1966,7 @@ struct stat_rpc
 
                         #     print(typedef_dict[typename])
                         # strlist.append(f"char_ptr {decl.name};")
-                    else:
-                        print("unsupported pointer type")
                 else:  # 如果是其他类型(int,float等，枚举，结构体，typedef)，
-                    print(decl)
-                    print(generator.visit(decl))
                     if isinstance(decl.type.type.type, c_ast.Struct):
                         struct_name = decl.type.type.type.name
                         if struct_name == "stat":
@@ -2041,7 +1974,6 @@ struct stat_rpc
                         else:
                             # 检查是否已处理过此结构体
                             if struct_name in processed_types:
-                                print(f"已处理过指针结构体 {struct_name}，避免循环引用")
                                 # 使用已有的RPC结构体定义
                                 if f"{struct_name}_rpc" in typedef_struct_rpc:
                                     strlist.append(f"{struct_name}_rpc {decl.name};")
@@ -2097,7 +2029,6 @@ struct stat_rpc
                             strlist.append(f"{typename}_ptr {decl.name};")
                         elif typedef_dict[typename]['isstruct']:
                             if typename in processed_types:
-                                print("结构体处理7")
                                 if node.name==typedef_dict[typename]['ast'].name:
                                     strlist.append(f"struct {typename}_rpc * {decl.name};")
                                 else:
@@ -2105,7 +2036,6 @@ struct stat_rpc
                                 continue
                             # 确保结构体的RPC定义已经存在
                             if typename + "_rpc" not in typedef_struct_rpc:
-                                print("结构体处理8")
                                 typedef_struct_rpc.append(typename + "_rpc")
                                 rpcstruct_str_list = []
                                 rpcstruct_str_list.append(f"struct {typename}_rpc{{")
@@ -2113,10 +2043,8 @@ struct stat_rpc
                                 processed_types.add(typename)
 
                                 rpcstruct_str_list.append("};")
-                                print("结构体处理9")
                                 for rpcstruct_str in rpcstruct_str_list:
                                     idl_structs_str.append(rpcstruct_str)
-                                    print(rpcstruct_str)
 
                                 idl_structs_str.append(f"typedef struct {typename}_rpc {typename}_rpc;")
                                 if typename + "_rpc_ptr" not in typedef_struct_rpc:
@@ -2192,16 +2120,10 @@ struct stat_rpc
                         if "char_ptr" not in typedef_struct_rpc:
                             dealwith_charptr()
                         strlist.append("char_ptr " + decl.name + ";")
-                    else:
-                        print(decl)
-                        print("without dealwith2")
                 
             elif isinstance(decl.type, c_ast.ArrayDecl):  # 数组类型
                 if decltypearray[0] in basic_type:
                     strlist.append(generator.visit(decl) + ";")
-                else:
-                    print("without dealwith3")
-                    # print(decl)
                 pass
 
     def dealwith_return(param):
@@ -2210,7 +2132,6 @@ struct stat_rpc
         if len(ptypearray)>2:
             ptype=ptypearray[1]+" "+ptypearray[2]
             ptypearray=ptypearray[1:]
-        print(ptype)
         #判断参数类型，是基本类型，数组类型还是指针类型
         if isinstance(param,c_ast.TypeDecl):
             # print(param)
@@ -2255,8 +2176,7 @@ struct stat_rpc
                             ptypename=generator.visit(typedef_dict[ptype]['ast'].type)
                             # funstr_list.append(ptypename+",")
                             retstr_list.append(ptypename+" ret0;")
-                    else:
-                        print("error")
+                    
                     pass
         elif isinstance(param,c_ast.PtrDecl) or isinstance(param,c_ast.ArrayDecl): #指针或者数组类型
             # print("Pointer")
@@ -2363,14 +2283,11 @@ struct stat_rpc
 
     def dealwith_Param(param):
         if isinstance(param,c_ast.EllipsisParam):
-            print("变参函数")
             return
         ptype=generator.visit(param.type)
         ptype=param.type
         ptypename=generator.visit(ptype)
         #判断参数类型，是基本类型，数组类型还是指针类型
-        print("idl param type:")
-        print(param)
         if isinstance(param.type,c_ast.TypeDecl):
             # print(param)
             if ptypename in basic_type:
@@ -2424,8 +2341,7 @@ struct stat_rpc
                         else:
                             ptypename=generator.visit(typedef_dict[ptypename]['ast'].type)
                             funstr_list.append(ptypename+",")
-                    else:
-                        print("error")
+                    
                     pass
         elif isinstance(param.type,c_ast.PtrDecl): #指针或者数组类型
             # print("Pointer")
@@ -2459,11 +2375,7 @@ struct stat_rpc
                 funstr_list.append("TwoCharPtr,")
                 retstr_list.append("TwoCharPtr "+param.name+";")
             else: #如果是其他类型(int,float等，枚举，结构体，typedef)，将其转换为结构体类型
-                print("this eles")
-                print(ptypename)
                 typename=ptypename.split(" ")[-2]
-                print(typename)
-                print(param)
                     
                 if typename in basic_type:
                     dealwith_basicptr_idl_param(typename,param)
@@ -2479,7 +2391,6 @@ struct stat_rpc
                                 typedef_struct_rpc.append(typename+"_rpc_ptr")
                                 typedef_struct_rpc.append(typename+"_rpc")
                                 rpcstruct_str_list.append("struct "+typename+"_rpc{")
-                                print(typedef_dict[typename]['ast'])
                                 get_rpc_struct_str(typedef_dict[typename]['ast'].type.type,rpcstruct_str_list)
                                 rpcstruct_str_list.append("};")
                                 
@@ -2539,7 +2450,6 @@ struct stat_rpc
                                 retstr_list.append(typename+"_rpc_ptr "+param.name+";")
                             else:
                                 # 处理其他未知类型
-                                print(f"警告: {typename} 是未知的结构体类型")
                                 dealwith_basicptr_idl_param("void", param)  # 使用void作为后备类型
                         else:
                             # 处理其他未知类型
@@ -2553,7 +2463,6 @@ struct stat_rpc
                                     if newtypeast.type.type.names[0] in basic_type:
                                         dealwith_basicptr_idl_param(newtypeast.type.type.names[0],param)
                 elif typename in struct_dict:
-                    print("this here")
                     if typename=="stat":
                         if "stat_rpc_ptr" not in typedef_struct_rpc:
                             if "stat_rpc" not in typedef_struct_rpc:
@@ -2567,7 +2476,6 @@ struct stat_rpc
                     elif struct_dict[typename]['isenum']:
                         dealwith_basicptr_idl_param(typename,param)
                     elif struct_dict[typename]['isstruct']:
-                        print("结构体指针参数")
                         if typename+"_rpc_ptr" not in typedef_struct_rpc:
                             # 确保结构体的RPC定义已经存在
                             rpcstruct_str_list=[]
@@ -2591,7 +2499,6 @@ struct stat_rpc
                         retstr_list.append(typename+"_rpc_ptr "+param.name+";")
                     else:
                         # 处理其他未知类型
-                        print(f"警告: {typename} 是未知的结构体类型")
                         dealwith_basicptr_idl_param("void", param)  # 使用void作为后备类型
 
                 #===============
@@ -2682,10 +2589,6 @@ struct stat_rpc
                 idl_structs_str.append(typedef_str)
                 funstr_list.append(func_name+"_"+param.name+",")
                 retstr_list.append(func_name+"_"+param.name+" "+param.name+";")
-            else:
-                print("array without dealwith")
-        else:
-            print("Unknown")
         # print(funstr)
         # return funstr
         
@@ -2852,8 +2755,8 @@ def generate_wrapper_file(boundry_call_need_rpc):
                         ptypename=generator.visit(typedef_dict[decl.type.type.names[0]]['ast'].type)
                         # strlist.append(ptypename+" "+decl.name+";")
                 else:
+                    pass
 
-                    print("without dealwith")
                     # print(decl)
                     pass
             elif isinstance(decl.type,c_ast.PtrDecl):#指针类型
@@ -3126,15 +3029,14 @@ def generate_wrapper_file(boundry_call_need_rpc):
                         # strlist.append(generator.visit(decl)+";")
                         pass
                     else:
-                        print(decl)
-                        print("without dealwith2")
+                        pass
                     # print(decl)
             elif isinstance(decl.type,c_ast.ArrayDecl): #数组类型
                 if decltypearray[0] in basic_type:
                     pass
                     # strlist.append(generator.visit(decl)+";")
                 else:
-                    print("without dealwith3")
+                    pass
                     # print(decl)
                 pass
 
@@ -3283,7 +3185,6 @@ def generate_wrapper_file(boundry_call_need_rpc):
         for param in func.type.args.params:
             paramcount+=1
             if isinstance(param,c_ast.EllipsisParam):
-                print("变参函数")
                 continue
             if param.name is None:
                 return
@@ -3544,7 +3445,7 @@ def generate_wrapper_file(boundry_call_need_rpc):
                 
 
             else:
-                print("未知类型的参数",ptype)
+                pass
                 
                 
                 
@@ -3560,15 +3461,12 @@ def generate_wrapper_file(boundry_call_need_rpc):
         if callee in fun_fundeclast_dict:
             sense_sub_functions_decl.add(fun_fundeclast_dict[callee])
 
-    print("generate_wrapper_file:")
     generator = c_generator.CGenerator() #不一定用得着
     wrapper_str_list=[] #存放wrapper函数的字符串 client
     server_wrapper_str_list=[] #存放服务端wrapper函数的字符串
     client_wrapper_header_str_list=[] #存放客户端wrapper函数的头文件字符串
     
     for func in sense_sub_functions_decl:
-        print(c_generator.CGenerator().visit(func))
-        print(func.name)
         func_name=func.name
         """
         generate_wrapper_file:
@@ -3676,8 +3574,6 @@ def generate_wrapper_file(boundry_call_need_rpc):
     # for wrapper_str in wrapper_str_list:
     #     print(wrapper_str)
 
-    print(  )
-    print("server wrapper:")
     # for fun,funast in refactor_fun_ast_dict.items():
     #     if "_sense_" in fun:
     #         raw_fun=fun.split("_sense_")[0]
@@ -4120,9 +4016,7 @@ def output_auto_rpc_code(proname):
             proname: 项目名称，用于包含头文件
         """
         generator=c_generator.CGenerator()
-        if issense:
-            print("sensitive function")
-            print(src_file)
+        
         # 使用libclang解析源文件
         index = clang.cindex.Index.create()
         # tu = index.parse(src_file, args=['-I.','-DHAVE_CONFIG_H','-DSYSTEM_WGETRC=\"/usr/local/etc/wgetrc\"','-DLOCALEDIR=\"/usr/local/share/locale\"'])
@@ -4195,10 +4089,7 @@ def output_auto_rpc_code(proname):
             elif str(kind) == "CursorKind.VAR_DECL":
                 kind_str = "全局变量"
             
-            print(f"名称: {name}")
-            print(f"位置: 第{start_line}行第{start_col}列 到 第{end_line}行第{end_col}列")
-            print(f"类型: {kind_str}")
-            print("---")
+            
 
         # 生成修改后的内容
         modified_content = src_content
@@ -4208,13 +4099,10 @@ def output_auto_rpc_code(proname):
         lines = modified_content.splitlines(True)  # 保留换行符
 
         for name, start_line, start_col, end_line, end_col, kind in functions_and_globals:
-            print(f"处理 {name}...")
             kind_str = str(kind)
             if kind_str == "FUNCTION_DEF":
-                print(name)
                 # print(fundomainset)
                 if issense and fundomainset and name+"_sense_1" in fundomainset:
-                    print("here")
                     new_code=generator.visit(fileast[name+"_sense_1"])
                     new_lines=new_code.splitlines(True)
                     modified_lines=lines[:start_line-1]
@@ -4227,38 +4115,29 @@ def output_auto_rpc_code(proname):
                     isremain=True
                     continue
                 if fundomainset and name not in fundomainset:
-                    print("not in allow range")
                     # 根据行号范围删除函数定义
                     # 注意：行号是从1开始的，但Python列表索引是从0开始的
                     modified_lines = lines[:start_line-1]
                     if end_line < len(lines):
                         modified_lines.extend(lines[end_line:])
                     lines = modified_lines
-                    print(lines)
                     isremain=True
                     continue
                 
                 elif modifunset and name in modifunset and fileast:
-                    print(name)
                     # 在修改后的AST中查找此函数并替换
                     for node in fileast.ext:
                         if (isinstance(node, c_ast.FuncDef) and node.decl.name == name):
                             # 生成修改后的函数代码
                             new_code = generator.visit(node)
                             new_lines = new_code.splitlines(True)
-                            print(start_line,end_line)
-                            print(''.join(new_lines))
-                            print()
+                            
                             
                             # 替换对应行
                             modified_lines = lines[:start_line-1]
-                            print("替换之前的代码")
-                            print(''.join(modified_lines))
                             modified_lines.extend(new_lines)
                             if end_line < len(lines):
                                 modified_lines.extend(lines[end_line:])
-                            print("替换之后的代码")
-                            print(''.join(lines[end_line:]))
                             lines = modified_lines
                             isremain = True
                             break
@@ -4277,16 +4156,13 @@ def output_auto_rpc_code(proname):
                     isremain=True
                 else:
                     isremain = True
-            print(''.join(lines))
 
         # 重新组合修改后的内容
         if isremain:
             
             modified_content = ''.join(lines)
-            
-            print("finally file")
-            print(modified_content)
-        
+
+
         # 2. 安全地添加RPC包装器头文件
         if issense==False: #如果是敏感函数，不需要添加头文件
             if proname:
@@ -4393,7 +4269,6 @@ def output_auto_rpc_code(proname):
 
 
     src_base_dir = os.path.abspath(os.path.join(script_dir, '..', 'examples', proname, 'input', 'source_code', f"{extracted_dir_name}_back"))
-    print("src_base_dir",src_base_dir)
 
     for root, dirs, files in os.walk(src_base_dir):
         for file in files:
@@ -4404,15 +4279,11 @@ def output_auto_rpc_code(proname):
             dst_file_path = os.path.join(dst_dir_path, file)
 
             abs_src_file_path = os.path.abspath(src_file_path).replace(f"{extracted_dir_name}_back", f"{extracted_dir_name}")
-            print("modei")
             # if file.endswith(".c"):
             if abs_src_file_path in cfile_list:
                 finally_path=dst_dir_path
-                print(abs_src_file_path)
-                for key in nonsense_domain_modified_asts.keys():
-                    print(key)
+                
                 if abs_src_file_path in nonsense_domain_modified_asts:
-                    print(f"处理文件路径 {src_file_path}...")
                     preserve_headers_and_replace_content(
                         src_file_path, 
                         dst_file_path, 
@@ -4458,7 +4329,6 @@ def output_auto_rpc_code(proname):
     os.makedirs(server_dir)
     
     # 处理源代码文件
-    print(src_base_dir)
     for root, dirs, files in os.walk(src_base_dir):
         for file in files:
             src_file_path = os.path.join(root, file)
@@ -4468,13 +4338,9 @@ def output_auto_rpc_code(proname):
             dst_file_path = os.path.join(dst_dir_path, file)
             abs_src_file_path = os.path.abspath(src_file_path).replace(extracted_dir_name+"_back", extracted_dir_name)
             # if file.endswith(".c"):
-            print(abs_src_file_path)
             if abs_src_file_path in cfile_list:
-                print("服务端代码输出")
-                print(cfile_list)
-                print(sense_domain)
-                finally_path=dst_dir_path
 
+                finally_path=dst_dir_path
                 
                 preserve_headers_and_replace_content(
                     src_file_path, 
@@ -4485,8 +4351,6 @@ def output_auto_rpc_code(proname):
                     global_var=sense_global_var,fundomainset=sense_domain,modifunset=None
                 )
             else:
-                print("正常copy")
-                print(src_file_path)
                 shutil.copy2(src_file_path, dst_file_path)
             
 
@@ -4725,7 +4589,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
         if isinstance(node, c_ast.Typedef):
             # 检查是否已经处理过此类型
             if node.name in processed_types:
-                print(f"已处理过类型 {node.name}，避免循环引用")
                 return
             
             # 标记为已处理
@@ -4738,14 +4601,12 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             if hasattr(node, 'name') and node.name in struct_dict:
                 # 检查是否已处理过此结构体
                 if node.name in processed_types:
-                    print(f"已处理过结构体 {node.name}，避免循环引用")
                     return
                 
                 # 标记为已处理
                 processed_types.add(node.name)
                 node = struct_dict[node.name]['ast']
             else:
-                print("node.decls is None, but node.name not in struct_dict")
                 return
         
         # 处理所有成员
@@ -4762,7 +4623,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                     # 检查是否已处理过此结构体成员
                     struct_name = decl.type.type.name if hasattr(decl.type.type, 'name') else f"anon_struct_{decl.name}"
                     if struct_name in processed_types:
-                        print(f"已处理过结构体成员 {struct_name}，避免循环引用")
                         # 添加引用，而不是递归展开
                         strlist.append(f"{struct_name} {decl.name};")
                     else:
@@ -4770,7 +4630,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                         # 这里选择添加引用，避免复杂嵌套
                         strlist.append(f"{struct_name} {decl.name};")
                 elif isinstance(decl.type.type, c_ast.Enum):
-                    print(decl)
                     strlist.append(f"int {decl.name};")
                 elif isinstance(decl.type.type, c_ast.Union):
                     # 如果是union类型，跳过
@@ -4780,7 +4639,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                 elif decl.type.type.names[0] in typedef_dict:
                     typename = decl.type.type.names[0]
                     if typename in processed_types:
-                        print(f"已处理过typedef类型 {typename}，避免循环引用")
                         # 添加引用，而不是递归处理
                         if typedef_dict[typename]['isenum']:
                             strlist.append(f"int {decl.name};")
@@ -4809,7 +4667,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                             else:
                                 strlist.append(ptypename + " " + decl.name + ";")
                 else:
-                    print("without dealwith")
                     # print(decl)
                     pass
                     
@@ -4826,8 +4683,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                         dealwith_twocharptr()
                     strlist.append("TwoCharPtr " + decl.name + ";")
                 else:  # 如果是其他类型(int,float等，枚举，结构体，typedef)，
-                    print("处理指针类型")
-                    print(decl)
                     if isinstance(decl.type.type.type, c_ast.Struct):
                         struct_name = decl.type.type.type.name
                         if struct_name == "stat":
@@ -4835,7 +4690,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                         else:
                             # 检查是否已处理过此结构体
                             if struct_name in processed_types:
-                                print(f"已处理过指针结构体 {struct_name}，避免循环引用")
                                 # 使用已有的RPC结构体定义
                                 if f"{struct_name}_rpc" in typedef_struct_rpc:
                                     strlist.append(f"{struct_name}_rpc {decl.name};")
@@ -4875,14 +4729,13 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                         strlist.append("char_ptr " + decl.name + ";")
                         pass
                     else:
-                        print(decl)
-                        print("without dealwith2")
+                        pass
                 
             elif isinstance(decl.type, c_ast.ArrayDecl):  # 数组类型
                 if decltypearray[0] in basic_type:
                     strlist.append(generator.visit(decl) + ";")
                 else:
-                    print("without dealwith3")
+                    pass
                     # print(decl)
                 pass
 
@@ -4909,21 +4762,16 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
         """
         # 清理类型字符串，移除不必要的修饰符
         cleaned_type_str = type_str.replace("extern ", "").replace("static ", "").strip()
-        print(cleaned_type_str)
         if cleaned_type_str.startswith("enum"):
             cleaned_type_str = "int"
-            print("处理枚举类型，转换为int")
         
         if cleaned_type_str in typedef_dict:
             typeast=typedef_dict[cleaned_type_str]['ast']
             is_struct = typedef_dict[cleaned_type_str]['isstruct']
             ##判断 struct_name_rpc是否在IDL定义中，如果没有，则定义
-            print("typedef_dict")
-            print(typeast)
             if is_struct:
                 struct_name = typeast.name
                 if typeast.name+"_rpc" not in typedef_struct_rpc:
-                    print("处理typedef结构体类型")                    
                     # 构建完整的结构体定义字符串
                     struct_def = f"struct {typeast.name}_rpc{{\n"                    
                     # 添加成员定义
@@ -4946,17 +4794,13 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
 
 
         elif cleaned_type_str in struct_dict:
-            print("处理结构体类型")
             typeast=struct_dict[cleaned_type_str]['ast']
-            print(typeast)
             is_struct = struct_dict[cleaned_type_str]['isstruct']
             pass
         elif cleaned_type_str.startswith("struct ") or cleaned_type_str.startswith("union "):
-            print("处理结构体或联合类型")
-            print(cleaned_type_str)
+            pass
         else:
-            print("处理基本类型或指针类型")
-            
+            pass
 
         # 检查是否是结构体类型
             is_struct = cleaned_type_str.startswith("struct ") or cleaned_type_str.startswith("union ")
@@ -4982,7 +4826,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             
             if struct_def and hasattr(struct_def, 'decls') and struct_def.decls:
                 # 为整个结构体生成一个getter和setter
-                print(f"处理结构体 {struct_name} 的全局变量 {var_name}")
                 function_counter=process_struct_whole(var_name, cleaned_type_str, struct_name, False,
                                 idl_functions, idl_structs,
                                 server_functions,
@@ -5086,7 +4929,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
         """ 
         # === IDL 定义 ===
         # 添加 IDL 结构体定义 (如果还没有)
-        print("处理结构体类型的全局变量 in process_struct_whole")
         if ispoint:
             if struct_name.startswith("anon_struct_"):
                 ret_struct = f"struct {var_name}_ret_t {{ new_{var_name}_rpc_ptr value; }};\n"
@@ -5122,8 +4964,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
         idl_functions.append(setter_idl)
 
         if ispoint:
-            print("处理指针类型的结构体")
-            print(type_str)
             # === 服务端实现 ===
             # Getter 函数
             getter_server = f"{var_name}_ret_t *get_{var_name}_1_svc(struct svc_req *rqstp)\n"
@@ -5225,8 +5065,7 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                 else:
                     wrapper_header_functions.append(f"int set_{var_name}_wrapper(struct {type_str}* value,int len);\n")
         else:#非指针类型的结构体
-            print("处理非指针类型的结构体")
-            print(type_str)
+            
             set_wrapper=[]
             unused_list1=[]
             set_unmashal_list=[]
@@ -5346,8 +5185,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
         if processed_type is None:
             processed_type = set()
         # 如果成员是指针类型，需要特殊处理
-        print("meber type:", member_type)
-        print("meber type str:", member_type_str)
         is_pointer = isinstance(member_type, c_ast.PtrDecl)
         # 清理类型字符串
         cleaned_member_type_str = member_type_str.replace("extern ", "").replace("static ", "").strip()
@@ -5457,7 +5294,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             
 
         if isinstance(member_type, c_ast.ArrayDecl):
-            print("Array type detected")
             if isinstance(member_type, c_ast.TypeDecl):
                 #IDL结构体定义和函数定义
                 typename = generator.visit(member_type.type)
@@ -5990,20 +5826,15 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             # 检查是否已处理过该类型，避免递归死循环
             type_key = f"{struct_name}"
             if type_key in processed_type:
-                print(f"检测到循环引用: {struct_name}，跳过递归处理")
                 return function_counter
                 
             # 标记该类型为已处理
             processed_type.add(type_key)
-            print("多层递归")
             struct_def = None
             if struct_name in struct_dict:
-                print("struct_name:", struct_name)
                 struct_def = struct_dict[struct_name]['ast'] 
             elif struct_name in typedef_dict and typedef_dict[struct_name]['isstruct']:
-                print("struct_name:", struct_name)
                 struct_def = typedef_dict[struct_name]['ast']
-            print(struct_def)
             if struct_def and hasattr(struct_def, 'decls') and struct_def.decls:
                 # 创建一个新的路径名来表示嵌套关系
                 nested_var_name = f"{var_name}_{member_name}"
@@ -7113,7 +6944,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                 # wrapper_header_functions.append(f"int set_{var_name}_wrapper(const {base_ptr_type} *value, size_t count);\n")
 
                 
-                print(f"Struct definition: {struct_def}")
                 if struct_def.name=="acc_t":
                     return function_counter #因为此结构体中含有自身的指针，所以不再递归处理，避免死循环
                 
@@ -7125,7 +6955,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                     #                 server_functions,
                     #                 wrapper_functions, wrapper_header_functions,
                     #                 function_counter + 2)  # 避免函数编号冲突
-                    print(f"Processing struct pointer: {var_name} -> {struct_name}")
                     # 然后为结构体的每个成员递归生成 process_struct_member
                     if hasattr(struct_def, 'decls') and struct_def.decls:
                         for i, member in enumerate(struct_def.decls):
@@ -7135,7 +6964,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                                 
                                 # 创建表示"var_name->member_name"的访问路径
                                 member_access_name = f"{var_name}_ptr_{member_name}"
-                                print(f"Processing struct member: {member_name} -> {member_type}")
                                 # 递归处理结构体成员
                                 processed_types = set()  # 创建一个新的集合来跟踪已处理的类型
                                 function_counter =process_struct_member(var_name, member_name, member_type, member.type, generator,
@@ -7164,7 +6992,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             # 没有匹配结构体的情况，继续原有的指针处理...
             else:
                 # 处理其他指针类型的代码...
-                print(f"Unhandled pointer type: {base_ptr_type} for variable {var_name}")
                 pass
         return function_counter
     
@@ -7176,7 +7003,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             result = ne.evaluate(expr)
             return result.item()  # 转换为标量
         except Exception as e:
-            print(f"错误：无效的表达式 '{expr}'：{e}")
             return None
 
     def process_array_type_var(var_name, type_str, base_type, var_type, generator, 
@@ -7186,14 +7012,12 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                             function_counter):
         """处理数组类型的全局变量"""
         # 获取数组元素类型和维度
-        print(f"Processing array variable: {var_name} of type {type_str}")
         elem_type = generator.visit(var_type.type)
         if hasattr(var_type, 'dim') and var_type.dim:
-            print(f"Array dimensions: {var_type.dim}")
             """dim=BinaryOp(op='+',
                        left=BinaryOp(op='+',
                                      left=Constant(type='int',
-                                                   value='1'
+                                                 value='1'
                                                    ),
                                      right=Constant(type='int',
                                                     value='39'
@@ -7218,8 +7042,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
 
         else:
             dim_size = "1" # 默认值
-        print(f"Processing array:")
-        print(generator.visit(var_type))
         srctype=generator.visit(var_type)
         
         # 构建数组对应的IDL类型
@@ -7230,7 +7052,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
         elif elem_type in basic_type:
             array_struct = f"struct {array_struct_name} {{ {elem_type} {var_name}[{dim_size}]; }};\n"
         else:
-            print(elem_type)
             if elem_type.startswith("struct "):
                 elem_type = elem_type.split(" ")[1]  # 提取结构体名称
             
@@ -7269,8 +7090,7 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                         idl_structs.append(f"typedef struct {typeast.name}_rpc {typeast.name}_rpc;\n")
                 return function_counter
             else:
-                print(elem_type)
-                print(f"Unhandled array element type: {elem_type} for variable {var_name}")
+                pass
             return function_counter
         array_typedef = f"typedef struct {array_struct_name} {array_struct_name};\n"
         
@@ -7532,9 +7352,8 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
     
     for var_name in global_vars_set:
         if var_name not in global_var_asts:
-            print(f"警告: 找不到全局变量 {var_name} 的 AST 节点")
             continue
-        
+    
         var_info = global_var_asts[var_name]
         var_node = var_info['ast']
         var_type = var_node.type
@@ -7549,10 +7368,8 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
         # type_str = type_str.replace("const ", "")
         type_str = type_str.replace("volatile ", "")
         base_type = type_str.split(" ")[0]
-        print(f"处理全局变量 {var_name}，类型为 {type_str}")
         if isinstance(var_type.type,c_ast.Enum):
             type_str="int"
-        print(var_type)
         
         # 处理不同类型的变量
         if isinstance(var_type, c_ast.TypeDecl):
@@ -7560,7 +7377,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             
             # 1. 首先检查是否是匿名结构体
             if isinstance(var_type.type, c_ast.Struct) and var_type.type.name is None and hasattr(var_type.type, 'decls') and var_type.type.decls:
-                print(var_type)
                 struct_def = var_type.type
                 struct_name = "new_"+var_name  # 为匿名结构体生成一个唯一名称
 
@@ -7616,7 +7432,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             
             # 2. 检查是否是命名结构体
             elif isinstance(var_type.type, c_ast.Struct) and var_type.type.name:
-                print(f"处理命名结构体全局变量 {var_name}，结构体名称: {var_type.type.name}")
                 struct_name = var_type.type.name
                 if var_type.type.decls:
                     struct_def = var_type.type
@@ -7671,7 +7486,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             elif hasattr(var_type.type, 'names') and var_type.type.names[0] in typedef_dict:
                 
                 if typedef_dict[var_type.type.names[0]]['isstruct']:
-                    print(f"处理typedef结构体全局变量 {var_name}，类型名称: {var_type.type.names[0]}")
                     type_name = var_type.type.names[0]
                     typedef_info = typedef_dict[type_name]
                     struct_def = typedef_info['ast']
@@ -7719,7 +7533,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                     typeast = typedef_dict[var_type.type.names[0]]['ast']
                     if isinstance(typeast.type, c_ast.PtrDecl) and isinstance(typeast.type.type, c_ast.FuncDecl):
                         #当成char_ptr处理
-                        print(f"处理typedef函数指针全局变量 {var_name}，类型名称: {var_type.type.names[0]}")
                         modified_type_str = "char_ptr"
                         function_counter=process_ptr_type_var(var_name, modified_type_str, typeast.type, generator,
                                             idl_functions, idl_structs,
@@ -7730,7 +7543,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             # 4. 检查是否是枚举类型
             elif isinstance(var_type.type, c_ast.Enum) or (hasattr(var_type.type, 'names') and 
                     var_type.type.names[0] in typedef_dict and typedef_dict[var_type.type.names[0]]['isenum']):
-                print(f"处理枚举类型全局变量 {var_name}")
                 # 枚举类型当作整数处理
                 modified_type_str = "int"
                 function_counter=process_basic_type_var(var_name, modified_type_str, "int", generator, 
@@ -7741,7 +7553,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             
             # 5. 处理基本类型或其他类型
             else:
-                print(f"处理基本类型全局变量 {var_name}，类型: {type_str}")
                 function_counter=process_basic_type_var(var_name, type_str, base_type, generator, 
                                     idl_functions, idl_structs, 
                                     server_functions, 
@@ -7764,7 +7575,7 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                                   wrapper_functions, wrapper_header_functions, 
                                   function_counter)
         else:
-            print(f"警告: 不支持的全局变量类型 {type_str}，变量名: {var_name}")
+            pass
     
     
 
@@ -7813,61 +7624,26 @@ def append_to_files(proname, idl_functions, idl_structs, server_functions, wrapp
             f.flush()
         print(f"成功写入IDL文件: {idl_file}")
     except Exception as e:
-        print(f"写入文件时发生错误: {e}")
+        pass
     
     # 服务端函数写入rpc_server.c
     server_file = f"{proname}_rpc_server.c"
     with open(server_file, 'a') as f:
-        f.write("\n/*\n")
-        f.write(" * ⚠️  警告：全局变量自动化封装的限制 ⚠️\n")
-        f.write(" * \n")
-        f.write(" * 以下代码由自动化工具生成，可能存在以下问题：\n")
-        f.write(" * 1. 语义一致性：原子性内存访问被转换为多步骤操作\n")
-        f.write(" * 2. 初始化依赖：无法自动处理变量间的依赖关系\n")
-        f.write(" * 3. 错误处理：缺少分布式环境下的异常处理逻辑\n")
-        f.write(" * 4. 性能开销：每次访问都涉及网络通信\n")
-        f.write(" * \n")
-        f.write(" * 需要人工审查的要点：\n")
-        f.write(" * - 验证初始化函数的分布式部署策略\n")
-        f.write(" * - 添加必要的错误恢复机制\n")
-        f.write(" * - 检查变量间的逻辑依赖关系\n")
-        f.write(" * - 考虑批量操作以减少网络开销\n")
-        f.write(" */\n")
-        f.write("\n/* 全局变量访问函数 - 服务端 */\n")
+        
         for func in server_functions:
             f.write(func)
     
     # Wrapper函数写入wrapper.c
     wrapper_file = f"{proname}_rpc_wrapper.c"
     with open(wrapper_file, 'a') as f:
-        f.write("\n/*\n")
-        f.write(" * ⚠️  警告：全局变量客户端包装器的使用注意事项 ⚠️\n")
-        f.write(" * \n")
-        f.write(" * 1. 性能影响：每次变量访问都会触发RPC调用\n")
-        f.write(" * 2. 错误处理：网络异常可能导致程序行为不一致\n")
-        f.write(" * 3. 状态同步：多个函数同时访问可能出现竞态条件\n")
-        f.write(" * 4. 内存管理：动态分配的内存需要正确释放\n")
-        f.write(" * \n")
-        f.write(" * 建议的优化措施：\n")
-        f.write(" * - 缓存频繁访问的变量值\n")
-        f.write(" * - 批量处理多个变量操作\n")
-        f.write(" * - 添加超时和重试机制\n")
-        f.write(" * - 实现本地缓存失效策略\n")
-        f.write(" */\n")
-        f.write("\n/* 全局变量访问函数 - 客户端Wrapper */\n")
+        
         for func in wrapper_functions:
             f.write(func)
     
     # 在头文件中添加函数声明
     header_file = f"{proname}_rpc_wrapper.h"
     with open(header_file, 'a') as f:
-        f.write("\n/*\n")
-        f.write(" * 全局变量RPC访问接口声明\n")
-        f.write(" * \n")
-        f.write(" * 注意：这些函数替代了原有的直接内存访问，\n")
-        f.write(" * 调用时需要考虑网络延迟和错误处理\n")
-        f.write(" */\n")
-        f.write("\n/* 全局变量访问函数声明 */\n")
+        
         for func in wrapper_header_functions:
             f.write(func)
     
@@ -7948,7 +7724,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
     var_to_setter = {var: f"set_{var}_wrapper" for var in global_vars_set}
     
     
-    print("replace_global_var_access_with_rpc start:")
     # for gvar,gast in global_var_asts.items():
     #     print(gvar)
     #     print(gast)
@@ -8005,7 +7780,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                         is_nested_struct = True
                         nested_struct_name = f"new_{var_name_for_anon}_{member_name}"
                         nested_struct_def = member_type.type
-                        print(f"发现匿名结构体成员 {member_name}，命名为 {nested_struct_name}")
                 
                 # 处理命名结构体
                 elif hasattr(member_type.type, 'name'):
@@ -8031,7 +7805,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                         is_nested_struct = True
                         nested_struct_name = f"new_{var_name_for_anon}_{member_name}"
                         nested_struct_def = ptr_type.type
-                        print(f"发现匿名结构体指针成员 {member_name}，命名为 {nested_struct_name}")
                 
                 # 处理指向命名结构体的指针
                 elif (isinstance(ptr_type, c_ast.TypeDecl) and 
@@ -8057,7 +7830,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                         nested_struct_def = typedef_dict[nested_struct_name]['ast']
                 
                 if nested_struct_def:
-                    print(c_generator.CGenerator().visit(nested_struct_def))
                     # 避免循环引用导致的无限递归
                     if (not hasattr(struct_def, 'name') or 
                         nested_struct_name != struct_def.name):
@@ -8073,12 +7845,10 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
         return members
     #===========================================================================
     for var_name in global_vars_set:
-        print(f"处理全局变量: {var_name}")
         if var_name in global_var_asts:
             var_info = global_var_asts[var_name]
             var_node = var_info['ast']
             var_type = var_node.type
-            print(c_generator.CGenerator().visit(var_node))
             # if var_name=="limit_data":
             #     print(var_node)
             
@@ -8095,7 +7865,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                 is_struct = True
                 is_anonymous = True
                 struct_name = f"new_{var_name}"
-                print(f"发现匿名结构体全局变量 {var_name}，命名为 {struct_name}")
             
             # 处理普通结构体变量
             elif isinstance(var_type, c_ast.TypeDecl) and hasattr(var_type.type, 'name'):
@@ -8122,7 +7891,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                     is_struct = True
                     is_anonymous = True
                     struct_name = f"new_{var_name}"
-                    print(f"发现匿名结构体指针全局变量 {var_name}，命名为 {struct_name}")
                 
                 # 尝试处理 type.type.name 情况
                 elif hasattr(var_type.type, 'type') and hasattr(var_type.type.type, 'name'):
@@ -8159,7 +7927,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                     elif isinstance(var_type, c_ast.PtrDecl) and isinstance(var_type.type, c_ast.TypeDecl) and isinstance(var_type.type.type, c_ast.Struct):
                         struct_def = var_type.type.type
                     
-                    print(f"找到匿名结构体类型的全局变量 {var_name}，命名为 {struct_name}")
                 
                 # 处理命名结构体
                 else:
@@ -8168,10 +7935,8 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                     elif struct_name in typedef_dict and typedef_dict[struct_name]['isstruct']:
                         struct_def = typedef_dict[struct_name]['ast']
                     
-                    print(f"找到结构体类型 {struct_name} 的全局变量 {var_name}")
                 
                 if struct_def:
-                    print(c_generator.CGenerator().visit(struct_def))
                     # if struct_name=="acc_t" or var_name=="limit_data":
                     #     print(struct_def)
                     
@@ -8196,9 +7961,7 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                         'is_anonymous': is_anonymous
                     }
                     
-                    print(f"收集到的成员: {list(all_members.keys())}")
-                else:
-                    print(f"警告：无法获取结构体定义 {struct_name}")
+                
                     
     
     
@@ -8273,7 +8036,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                     else:
                         # 生成getter函数调用,若访问opt.cert_file，则get_opt_cert_file_wrapper()
                         getter_name = f"get_{var_name}_{field_name}_wrapper"
-                        print(f"替换结构体字段访问: {c_generator.CGenerator().visit(node)} -> {getter_name}")
                         self.changes.append((node, c_ast.FuncCall(name=c_ast.ID(name=getter_name), args=c_ast.ExprList(exprs=[]))))
                         # 记录替换信息
                         line_no = node.coord.line if hasattr(node.coord, "line") else "unknown"
@@ -8335,13 +8097,7 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                 if global_var_refs:
                     # 分析上下文，判断该函数调用是否是条件语句或循环语句的一部分，或者是赋值语句的右值
                     callee_funname = node.name.name if isinstance(node.name, c_ast.ID) else "unknown"
-                    if callee_funname in sense_domain:
-                        print(f"警告: 函数 {callee_funname} 在非敏感域中调用了敏感函数，可能需要进一步处理")
-                        print(c_generator.CGenerator().visit(node))
-                    else:
-                        print(f"函数调用: {callee_funname} 在非敏感域中，可能需要替换为RPC调用")
                     parent = self.get_parent(node)
-                    print(f"调用所在文件和行号: {self.current_file}, {node.coord.line if hasattr(node.coord, 'line') else 'unknown'}")
                     
                     # 检查是否是赋值语句的右值 - 更全面的检查
                     is_assignment_rhs = False
@@ -8376,11 +8132,7 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                     }
                     """输出context_info为True的键值对"""
                     new_context_info = {k: v for k, v in context_info.items() if v}
-                    if new_context_info:
-                        print("函数调用上下文信息 (context_info):")
-                        print(new_context_info)
-                    else:
-                        print("函数调用上下文信息 (context_info) 中没有为True的键值对")
+                    
 
                     
 
@@ -8534,8 +8286,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
             # 处理结构体字段赋值 (netoring.supply = 255)
             if isinstance(node.lvalue, c_ast.StructRef):
                 if isinstance(node.lvalue.name, c_ast.ID) and node.lvalue.name.name in self.global_vars:
-                    print("处理结构体字段赋值:", c_generator.CGenerator().visit(node))
-                    print(node)
                     # 直接字段访问模式: struct.field = value
                     struct_var_name = node.lvalue.name.name
                     field_name = node.lvalue.field.name if hasattr(node.lvalue.field, 'name') else None
@@ -9101,10 +8851,7 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                     op_expr=c_generator.CGenerator().visit(node)
                     parent_expr=c_generator.CGenerator().visit(self.get_parent(node))
                     if gval_type =="int" or gval_type == "unsigned long" or gval_type == "long" or gval_type == "unsigned int":
-                        print(f"处理自增自减操作1: {node.op} at {node.coord}")
-                        print(f"变量类型: {gval_type}")
-                        print(f"操作表达式: {op_expr}")
-                        print(f"父表达式: {parent_expr}")
+                        
 
                         """
                         {gval_type} *gsetter_{var_name}_prefix_1_svc(struct svc_req *rqstp)
@@ -9227,11 +8974,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                                 line_no
                             ))
                     elif gval_type == "char *" or gval_type == "unsigned char *":
-                        print(f"处理自增自减操作2: {node.op} at {node.coord}")
-                        print(f"变量类型: {gval_type}")
-                        print(f"操作表达式: {op_expr}")
-                        print(f"父表达式: {parent_expr}")
-                        print(self.get_parent(node))
                         if node.op.startswith('p'):
                             """
                             char_ptr *gsetter_{var_name}_postfix_1_svc( struct svc_req *rqstp)
@@ -9340,9 +9082,7 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                             ))
 
                         else:
-                            print("字符char*前缀:", gval_type)
-                            print(op_expr)
-                            print(parent_expr)
+                            pass
                             """
                             void gsetter_{var_name}_prefix_1_svc( struct svc_req *rqstp)
                             {
@@ -9397,9 +9137,7 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
 
 
                     else:
-                        print("未处理的变量类型:", gval_type)
-                        
-
+                        pass
 
                 
                     
@@ -9679,24 +9417,16 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                         return
                     # 数组元素的自增自减操作
                     gval_name = node.expr.name.name
-                    print(f"处理自增自减操作2: {node.op} at {node.coord}")
-                    print(c_generator.CGenerator().visit(node))
-                    print()
-                    print(c_generator.CGenerator().visit(self.get_parent(node)))
-                    print(self.current_func)
-                    print(self._infer_gval_type(gval_name))
+                    
 
                 elif  isinstance(node.expr, c_ast.StructRef):# and id(node.expr) in self.struct_field_access:
                     gval_name = node.expr.name.name
                     filed_name = node.expr.field.name
                     if gval_name not in self.global_vars:
                         return
-                    print(f"处理结构体字段自增自减3: {node.op} at {node.coord}")
-                    print(self.current_func)
                     op_expr = c_generator.CGenerator().visit(node)
                     gval_type= self._infer_gval_type(gval_name, filed_name)
                     parent_expr = c_generator.CGenerator().visit(self.get_parent(node))
-                    print(gval_type)
                     if gval_type == "int" or gval_type == "unsigned long":
                         if not node.op.startswith('p'):
                             newfunname= f"gsetter_{gval_name}_{filed_name}_prefix_1_svc"
@@ -9804,21 +9534,17 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
 
 
                     else:
-                        print("未处理的结构体字段自增自减操作: ", node)
+                        pass
                     return
                 elif isinstance(node.expr, c_ast.UnaryOp):
                     # 一元操作符处理
                     if node.expr.expr.name not in self.global_vars:
                         return
                     gval_name = node.expr.expr.name
-                    print(f"处理一元一元操作符: {node.op} at {node.coord}")
-                    print(c_generator.CGenerator().visit(node))
-                    print(c_generator.CGenerator().visit(self.get_parent(node)))
 
                 else:
-                    print("未处理的一元操作符: ", node)
-                    print(node.coord)
-                
+                    pass
+
                 # 类似上面的逻辑处理结构体字段...
                 # [实现结构体字段自增自减的代码]
             
@@ -9946,7 +9672,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                 }
             }
             """
-            print(f"处理条件语句中的函数调用: {node.name.name} at {node.coord}")
             # 创建替换语句块
             statements = []
             temp_vars = []  # 保存临时变量名，用于后续生成setter调用
@@ -10025,7 +9750,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
             if isinstance(parent, c_ast.If):
                 # 对于if语句，需要在条件表达式中查找和替换函数调用
                 if node in parent.cond:
-                    print("node in parent.cond")
                     # 创建复制的条件表达式
                     new_cond = copy.deepcopy(parent.cond)
                     
@@ -10118,7 +9842,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                 
                 # 创建一个复合语句块，包含初始化和循环
                 compound = c_ast.Compound(block_items=statements + [parent])
-                print(c_generator.CGenerator().visit(compound))
                 self.control_flow_replacements.append((parent, compound))
             
 
@@ -10230,9 +9953,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                 # 创建一个复合语句块，包含初始化和循环
                 compound = c_ast.Compound(block_items=statements + [parent])
                 self.control_flow_replacements.append((parent, compound))
-            print("临时变量声明和getter调用:")
-            for stmt in statements:
-                print(c_generator.CGenerator().visit(stmt))
 
         def _handle_assignment_context(self, node, global_var_refs, context_info):
             """
@@ -10247,7 +9967,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
             }
             """
             # 创建替换语句块
-            print(f"处理赋值语句中的函数调用: {node.coord}")
             statements = []
             temp_vars = []  # 保存临时变量名，用于后续生成setter调用
             result_var_name = f"temp_result_{len(self.control_flow_replacements)}"
@@ -10334,17 +10053,11 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                 # 遍历子节点
                 for name, child in current_node.children():
                     if isinstance(child, c_ast.Node):
-                        print(f"检查节点: {name} at {child.coord}")
-                        print(target_node)
-                        print(child)
                         if c_generator.CGenerator().visit(child) == c_generator.CGenerator().visit(target_node):
                             # 直接替换
-                            print(f"替换节点: {name} at {child.coord}")
                             if hasattr(current_node, name):
-                                print(f"替换节点: {name} at {child.coord}")
                                 setattr(current_node, name, replacement_node)
                         else:
-                            print(f"递归处理子节点: {name} at {child.coord}")
                             # 递归处理
                             replace_node_in_ast(target_node, replacement_node, child)
                     elif isinstance(child, list):
@@ -10455,20 +10168,17 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
             if gvarname in global_var_asts:
                 pass
                 # 如果全局变量AST存在，尝试从中获取类型
-                print(f"推断全局变量 {gvarname} 的类型")
                 # print(c_generator.CGenerator().visit(global_var_asts[gvarname]['ast']))
                 var_ast = global_var_asts[gvarname]['ast']
                 gvaltype=c_generator.CGenerator().visit(var_ast.type)
                 if filed_name is not None:
                     #根据gvaltype到typedef_dict={} 或struct_dict={} 查找字段的定义并获取类型
-                    print(filed_name)
                     if gvaltype in typedef_dict:
                         # 如果是typedef类型，获取实际类型
                         gvaltype = typedef_dict[gvaltype]['ast']
                         # print(f"typedef类型: {gvaltype}")
                         for filed_ast in gvaltype.type.type.decls:
                             if filed_name == filed_ast.name:
-                                print(f"字段 {filed_name} 的类型: {c_generator.CGenerator().visit(filed_ast.type)}")
                                 gvaltype = c_generator.CGenerator().visit(filed_ast.type)
                                 break
                         # if filed_name in gvaltype.type.type.decls:
@@ -10494,9 +10204,7 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
             """
             if fun_call_node.name.name in fun_fundeclast_dict:
                 # 如果函数声明AST存在，尝试从中获取返回类型
-                print(f"推断函数调用 {fun_call_node.name.name} 的返回类型")
                 func_decl_ast = fun_fundeclast_dict[fun_call_node.name.name]
-                print(c_generator.CGenerator().visit(func_decl_ast.type.type))
                 return (c_generator.CGenerator().visit(func_decl_ast.type.type))
 
 
@@ -10685,7 +10393,6 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
         #     # 出错时保留原始AST
         #     nonsense_domain_modified_asts[filename] = ast
     
-    print("replaced_functions:", replaced_functions)
     
           
     
@@ -10726,7 +10433,7 @@ def collect_function_pointers():
                             self.function_pointers.add(func_type)
 
             else:
-                print(node)
+                pass
         # def visit_Struct(self, node):
         #     if proname not in str(node.coord):
         #         return
@@ -10757,7 +10464,7 @@ def collect_function_pointers():
                             func_type = c_generator.CGenerator().visit(decl.type)
                             self.function_pointers.add(func_type)
             else:
-                print(node)
+                pass
 
    
     # collector = FunctionPointerCollector()
@@ -10777,7 +10484,6 @@ def collect_function_pointers():
         if callee in processed_fun:
             continue
         processed_fun.append(callee)
-        print(f"处理间接调用: {callee}")
         if callee in fun_fundeclast_dict:
             func_decl_ast = fun_fundeclast_dict[callee]
             # print(f"函数声明AST: {c_generator.CGenerator().visit(func_decl_ast)}")
@@ -10805,7 +10511,6 @@ def collect_function_pointers():
                     storage=['typedef'],
                     type=func_ptr_type
                 )
-                print(typedef_decl)
                 if isinstance(typedef_decl.type.type.type,c_ast.PtrDecl):
                     typedef_decl.type.type.type.type.declname = func_type_name
                 else:
@@ -10827,8 +10532,6 @@ def collect_function_pointers():
     for i, func_type_name in enumerate(new_typedef_funptrtype):
         enum_signatrue_str += f"    SIG_{func_type_name.upper()},\n"
     enum_signatrue_str += f"    SIG_UNKNOWN\n}} FunctionSignature;\n"
-    print("生成的函数指针类型枚举签名:")
-    print(enum_signatrue_str)
     wrapper_header_functions.append(enum_signatrue_str)
     server_functions.append(enum_signatrue_str)
 
@@ -10843,8 +10546,6 @@ def collect_function_pointers():
     fun_map_str += "    void *func_ptr_void;      // 存储为 void* 的函数地址\n"
     fun_map_str += "    FunctionSignature signature; // 函数签名标识符\n"
     fun_map_str += "} FunctionMapEntry;\n"
-    print("生成的函数映射表条目:")
-    print(fun_map_str)
     wrapper_header_functions.append(fun_map_str)
     server_functions.append(fun_map_str)
     """extern FunctionMapEntry function_map[]; """
@@ -10870,8 +10571,6 @@ def collect_function_pointers():
         function_map_str += f'    {{"{func_name}", (void*){func_name}, SIG_{func_type_name.upper()}}},\n'
     function_map_str += '    {NULL, NULL, SIG_UNKNOWN} // 哨兵值\n'
     function_map_str += "};\n"
-    print("生成的函数映射表:")
-    print(function_map_str)
     wrapper_functions.append(function_map_str)
     server_functions.append(function_map_str)
     """// --- 查找函数名：根据函数名查找函数条目 ---
@@ -10894,8 +10593,6 @@ void* find_function_entry_by_name(const char* func_name) {
     return NULL; // 未找到
 }
 """
-    print("生成的查找函数条目的函数:")
-    print(find_function_ptr_str)
     wrapper_functions.append(find_function_ptr_str)
     server_functions.append(find_function_ptr_str)
 
@@ -10922,8 +10619,6 @@ const char* find_function_name_by_address(void* func_address) {
     return NULL; // 未找到对应的函数名
 }
 """
-    print("生成的根据函数地址查找函数名的函数:")
-    print(find_function_name_str)
     wrapper_functions.append(find_function_name_str)
     server_functions.append(find_function_name_str)
 
@@ -10996,8 +10691,6 @@ const char* find_function_name_by_address(void* func_address) {
     return filename;
 }
 """
-    print("生成的获取文件名的函数:")
-    print(temp_str)
     wrapper_functions.append(temp_str)
     wrapper_header_functions.append(f"char *get_filename_from_fp(FILE *fp);\n")
     server_functions.append(temp_str)
@@ -11033,33 +10726,25 @@ def analyze_global_variables():
     #==========================================
     all_non_sense_global_var = set()
     # 分析敏感域和非敏感域使用的全局变量
-    print("正在分析全局变量使用情况...")
     collector = GlobalVarCollector()
     for fun, gvallist in fun_gvallist.items():
-        print(fun)
         if fun in sense_domain:
             sense_global_var.update(gvallist)
         #如果函数名以_sense_1结尾，遍历其AST，找到其中的全局变量,其ast在refactor_fun_ast_dict中
         if fun+"_sense_1" in sense_domain:
             version_sense=fun+"_sense_1"
             if version_sense in refactor_fun_ast_dict:
-                print("here is mixed sub sense")
                 # 获取函数AST并收集全局变量
                 func_ast = refactor_fun_ast_dict[version_sense]
-                print(c_generator.CGenerator().visit(func_ast))
                 collector.visit(func_ast)
                 # 更新敏感函数使用的全局变量集合
                 sense_global_var.update(collector.globals_used)
-                print(collector.globals_used)
             if fun in refactor_fun_ast_dict:
                     # 获取重构后的敏感函数AST并收集全局变量
                     rfunc_ast = refactor_fun_ast_dict[fun]
                     collector.globals_used.clear()
                     collector.visit(rfunc_ast)
-                    print(c_generator.CGenerator().visit(rfunc_ast))
                     all_non_sense_global_var.update(collector.globals_used)
-                    print("here is mixed parent nosense")
-                    print(collector.globals_used)
 
         if fun in nonsense_domain:
             #如果fun+“_sense_1”是在sense_domain中，则遍历其对应的ast，在refactor_fun_ast_dict中,重新手机全局变量
@@ -11075,18 +10760,13 @@ def analyze_global_variables():
     for gv in shared_vars:
         if gv in gval_rwproperty_dict and gval_rwproperty_dict[gv] == "not-read-only":
             D_sense_global_var.add(gv)
-        else:
-            # 记录读写共享变量，这些可能需要特别注意
-            print(f"警告: 变量 {gv} 在敏感和非敏感域之间共享且不是只读的")
+        
     
     # 确定敏感域专用的全局变量和非敏感域专用的全局变量
     nonsense_global_var.update(all_non_sense_global_var - D_sense_global_var)
     
     # 输出统计信息
-    print(f"敏感域使用的全局变量总数: {len(sense_global_var)}")
-    print(f"非敏感域使用的全局变量总数: {len(all_non_sense_global_var)}")
-    # print(f"共享的只读全局变量: {len(R_global_var)}"):
-    print(f"需要通过RPC访问的敏感域全局变量: {len(D_sense_global_var)}")
+    
     
     return D_sense_global_var
 
@@ -11119,7 +10799,7 @@ def rpc_main(proname,abs_path_policy_file):
     preprocess_c_file_and_parse_toAST(proname)
     parse_global_var_usage("../partitioned_software/"+proname+"/2_flowcheck_result/"+proname+"_global_var_usage.xml")
     refactor_mixed_function_ast(abs_path_policy_file)
-    parse_dynamic_callpair(proname)
+    # parse_dynamic_callpair(proname)
     find_nonsense_upto_sense_duplicate()
     find_sense_down_to_nonsese_dipication()
     # 收集全局变量AST信息
@@ -11160,28 +10840,14 @@ def rpc_main(proname,abs_path_policy_file):
     # replace_global_var_access_with_rpc(proname, D_sense_global_var)
     
     rpcc_call_pair=[]#存放rpc调用的函数对，caller在non_sense_domain中，callee在sense_domain中
-    print("len(sum_fun_list):",len(sum_fun_list))
-    print("len(sense_fun_list):",len(sense_fun_list))
-    print("len(non_sense_fun_list):",len(non_sense_fun_list))
-    print("len(nonsense_upto_sense_function)+len(sense_fun_list):",len(nonsense_upto_sense_function)+len(sense_fun_list))
-    print("len(sensefun_can_copy)+len(non_sense_fun_list):",len(sensefun_can_copy)+len(non_sense_fun_list))
-    #算算sum_fun_list和sensefun_can_copy+non_sense_fun_list的差集并打印
-    print("sum_fun_list-sensefun_can_copy-non_sense_fun_list:")
-    for fun in sum_fun_list:
-        if fun not in set(sensefun_can_copy).union(non_sense_fun_list):
-            print(fun)
-    print()
-    print("sense_domain:")
+    
     for fun in nonsense_upto_sense_function.union(sense_fun_list):
         if fun not in sense_domain:
             sense_domain.append(fun)
-            print(fun)
-    print()
-    print("nonsense_domain:")
+    
     for fun in set(sensefun_can_copy).union(non_sense_fun_list):
         if fun not in nonsense_domain:
             nonsense_domain.append(fun) 
-            print(fun)
     for call in ret_boundry_call_need_rpc:
         caller=call[0]
         callee=call[1]
@@ -11211,20 +10877,11 @@ if __name__ == '__main__':
     # 运行方式：python refator_mixed_function.py wget，需要在当前目录下有compile_commands.json文件，以及wget_sense_config.txt文件
     preprocess_c_file_and_parse_toAST(proname)
 
-    print(global_src_dir)
     parse_global_var_usage(f"examples/{proname}/output/global_val_use.xml")
     refactor_mixed_function_ast(abs_path_policy_file)
-    # #输出file_ast_dict中的ast
-    # print("file_ast_dict:")
-    # for filename, ast in file_ast_dict.items():
-    #     print(filename)
-    #     print(c_generator.CGenerator().visit(ast))
-    # parse_dynamic_callpair(proname)
+    
 
-    print("sense_fun_list:")
-    for fun in sense_fun_list:
-        print(fun)
-    print()
+    
     
     generator=c_generator.CGenerator()
 
@@ -11264,26 +10921,7 @@ if __name__ == '__main__':
     以及生成rpc访问函数，然后替换非敏感域中对敏感全局变量的直接访问，最后生成rpc调用的代码
     """
 
-    print()
-    print("sense_domain:")
-    for fun in sense_domain:
-            print(fun)
-    print()
-    print("nonsense_domain:")
-    for fun in nonsense_domain:
-            print(fun)
-    print()
-    print("D_sense_global_var:")
-    for var in D_sense_global_var:
-        print(var)
-    print()
-    print("nonsense_global_var:")
-    for var in nonsense_global_var:
-        print(var)
-    print()
-    print("sense_global_var:")
-    for var in sense_global_var:
-        print(var)
+    
    
     
 
@@ -11302,18 +10940,7 @@ if __name__ == '__main__':
     append_to_files(proname, idl_functions, idl_structs, server_functions, wrapper_functions, wrapper_header_functions)
     
     rpcc_call_pair=[]#存放rpc调用的函数对，caller在non_sense_domain中，callee在sense_domain中
-    print("len(sum_fun_list):",len(sum_fun_list))
-    print("len(sense_fun_list):",len(sense_fun_list))
-    print("len(non_sense_fun_list):",len(non_sense_fun_list))
-    print("len(nonsense_upto_sense_function)+len(sense_fun_list):",len(nonsense_upto_sense_function)+len(sense_fun_list))
-    print("len(sensefun_can_copy)+len(non_sense_fun_list):",len(sensefun_can_copy)+len(non_sense_fun_list))
-    #算算sum_fun_list和sensefun_can_copy+non_sense_fun_list的差集并打印
-    print("sum_fun_list-sensefun_can_copy-non_sense_fun_list:")
-    print("len(sense_domain):",len(sense_domain))
-    print("len(nonsense_domain):",len(nonsense_domain))
-    for fun in sum_fun_list:
-        if fun not in set(sensefun_can_copy).union(non_sense_fun_list):
-            print(fun)
+    
     
     for call in ret_boundry_call_need_rpc:
         caller=call[0]
@@ -11325,15 +10952,12 @@ if __name__ == '__main__':
     # #写一个函数修改refactor_fun_ast_dict中的ast，遍历非_sense_1结尾的函数，找到其中的FunccaLL节点，如果callee的函数名为sense_1结尾，在callee函数名后添加_wrapper
     # def add_wrapper_to_callee():
     #     for fun,ast in refactor_fun_ast_dict.items():
-    #         print("modi_wrapper:",fun)
     #         if not fun.endswith("_sense_1"):
-    #             print("fun:",fun)
     #             #遍历ast，找到FuncaLL节点，如果callee的函数名为sense_1结尾，在callee函数名后添加_wrapper
     #             class AddWrapper(c_ast.NodeVisitor):
     #                 def visit_FuncCall(self, node):
     #                     if isinstance(node.name,c_ast.ID):
     #                         if node.name.name.endswith("_sense_1"):
-    #                             print("here")
     #                             node.name.name=node.name.name+"_wrapper"
     #             addwrapper=AddWrapper()
     #             addwrapper.visit(ast)
@@ -11347,11 +10971,7 @@ if __name__ == '__main__':
     output_alive_verify_code(proname)
     
     # output_auto_rpc_code()
-    # print("======================================")
     # # for fundecl,ast in fun_fundeclast_dict.items():
-    # #     print(fundecl)
-    # #     print(c_generator.CGenerator().visit(ast))
     # generate_idl_file(boundry_call_need_rpc)
     # generate_wrapper_file(boundry_call_need_rpc)
     # for fun in sense_fundecl_list:
-    #     print(c_generator.CGenerator().visit(fun))
