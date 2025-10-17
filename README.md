@@ -270,28 +270,24 @@ python3 scripts/prepare_refactor_data.py --project_root examples/chage --output_
 
 ## **Example Applications**
 
-The `examples/` directory contains complete partitioning workflows for ten representative applications, demonstrating FIPA's capabilities across different domains and security models. Each example includes detailed instructions for annotation strategies, compilation steps, and project-specific configurations.
+- The `examples/` directory contains complete partitioning workflows for ten representative applications, demonstrating FIPA's capabilities across different domains and security models. Each example provides comprehensive documentation including:Annotation strategies, for identifying sensitive data sources,Preprocessing Steps,Partitioning Workflow Steps and Running the Partitioned Program.
 
-### **Available Examples:**
+- These real-world examples showcase how FIPA can be applied to diverse application types, from system utilities to network services.
 
-- [**chage**](./examples/chage/READEME.md): Password expiry utility from shadow-utils
-- [**chsh**](./examples/chsh/READEME.md): Shell change utility from shadow-utils  
-- [**passwd**](./examples/passwd/READEME.md): Password change utility from shadow-utils
-- [**useradd**](./examples/useradd/READEME.md): User account creation utility from shadow-utils
-- [**mavlink-client**](./examples/mavlink-client/READEME.md): MAVLink protocol client application
-- [**mavlink-server**](./examples/mavlink-server/READEME.md): MAVLink protocol server application
-- [**telnet**](./examples/telnet/READEME.md): Telnet client from inetutils
-- [**thttpd**](./examples/thttpd/READEME.md): Lightweight web server
-- [**wget**](./examples/wget/READEME.md): Network download utility
-- [**nginx**](./examples/nginx/READEME.md): High-performance web server
+  ### **Available Examples:**
 
-Each example provides:
-- **Annotation Strategy**: How to identify and mark sensitive data sources
-- **Build Configuration**: Project-specific compilation and dependency setup  
-- **Workflow Execution**: Step-by-step partitioning process with actual commands
-- **Troubleshooting**: Common issues and solutions for each application
+  - [**chage**](./examples/chage/READEME.md): Password expiry utility from shadow-utils
+  - [**chsh**](./examples/chsh/READEME.md): Shell change utility from shadow-utils  
+  - [**passwd**](./examples/passwd/READEME.md): Password change utility from shadow-utils
+  - [**useradd**](./examples/useradd/READEME.md): User account creation utility from shadow-utils
+  - [**mavlink-client**](./examples/mavlink-client/READEME.md): MAVLink protocol client application
+  - [**mavlink-server**](./examples/mavlink-server/READEME.md): MAVLink protocol server application
+  - [**telnet**](./examples/telnet/READEME.md): Telnet client from inetutils
+  - [**thttpd**](./examples/thttpd/READEME.md): Lightweight web server
+  - [**wget**](./examples/wget/READEME.md): Network download utility
+  - [**nginx**](./examples/nginx/READEME.md): High-performance web server
 
-These examples serve as templates that you can adapt for partitioning your own applications with FIPA.
+
 
 ## Contributing
 PRs are welcome! Please fork the repo, create a branch, and add tests. Use Issues for bug reports or feature requests.
