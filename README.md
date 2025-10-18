@@ -290,7 +290,8 @@ python3 scripts/prepare_refactor_data.py --project_root examples/chage --output_
 
 
 ## Contributing
-PRs are welcome! Please fork the repo, create a branch, and add tests. Use Issues for bug reports or feature requests.
+- Xue Rao (xrao AT stu DOT xidian DOT edu DOT cn)
+- Cong Sun (suncong AT xidian DOT edu DOT cn)
 
 ## License
 MIT License - see LICENSE file.
