@@ -4,11 +4,11 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 /*
@@ -27,53 +27,62 @@
  */
 
 
-static ngx_str_t  *ngx_sys_errlist;
 static ngx_str_t   ngx_unknown_error = ngx_string("Unknown error");
 
 
-u_char *ngx_strerror(ngx_err_t err, u_char *errstr, size_t size)
+u_char *
+ngx_strerror(ngx_err_t err, u_char *errstr, size_t size)
 {
-  ngx_str_t *msg;
-  msg = (((ngx_uint_t) err) < 135) ? (&get_ngx_sys_errlist_wrapper()[err]) : (&ngx_unknown_error);
-  size = (size > msg->len) ? (msg->len) : (size);
-  return ((u_char *) memcpy(errstr, msg->data, size)) + size;
+    ngx_str_t  *msg;
+
+    msg = ((ngx_uint_t) err < NGX_SYS_NERR) ? &ngx_sys_errlist[err]:
+                                              &ngx_unknown_error;
+    size = ngx_min(size, msg->len);
+
+    return ngx_cpymem(errstr, msg->data, size);
 }
 
 
-
-
-ngx_int_t ngx_strerror_init(void)
+ngx_int_t
+ngx_strerror_init(void)
 {
-  char *msg;
-  u_char *p;
-  size_t len;
-  ngx_err_t err;
-  len = 135 * (sizeof(ngx_str_t));
-  set_ngx_sys_errlist_wrapper(malloc(len));
-  if (get_ngx_sys_errlist_wrapper() == 0)
-  {
-    goto failed;
-  }
-  for (err = 0; err < 135; err++)
-  {
-    msg = strerror(err);
-    len = strlen((const char *) msg);
-    p = malloc(len);
-    if (p == 0)
-    {
-      goto failed;
+    char       *msg;
+    u_char     *p;
+    size_t      len;
+    ngx_err_t   err;
+
+    /*
+     * ngx_strerror() is not ready to work at this stage, therefore,
+     * malloc() is used and possible errors are logged using strerror().
+     */
+
+    len = NGX_SYS_NERR * sizeof(ngx_str_t);
+
+    ngx_sys_errlist = malloc(len);
+    if (ngx_sys_errlist == NULL) {
+        goto failed;
     }
-    (void) memcpy(p, msg, len);
-    get_ngx_sys_errlist_wrapper()[err].len = len;
-    get_ngx_sys_errlist_wrapper()[err].data = p;
-  }
 
-  return 0;
-  failed:
-  err = errno;
+    for (err = 0; err < NGX_SYS_NERR; err++) {
+        msg = strerror(err);
+        len = ngx_strlen(msg);
 
-  ngx_log_stderr(0, "malloc(%uz) failed (%d: %s)", len, err, strerror(err));
-  return -1;
+        p = malloc(len);
+        if (p == NULL) {
+            goto failed;
+        }
+
+        ngx_memcpy(p, msg, len);
+        ngx_sys_errlist[err].len = len;
+        ngx_sys_errlist[err].data = p;
+    }
+
+    return NGX_OK;
+
+failed:
+
+    err = errno;
+    ngx_log_stderr(0, "malloc(%uz) failed (%d: %s)", len, err, strerror(err));
+
+    return NGX_ERROR;
 }
-
-

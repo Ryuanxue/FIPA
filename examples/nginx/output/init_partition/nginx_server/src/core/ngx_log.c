@@ -31,7 +31,6 @@ typedef struct {
 #endif
 
 
-static ngx_command_t  ngx_errlog_commands[] = {
 
     { ngx_string("error_log"),
       NGX_MAIN_CONF|NGX_CONF_1MORE,
@@ -44,14 +43,12 @@ static ngx_command_t  ngx_errlog_commands[] = {
 };
 
 
-static ngx_core_module_t  ngx_errlog_module_ctx = {
     ngx_string("errlog"),
     NULL,
     NULL
 };
 
 
-ngx_module_t  ngx_errlog_module = {
     NGX_MODULE_V1,
     &ngx_errlog_module_ctx,                /* module context */
     ngx_errlog_commands,                   /* module directives */
@@ -67,8 +64,6 @@ ngx_module_t  ngx_errlog_module = {
 };
 
 
-static ngx_log_t        ngx_log;
-static ngx_open_file_t  ngx_log_file;
 ngx_uint_t              ngx_use_stderr = 1;
 
 
@@ -84,10 +79,6 @@ static ngx_str_t err_levels[] = {
     ngx_string("debug")
 };
 
-static const char *debug_levels[] = {
-    "debug_core", "debug_alloc", "debug_mutex", "debug_event",
-    "debug_http", "debug_mail", "debug_stream"
-};
 
 
 #if (NGX_HAVE_VARIADIC_MACROS)
@@ -215,11 +206,7 @@ ngx_log_error_core(ngx_uint_t level, ngx_log_t *log, ngx_err_t err,
 
 
 
-
-
 #endif
-
-
 
 
 
@@ -254,14 +241,6 @@ ngx_log_errno(u_char *buf, u_char *last, ngx_err_t err)
 
     return buf;
 }
-
-
-
-
-
-
-
-
 
 
 

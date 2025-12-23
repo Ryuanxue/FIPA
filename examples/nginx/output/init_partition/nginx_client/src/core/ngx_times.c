@@ -4,11 +4,11 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static ngx_msec_t ngx_monotonic_time(time_t sec, ngx_uint_t msec);
@@ -29,12 +29,10 @@ static ngx_uint_t        slot;
 static ngx_atomic_t      ngx_time_lock;
 
 volatile ngx_msec_t      ngx_current_msec;
-volatile ngx_time_t     *ngx_cached_time;
 volatile ngx_str_t       ngx_cached_err_log_time;
 volatile ngx_str_t       ngx_cached_http_time;
 volatile ngx_str_t       ngx_cached_http_log_time;
 volatile ngx_str_t       ngx_cached_http_log_iso8601;
-volatile ngx_str_t       ngx_cached_syslog_time;
 
 #if !(NGX_WIN32)
 
@@ -64,85 +62,134 @@ static char  *week[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 static char  *months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
-void ngx_time_init(void)
+void
+ngx_time_init(void)
 {
-  ngx_cached_err_log_time.len = (sizeof("1970/09/28 12:00:00")) - 1;
-  ngx_cached_http_time.len = (sizeof("Mon, 28 Sep 1970 06:00:00 GMT")) - 1;
-  ngx_cached_http_log_time.len = (sizeof("28/Sep/1970:12:00:00 +0600")) - 1;
-  ngx_cached_http_log_iso8601.len = (sizeof("1970-09-28T12:00:00+06:00")) - 1;
-  set_ngx_cached_syslog_time_len_wrapper((sizeof("Sep 28 12:00:00")) - 1);
-  set_ngx_cached_time_wrapper(&cached_time[0]);
-  ngx_time_update();
+    ngx_cached_err_log_time.len = sizeof("1970/09/28 12:00:00") - 1;
+    ngx_cached_http_time.len = sizeof("Mon, 28 Sep 1970 06:00:00 GMT") - 1;
+    ngx_cached_http_log_time.len = sizeof("28/Sep/1970:12:00:00 +0600") - 1;
+    ngx_cached_http_log_iso8601.len = sizeof("1970-09-28T12:00:00+06:00") - 1;
+    ngx_cached_syslog_time.len = sizeof("Sep 28 12:00:00") - 1;
+
+    ngx_cached_time = &cached_time[0];
+
+    ngx_time_update();
 }
 
 
-
-
-void ngx_time_update(void)
+void
+ngx_time_update(void)
 {
-  u_char *p0;
-  u_char *p1;
-  u_char *p2;
-  u_char *p3;
-  u_char *p4;
-  ngx_tm_t tm;
-  ngx_tm_t gmt;
-  time_t sec;
-  ngx_uint_t msec;
-  ngx_time_t *tp;
-  struct timeval tv;
-  if (!(((*(&ngx_time_lock)) == 0) && __sync_bool_compare_and_swap(&ngx_time_lock, 0, 1)))
-  {
-    return;
-  }
-  (void) gettimeofday(&tv, 0);
-  ;
-  sec = tv.tv_sec;
-  msec = tv.tv_usec / 1000;
-  set_ngx_current_msec_wrapper(ngx_monotonic_time(sec, msec));
-  tp = &cached_time[slot];
-  if (tp->sec == sec)
-  {
+    u_char          *p0, *p1, *p2, *p3, *p4;
+    ngx_tm_t         tm, gmt;
+    time_t           sec;
+    ngx_uint_t       msec;
+    ngx_time_t      *tp;
+    struct timeval   tv;
+
+    if (!ngx_trylock(&ngx_time_lock)) {
+        return;
+    }
+
+    ngx_gettimeofday(&tv);
+
+    sec = tv.tv_sec;
+    msec = tv.tv_usec / 1000;
+
+    ngx_current_msec = ngx_monotonic_time(sec, msec);
+
+    tp = &cached_time[slot];
+
+    if (tp->sec == sec) {
+        tp->msec = msec;
+        ngx_unlock(&ngx_time_lock);
+        return;
+    }
+
+    if (slot == NGX_TIME_SLOTS - 1) {
+        slot = 0;
+    } else {
+        slot++;
+    }
+
+    tp = &cached_time[slot];
+
+    tp->sec = sec;
     tp->msec = msec;
-    *(&ngx_time_lock) = 0;
-    return;
-  }
-  if (slot == (64 - 1))
-  {
-    slot = 0;
-  }
-  else
-  {
-    slot++;
-  }
-  tp = &cached_time[slot];
-  tp->sec = sec;
-  tp->msec = msec;
-  ngx_gmtime(sec, &gmt);
-  p0 = &cached_http_time[slot][0];
-  (void) ngx_sprintf(p0, "%s, %02d %s %4d %02d:%02d:%02d GMT", week[gmt.tm_wday], gmt.tm_mday, months[gmt.tm_mon - 1], gmt.tm_year, gmt.tm_hour, gmt.tm_min, gmt.tm_sec);
-  ngx_localtime(sec, &tm);
-  cached_gmtoff = (ngx_int_t) (tm.tm_gmtoff / 60);
-  tp->gmtoff = cached_gmtoff;
-  p1 = &cached_err_log_time[slot][0];
-  (void) ngx_sprintf(p1, "%4d/%02d/%02d %02d:%02d:%02d", tm.tm_year, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-  p2 = &cached_http_log_time[slot][0];
-  (void) ngx_sprintf(p2, "%02d/%s/%d:%02d:%02d:%02d %c%02i%02i", tm.tm_mday, months[tm.tm_mon - 1], tm.tm_year, tm.tm_hour, tm.tm_min, tm.tm_sec, (tp->gmtoff < 0) ? ('-') : ('+'), ((tp->gmtoff / 60) >= 0) ? (tp->gmtoff / 60) : (-(tp->gmtoff / 60)), ((tp->gmtoff % 60) >= 0) ? (tp->gmtoff % 60) : (-(tp->gmtoff % 60)));
-  p3 = &cached_http_log_iso8601[slot][0];
-  (void) ngx_sprintf(p3, "%4d-%02d-%02dT%02d:%02d:%02d%c%02i:%02i", tm.tm_year, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, (tp->gmtoff < 0) ? ('-') : ('+'), ((tp->gmtoff / 60) >= 0) ? (tp->gmtoff / 60) : (-(tp->gmtoff / 60)), ((tp->gmtoff % 60) >= 0) ? (tp->gmtoff % 60) : (-(tp->gmtoff % 60)));
-  p4 = &cached_syslog_time[slot][0];
-  (void) ngx_sprintf(p4, "%s %2d %02d:%02d:%02d", months[tm.tm_mon - 1], tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-  __sync_synchronize();
-  set_ngx_cached_time_wrapper(tp);
-  ngx_cached_http_time.data = p0;
-  ngx_cached_err_log_time.data = p1;
-  ngx_cached_http_log_time.data = p2;
-  ngx_cached_http_log_iso8601.data = p3;
-  set_ngx_cached_syslog_time_data_wrapper(p4);
-  *(&ngx_time_lock) = 0;
+
+    ngx_gmtime(sec, &gmt);
+
+
+    p0 = &cached_http_time[slot][0];
+
+    (void) ngx_sprintf(p0, "%s, %02d %s %4d %02d:%02d:%02d GMT",
+                       week[gmt.ngx_tm_wday], gmt.ngx_tm_mday,
+                       months[gmt.ngx_tm_mon - 1], gmt.ngx_tm_year,
+                       gmt.ngx_tm_hour, gmt.ngx_tm_min, gmt.ngx_tm_sec);
+
+#if (NGX_HAVE_GETTIMEZONE)
+
+    tp->gmtoff = ngx_gettimezone();
+    ngx_gmtime(sec + tp->gmtoff * 60, &tm);
+
+#elif (NGX_HAVE_GMTOFF)
+
+    ngx_localtime(sec, &tm);
+    cached_gmtoff = (ngx_int_t) (tm.ngx_tm_gmtoff / 60);
+    tp->gmtoff = cached_gmtoff;
+
+#else
+
+    ngx_localtime(sec, &tm);
+    cached_gmtoff = ngx_timezone(tm.ngx_tm_isdst);
+    tp->gmtoff = cached_gmtoff;
+
+#endif
+
+
+    p1 = &cached_err_log_time[slot][0];
+
+    (void) ngx_sprintf(p1, "%4d/%02d/%02d %02d:%02d:%02d",
+                       tm.ngx_tm_year, tm.ngx_tm_mon,
+                       tm.ngx_tm_mday, tm.ngx_tm_hour,
+                       tm.ngx_tm_min, tm.ngx_tm_sec);
+
+
+    p2 = &cached_http_log_time[slot][0];
+
+    (void) ngx_sprintf(p2, "%02d/%s/%d:%02d:%02d:%02d %c%02i%02i",
+                       tm.ngx_tm_mday, months[tm.ngx_tm_mon - 1],
+                       tm.ngx_tm_year, tm.ngx_tm_hour,
+                       tm.ngx_tm_min, tm.ngx_tm_sec,
+                       tp->gmtoff < 0 ? '-' : '+',
+                       ngx_abs(tp->gmtoff / 60), ngx_abs(tp->gmtoff % 60));
+
+    p3 = &cached_http_log_iso8601[slot][0];
+
+    (void) ngx_sprintf(p3, "%4d-%02d-%02dT%02d:%02d:%02d%c%02i:%02i",
+                       tm.ngx_tm_year, tm.ngx_tm_mon,
+                       tm.ngx_tm_mday, tm.ngx_tm_hour,
+                       tm.ngx_tm_min, tm.ngx_tm_sec,
+                       tp->gmtoff < 0 ? '-' : '+',
+                       ngx_abs(tp->gmtoff / 60), ngx_abs(tp->gmtoff % 60));
+
+    p4 = &cached_syslog_time[slot][0];
+
+    (void) ngx_sprintf(p4, "%s %2d %02d:%02d:%02d",
+                       months[tm.ngx_tm_mon - 1], tm.ngx_tm_mday,
+                       tm.ngx_tm_hour, tm.ngx_tm_min, tm.ngx_tm_sec);
+
+    ngx_memory_barrier();
+
+    ngx_cached_time = tp;
+    ngx_cached_http_time.data = p0;
+    ngx_cached_err_log_time.data = p1;
+    ngx_cached_http_log_time.data = p2;
+    ngx_cached_http_log_iso8601.data = p3;
+    ngx_cached_syslog_time.data = p4;
+
+    ngx_unlock(&ngx_time_lock);
 }
-
-
 
 
 static ngx_msec_t
@@ -172,49 +219,62 @@ ngx_monotonic_time(time_t sec, ngx_uint_t msec)
 
 #if !(NGX_WIN32)
 
-void ngx_time_sigsafe_update(void)
+void
+ngx_time_sigsafe_update(void)
 {
-  u_char *p;
-  u_char *p2;
-  ngx_tm_t tm;
-  time_t sec;
-  ngx_time_t *tp;
-  struct timeval tv;
-  if (!(((*(&ngx_time_lock)) == 0) && __sync_bool_compare_and_swap(&ngx_time_lock, 0, 1)))
-  {
-    return;
-  }
-  (void) gettimeofday(&tv, 0);
-  ;
-  sec = tv.tv_sec;
-  tp = &cached_time[slot];
-  if (tp->sec == sec)
-  {
-    *(&ngx_time_lock) = 0;
-    return;
-  }
-  if (slot == (64 - 1))
-  {
-    slot = 0;
-  }
-  else
-  {
-    slot++;
-  }
-  tp = &cached_time[slot];
-  tp->sec = 0;
-  ngx_gmtime(sec + (cached_gmtoff * 60), &tm);
-  p = &cached_err_log_time[slot][0];
-  (void) ngx_sprintf(p, "%4d/%02d/%02d %02d:%02d:%02d", tm.tm_year, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-  p2 = &cached_syslog_time[slot][0];
-  (void) ngx_sprintf(p2, "%s %2d %02d:%02d:%02d", months[tm.tm_mon - 1], tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-  __sync_synchronize();
-  ngx_cached_err_log_time.data = p;
-  set_ngx_cached_syslog_time_data_wrapper(p2);
-  *(&ngx_time_lock) = 0;
+    u_char          *p, *p2;
+    ngx_tm_t         tm;
+    time_t           sec;
+    ngx_time_t      *tp;
+    struct timeval   tv;
+
+    if (!ngx_trylock(&ngx_time_lock)) {
+        return;
+    }
+
+    ngx_gettimeofday(&tv);
+
+    sec = tv.tv_sec;
+
+    tp = &cached_time[slot];
+
+    if (tp->sec == sec) {
+        ngx_unlock(&ngx_time_lock);
+        return;
+    }
+
+    if (slot == NGX_TIME_SLOTS - 1) {
+        slot = 0;
+    } else {
+        slot++;
+    }
+
+    tp = &cached_time[slot];
+
+    tp->sec = 0;
+
+    ngx_gmtime(sec + cached_gmtoff * 60, &tm);
+
+    p = &cached_err_log_time[slot][0];
+
+    (void) ngx_sprintf(p, "%4d/%02d/%02d %02d:%02d:%02d",
+                       tm.ngx_tm_year, tm.ngx_tm_mon,
+                       tm.ngx_tm_mday, tm.ngx_tm_hour,
+                       tm.ngx_tm_min, tm.ngx_tm_sec);
+
+    p2 = &cached_syslog_time[slot][0];
+
+    (void) ngx_sprintf(p2, "%s %2d %02d:%02d:%02d",
+                       months[tm.ngx_tm_mon - 1], tm.ngx_tm_mday,
+                       tm.ngx_tm_hour, tm.ngx_tm_min, tm.ngx_tm_sec);
+
+    ngx_memory_barrier();
+
+    ngx_cached_err_log_time.data = p;
+    ngx_cached_syslog_time.data = p2;
+
+    ngx_unlock(&ngx_time_lock);
 }
-
-
 
 #endif
 
@@ -369,33 +429,40 @@ ngx_gmtime(time_t t, ngx_tm_t *tp)
 }
 
 
-time_t ngx_next_time(time_t when)
+time_t
+ngx_next_time(time_t when)
 {
-  time_t now;
-  time_t next;
-  struct tm tm;
-  now = get_ngx_cached_time_sec_wrapper();
-  ngx_libc_localtime(now, &tm);
-  tm.tm_hour = (int) (when / 3600);
-  when %= 3600;
-  tm.tm_min = (int) (when / 60);
-  tm.tm_sec = (int) (when % 60);
-  next = mktime(&tm);
-  if (next == (-1))
-  {
+    time_t     now, next;
+    struct tm  tm;
+
+    now = ngx_time();
+
+    ngx_libc_localtime(now, &tm);
+
+    tm.tm_hour = (int) (when / 3600);
+    when %= 3600;
+    tm.tm_min = (int) (when / 60);
+    tm.tm_sec = (int) (when % 60);
+
+    next = mktime(&tm);
+
+    if (next == -1) {
+        return -1;
+    }
+
+    if (next - now > 0) {
+        return next;
+    }
+
+    tm.tm_mday++;
+
+    /* mktime() should normalize a date (Jan 32, etc) */
+
+    next = mktime(&tm);
+
+    if (next != -1) {
+        return next;
+    }
+
     return -1;
-  }
-  if ((next - now) > 0)
-  {
-    return next;
-  }
-  tm.tm_mday++;
-  next = mktime(&tm);
-  if (next != (-1))
-  {
-    return next;
-  }
-  return -1;
 }
-
-

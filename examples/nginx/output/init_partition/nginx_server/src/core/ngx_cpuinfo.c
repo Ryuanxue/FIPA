@@ -48,12 +48,10 @@ ngx_cpuid(uint32_t i, uint32_t *buf)
 
 
 
-
 #endif
 
 
 /* auto detect the L2 cache line size of modern and widespread CPUs */
-
 
 
 #else

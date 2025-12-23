@@ -4,12 +4,12 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static uint32_t  usual[] = {

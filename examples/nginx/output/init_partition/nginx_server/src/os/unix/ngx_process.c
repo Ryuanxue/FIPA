@@ -26,17 +26,9 @@ static void ngx_process_get_status(void);
 static void ngx_unlock_mutexes(ngx_pid_t pid);
 
 
-int              ngx_argc;
-char           **ngx_argv;
-char           **ngx_os_argv;
-
-ngx_int_t        ngx_process_slot;
-ngx_socket_t     ngx_channel;
-ngx_int_t        ngx_last_process;
-ngx_process_t    ngx_processes[NGX_MAX_PROCESSES];
 
 
-ngx_signal_t  signals[] = {
+
     { ngx_signal_value(NGX_RECONFIGURE_SIGNAL),
       "SIG" ngx_value(NGX_RECONFIGURE_SIGNAL),
       "reload",
@@ -97,13 +89,6 @@ ngx_signal_t  signals[] = {
 
 
 
-
-
-
-
-
-
-
 void
 ngx_debug_point(void)
 {
@@ -122,6 +107,5 @@ ngx_debug_point(void)
         ngx_abort();
     }
 }
-
 
 

@@ -220,18 +220,18 @@ am__relativize = \
     dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
   done; \
   reldir="$$dir2"
-ACLOCAL = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing aclocal-1.16
+ACLOCAL = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing aclocal-1.16
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing autoconf
-AUTOHEADER = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing autoheader
-AUTOMAKE = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing automake-1.16
+AUTOCONF = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing autoconf
+AUTOHEADER = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing autoheader
+AUTOMAKE = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing automake-1.16
 AWK = mawk
-CC = afl-gcc
+CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -O0 -Wall -g 
-CPP = afl-gcc -E
+CPP = gcc -E
 CPPFLAGS = 
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -282,7 +282,7 @@ LTLIBINTL =
 LTLIBOBJS =  ${LIBOBJDIR}sgetgrent$U.lo ${LIBOBJDIR}sgetpwent$U.lo
 LT_SYS_LIBRARY_PATH = 
 MAINT = 
-MAKEINFO = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing makeinfo
+MAKEINFO = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /usr/bin/mkdir -p
 MSGFMT = /usr/bin/msgfmt
@@ -313,17 +313,17 @@ VERSION = 4.2
 XGETTEXT = /usr/bin/xgettext
 XGETTEXT_015 = /usr/bin/xgettext
 XGETTEXT_EXTRA_OPTIONS = 
-XMLCATALOG = /usr/bin/xmlcatalog
+XMLCATALOG = no
 XML_CATALOG_FILE = /etc/xml/catalog
 XSLTPROC = /usr/bin/xsltproc
 YACC = bison -y
 YFLAGS = 
-abs_builddir = /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/man
-abs_srcdir = /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/man
-abs_top_builddir = /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils
-abs_top_srcdir = /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils
+abs_builddir = /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/man
+abs_srcdir = /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/man
+abs_top_builddir = /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils
+abs_top_srcdir = /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils
 ac_ct_AR = ar
-ac_ct_CC = afl-gcc
+ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
 am__include = include
 am__leading_dot = .
@@ -350,7 +350,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/install-sh
+install_sh = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -511,17 +511,17 @@ EXTRA_DIST = $(man_MANS) $(man_XMANS) $(addprefix \
 	login.defs.d/,$(login_defs_v)) man1/id.1 id.1.xml \
 	man8/sulogin.8 sulogin.8.xml generate_mans.mak \
 	generate_translations.mak $(am__append_3) $(am__append_4)
-PAM_COND = no_pam
-#PAM_COND = pam
-#SHADOWGRP_COND = no_gshadow
-SHADOWGRP_COND = gshadow
-TCB_COND = no_tcb
-#TCB_COND = tcb
-#SHA_CRYPT_COND = no_sha_crypt
-SHA_CRYPT_COND = sha_crypt
-#SUBIDS_COND = no_subids
-SUBIDS_COND = subids
-CLEANFILES = $(man_MANS) man1/id.1 man8/sulogin.8
+#PAM_COND = no_pam
+##PAM_COND = pam
+##SHADOWGRP_COND = no_gshadow
+#SHADOWGRP_COND = gshadow
+#TCB_COND = no_tcb
+##TCB_COND = tcb
+##SHA_CRYPT_COND = no_sha_crypt
+#SHA_CRYPT_COND = sha_crypt
+##SUBIDS_COND = no_subids
+#SUBIDS_COND = subids
+#CLEANFILES = $(man_MANS) man1/id.1 man8/sulogin.8
 all: all-recursive
 
 .SUFFIXES:
@@ -932,7 +932,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-#clean-local:
+clean-local:
 clean: clean-recursive
 
 clean-am: clean-generic clean-libtool clean-local mostlyclean-am
@@ -1027,41 +1027,41 @@ generate_mans.deps: *.xml
 	echo "# This file is generated" > $@
 	awk 'BEGIN{FS="\"";} /^<!ENTITY .* * SYSTEM ".*">$$/{ f=FILENAME; sub(/.xml/,"",f); print "man" substr(f, length (f)) "/" f ": " $$2 }' $(man_XMANS) >> $@
 
-include generate_mans.deps
+##include generate_mans.deps
 
-%.xml-config: %.xml
-	if grep -q SHADOW-CONFIG-HERE $<; then \
-		sed -e 's/^<!-- SHADOW-CONFIG-HERE -->/<!ENTITY % config SYSTEM "config.xml">%config;/' $< > $@; \
-	else \
-		sed -e 's/^\(<!DOCTYPE .*docbookx.dtd"\)>/\1 [<!ENTITY % config SYSTEM "config.xml">%config;]>/' $< > $@; \
-	fi
+#%.xml-config: %.xml
+#	if grep -q SHADOW-CONFIG-HERE $<; then \
+#		sed -e 's/^<!-- SHADOW-CONFIG-HERE -->/<!ENTITY % config SYSTEM "config.xml">%config;/' $< > $@; \
+#	else \
+#		sed -e 's/^\(<!DOCTYPE .*docbookx.dtd"\)>/\1 [<!ENTITY % config SYSTEM "config.xml">%config;]>/' $< > $@; \
+#	fi
 
-man1/% man3/% man5/% man8/%: %.xml-config Makefile config.xml
-	$(XSLTPROC) --stringparam profile.condition "$(PAM_COND);$(SHADOWGRP_COND);$(TCB_COND);$(SHA_CRYPT_COND);$(SUBIDS_COND)" \
-	            --param "man.authors.section.enabled" "0" \
-	            --stringparam "man.output.base.dir" "" \
-	            --param "man.output.in.separate.dir" "1" \
-	            -nonet http://docbook.sourceforge.net/release/xsl/current/manpages/profile-docbook.xsl $<
+#man1/% man3/% man5/% man8/%: %.xml-config Makefile config.xml
+#	$(XSLTPROC) --stringparam profile.condition "$(PAM_COND);$(SHADOWGRP_COND);$(TCB_COND);$(SHA_CRYPT_COND);$(SUBIDS_COND)" \
+#	            --param "man.authors.section.enabled" "0" \
+#	            --stringparam "man.output.base.dir" "" \
+#	            --param "man.output.in.separate.dir" "1" \
+#	            -nonet http://docbook.sourceforge.net/release/xsl/current/manpages/profile-docbook.xsl $<
 
-clean-local:
-	for d in man1 man3 man5 man8; do [ -d $$d ] && rmdir $$d; done
+#clean-local:
+#	for d in man1 man3 man5 man8; do [ -d $$d ] && rmdir $$d; done
 
 #$(man_MANS):
 #	@echo you need to run configure with --enable-man to generate man pages
 #	@false
 
-man8/grpconv.8 man8/grpunconv.8 man8/pwunconv.8: man8/pwconv.8
+#man8/grpconv.8 man8/grpunconv.8 man8/pwunconv.8: man8/pwconv.8
 
-man3/getspnam.3: man3/shadow.3
+#man3/getspnam.3: man3/shadow.3
 
-man8/vigr.8: man8/vipw.8
+#man8/vigr.8: man8/vipw.8
 
-#$(man_MANS):
-#	@echo ""
-#	@echo "Error: you need to run configure with '--enable-man'"
-#	@echo "       in order to regenerate man pages."
-#	@echo ""
-#	@false
+$(man_MANS):
+	@echo ""
+	@echo "Error: you need to run configure with '--enable-man'"
+	@echo "       in order to regenerate man pages."
+	@echo ""
+	@false
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

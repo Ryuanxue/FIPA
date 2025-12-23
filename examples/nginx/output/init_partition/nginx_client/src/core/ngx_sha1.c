@@ -6,12 +6,12 @@
  * An internal SHA1 implementation.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_sha1.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static const u_char *ngx_sha1_body(ngx_sha1_t *ctx, const u_char *data,

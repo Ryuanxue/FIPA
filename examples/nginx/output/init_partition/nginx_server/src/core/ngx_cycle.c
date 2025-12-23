@@ -19,32 +19,12 @@ static void ngx_shutdown_timer_handler(ngx_event_t *ev);
 
 
 volatile ngx_cycle_t  *ngx_cycle;
-ngx_array_t            ngx_old_cycles;
 
-static ngx_pool_t     *ngx_temp_pool;
-static ngx_event_t     ngx_cleaner_event;
-static ngx_event_t     ngx_shutdown_event;
 
-ngx_uint_t             ngx_test_config;
-ngx_uint_t             ngx_dump_config;
-ngx_uint_t             ngx_quiet_mode;
 
 
 /* STUB NAME */
-static ngx_connection_t  dumb;
 /* STUB */
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

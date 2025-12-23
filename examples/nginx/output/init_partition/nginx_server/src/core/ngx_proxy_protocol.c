@@ -48,6 +48,3 @@ static u_char *ngx_proxy_protocol_v2_read(ngx_connection_t *c, u_char *buf,
 
 
 
-
-
-

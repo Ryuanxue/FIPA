@@ -16,7 +16,6 @@ static ngx_int_t ngx_parse_inet6_url(ngx_pool_t *pool, ngx_url_t *u);
 
 
 
-
 #if (NGX_HAVE_INET6)
 
 ngx_int_t
@@ -222,7 +221,6 @@ ngx_sock_ntop(struct sockaddr *sa, socklen_t socklen, u_char *text, size_t len,
 
 
 
-
 #if (NGX_HAVE_INET6)
 
 size_t
@@ -302,14 +300,6 @@ ngx_inet6_ntop(u_char *p, u_char *text, size_t len)
 }
 
 #endif
-
-
-
-
-
-
-
-
 
 
 
@@ -477,9 +467,7 @@ failed:
 #else /* !NGX_HAVE_GETADDRINFO || !NGX_HAVE_INET6 */
 
 
-
 #endif /* NGX_HAVE_GETADDRINFO && NGX_HAVE_INET6 */
-
 
 
 
@@ -510,6 +498,5 @@ ngx_inet_get_port(struct sockaddr *sa)
         return ntohs(sin->sin_port);
     }
 }
-
 
 

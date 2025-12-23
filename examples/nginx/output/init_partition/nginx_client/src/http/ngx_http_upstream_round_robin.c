@@ -4,12 +4,12 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 #define ngx_http_upstream_tries(p) ((p)->number                               \
@@ -506,151 +506,156 @@ failed:
 }
 
 
-static ngx_http_upstream_rr_peer_t *ngx_http_upstream_get_peer(ngx_http_upstream_rr_peer_data_t *rrp)
+static ngx_http_upstream_rr_peer_t *
+ngx_http_upstream_get_peer(ngx_http_upstream_rr_peer_data_t *rrp)
 {
-  time_t now;
-  uintptr_t m;
-  ngx_int_t total;
-  ngx_uint_t i;
-  ngx_uint_t n;
-  ngx_uint_t p;
-  ngx_http_upstream_rr_peer_t *peer;
-  ngx_http_upstream_rr_peer_t *best;
-  now = get_ngx_cached_time_sec_wrapper();
-  best = 0;
-  total = 0;
-  p = 0;
-  for (peer = rrp->peers->peer, i = 0; peer; peer = peer->next, i++)
-  {
-    n = i / (8 * (sizeof(uintptr_t)));
-    m = ((uintptr_t) 1) << (i % (8 * (sizeof(uintptr_t))));
-    if (rrp->tried[n] & m)
-    {
-      continue;
-    }
-    if (peer->down)
-    {
-      continue;
-    }
-    if ((peer->max_fails && (peer->fails >= peer->max_fails)) && ((now - peer->checked) <= peer->fail_timeout))
-    {
-      continue;
-    }
-    if (peer->max_conns && (peer->conns >= peer->max_conns))
-    {
-      continue;
-    }
-    peer->current_weight += peer->effective_weight;
-    total += peer->effective_weight;
-    if (peer->effective_weight < peer->weight)
-    {
-      peer->effective_weight++;
-    }
-    if ((best == 0) || (peer->current_weight > best->current_weight))
-    {
-      best = peer;
-      p = i;
-    }
-  }
+    time_t                        now;
+    uintptr_t                     m;
+    ngx_int_t                     total;
+    ngx_uint_t                    i, n, p;
+    ngx_http_upstream_rr_peer_t  *peer, *best;
 
-  if (best == 0)
-  {
-    return 0;
-  }
-  rrp->current = best;
-  n = p / (8 * (sizeof(uintptr_t)));
-  m = ((uintptr_t) 1) << (p % (8 * (sizeof(uintptr_t))));
-  rrp->tried[n] |= m;
-  best->current_weight -= total;
-  if ((now - best->checked) > best->fail_timeout)
-  {
-    best->checked = now;
-  }
-  return best;
+    now = ngx_time();
+
+    best = NULL;
+    total = 0;
+
+#if (NGX_SUPPRESS_WARN)
+    p = 0;
+#endif
+
+    for (peer = rrp->peers->peer, i = 0;
+         peer;
+         peer = peer->next, i++)
+    {
+        n = i / (8 * sizeof(uintptr_t));
+        m = (uintptr_t) 1 << i % (8 * sizeof(uintptr_t));
+
+        if (rrp->tried[n] & m) {
+            continue;
+        }
+
+        if (peer->down) {
+            continue;
+        }
+
+        if (peer->max_fails
+            && peer->fails >= peer->max_fails
+            && now - peer->checked <= peer->fail_timeout)
+        {
+            continue;
+        }
+
+        if (peer->max_conns && peer->conns >= peer->max_conns) {
+            continue;
+        }
+
+        peer->current_weight += peer->effective_weight;
+        total += peer->effective_weight;
+
+        if (peer->effective_weight < peer->weight) {
+            peer->effective_weight++;
+        }
+
+        if (best == NULL || peer->current_weight > best->current_weight) {
+            best = peer;
+            p = i;
+        }
+    }
+
+    if (best == NULL) {
+        return NULL;
+    }
+
+    rrp->current = best;
+
+    n = p / (8 * sizeof(uintptr_t));
+    m = (uintptr_t) 1 << p % (8 * sizeof(uintptr_t));
+
+    rrp->tried[n] |= m;
+
+    best->current_weight -= total;
+
+    if (now - best->checked > best->fail_timeout) {
+        best->checked = now;
+    }
+
+    return best;
 }
 
 
-
-
-void ngx_http_upstream_free_round_robin_peer(ngx_peer_connection_t *pc, void *data, ngx_uint_t state)
+void
+ngx_http_upstream_free_round_robin_peer(ngx_peer_connection_t *pc, void *data,
+    ngx_uint_t state)
 {
-  ngx_http_upstream_rr_peer_data_t *rrp = data;
-  time_t now;
-  ngx_http_upstream_rr_peer_t *peer;
-  ;
-  peer = rrp->current;
-  if (rrp->peers->shpool)
-  {
-    ngx_rwlock_rlock(&rrp->peers->rwlock);
-  }
-  ;
-  if (rrp->peers->shpool)
-  {
-    ngx_rwlock_wlock(&peer->lock);
-  }
-  ;
-  if (rrp->peers->single)
-  {
+    ngx_http_upstream_rr_peer_data_t  *rrp = data;
+
+    time_t                       now;
+    ngx_http_upstream_rr_peer_t  *peer;
+
+    ngx_log_debug2(NGX_LOG_DEBUG_HTTP, pc->log, 0,
+                   "free rr peer %ui %ui", pc->tries, state);
+
+    /* TODO: NGX_PEER_KEEPALIVE */
+
+    peer = rrp->current;
+
+    ngx_http_upstream_rr_peers_rlock(rrp->peers);
+    ngx_http_upstream_rr_peer_lock(rrp->peers, peer);
+
+    if (rrp->peers->single) {
+
+        peer->conns--;
+
+        ngx_http_upstream_rr_peer_unlock(rrp->peers, peer);
+        ngx_http_upstream_rr_peers_unlock(rrp->peers);
+
+        pc->tries = 0;
+        return;
+    }
+
+    if (state & NGX_PEER_FAILED) {
+        now = ngx_time();
+
+        peer->fails++;
+        peer->accessed = now;
+        peer->checked = now;
+
+        if (peer->max_fails) {
+            peer->effective_weight -= peer->weight / peer->max_fails;
+
+            if (peer->fails >= peer->max_fails) {
+                ngx_log_error(NGX_LOG_WARN, pc->log, 0,
+                              "upstream server temporarily disabled");
+            }
+        }
+
+        ngx_log_debug2(NGX_LOG_DEBUG_HTTP, pc->log, 0,
+                       "free rr peer failed: %p %i",
+                       peer, peer->effective_weight);
+
+        if (peer->effective_weight < 0) {
+            peer->effective_weight = 0;
+        }
+
+    } else {
+
+        /* mark peer live if check passed */
+
+        if (peer->accessed < peer->checked) {
+            peer->fails = 0;
+        }
+    }
+
     peer->conns--;
-    if (rrp->peers->shpool)
-    {
-      ngx_rwlock_unlock(&peer->lock);
+
+    ngx_http_upstream_rr_peer_unlock(rrp->peers, peer);
+    ngx_http_upstream_rr_peers_unlock(rrp->peers);
+
+    if (pc->tries) {
+        pc->tries--;
     }
-    ;
-    if (rrp->peers->shpool)
-    {
-      ngx_rwlock_unlock(&rrp->peers->rwlock);
-    }
-    ;
-    pc->tries = 0;
-    return;
-  }
-  if (state & 4)
-  {
-    now = get_ngx_cached_time_sec_wrapper();
-    peer->fails++;
-    peer->accessed = now;
-    peer->checked = now;
-    if (peer->max_fails)
-    {
-      peer->effective_weight -= peer->weight / peer->max_fails;
-      if (peer->fails >= peer->max_fails)
-      {
-        if (pc->log->log_level >= 5)
-          ngx_log_error_core(5, pc->log, 0, "upstream server temporarily disabled");
-      }
-    }
-    ;
-    if (peer->effective_weight < 0)
-    {
-      peer->effective_weight = 0;
-    }
-  }
-  else
-  {
-    if (peer->accessed < peer->checked)
-    {
-      peer->fails = 0;
-    }
-  }
-  peer->conns--;
-  if (rrp->peers->shpool)
-  {
-    ngx_rwlock_unlock(&peer->lock);
-  }
-  ;
-  if (rrp->peers->shpool)
-  {
-    ngx_rwlock_unlock(&rrp->peers->rwlock);
-  }
-  ;
-  if (pc->tries)
-  {
-    pc->tries--;
-  }
 }
-
-
 
 
 #if (NGX_HTTP_SSL)

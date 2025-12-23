@@ -4,12 +4,12 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static ngx_uint_t ngx_http_test_if_unmodified(ngx_http_request_t *r);
@@ -19,7 +19,6 @@ static ngx_uint_t ngx_http_test_if_match(ngx_http_request_t *r,
 static ngx_int_t ngx_http_not_modified_filter_init(ngx_conf_t *cf);
 
 
-static ngx_http_module_t  ngx_http_not_modified_filter_module_ctx = {
     NULL,                                  /* preconfiguration */
     ngx_http_not_modified_filter_init,     /* postconfiguration */
 
@@ -34,7 +33,6 @@ static ngx_http_module_t  ngx_http_not_modified_filter_module_ctx = {
 };
 
 
-ngx_module_t  ngx_http_not_modified_filter_module = {
     NGX_MODULE_V1,
     &ngx_http_not_modified_filter_module_ctx, /* module context */
     NULL,                                  /* module directives */
@@ -50,61 +48,64 @@ ngx_module_t  ngx_http_not_modified_filter_module = {
 };
 
 
-static ngx_http_output_header_filter_pt  ngx_http_next_header_filter;
 
 
-static ngx_int_t ngx_http_not_modified_header_filter(ngx_http_request_t *r)
+static ngx_int_t
+ngx_http_not_modified_header_filter(ngx_http_request_t *r)
 {
-  if (((r->headers_out.status != 200) || (r != r->main)) || r->disable_not_modified)
-  {
-    return get_ngx_http_next_header_filter_wrapper()(r);
-  }
-  if (r->headers_in.if_unmodified_since && (!ngx_http_test_if_unmodified(r)))
-  {
-    return ngx_http_filter_finalize_request(r, 0, 412);
-  }
-  if (r->headers_in.if_match && (!ngx_http_test_if_match(r, r->headers_in.if_match, 0)))
-  {
-    return ngx_http_filter_finalize_request(r, 0, 412);
-  }
-  if (r->headers_in.if_modified_since || r->headers_in.if_none_match)
-  {
-    if (r->headers_in.if_modified_since && ngx_http_test_if_modified(r))
+    if (r->headers_out.status != NGX_HTTP_OK
+        || r != r->main
+        || r->disable_not_modified)
     {
-      return get_ngx_http_next_header_filter_wrapper()(r);
+        return ngx_http_next_header_filter(r);
     }
-    if (r->headers_in.if_none_match && (!ngx_http_test_if_match(r, r->headers_in.if_none_match, 1)))
+
+    if (r->headers_in.if_unmodified_since
+        && !ngx_http_test_if_unmodified(r))
     {
-      return get_ngx_http_next_header_filter_wrapper()(r);
+        return ngx_http_filter_finalize_request(r, NULL,
+                                                NGX_HTTP_PRECONDITION_FAILED);
     }
-    r->headers_out.status = 304;
-    r->headers_out.status_line.len = 0;
-    r->headers_out.content_type.len = 0;
-    r->headers_out.content_length_n = -1;
-    if (r->headers_out.content_length)
+
+    if (r->headers_in.if_match
+        && !ngx_http_test_if_match(r, r->headers_in.if_match, 0))
     {
-      r->headers_out.content_length->hash = 0;
-      r->headers_out.content_length = 0;
+        return ngx_http_filter_finalize_request(r, NULL,
+                                                NGX_HTTP_PRECONDITION_FAILED);
     }
-    ;
-    r->allow_ranges = 0;
-    if (r->headers_out.accept_ranges)
-    {
-      r->headers_out.accept_ranges->hash = 0;
-      r->headers_out.accept_ranges = 0;
+
+    if (r->headers_in.if_modified_since || r->headers_in.if_none_match) {
+
+        if (r->headers_in.if_modified_since
+            && ngx_http_test_if_modified(r))
+        {
+            return ngx_http_next_header_filter(r);
+        }
+
+        if (r->headers_in.if_none_match
+            && !ngx_http_test_if_match(r, r->headers_in.if_none_match, 1))
+        {
+            return ngx_http_next_header_filter(r);
+        }
+
+        /* not modified */
+
+        r->headers_out.status = NGX_HTTP_NOT_MODIFIED;
+        r->headers_out.status_line.len = 0;
+        r->headers_out.content_type.len = 0;
+        ngx_http_clear_content_length(r);
+        ngx_http_clear_accept_ranges(r);
+
+        if (r->headers_out.content_encoding) {
+            r->headers_out.content_encoding->hash = 0;
+            r->headers_out.content_encoding = NULL;
+        }
+
+        return ngx_http_next_header_filter(r);
     }
-    ;
-    if (r->headers_out.content_encoding)
-    {
-      r->headers_out.content_encoding->hash = 0;
-      r->headers_out.content_encoding = 0;
-    }
-    return get_ngx_http_next_header_filter_wrapper()(r);
-  }
-  return get_ngx_http_next_header_filter_wrapper()(r);
+
+    return ngx_http_next_header_filter(r);
 }
-
-
 
 
 static ngx_uint_t
@@ -254,11 +255,11 @@ ngx_http_test_if_match(ngx_http_request_t *r, ngx_table_elt_t *header,
 }
 
 
-static ngx_int_t ngx_http_not_modified_filter_init(ngx_conf_t *cf)
+static ngx_int_t
+ngx_http_not_modified_filter_init(ngx_conf_t *cf)
 {
-  set_ngx_http_next_header_filter_wrapper(ngx_http_top_header_filter);
-  set_ngx_http_top_header_filter_wrapper(ngx_http_not_modified_header_filter);
-  return 0;
+    ngx_http_next_header_filter = ngx_http_top_header_filter;
+    ngx_http_top_header_filter = ngx_http_not_modified_header_filter;
+
+    return NGX_OK;
 }
-
-

@@ -29,7 +29,6 @@ static void ngx_http_script_full_name_code(ngx_http_script_engine_t *e);
 
 #define ngx_http_script_exit  (u_char *) &ngx_http_script_exit_code
 
-static uintptr_t ngx_http_script_exit_code = (uintptr_t) NULL;
 
 
 void
@@ -102,12 +101,6 @@ ngx_http_complex_value(ngx_http_request_t *r, ngx_http_complex_value_t *val,
 
     return NGX_OK;
 }
-
-
-
-
-
-
 
 
 
@@ -205,14 +198,6 @@ ngx_http_script_flush_no_cacheable_variables(ngx_http_request_t *r,
 
 
 
-
-
-
-
-
-
-
-
 size_t
 ngx_http_script_copy_var_len_code(ngx_http_script_engine_t *e)
 {
@@ -268,9 +253,6 @@ ngx_http_script_copy_var_code(ngx_http_script_engine_t *e)
         }
     }
 }
-
-
-
 
 
 
@@ -655,21 +637,6 @@ ngx_http_script_copy_capture_code(ngx_http_script_engine_t *e)
 }
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

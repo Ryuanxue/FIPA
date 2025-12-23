@@ -4,12 +4,12 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 typedef struct {
@@ -23,7 +23,6 @@ static ngx_chain_t *ngx_http_chunked_create_trailers(ngx_http_request_t *r,
     ngx_http_chunked_filter_ctx_t *ctx);
 
 
-static ngx_http_module_t  ngx_http_chunked_filter_module_ctx = {
     NULL,                                  /* preconfiguration */
     ngx_http_chunked_filter_init,          /* postconfiguration */
 
@@ -54,65 +53,175 @@ ngx_module_t  ngx_http_chunked_filter_module = {
 };
 
 
-static ngx_http_output_header_filter_pt  ngx_http_next_header_filter;
-static ngx_http_output_body_filter_pt    ngx_http_next_body_filter;
 
 
-static ngx_int_t ngx_http_chunked_header_filter(ngx_http_request_t *r)
+static ngx_int_t
+ngx_http_chunked_header_filter(ngx_http_request_t *r)
 {
-  ngx_http_core_loc_conf_t *clcf;
-  ngx_http_chunked_filter_ctx_t *ctx;
-  if (((((r->headers_out.status == 304) || (r->headers_out.status == 204)) || (r->headers_out.status < 200)) || (r != r->main)) || (r->method == 0x0004))
-  {
-    return get_ngx_http_next_header_filter_wrapper()(r);
-  }
-  if ((r->headers_out.content_length_n == (-1)) || r->expect_trailers)
-  {
-    clcf = r->loc_conf[ngx_http_core_module.ctx_index];
-    if ((r->http_version >= 1001) && clcf->chunked_transfer_encoding)
+    ngx_http_core_loc_conf_t       *clcf;
+    ngx_http_chunked_filter_ctx_t  *ctx;
+
+    if (r->headers_out.status == NGX_HTTP_NOT_MODIFIED
+        || r->headers_out.status == NGX_HTTP_NO_CONTENT
+        || r->headers_out.status < NGX_HTTP_OK
+        || r != r->main
+        || r->method == NGX_HTTP_HEAD)
     {
-      if (r->expect_trailers)
-      {
-        r->headers_out.content_length_n = -1;
-        if (r->headers_out.content_length)
+        return ngx_http_next_header_filter(r);
+    }
+
+    if (r->headers_out.content_length_n == -1
+        || r->expect_trailers)
+    {
+        clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
+
+        if (r->http_version >= NGX_HTTP_VERSION_11
+            && clcf->chunked_transfer_encoding)
         {
-          r->headers_out.content_length->hash = 0;
-          r->headers_out.content_length = 0;
+            if (r->expect_trailers) {
+                ngx_http_clear_content_length(r);
+            }
+
+            r->chunked = 1;
+
+            ctx = ngx_pcalloc(r->pool, sizeof(ngx_http_chunked_filter_ctx_t));
+            if (ctx == NULL) {
+                return NGX_ERROR;
+            }
+
+            ngx_http_set_ctx(r, ctx, ngx_http_chunked_filter_module);
+
+        } else if (r->headers_out.content_length_n == -1) {
+            r->keepalive = 0;
         }
-        ;
-      }
-      r->chunked = 1;
-      ctx = ngx_pcalloc(r->pool, sizeof(ngx_http_chunked_filter_ctx_t));
-      if (ctx == 0)
-      {
-        return -1;
-      }
-      r->ctx[ngx_http_chunked_filter_module.ctx_index] = ctx;
-      ;
     }
-    else
-      if (r->headers_out.content_length_n == (-1))
-    {
-      r->keepalive = 0;
-    }
-  }
-  return get_ngx_http_next_header_filter_wrapper()(r);
+
+    return ngx_http_next_header_filter(r);
 }
 
 
-
-
-static ngx_int_t ngx_http_chunked_body_filter(ngx_http_request_t *r, ngx_chain_t *in)
+static ngx_int_t
+ngx_http_chunked_body_filter(ngx_http_request_t *r, ngx_chain_t *in)
 {
-  {
-    int ngx_http_chunked_body_filter_sense_1_ret = 0;
-    ngx_int_t ngx_http_chunked_body_filter_sense_1_return = ngx_http_chunked_body_filter_sense_1_wrapper(&ngx_http_chunked_body_filter_sense_1_ret, r, in);
-    if (ngx_http_chunked_body_filter_sense_1_ret)
-      return ngx_http_chunked_body_filter_sense_1_return;
-  }
+    u_char                         *chunk;
+    off_t                           size;
+    ngx_int_t                       rc;
+    ngx_buf_t                      *b;
+    ngx_chain_t                    *out, *cl, *tl, **ll;
+    ngx_http_chunked_filter_ctx_t  *ctx;
+
+    if (in == NULL || !r->chunked || r->header_only) {
+        return ngx_http_next_body_filter(r, in);
+    }
+
+    ctx = ngx_http_get_module_ctx(r, ngx_http_chunked_filter_module);
+
+    out = NULL;
+    ll = &out;
+
+    size = 0;
+    cl = in;
+
+    for ( ;; ) {
+        ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+                       "http chunk: %O", ngx_buf_size(cl->buf));
+
+        size += ngx_buf_size(cl->buf);
+
+        if (cl->buf->flush
+            || cl->buf->sync
+            || ngx_buf_in_memory(cl->buf)
+            || cl->buf->in_file)
+        {
+            tl = ngx_alloc_chain_link(r->pool);
+            if (tl == NULL) {
+                return NGX_ERROR;
+            }
+
+            tl->buf = cl->buf;
+            *ll = tl;
+            ll = &tl->next;
+        }
+
+        if (cl->next == NULL) {
+            break;
+        }
+
+        cl = cl->next;
+    }
+
+    if (size) {
+        tl = ngx_chain_get_free_buf(r->pool, &ctx->free);
+        if (tl == NULL) {
+            return NGX_ERROR;
+        }
+
+        b = tl->buf;
+        chunk = b->start;
+
+        if (chunk == NULL) {
+            /* the "0000000000000000" is 64-bit hexadecimal string */
+
+            chunk = ngx_palloc(r->pool, sizeof("0000000000000000" CRLF) - 1);
+            if (chunk == NULL) {
+                return NGX_ERROR;
+            }
+
+            b->start = chunk;
+            b->end = chunk + sizeof("0000000000000000" CRLF) - 1;
+        }
+
+        b->tag = (ngx_buf_tag_t) &ngx_http_chunked_filter_module;
+        b->memory = 0;
+        b->temporary = 1;
+        b->pos = chunk;
+        b->last = ngx_sprintf(chunk, "%xO" CRLF, size);
+
+        tl->next = out;
+        out = tl;
+    }
+
+    if (cl->buf->last_buf) {
+        tl = ngx_http_chunked_create_trailers(r, ctx);
+        if (tl == NULL) {
+            return NGX_ERROR;
+        }
+
+        cl->buf->last_buf = 0;
+
+        *ll = tl;
+
+        if (size == 0) {
+            tl->buf->pos += 2;
+        }
+
+    } else if (size > 0) {
+        tl = ngx_chain_get_free_buf(r->pool, &ctx->free);
+        if (tl == NULL) {
+            return NGX_ERROR;
+        }
+
+        b = tl->buf;
+
+        b->tag = (ngx_buf_tag_t) &ngx_http_chunked_filter_module;
+        b->temporary = 0;
+        b->memory = 1;
+        b->pos = (u_char *) CRLF;
+        b->last = b->pos + 2;
+
+        *ll = tl;
+
+    } else {
+        *ll = NULL;
+    }
+
+    rc = ngx_http_next_body_filter(r, out);
+
+    ngx_chain_update_chains(r->pool, &ctx->free, &ctx->busy, &out,
+                            (ngx_buf_tag_t) &ngx_http_chunked_filter_module);
+
+    return rc;
 }
-
-
 
 
 static ngx_chain_t *
@@ -218,13 +327,14 @@ ngx_http_chunked_create_trailers(ngx_http_request_t *r,
 }
 
 
-static ngx_int_t ngx_http_chunked_filter_init(ngx_conf_t *cf)
+static ngx_int_t
+ngx_http_chunked_filter_init(ngx_conf_t *cf)
 {
-  set_ngx_http_next_header_filter_wrapper(ngx_http_top_header_filter);
-  set_ngx_http_top_header_filter_wrapper(ngx_http_chunked_header_filter);
-  set_ngx_http_next_body_filter_wrapper(ngx_http_top_body_filter);
-  set_ngx_http_top_body_filter_wrapper(ngx_http_chunked_body_filter);
-  return 0;
+    ngx_http_next_header_filter = ngx_http_top_header_filter;
+    ngx_http_top_header_filter = ngx_http_chunked_header_filter;
+
+    ngx_http_next_body_filter = ngx_http_top_body_filter;
+    ngx_http_top_body_filter = ngx_http_chunked_body_filter;
+
+    return NGX_OK;
 }
-
-

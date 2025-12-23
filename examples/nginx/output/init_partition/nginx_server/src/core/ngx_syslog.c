@@ -20,7 +20,6 @@ static ngx_int_t ngx_syslog_init_peer(ngx_syslog_peer_t *peer);
 static void ngx_syslog_cleanup(void *data);
 
 
-static char  *facilities[] = {
     "kern", "user", "mail", "daemon", "auth", "intern", "lpr", "news", "uucp",
     "clock", "authpriv", "ftp", "ntp", "audit", "alert", "cron", "local0",
     "local1", "local2", "local3", "local4", "local5", "local6", "local7",
@@ -28,13 +27,8 @@ static char  *facilities[] = {
 };
 
 /* note 'error/warn' like in nginx.conf, not 'err/warning' */
-static char  *severities[] = {
     "emerg", "alert", "crit", "error", "warn", "notice", "info", "debug", NULL
 };
-
-static ngx_log_t    ngx_syslog_dummy_log;
-static ngx_event_t  ngx_syslog_dummy_event;
-
 
 
 
@@ -169,6 +163,5 @@ failed:
 
     return NGX_ERROR;
 }
-
 
 

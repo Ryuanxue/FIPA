@@ -19,6 +19,3 @@ static ssize_t ngx_sendmsg(ngx_connection_t *c, ngx_iovec_t *vec);
 
 
 
-
-
-

@@ -19,7 +19,6 @@ static ngx_int_t ngx_event_connect_set_transparent(ngx_peer_connection_t *pc,
 
 
 
-
 #if (NGX_HAVE_TRANSPARENT_PROXY)
 
 static ngx_int_t
@@ -115,6 +114,5 @@ ngx_event_connect_set_transparent(ngx_peer_connection_t *pc, ngx_socket_t s)
 }
 
 #endif
-
 
 

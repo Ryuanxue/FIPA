@@ -4,6 +4,8 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
@@ -15,8 +17,6 @@ static ssize_t ngx_linux_sendfile(ngx_connection_t *c, ngx_buf_t *file,
 
 #if (NGX_THREADS)
 #include <ngx_thread_pool.h>
-
-#include "nginx_rpc_wrapper.h"
 
 #if !(NGX_HAVE_SENDFILE64)
 #error sendfile64() is required!
@@ -45,132 +45,187 @@ static void ngx_linux_sendfile_thread_handler(void *data, ngx_log_t *log);
 #define NGX_SENDFILE_MAXSIZE  2147483647L
 
 
-ngx_chain_t *ngx_linux_sendfile_chain(ngx_connection_t *c, ngx_chain_t *in, off_t limit)
+ngx_chain_t *
+ngx_linux_sendfile_chain(ngx_connection_t *c, ngx_chain_t *in, off_t limit)
 {
-  int tcp_nodelay;
-  off_t send;
-  off_t prev_send;
-  size_t file_size;
-  size_t sent;
-  ssize_t n;
-  ngx_err_t err;
-  ngx_buf_t *file;
-  ngx_event_t *wev;
-  ngx_chain_t *cl;
-  ngx_iovec_t header;
-  struct iovec headers[IOV_MAX];
-  wev = c->write;
-  if (!wev->ready)
-  {
-    return in;
-  }
-  if ((limit == 0) || (limit > ((off_t) (2147483647L - get_ngx_pagesize_wrapper()))))
-  {
-    limit = 2147483647L - get_ngx_pagesize_wrapper();
-  }
-  send = 0;
-  header.iovs = headers;
-  header.nalloc = IOV_MAX;
-  for (;;)
-  {
-    prev_send = send;
-    cl = ngx_output_chain_to_iovec(&header, in, limit - send, c->log);
-    if (cl == ((ngx_chain_t *) (-1)))
-    {
-      return (ngx_chain_t *) (-1);
-    }
-    send += header.size;
-    if ((((c->tcp_nopush == NGX_TCP_NOPUSH_UNSET) && (header.count != 0)) && cl) && cl->buf->in_file)
-    {
-      if (c->tcp_nodelay == NGX_TCP_NODELAY_SET)
-      {
-        tcp_nodelay = 0;
-        if (setsockopt(c->fd, IPPROTO_TCP, TCP_NODELAY, (const void *) (&tcp_nodelay), sizeof(int)) == (-1))
-        {
-          err = errno;
-          if (err != EINTR)
-          {
-            wev->error = 1;
-            ngx_connection_error(c, err, "setsockopt(TCP_NODELAY) failed");
-            return (ngx_chain_t *) (-1);
-          }
-        }
-        else
-        {
-          c->tcp_nodelay = NGX_TCP_NODELAY_UNSET;
-          ;
-        }
-      }
-      if (c->tcp_nodelay == NGX_TCP_NODELAY_UNSET)
-      {
-        if (ngx_tcp_nopush(c->fd) == (-1))
-        {
-          err = errno;
-          if (err != EINTR)
-          {
-            wev->error = 1;
-            ngx_connection_error(c, err, "setsockopt(TCP_CORK) failed");
-            return (ngx_chain_t *) (-1);
-          }
-        }
-        else
-        {
-          c->tcp_nopush = NGX_TCP_NOPUSH_SET;
-          ;
-        }
-      }
-    }
-    if ((((header.count == 0) && cl) && cl->buf->in_file) && (send < limit))
-    {
-      file = cl->buf;
-      file_size = (size_t) ngx_chain_coalesce_file(&cl, limit - send);
-      send += file_size;
-      if (file_size == 0)
-      {
-        ngx_debug_point();
-        return (ngx_chain_t *) (-1);
-      }
-      n = ngx_linux_sendfile(c, file, file_size);
-      if (n == (-1))
-      {
-        return (ngx_chain_t *) (-1);
-      }
-      if (n == (-4))
-      {
+    int            tcp_nodelay;
+    off_t          send, prev_send;
+    size_t         file_size, sent;
+    ssize_t        n;
+    ngx_err_t      err;
+    ngx_buf_t     *file;
+    ngx_event_t   *wev;
+    ngx_chain_t   *cl;
+    ngx_iovec_t    header;
+    struct iovec   headers[NGX_IOVS_PREALLOCATE];
+
+    wev = c->write;
+
+    if (!wev->ready) {
         return in;
-      }
-      sent = (n == (-2)) ? (0) : (n);
     }
-    else
-    {
-      n = ngx_writev(c, &header);
-      if (n == (-1))
-      {
-        return (ngx_chain_t *) (-1);
-      }
-      sent = (n == (-2)) ? (0) : (n);
-    }
-    c->sent += sent;
-    in = ngx_chain_update_sent(in, sent);
-    if (n == (-2))
-    {
-      wev->ready = 0;
-      return in;
-    }
-    if (((size_t) (send - prev_send)) != sent)
-    {
-      send = prev_send + sent;
-      continue;
-    }
-    if ((send >= limit) || (in == 0))
-    {
-      return in;
-    }
-  }
 
+
+    /* the maximum limit size is 2G-1 - the page size */
+
+    if (limit == 0 || limit > (off_t) (NGX_SENDFILE_MAXSIZE - ngx_pagesize)) {
+        limit = NGX_SENDFILE_MAXSIZE - ngx_pagesize;
+    }
+
+
+    send = 0;
+
+    header.iovs = headers;
+    header.nalloc = NGX_IOVS_PREALLOCATE;
+
+    for ( ;; ) {
+        prev_send = send;
+
+        /* create the iovec and coalesce the neighbouring bufs */
+
+        cl = ngx_output_chain_to_iovec(&header, in, limit - send, c->log);
+
+        if (cl == NGX_CHAIN_ERROR) {
+            return NGX_CHAIN_ERROR;
+        }
+
+        send += header.size;
+
+        /* set TCP_CORK if there is a header before a file */
+
+        if (c->tcp_nopush == NGX_TCP_NOPUSH_UNSET
+            && header.count != 0
+            && cl
+            && cl->buf->in_file)
+        {
+            /* the TCP_CORK and TCP_NODELAY are mutually exclusive */
+
+            if (c->tcp_nodelay == NGX_TCP_NODELAY_SET) {
+
+                tcp_nodelay = 0;
+
+                if (setsockopt(c->fd, IPPROTO_TCP, TCP_NODELAY,
+                               (const void *) &tcp_nodelay, sizeof(int)) == -1)
+                {
+                    err = ngx_socket_errno;
+
+                    /*
+                     * there is a tiny chance to be interrupted, however,
+                     * we continue a processing with the TCP_NODELAY
+                     * and without the TCP_CORK
+                     */
+
+                    if (err != NGX_EINTR) {
+                        wev->error = 1;
+                        ngx_connection_error(c, err,
+                                             "setsockopt(TCP_NODELAY) failed");
+                        return NGX_CHAIN_ERROR;
+                    }
+
+                } else {
+                    c->tcp_nodelay = NGX_TCP_NODELAY_UNSET;
+
+                    ngx_log_debug0(NGX_LOG_DEBUG_EVENT, c->log, 0,
+                                   "no tcp_nodelay");
+                }
+            }
+
+            if (c->tcp_nodelay == NGX_TCP_NODELAY_UNSET) {
+
+                if (ngx_tcp_nopush(c->fd) == -1) {
+                    err = ngx_socket_errno;
+
+                    /*
+                     * there is a tiny chance to be interrupted, however,
+                     * we continue a processing without the TCP_CORK
+                     */
+
+                    if (err != NGX_EINTR) {
+                        wev->error = 1;
+                        ngx_connection_error(c, err,
+                                             ngx_tcp_nopush_n " failed");
+                        return NGX_CHAIN_ERROR;
+                    }
+
+                } else {
+                    c->tcp_nopush = NGX_TCP_NOPUSH_SET;
+
+                    ngx_log_debug0(NGX_LOG_DEBUG_EVENT, c->log, 0,
+                                   "tcp_nopush");
+                }
+            }
+        }
+
+        /* get the file buf */
+
+        if (header.count == 0 && cl && cl->buf->in_file && send < limit) {
+            file = cl->buf;
+
+            /* coalesce the neighbouring file bufs */
+
+            file_size = (size_t) ngx_chain_coalesce_file(&cl, limit - send);
+
+            send += file_size;
+#if 1
+            if (file_size == 0) {
+                ngx_debug_point();
+                return NGX_CHAIN_ERROR;
+            }
+#endif
+
+            n = ngx_linux_sendfile(c, file, file_size);
+
+            if (n == NGX_ERROR) {
+                return NGX_CHAIN_ERROR;
+            }
+
+            if (n == NGX_DONE) {
+                /* thread task posted */
+                return in;
+            }
+
+            sent = (n == NGX_AGAIN) ? 0 : n;
+
+        } else {
+            n = ngx_writev(c, &header);
+
+            if (n == NGX_ERROR) {
+                return NGX_CHAIN_ERROR;
+            }
+
+            sent = (n == NGX_AGAIN) ? 0 : n;
+        }
+
+        c->sent += sent;
+
+        in = ngx_chain_update_sent(in, sent);
+
+        if (n == NGX_AGAIN) {
+            wev->ready = 0;
+            return in;
+        }
+
+        if ((size_t) (send - prev_send) != sent) {
+
+            /*
+             * sendfile() on Linux 4.3+ might be interrupted at any time,
+             * and provides no indication if it was interrupted or not,
+             * so we have to retry till an explicit EAGAIN
+             *
+             * sendfile() in threads can also report less bytes written
+             * than we are prepared to send now, since it was started in
+             * some point in the past, so we again have to retry
+             */
+
+            send = prev_send + sent;
+            continue;
+        }
+
+        if (send >= limit || in == NULL) {
+            return in;
+        }
+    }
 }
-
-
 
 
 static ssize_t

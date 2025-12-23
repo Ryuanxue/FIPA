@@ -69,8 +69,6 @@ ngx_alloc_chain_link(ngx_pool_t *pool)
 
 
 
-
-
 ngx_chain_t *
 ngx_chain_get_free_buf(ngx_pool_t *p, ngx_chain_t **free)
 {

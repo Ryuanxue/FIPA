@@ -12,7 +12,6 @@
 static ngx_int_t ngx_test_full_name(ngx_str_t *name);
 
 
-static ngx_atomic_t   temp_number = 0;
 ngx_atomic_t         *ngx_temp_number = &temp_number;
 ngx_atomic_int_t      ngx_random_number = 123456;
 
@@ -115,11 +114,6 @@ ngx_test_full_name(ngx_str_t *name)
 
 
 
-
-
-
-
-
 ngx_atomic_uint_t
 ngx_next_temp_number(ngx_uint_t collision)
 {
@@ -131,13 +125,6 @@ ngx_next_temp_number(ngx_uint_t collision)
 
     return n + add;
 }
-
-
-
-
-
-
-
 
 
 
@@ -171,5 +158,4 @@ ngx_next_temp_number(ngx_uint_t collision)
  *
  * on fatal (memory) error handler must return NGX_ABORT to stop walking tree
  */
-
 

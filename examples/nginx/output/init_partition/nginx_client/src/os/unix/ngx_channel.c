@@ -4,12 +4,12 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_channel.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 ngx_int_t
@@ -197,46 +197,49 @@ ngx_read_channel(ngx_socket_t s, ngx_channel_t *ch, size_t size, ngx_log_t *log)
 }
 
 
-ngx_int_t ngx_add_channel_event(ngx_cycle_t *cycle, ngx_fd_t fd, ngx_int_t event, ngx_event_handler_pt handler)
+ngx_int_t
+ngx_add_channel_event(ngx_cycle_t *cycle, ngx_fd_t fd, ngx_int_t event,
+    ngx_event_handler_pt handler)
 {
-  ngx_event_t *ev;
-  ngx_event_t *rev;
-  ngx_event_t *wev;
-  ngx_connection_t *c;
-  c = ngx_get_connection(fd, cycle->log);
-  if (c == 0)
-  {
-    return -1;
-  }
-  c->pool = cycle->pool;
-  rev = c->read;
-  wev = c->write;
-  rev->log = cycle->log;
-  wev->log = cycle->log;
-  rev->channel = 1;
-  wev->channel = 1;
-  ev = (event == (EPOLLIN | EPOLLRDHUP)) ? (rev) : (wev);
-  ev->handler = handler;
-  if (ngx_event_actions.add_conn && ((get_ngx_event_flags_wrapper() & 0x00000040) == 0))
-  {
-    if (ngx_event_actions.add_conn(c) == (-1))
-    {
-      ngx_free_connection(c);
-      return -1;
+    ngx_event_t       *ev, *rev, *wev;
+    ngx_connection_t  *c;
+
+    c = ngx_get_connection(fd, cycle->log);
+
+    if (c == NULL) {
+        return NGX_ERROR;
     }
-  }
-  else
-  {
-    if (ngx_event_actions.add(ev, event, 0) == (-1))
-    {
-      ngx_free_connection(c);
-      return -1;
+
+    c->pool = cycle->pool;
+
+    rev = c->read;
+    wev = c->write;
+
+    rev->log = cycle->log;
+    wev->log = cycle->log;
+
+    rev->channel = 1;
+    wev->channel = 1;
+
+    ev = (event == NGX_READ_EVENT) ? rev : wev;
+
+    ev->handler = handler;
+
+    if (ngx_add_conn && (ngx_event_flags & NGX_USE_EPOLL_EVENT) == 0) {
+        if (ngx_add_conn(c) == NGX_ERROR) {
+            ngx_free_connection(c);
+            return NGX_ERROR;
+        }
+
+    } else {
+        if (ngx_add_event(ev, event, 0) == NGX_ERROR) {
+            ngx_free_connection(c);
+            return NGX_ERROR;
+        }
     }
-  }
-  return 0;
+
+    return NGX_OK;
 }
-
-
 
 
 void

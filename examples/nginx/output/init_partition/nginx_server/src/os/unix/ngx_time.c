@@ -25,8 +25,6 @@
 
 
 
-
-
 void
 ngx_libc_localtime(time_t s, struct tm *tm)
 {
@@ -41,6 +39,5 @@ ngx_libc_localtime(time_t s, struct tm *tm)
 
 #endif
 }
-
 
 

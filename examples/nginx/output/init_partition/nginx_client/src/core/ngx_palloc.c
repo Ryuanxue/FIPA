@@ -4,11 +4,11 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static ngx_inline void *ngx_palloc_small(ngx_pool_t *pool, size_t size,
@@ -17,29 +17,32 @@ static void *ngx_palloc_block(ngx_pool_t *pool, size_t size);
 static void *ngx_palloc_large(ngx_pool_t *pool, size_t size);
 
 
-ngx_pool_t *ngx_create_pool(size_t size, ngx_log_t *log)
+ngx_pool_t *
+ngx_create_pool(size_t size, ngx_log_t *log)
 {
-  ngx_pool_t *p;
-  p = ngx_memalign(16, size, log);
-  if (p == 0)
-  {
-    return 0;
-  }
-  p->d.last = ((u_char *) p) + (sizeof(ngx_pool_t));
-  p->d.end = ((u_char *) p) + size;
-  p->d.next = 0;
-  p->d.failed = 0;
-  size = size - (sizeof(ngx_pool_t));
-  p->max = (size < (get_ngx_pagesize_wrapper() - 1)) ? (size) : (get_ngx_pagesize_wrapper() - 1);
-  p->current = p;
-  p->chain = 0;
-  p->large = 0;
-  p->cleanup = 0;
-  p->log = log;
-  return p;
+    ngx_pool_t  *p;
+
+    p = ngx_memalign(NGX_POOL_ALIGNMENT, size, log);
+    if (p == NULL) {
+        return NULL;
+    }
+
+    p->d.last = (u_char *) p + sizeof(ngx_pool_t);
+    p->d.end = (u_char *) p + size;
+    p->d.next = NULL;
+    p->d.failed = 0;
+
+    size = size - sizeof(ngx_pool_t);
+    p->max = (size < NGX_MAX_ALLOC_FROM_POOL) ? size : NGX_MAX_ALLOC_FROM_POOL;
+
+    p->current = p;
+    p->chain = NULL;
+    p->large = NULL;
+    p->cleanup = NULL;
+    p->log = log;
+
+    return p;
 }
-
-
 
 
 void

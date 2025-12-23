@@ -57,8 +57,6 @@ static void ngx_open_file_cache_remove(ngx_event_t *ev);
 
 
 
-
-
 ngx_int_t
 ngx_open_cached_file(ngx_open_file_cache_t *cache, ngx_str_t *name,
     ngx_open_file_info_t *of, ngx_pool_t *pool)
@@ -935,7 +933,6 @@ ngx_open_file_add_event(ngx_open_file_cache_t *cache,
 
 
 
-
 static void
 ngx_close_cached_file(ngx_open_file_cache_t *cache,
     ngx_cached_open_file_t *file, ngx_uint_t min_uses, ngx_log_t *log)
@@ -1129,6 +1126,5 @@ ngx_open_file_lookup(ngx_open_file_cache_t *cache, ngx_str_t *name,
 
     return NULL;
 }
-
 
 

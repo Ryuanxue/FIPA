@@ -16,7 +16,5 @@
 
 
 
-
 /* the stable insertion sort */
-
 

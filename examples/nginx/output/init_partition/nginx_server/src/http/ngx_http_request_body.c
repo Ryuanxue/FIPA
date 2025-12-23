@@ -213,8 +213,6 @@ done:
 
 
 
-
-
 static ngx_int_t
 ngx_http_do_read_client_request_body(ngx_http_request_t *r)
 {
@@ -382,7 +380,6 @@ ngx_http_do_read_client_request_body(ngx_http_request_t *r)
 
 
 
-
 ngx_int_t
 ngx_http_discard_request_body(ngx_http_request_t *r)
 {
@@ -455,7 +452,6 @@ ngx_http_discard_request_body(ngx_http_request_t *r)
 
     return NGX_OK;
 }
-
 
 
 
@@ -886,6 +882,5 @@ ngx_http_request_body_chunked_filter(ngx_http_request_t *r, ngx_chain_t *in)
 
     return rc;
 }
-
 
 

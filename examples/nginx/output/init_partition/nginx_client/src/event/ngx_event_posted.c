@@ -4,16 +4,15 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_event.h>
 
-#include "nginx_rpc_wrapper.h"
-
 
 ngx_queue_t  ngx_posted_accept_events;
-ngx_queue_t  ngx_posted_events;
 
 
 void

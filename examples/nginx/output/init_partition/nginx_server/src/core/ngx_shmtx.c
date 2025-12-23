@@ -210,10 +210,4 @@ ngx_shmtx_wakeup(ngx_shmtx_t *mtx)
 
 
 
-
-
-
-
-
-
 #endif

@@ -4,11 +4,11 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 u_char  ngx_linux_kern_ostype[50];
@@ -32,22 +32,26 @@ static ngx_os_io_t ngx_linux_io = {
 };
 
 
-ngx_int_t ngx_os_specific_init(ngx_log_t *log)
+ngx_int_t
+ngx_os_specific_init(ngx_log_t *log)
 {
-  struct utsname u;
-  if (uname(&u) == (-1))
-  {
-    if (log->log_level >= 2)
-      ngx_log_error_core(2, log, errno, "uname() failed");
-    return -1;
-  }
-  (void) ngx_cpystrn(ngx_linux_kern_ostype, (u_char *) u.sysname, sizeof(ngx_linux_kern_ostype));
-  (void) ngx_cpystrn(ngx_linux_kern_osrelease, (u_char *) u.release, sizeof(ngx_linux_kern_osrelease));
-  set_ngx_os_io_wrapper(ngx_linux_io);
-  return 0;
+    struct utsname  u;
+
+    if (uname(&u) == -1) {
+        ngx_log_error(NGX_LOG_ALERT, log, ngx_errno, "uname() failed");
+        return NGX_ERROR;
+    }
+
+    (void) ngx_cpystrn(ngx_linux_kern_ostype, (u_char *) u.sysname,
+                       sizeof(ngx_linux_kern_ostype));
+
+    (void) ngx_cpystrn(ngx_linux_kern_osrelease, (u_char *) u.release,
+                       sizeof(ngx_linux_kern_osrelease));
+
+    ngx_os_io = ngx_linux_io;
+
+    return NGX_OK;
 }
-
-
 
 
 void

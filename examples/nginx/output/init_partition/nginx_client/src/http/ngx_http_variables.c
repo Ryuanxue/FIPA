@@ -4,13 +4,13 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
 #include <nginx.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static ngx_http_variable_t *ngx_http_add_prefix_variable(ngx_conf_t *cf,
@@ -387,11 +387,9 @@ static ngx_http_variable_t  ngx_http_core_variables[] = {
 
 ngx_http_variable_value_t  ngx_http_variable_null_value =
     ngx_http_variable("");
-ngx_http_variable_value_t  ngx_http_variable_true_value =
     ngx_http_variable("1");
 
 
-static ngx_uint_t  ngx_http_variable_depth = 100;
 
 
 ngx_http_variable_t *
@@ -588,45 +586,54 @@ ngx_http_get_variable_index(ngx_conf_t *cf, ngx_str_t *name)
 }
 
 
-ngx_http_variable_value_t *ngx_http_get_indexed_variable(ngx_http_request_t *r, ngx_uint_t index)
+ngx_http_variable_value_t *
+ngx_http_get_indexed_variable(ngx_http_request_t *r, ngx_uint_t index)
 {
-  ngx_http_variable_t *v;
-  ngx_http_core_main_conf_t *cmcf;
-  cmcf = r->main_conf[ngx_http_core_module.ctx_index];
-  if (cmcf->variables.nelts <= index)
-  {
-    if (r->connection->log->log_level >= 2)
-      ngx_log_error_core(2, r->connection->log, 0, "unknown variable index: %ui", index);
-    return 0;
-  }
-  if (r->variables[index].not_found || r->variables[index].valid)
-  {
-    return &r->variables[index];
-  }
-  v = cmcf->variables.elts;
-  if (get_ngx_http_variable_depth_wrapper() == 0)
-  {
-    if (r->connection->log->log_level >= 4)
-      ngx_log_error_core(4, r->connection->log, 0, "cycle while evaluating variable \"%V\"", &v[index].name);
-    return 0;
-  }
-  get_ngx_http_variable_depth_wrapper()--;
-  if (v[index].get_handler(r, &r->variables[index], v[index].data) == 0)
-  {
-    get_ngx_http_variable_depth_wrapper()++;
-    if (v[index].flags & 2)
-    {
-      r->variables[index].no_cacheable = 1;
+    ngx_http_variable_t        *v;
+    ngx_http_core_main_conf_t  *cmcf;
+
+    cmcf = ngx_http_get_module_main_conf(r, ngx_http_core_module);
+
+    if (cmcf->variables.nelts <= index) {
+        ngx_log_error(NGX_LOG_ALERT, r->connection->log, 0,
+                      "unknown variable index: %ui", index);
+        return NULL;
     }
-    return &r->variables[index];
-  }
-  get_ngx_http_variable_depth_wrapper()++;
-  r->variables[index].valid = 0;
-  r->variables[index].not_found = 1;
-  return 0;
+
+    if (r->variables[index].not_found || r->variables[index].valid) {
+        return &r->variables[index];
+    }
+
+    v = cmcf->variables.elts;
+
+    if (ngx_http_variable_depth == 0) {
+        ngx_log_error(NGX_LOG_ERR, r->connection->log, 0,
+                      "cycle while evaluating variable \"%V\"",
+                      &v[index].name);
+        return NULL;
+    }
+
+    ngx_http_variable_depth--;
+
+    if (v[index].get_handler(r, &r->variables[index], v[index].data)
+        == NGX_OK)
+    {
+        ngx_http_variable_depth++;
+
+        if (v[index].flags & NGX_HTTP_VAR_NOCACHEABLE) {
+            r->variables[index].no_cacheable = 1;
+        }
+
+        return &r->variables[index];
+    }
+
+    ngx_http_variable_depth++;
+
+    r->variables[index].valid = 0;
+    r->variables[index].not_found = 1;
+
+    return NULL;
 }
-
-
 
 
 ngx_http_variable_value_t *
@@ -649,68 +656,74 @@ ngx_http_get_flushed_variable(ngx_http_request_t *r, ngx_uint_t index)
 }
 
 
-ngx_http_variable_value_t *ngx_http_get_variable(ngx_http_request_t *r, ngx_str_t *name, ngx_uint_t key)
+ngx_http_variable_value_t *
+ngx_http_get_variable(ngx_http_request_t *r, ngx_str_t *name, ngx_uint_t key)
 {
-  size_t len;
-  ngx_uint_t i;
-  ngx_uint_t n;
-  ngx_http_variable_t *v;
-  ngx_http_variable_value_t *vv;
-  ngx_http_core_main_conf_t *cmcf;
-  cmcf = r->main_conf[ngx_http_core_module.ctx_index];
-  v = ngx_hash_find(&cmcf->variables_hash, key, name->data, name->len);
-  if (v)
-  {
-    if (v->flags & 4)
-    {
-      return ngx_http_get_flushed_variable(r, v->index);
+    size_t                      len;
+    ngx_uint_t                  i, n;
+    ngx_http_variable_t        *v;
+    ngx_http_variable_value_t  *vv;
+    ngx_http_core_main_conf_t  *cmcf;
+
+    cmcf = ngx_http_get_module_main_conf(r, ngx_http_core_module);
+
+    v = ngx_hash_find(&cmcf->variables_hash, key, name->data, name->len);
+
+    if (v) {
+        if (v->flags & NGX_HTTP_VAR_INDEXED) {
+            return ngx_http_get_flushed_variable(r, v->index);
+        }
+
+        if (ngx_http_variable_depth == 0) {
+            ngx_log_error(NGX_LOG_ERR, r->connection->log, 0,
+                          "cycle while evaluating variable \"%V\"", name);
+            return NULL;
+        }
+
+        ngx_http_variable_depth--;
+
+        vv = ngx_palloc(r->pool, sizeof(ngx_http_variable_value_t));
+
+        if (vv && v->get_handler(r, vv, v->data) == NGX_OK) {
+            ngx_http_variable_depth++;
+            return vv;
+        }
+
+        ngx_http_variable_depth++;
+        return NULL;
     }
-    if (get_ngx_http_variable_depth_wrapper() == 0)
-    {
-      if (r->connection->log->log_level >= 4)
-        ngx_log_error_core(4, r->connection->log, 0, "cycle while evaluating variable \"%V\"", name);
-      return 0;
-    }
-    get_ngx_http_variable_depth_wrapper()--;
+
     vv = ngx_palloc(r->pool, sizeof(ngx_http_variable_value_t));
-    if (vv && (v->get_handler(r, vv, v->data) == 0))
-    {
-      get_ngx_http_variable_depth_wrapper()++;
-      return vv;
+    if (vv == NULL) {
+        return NULL;
     }
-    get_ngx_http_variable_depth_wrapper()++;
-    return 0;
-  }
-  vv = ngx_palloc(r->pool, sizeof(ngx_http_variable_value_t));
-  if (vv == 0)
-  {
-    return 0;
-  }
-  len = 0;
-  v = cmcf->prefix_variables.elts;
-  n = cmcf->prefix_variables.nelts;
-  for (i = 0; i < cmcf->prefix_variables.nelts; i++)
-  {
-    if (((name->len >= v[i].name.len) && (name->len > len)) && (strncmp((const char *) name->data, (const char *) v[i].name.data, v[i].name.len) == 0))
-    {
-      len = v[i].name.len;
-      n = i;
-    }
-  }
 
-  if (n != cmcf->prefix_variables.nelts)
-  {
-    if (v[n].get_handler(r, vv, (uintptr_t) name) == 0)
-    {
-      return vv;
+    len = 0;
+
+    v = cmcf->prefix_variables.elts;
+    n = cmcf->prefix_variables.nelts;
+
+    for (i = 0; i < cmcf->prefix_variables.nelts; i++) {
+        if (name->len >= v[i].name.len && name->len > len
+            && ngx_strncmp(name->data, v[i].name.data, v[i].name.len) == 0)
+        {
+            len = v[i].name.len;
+            n = i;
+        }
     }
-    return 0;
-  }
-  vv->not_found = 1;
-  return vv;
+
+    if (n != cmcf->prefix_variables.nelts) {
+        if (v[n].get_handler(r, vv, (uintptr_t) name) == NGX_OK) {
+            return vv;
+        }
+
+        return NULL;
+    }
+
+    vv->not_found = 1;
+
+    return vv;
 }
-
-
 
 
 static ngx_int_t
@@ -801,17 +814,27 @@ ngx_http_variable_request_set_size(ngx_http_request_t *r,
 }
 
 
-static ngx_int_t ngx_http_variable_header(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_header(ngx_http_request_t *r, ngx_http_variable_value_t *v,
+    uintptr_t data)
 {
-  {
-    int ngx_http_variable_header_sense_1_ret = 0;
-    ngx_int_t ngx_http_variable_header_sense_1_return = ngx_http_variable_header_sense_1_wrapper(&ngx_http_variable_header_sense_1_ret, r, v, data);
-    if (ngx_http_variable_header_sense_1_ret)
-      return ngx_http_variable_header_sense_1_return;
-  }
+    ngx_table_elt_t  *h;
+
+    h = *(ngx_table_elt_t **) ((char *) r + data);
+
+    if (h) {
+        v->len = h->value.len;
+        v->valid = 1;
+        v->no_cacheable = 0;
+        v->not_found = 0;
+        v->data = h->value.data;
+
+    } else {
+        v->not_found = 1;
+    }
+
+    return NGX_OK;
 }
-
-
 
 
 static ngx_int_t
@@ -991,17 +1014,40 @@ ngx_http_variable_unknown_header(ngx_http_variable_value_t *v, ngx_str_t *var,
 }
 
 
-static ngx_int_t ngx_http_variable_request_line(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_request_line(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
 {
-  {
-    int ngx_http_variable_request_line_sense_1_ret = 0;
-    ngx_int_t ngx_http_variable_request_line_sense_1_return = ngx_http_variable_request_line_sense_1_wrapper(&ngx_http_variable_request_line_sense_1_ret, r, v, data);
-    if (ngx_http_variable_request_line_sense_1_ret)
-      return ngx_http_variable_request_line_sense_1_return;
-  }
+    u_char  *p, *s;
+
+    s = r->request_line.data;
+
+    if (s == NULL) {
+        s = r->request_start;
+
+        if (s == NULL) {
+            v->not_found = 1;
+            return NGX_OK;
+        }
+
+        for (p = s; p < r->header_in->last; p++) {
+            if (*p == CR || *p == LF) {
+                break;
+            }
+        }
+
+        r->request_line.len = p - s;
+        r->request_line.data = s;
+    }
+
+    v->len = r->request_line.len;
+    v->valid = 1;
+    v->no_cacheable = 0;
+    v->not_found = 0;
+    v->data = s;
+
+    return NGX_OK;
 }
-
-
 
 
 static ngx_int_t
@@ -1451,89 +1497,118 @@ ngx_http_variable_is_args(ngx_http_request_t *r,
 }
 
 
-static ngx_int_t ngx_http_variable_document_root(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_document_root(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
 {
-  ngx_str_t path;
-  ngx_http_core_loc_conf_t *clcf;
-  clcf = r->loc_conf[ngx_http_core_module.ctx_index];
-  if (clcf->root_lengths == 0)
-  {
-    v->len = clcf->root.len;
-    v->valid = 1;
-    v->no_cacheable = 0;
-    v->not_found = 0;
-    v->data = clcf->root.data;
-  }
-  else
-  {
-    if (ngx_http_script_run(r, &path, clcf->root_lengths->elts, 0, clcf->root_values->elts) == 0)
-    {
-      return -1;
+    ngx_str_t                  path;
+    ngx_http_core_loc_conf_t  *clcf;
+
+    clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
+
+    if (clcf->root_lengths == NULL) {
+        v->len = clcf->root.len;
+        v->valid = 1;
+        v->no_cacheable = 0;
+        v->not_found = 0;
+        v->data = clcf->root.data;
+
+    } else {
+        if (ngx_http_script_run(r, &path, clcf->root_lengths->elts, 0,
+                                clcf->root_values->elts)
+            == NULL)
+        {
+            return NGX_ERROR;
+        }
+
+        if (ngx_get_full_name(r->pool, (ngx_str_t *) &ngx_cycle->prefix, &path)
+            != NGX_OK)
+        {
+            return NGX_ERROR;
+        }
+
+        v->len = path.len;
+        v->valid = 1;
+        v->no_cacheable = 0;
+        v->not_found = 0;
+        v->data = path.data;
     }
-    if (ngx_get_full_name(r->pool, (ngx_str_t *) (&get_ngx_cycle_wrapper()->prefix), &path) != 0)
-    {
-      return -1;
-    }
-    v->len = path.len;
-    v->valid = 1;
-    v->no_cacheable = 0;
-    v->not_found = 0;
-    v->data = path.data;
-  }
-  return 0;
+
+    return NGX_OK;
 }
 
 
-
-
-static ngx_int_t ngx_http_variable_realpath_root(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_realpath_root(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
 {
-  u_char *real;
-  size_t len;
-  ngx_str_t path;
-  ngx_http_core_loc_conf_t *clcf;
-  clcf = r->loc_conf[ngx_http_core_module.ctx_index];
-  if (clcf->root_lengths == 0)
-  {
-    path = clcf->root;
-  }
-  else
-  {
-    if (ngx_http_script_run(r, &path, clcf->root_lengths->elts, 1, clcf->root_values->elts) == 0)
-    {
-      return -1;
+    u_char                    *real;
+    size_t                     len;
+    ngx_str_t                  path;
+    ngx_http_core_loc_conf_t  *clcf;
+#if (NGX_HAVE_MAX_PATH)
+    u_char                     buffer[NGX_MAX_PATH];
+#endif
+
+    clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
+
+    if (clcf->root_lengths == NULL) {
+        path = clcf->root;
+
+    } else {
+        if (ngx_http_script_run(r, &path, clcf->root_lengths->elts, 1,
+                                clcf->root_values->elts)
+            == NULL)
+        {
+            return NGX_ERROR;
+        }
+
+        path.data[path.len - 1] = '\0';
+
+        if (ngx_get_full_name(r->pool, (ngx_str_t *) &ngx_cycle->prefix, &path)
+            != NGX_OK)
+        {
+            return NGX_ERROR;
+        }
     }
-    path.data[path.len - 1] = '\0';
-    if (ngx_get_full_name(r->pool, (ngx_str_t *) (&get_ngx_cycle_wrapper()->prefix), &path) != 0)
-    {
-      return -1;
+
+#if (NGX_HAVE_MAX_PATH)
+    real = buffer;
+#else
+    real = NULL;
+#endif
+
+    real = ngx_realpath(path.data, real);
+
+    if (real == NULL) {
+        ngx_log_error(NGX_LOG_CRIT, r->connection->log, ngx_errno,
+                      ngx_realpath_n " \"%s\" failed", path.data);
+        return NGX_ERROR;
     }
-  }
-  real = 0;
-  real = (u_char *) realpath((char *) path.data, (char *) real);
-  if (real == 0)
-  {
-    if (r->connection->log->log_level >= 3)
-      ngx_log_error_core(3, r->connection->log, errno, "realpath() \"%s\" failed", path.data);
-    return -1;
-  }
-  len = strlen((const char *) real);
-  v->data = ngx_pnalloc(r->pool, len);
-  if (v->data == 0)
-  {
-    free(real);
-    return -1;
-  }
-  v->len = len;
-  v->valid = 1;
-  v->no_cacheable = 0;
-  v->not_found = 0;
-  (void) memcpy(v->data, real, len);
-  free(real);
-  return 0;
+
+    len = ngx_strlen(real);
+
+    v->data = ngx_pnalloc(r->pool, len);
+    if (v->data == NULL) {
+#if !(NGX_HAVE_MAX_PATH)
+        ngx_free(real);
+#endif
+        return NGX_ERROR;
+    }
+
+    v->len = len;
+    v->valid = 1;
+    v->no_cacheable = 0;
+    v->not_found = 0;
+
+    ngx_memcpy(v->data, real, len);
+
+#if !(NGX_HAVE_MAX_PATH)
+    ngx_free(real);
+#endif
+
+    return NGX_OK;
 }
-
-
 
 
 static ngx_int_t
@@ -1596,17 +1671,31 @@ ngx_http_variable_request_method(ngx_http_request_t *r,
 }
 
 
-static ngx_int_t ngx_http_variable_remote_user(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_remote_user(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
 {
-  {
-    int ngx_http_variable_remote_user_sense_1_ret = 0;
-    ngx_int_t ngx_http_variable_remote_user_sense_1_return = ngx_http_variable_remote_user_sense_1_wrapper(&ngx_http_variable_remote_user_sense_1_ret, r, v, data);
-    if (ngx_http_variable_remote_user_sense_1_ret)
-      return ngx_http_variable_remote_user_sense_1_return;
-  }
+    ngx_int_t  rc;
+
+    rc = ngx_http_auth_basic_user(r);
+
+    if (rc == NGX_DECLINED) {
+        v->not_found = 1;
+        return NGX_OK;
+    }
+
+    if (rc == NGX_ERROR) {
+        return NGX_ERROR;
+    }
+
+    v->len = r->headers_in.user.len;
+    v->valid = 1;
+    v->no_cacheable = 0;
+    v->not_found = 0;
+    v->data = r->headers_in.user.data;
+
+    return NGX_OK;
 }
-
-
 
 
 static ngx_int_t
@@ -2026,28 +2115,33 @@ ngx_http_variable_request_length(ngx_http_request_t *r,
 }
 
 
-static ngx_int_t ngx_http_variable_request_time(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_request_time(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
 {
-  u_char *p;
-  ngx_time_t *tp;
-  ngx_msec_int_t ms;
-  p = ngx_pnalloc(r->pool, ((sizeof("-9223372036854775808")) - 1) + 4);
-  if (p == 0)
-  {
-    return -1;
-  }
-  tp = (ngx_time_t *) get_ngx_cached_time_wrapper();
-  ms = (ngx_msec_int_t) (((tp->sec - r->start_sec) * 1000) + (tp->msec - r->start_msec));
-  ms = (ms < 0) ? (0) : (ms);
-  v->len = ngx_sprintf(p, "%T.%03M", ((time_t) ms) / 1000, ms % 1000) - p;
-  v->valid = 1;
-  v->no_cacheable = 0;
-  v->not_found = 0;
-  v->data = p;
-  return 0;
+    u_char          *p;
+    ngx_time_t      *tp;
+    ngx_msec_int_t   ms;
+
+    p = ngx_pnalloc(r->pool, NGX_TIME_T_LEN + 4);
+    if (p == NULL) {
+        return NGX_ERROR;
+    }
+
+    tp = ngx_timeofday();
+
+    ms = (ngx_msec_int_t)
+             ((tp->sec - r->start_sec) * 1000 + (tp->msec - r->start_msec));
+    ms = ngx_max(ms, 0);
+
+    v->len = ngx_sprintf(p, "%T.%03M", (time_t) ms / 1000, ms % 1000) - p;
+    v->valid = 1;
+    v->no_cacheable = 0;
+    v->not_found = 0;
+    v->data = p;
+
+    return NGX_OK;
 }
-
-
 
 
 static ngx_int_t
@@ -2147,57 +2241,63 @@ ngx_http_variable_nginx_version(ngx_http_request_t *r,
 }
 
 
-static ngx_int_t ngx_http_variable_hostname(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_hostname(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
 {
-  v->len = get_ngx_cycle_wrapper()->hostname.len;
-  v->valid = 1;
-  v->no_cacheable = 0;
-  v->not_found = 0;
-  v->data = get_ngx_cycle_wrapper()->hostname.data;
-  return 0;
+    v->len = ngx_cycle->hostname.len;
+    v->valid = 1;
+    v->no_cacheable = 0;
+    v->not_found = 0;
+    v->data = ngx_cycle->hostname.data;
+
+    return NGX_OK;
 }
 
 
-
-
-static ngx_int_t ngx_http_variable_pid(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_pid(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
 {
-  u_char *p;
-  p = ngx_pnalloc(r->pool, (sizeof("-9223372036854775808")) - 1);
-  if (p == 0)
-  {
-    return -1;
-  }
-  v->len = ngx_sprintf(p, "%P", get_ngx_pid_wrapper()) - p;
-  v->valid = 1;
-  v->no_cacheable = 0;
-  v->not_found = 0;
-  v->data = p;
-  return 0;
+    u_char  *p;
+
+    p = ngx_pnalloc(r->pool, NGX_INT64_LEN);
+    if (p == NULL) {
+        return NGX_ERROR;
+    }
+
+    v->len = ngx_sprintf(p, "%P", ngx_pid) - p;
+    v->valid = 1;
+    v->no_cacheable = 0;
+    v->not_found = 0;
+    v->data = p;
+
+    return NGX_OK;
 }
 
 
-
-
-static ngx_int_t ngx_http_variable_msec(ngx_http_request_t *r, ngx_http_variable_value_t *v, uintptr_t data)
+static ngx_int_t
+ngx_http_variable_msec(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
 {
-  u_char *p;
-  ngx_time_t *tp;
-  p = ngx_pnalloc(r->pool, ((sizeof("-9223372036854775808")) - 1) + 4);
-  if (p == 0)
-  {
-    return -1;
-  }
-  tp = (ngx_time_t *) get_ngx_cached_time_wrapper();
-  v->len = ngx_sprintf(p, "%T.%03M", tp->sec, tp->msec) - p;
-  v->valid = 1;
-  v->no_cacheable = 0;
-  v->not_found = 0;
-  v->data = p;
-  return 0;
+    u_char      *p;
+    ngx_time_t  *tp;
+
+    p = ngx_pnalloc(r->pool, NGX_TIME_T_LEN + 4);
+    if (p == NULL) {
+        return NGX_ERROR;
+    }
+
+    tp = ngx_timeofday();
+
+    v->len = ngx_sprintf(p, "%T.%03M", tp->sec, tp->msec) - p;
+    v->valid = 1;
+    v->no_cacheable = 0;
+    v->not_found = 0;
+    v->data = p;
+
+    return NGX_OK;
 }
-
-
 
 
 static ngx_int_t

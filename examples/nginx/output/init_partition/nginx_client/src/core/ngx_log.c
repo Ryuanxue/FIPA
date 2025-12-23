@@ -4,11 +4,11 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static char *ngx_error_log(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
@@ -33,7 +33,6 @@ typedef struct {
 #endif
 
 
-static ngx_command_t  ngx_errlog_commands[] = {
 
     { ngx_string("error_log"),
       NGX_MAIN_CONF|NGX_CONF_1MORE,
@@ -46,14 +45,12 @@ static ngx_command_t  ngx_errlog_commands[] = {
 };
 
 
-static ngx_core_module_t  ngx_errlog_module_ctx = {
     ngx_string("errlog"),
     NULL,
     NULL
 };
 
 
-ngx_module_t  ngx_errlog_module = {
     NGX_MODULE_V1,
     &ngx_errlog_module_ctx,                /* module context */
     ngx_errlog_commands,                   /* module directives */
@@ -71,10 +68,8 @@ ngx_module_t  ngx_errlog_module = {
 
 static ngx_log_t        ngx_log;
 static ngx_open_file_t  ngx_log_file;
-ngx_uint_t              ngx_use_stderr = 1;
 
 
-static ngx_str_t err_levels[] = {
     ngx_null_string,
     ngx_string("emerg"),
     ngx_string("alert"),
@@ -100,83 +95,116 @@ ngx_log_error_core(ngx_uint_t level, ngx_log_t *log, ngx_err_t err,
 
 #else
 
-void ngx_log_error_core(ngx_uint_t level, ngx_log_t *log, ngx_err_t err, const char *fmt, ...)
+void
+ngx_log_error_core(ngx_uint_t level, ngx_log_t *log, ngx_err_t err,
+    const char *fmt, va_list args)
+
+#endif
 {
-  va_list args;
-  u_char *p;
-  u_char *last;
-  u_char *msg;
-  ssize_t n;
-  ngx_uint_t wrote_stderr;
-  ngx_uint_t debug_connection;
-  u_char errstr[2048];
-  last = errstr + 2048;
-  p = ((u_char *) memcpy(errstr, ngx_cached_err_log_time.data, ngx_cached_err_log_time.len)) + ngx_cached_err_log_time.len;
-  p = ngx_slprintf(p, last, " [%V] ", &get_err_levels_wrapper()[level]);
-  p = ngx_slprintf(p, last, "%P#%d: ", get_ngx_pid_wrapper(), 0);
-  if (log->connection)
-  {
-    p = ngx_slprintf(p, last, "*%uA ", log->connection);
-  }
-  msg = p;
-  va_start(args, fmt);
-  p = ngx_vslprintf(p, last, fmt, args);
-  va_end(args);
-  if (err)
-  {
-    p = ngx_log_errno(p, last, err);
-  }
-  if ((level != 8) && log->handler)
-  {
-    p = log->handler(log, p, last - p);
-  }
-  if (p > (last - 1))
-  {
-    p = last - 1;
-  }
-  *(p++) = (u_char) '\n';
-  ;
-  wrote_stderr = 0;
-  debug_connection = (log->log_level & 0x80000000) != 0;
-  while (log)
-  {
-    if ((log->log_level < level) && (!debug_connection))
-    {
-      break;
+#if (NGX_HAVE_VARIADIC_MACROS)
+    va_list      args;
+#endif
+    u_char      *p, *last, *msg;
+    ssize_t      n;
+    ngx_uint_t   wrote_stderr, debug_connection;
+    u_char       errstr[NGX_MAX_ERROR_STR];
+
+    last = errstr + NGX_MAX_ERROR_STR;
+
+    p = ngx_cpymem(errstr, ngx_cached_err_log_time.data,
+                   ngx_cached_err_log_time.len);
+
+    p = ngx_slprintf(p, last, " [%V] ", &err_levels[level]);
+
+    /* pid#tid */
+    p = ngx_slprintf(p, last, "%P#" NGX_TID_T_FMT ": ",
+                    ngx_log_pid, ngx_log_tid);
+
+    if (log->connection) {
+        p = ngx_slprintf(p, last, "*%uA ", log->connection);
     }
-    if (log->writer)
-    {
-      log->writer(log, level, errstr, p - errstr);
-      goto next;
+
+    msg = p;
+
+#if (NGX_HAVE_VARIADIC_MACROS)
+
+    va_start(args, fmt);
+    p = ngx_vslprintf(p, last, fmt, args);
+    va_end(args);
+
+#else
+
+    p = ngx_vslprintf(p, last, fmt, args);
+
+#endif
+
+    if (err) {
+        p = ngx_log_errno(p, last, err);
     }
-    if (get_ngx_cached_time_sec_wrapper() == log->disk_full_time)
-    {
-      goto next;
+
+    if (level != NGX_LOG_DEBUG && log->handler) {
+        p = log->handler(log, p, last - p);
     }
-    n = ngx_write_fd(log->file->fd, errstr, p - errstr);
-    if ((n == (-1)) && (errno == ENOSPC))
-    {
-      log->disk_full_time = get_ngx_cached_time_sec_wrapper();
+
+    if (p > last - NGX_LINEFEED_SIZE) {
+        p = last - NGX_LINEFEED_SIZE;
     }
-    if (log->file->fd == STDERR_FILENO)
-    {
-      wrote_stderr = 1;
-    }
+
+    ngx_linefeed(p);
+
+    wrote_stderr = 0;
+    debug_connection = (log->log_level & NGX_LOG_DEBUG_CONNECTION) != 0;
+
+    while (log) {
+
+        if (log->log_level < level && !debug_connection) {
+            break;
+        }
+
+        if (log->writer) {
+            log->writer(log, level, errstr, p - errstr);
+            goto next;
+        }
+
+        if (ngx_time() == log->disk_full_time) {
+
+            /*
+             * on FreeBSD writing to a full filesystem with enabled softupdates
+             * may block process for much longer time than writing to non-full
+             * filesystem, so we skip writing to a log for one second
+             */
+
+            goto next;
+        }
+
+        n = ngx_write_fd(log->file->fd, errstr, p - errstr);
+
+        if (n == -1 && ngx_errno == NGX_ENOSPC) {
+            log->disk_full_time = ngx_time();
+        }
+
+        if (log->file->fd == ngx_stderr) {
+            wrote_stderr = 1;
+        }
+
     next:
-    log = log->next;
 
-  }
+        log = log->next;
+    }
 
-  if (((!get_ngx_use_stderr_wrapper()) || (level > 5)) || wrote_stderr)
-  {
-    return;
-  }
-  msg -= (7 + get_err_levels_wrapper()[level].len) + 3;
-  (void) ngx_sprintf(msg, "nginx: [%V] ", &get_err_levels_wrapper()[level]);
-  (void) ngx_write_fd(STDERR_FILENO, msg, p - msg);
+    if (!ngx_use_stderr
+        || level > NGX_LOG_WARN
+        || wrote_stderr)
+    {
+        return;
+    }
+
+    msg -= (7 + err_levels[level].len + 3);
+
+    (void) ngx_sprintf(msg, "nginx: [%V] ", &err_levels[level]);
+
+    (void) ngx_write_console(ngx_stderr, msg, p - msg);
 }
-
-
 
 
 #if !(NGX_HAVE_VARIADIC_MACROS)
@@ -184,24 +212,23 @@ void ngx_log_error_core(ngx_uint_t level, ngx_log_t *log, ngx_err_t err, const c
 
 
 
-
-
 #endif
 
 
-void ngx_log_abort(ngx_err_t err, const char *fmt, ...)
+void ngx_cdecl
+ngx_log_abort(ngx_err_t err, const char *fmt, ...)
 {
-  u_char *p;
-  va_list args;
-  u_char errstr[1024];
-  va_start(args, fmt);
-  p = ngx_vslprintf(errstr, errstr + ((sizeof(errstr)) - 1), fmt, args);
-  va_end(args);
-  if (get_ngx_cycle_wrapper()->log->log_level >= 2)
-    ngx_log_error_core(2, get_ngx_cycle_wrapper()->log, err, "%*s", p - errstr, errstr);
+    u_char   *p;
+    va_list   args;
+    u_char    errstr[NGX_MAX_CONF_ERRSTR];
+
+    va_start(args, fmt);
+    p = ngx_vsnprintf(errstr, sizeof(errstr) - 1, fmt, args);
+    va_end(args);
+
+    ngx_log_error(NGX_LOG_ALERT, ngx_cycle->log, err,
+                  "%*s", p - errstr, errstr);
 }
-
-
 
 
 void ngx_cdecl
@@ -427,67 +454,67 @@ ngx_log_get_file_log(ngx_log_t *head)
 }
 
 
-static char *ngx_log_set_levels(ngx_conf_t *cf, ngx_log_t *log)
+static char *
+ngx_log_set_levels(ngx_conf_t *cf, ngx_log_t *log)
 {
-  ngx_uint_t i;
-  ngx_uint_t n;
-  ngx_uint_t d;
-  ngx_uint_t found;
-  ngx_str_t *value;
-  if (cf->args->nelts == 2)
-  {
-    log->log_level = 4;
-    return 0;
-  }
-  value = cf->args->elts;
-  for (i = 2; i < cf->args->nelts; i++)
-  {
-    found = 0;
-    for (n = 1; n <= 8; n++)
-    {
-      if (strcmp((const char *) value[i].data, (const char *) get_err_levels_wrapper()[n].data) == 0)
-      {
-        if (log->log_level != 0)
-        {
-          ngx_conf_log_error(1, cf, 0, "duplicate log level \"%V\"", &value[i]);
-          return (void *) (-1);
+    ngx_uint_t   i, n, d, found;
+    ngx_str_t   *value;
+
+    if (cf->args->nelts == 2) {
+        log->log_level = NGX_LOG_ERR;
+        return NGX_CONF_OK;
+    }
+
+    value = cf->args->elts;
+
+    for (i = 2; i < cf->args->nelts; i++) {
+        found = 0;
+
+        for (n = 1; n <= NGX_LOG_DEBUG; n++) {
+            if (ngx_strcmp(value[i].data, err_levels[n].data) == 0) {
+
+                if (log->log_level != 0) {
+                    ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
+                                       "duplicate log level \"%V\"",
+                                       &value[i]);
+                    return NGX_CONF_ERROR;
+                }
+
+                log->log_level = n;
+                found = 1;
+                break;
+            }
         }
-        log->log_level = n;
-        found = 1;
-        break;
-      }
-    }
 
-    for (n = 0, d = 0x010; d <= 0x400; d <<= 1)
-    {
-      if (strcmp((const char *) value[i].data, (const char *) debug_levels[n++]) == 0)
-      {
-        if (log->log_level & (~0x7ffffff0))
-        {
-          ngx_conf_log_error(1, cf, 0, "invalid log level \"%V\"", &value[i]);
-          return (void *) (-1);
+        for (n = 0, d = NGX_LOG_DEBUG_FIRST; d <= NGX_LOG_DEBUG_LAST; d <<= 1) {
+            if (ngx_strcmp(value[i].data, debug_levels[n++]) == 0) {
+                if (log->log_level & ~NGX_LOG_DEBUG_ALL) {
+                    ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
+                                       "invalid log level \"%V\"",
+                                       &value[i]);
+                    return NGX_CONF_ERROR;
+                }
+
+                log->log_level |= d;
+                found = 1;
+                break;
+            }
         }
-        log->log_level |= d;
-        found = 1;
-        break;
-      }
+
+
+        if (!found) {
+            ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
+                               "invalid log level \"%V\"", &value[i]);
+            return NGX_CONF_ERROR;
+        }
     }
 
-    if (!found)
-    {
-      ngx_conf_log_error(1, cf, 0, "invalid log level \"%V\"", &value[i]);
-      return (void *) (-1);
+    if (log->log_level == NGX_LOG_DEBUG) {
+        log->log_level = NGX_LOG_DEBUG_ALL;
     }
-  }
 
-  if (log->log_level == 8)
-  {
-    log->log_level = 0x7ffffff0;
-  }
-  return 0;
+    return NGX_CONF_OK;
 }
-
-
 
 
 static char *

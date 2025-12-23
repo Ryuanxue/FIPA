@@ -20,10 +20,6 @@ static ngx_radix_node_t *ngx_radix_alloc(ngx_radix_tree_t *tree);
 
 
 
-
-
-
-
 #if (NGX_HAVE_INET6)
 
 ngx_int_t
@@ -219,6 +215,5 @@ ngx_radix128tree_find(ngx_radix_tree_t *tree, u_char *key)
 }
 
 #endif
-
 
 

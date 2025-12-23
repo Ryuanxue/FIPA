@@ -4,12 +4,12 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static ngx_int_t ngx_http_script_init_arrays(ngx_http_script_compile_t *sc);
@@ -1315,38 +1315,48 @@ ngx_http_script_add_full_name_code(ngx_http_script_compile_t *sc)
 }
 
 
-static size_t ngx_http_script_full_name_len_code(ngx_http_script_engine_t *e)
+static size_t
+ngx_http_script_full_name_len_code(ngx_http_script_engine_t *e)
 {
-  ngx_http_script_full_name_code_t *code;
-  code = (ngx_http_script_full_name_code_t *) e->ip;
-  e->ip += sizeof(ngx_http_script_full_name_code_t);
-  return (code->conf_prefix) ? (get_ngx_cycle_wrapper()->conf_prefix.len) : (get_ngx_cycle_wrapper()->prefix.len);
+    ngx_http_script_full_name_code_t  *code;
+
+    code = (ngx_http_script_full_name_code_t *) e->ip;
+
+    e->ip += sizeof(ngx_http_script_full_name_code_t);
+
+    return code->conf_prefix ? ngx_cycle->conf_prefix.len:
+                               ngx_cycle->prefix.len;
 }
 
 
-
-
-static void ngx_http_script_full_name_code(ngx_http_script_engine_t *e)
+static void
+ngx_http_script_full_name_code(ngx_http_script_engine_t *e)
 {
-  ngx_http_script_full_name_code_t *code;
-  ngx_str_t value;
-  ngx_str_t *prefix;
-  code = (ngx_http_script_full_name_code_t *) e->ip;
-  value.data = e->buf.data;
-  value.len = e->pos - e->buf.data;
-  prefix = (code->conf_prefix) ? ((ngx_str_t *) (&get_ngx_cycle_wrapper()->conf_prefix)) : ((ngx_str_t *) (&get_ngx_cycle_wrapper()->prefix));
-  if (ngx_get_full_name(e->request->pool, prefix, &value) != 0)
-  {
-    e->ip = (u_char *) (&ngx_http_script_exit_code);
-    e->status = 500;
-    return;
-  }
-  e->buf = value;
-  ;
-  e->ip += sizeof(ngx_http_script_full_name_code_t);
+    ngx_http_script_full_name_code_t  *code;
+
+    ngx_str_t  value, *prefix;
+
+    code = (ngx_http_script_full_name_code_t *) e->ip;
+
+    value.data = e->buf.data;
+    value.len = e->pos - e->buf.data;
+
+    prefix = code->conf_prefix ? (ngx_str_t *) &ngx_cycle->conf_prefix:
+                                 (ngx_str_t *) &ngx_cycle->prefix;
+
+    if (ngx_get_full_name(e->request->pool, prefix, &value) != NGX_OK) {
+        e->ip = ngx_http_script_exit;
+        e->status = NGX_HTTP_INTERNAL_SERVER_ERROR;
+        return;
+    }
+
+    e->buf = value;
+
+    ngx_log_debug1(NGX_LOG_DEBUG_HTTP, e->request->connection->log, 0,
+                   "http script fullname: \"%V\"", &value);
+
+    e->ip += sizeof(ngx_http_script_full_name_code_t);
 }
-
-
 
 
 void

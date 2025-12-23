@@ -21,7 +21,6 @@ static ngx_chain_t *ngx_http_chunked_create_trailers(ngx_http_request_t *r,
     ngx_http_chunked_filter_ctx_t *ctx);
 
 
-static ngx_http_module_t  ngx_http_chunked_filter_module_ctx = {
     NULL,                                  /* preconfiguration */
     ngx_http_chunked_filter_init,          /* postconfiguration */
 
@@ -232,7 +231,6 @@ ngx_int_t ngx_http_chunked_body_filter_sense_1(int *ngx_http_chunked_body_filter
 
 
 
-
 static ngx_chain_t *
 ngx_http_chunked_create_trailers(ngx_http_request_t *r,
     ngx_http_chunked_filter_ctx_t *ctx)
@@ -334,6 +332,5 @@ ngx_http_chunked_create_trailers(ngx_http_request_t *r,
 
     return cl;
 }
-
 
 

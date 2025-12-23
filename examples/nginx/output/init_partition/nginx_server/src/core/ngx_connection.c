@@ -30,13 +30,6 @@ static void ngx_drain_connections(ngx_cycle_t *cycle);
 
 
 
-
-
-
-
-
-
-
 void
 ngx_free_connection(ngx_connection_t *c)
 {
@@ -167,8 +160,6 @@ ngx_reusable_connection(ngx_connection_t *c, ngx_uint_t reusable)
 #endif
     }
 }
-
-
 
 
 

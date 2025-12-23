@@ -1,39 +1,26 @@
 
+#include "nginx_rpc_wrapper.h"
+
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 
 extern ngx_module_t  ngx_core_module;
-extern ngx_module_t  ngx_errlog_module;
-extern ngx_module_t  ngx_conf_module;
 extern ngx_module_t  ngx_events_module;
 extern ngx_module_t  ngx_event_core_module;
 extern ngx_module_t  ngx_epoll_module;
-extern ngx_module_t  ngx_http_module;
 extern ngx_module_t  ngx_http_core_module;
 extern ngx_module_t  ngx_http_log_module;
 extern ngx_module_t  ngx_http_upstream_module;
-extern ngx_module_t  ngx_http_static_module;
-extern ngx_module_t  ngx_http_index_module;
 extern ngx_module_t  ngx_http_mirror_module;
-extern ngx_module_t  ngx_http_try_files_module;
 extern ngx_module_t  ngx_http_auth_basic_module;
 extern ngx_module_t  ngx_http_upstream_hash_module;
-extern ngx_module_t  ngx_http_upstream_least_conn_module;
 extern ngx_module_t  ngx_http_upstream_random_module;
 extern ngx_module_t  ngx_http_upstream_keepalive_module;
-extern ngx_module_t  ngx_http_upstream_zone_module;
-extern ngx_module_t  ngx_http_write_filter_module;
-extern ngx_module_t  ngx_http_header_filter_module;
 extern ngx_module_t  ngx_http_chunked_filter_module;
-extern ngx_module_t  ngx_http_range_header_filter_module;
-extern ngx_module_t  ngx_http_headers_filter_module;
 extern ngx_module_t  ngx_http_copy_filter_module;
 extern ngx_module_t  ngx_http_range_body_filter_module;
-extern ngx_module_t  ngx_http_not_modified_filter_module;
 
 ngx_module_t *ngx_modules[] = {
     &ngx_core_module,

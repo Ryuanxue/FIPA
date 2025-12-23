@@ -55,7 +55,7 @@ examples/nginx_sslkey_auth/output/multi-partion/nginx_auth_partition/
 examples/nginx_sslkey_auth/output/multi-partion/nginx_public_partition/
 examples/nginx_sslkey_auth/output/multi-partion/IDL/
 examples/nginx_sslkey_auth/input/source_code/nginx-1.15.5/
-examples/nginx_sslkey_auth/input/source_code/nginx-1.15.5_pycparser/
+examples/nginx_sslkey_auth/input/source_code/nginx-1.15.5_back/
 scripts/__pycache__/
 scripts/get_all_senseAddr_use_progate_for_refactor_output.py
 scripts/refactor_flowcheck_output.py

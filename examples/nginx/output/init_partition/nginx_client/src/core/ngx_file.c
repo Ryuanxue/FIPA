@@ -4,19 +4,16 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static ngx_int_t ngx_test_full_name(ngx_str_t *name);
 
 
-static ngx_atomic_t   temp_number = 0;
-ngx_atomic_t         *ngx_temp_number = &temp_number;
-ngx_atomic_int_t      ngx_random_number = 123456;
 
 
 ngx_int_t
@@ -346,16 +343,17 @@ ngx_create_full_path(u_char *dir, ngx_uint_t access)
 }
 
 
-ngx_atomic_uint_t ngx_next_temp_number(ngx_uint_t collision)
+ngx_atomic_uint_t
+ngx_next_temp_number(ngx_uint_t collision)
 {
-  ngx_atomic_uint_t n;
-  ngx_atomic_uint_t add;
-  add = (collision) ? (get_ngx_random_number_wrapper()) : (1);
-  n = __sync_fetch_and_add(get_ngx_temp_number_wrapper(), add);
-  return n + add;
+    ngx_atomic_uint_t  n, add;
+
+    add = collision ? ngx_random_number : 1;
+
+    n = ngx_atomic_fetch_add(ngx_temp_number, add);
+
+    return n + add;
 }
-
-
 
 
 char *

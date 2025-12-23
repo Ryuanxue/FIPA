@@ -4,6 +4,8 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
@@ -82,8 +84,6 @@ ngx_shm_free(ngx_shm_t *shm)
 
 #include <sys/ipc.h>
 #include <sys/shm.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 ngx_int_t

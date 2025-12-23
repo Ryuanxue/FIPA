@@ -4,74 +4,106 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_event.h>
 
-#include "nginx_rpc_wrapper.h"
 
-
-ngx_chain_t *ngx_writev_chain(ngx_connection_t *c, ngx_chain_t *in, off_t limit)
+ngx_chain_t *
+ngx_writev_chain(ngx_connection_t *c, ngx_chain_t *in, off_t limit)
 {
-  ssize_t n;
-  ssize_t sent;
-  off_t send;
-  off_t prev_send;
-  ngx_chain_t *cl;
-  ngx_event_t *wev;
-  ngx_iovec_t vec;
-  struct iovec iovs[IOV_MAX];
-  wev = c->write;
-  if (!wev->ready)
-  {
-    return in;
-  }
-  if ((limit == 0) || (limit > ((off_t) (9223372036854775807LL - get_ngx_pagesize_wrapper()))))
-  {
-    limit = 9223372036854775807LL - get_ngx_pagesize_wrapper();
-  }
-  send = 0;
-  vec.iovs = iovs;
-  vec.nalloc = IOV_MAX;
-  for (;;)
-  {
-    prev_send = send;
-    cl = ngx_output_chain_to_iovec(&vec, in, limit - send, c->log);
-    if (cl == ((ngx_chain_t *) (-1)))
-    {
-      return (ngx_chain_t *) (-1);
-    }
-    if (cl && cl->buf->in_file)
-    {
-      if (c->log->log_level >= 2)
-        ngx_log_error_core(2, c->log, 0, "file buf in writev t:%d r:%d f:%d %p %p-%p %p %O-%O", cl->buf->temporary, cl->buf->recycled, cl->buf->in_file, cl->buf->start, cl->buf->pos, cl->buf->last, cl->buf->file, cl->buf->file_pos, cl->buf->file_last);
-      ngx_debug_point();
-      return (ngx_chain_t *) (-1);
-    }
-    send += vec.size;
-    n = ngx_writev(c, &vec);
-    if (n == (-1))
-    {
-      return (ngx_chain_t *) (-1);
-    }
-    sent = (n == (-2)) ? (0) : (n);
-    c->sent += sent;
-    in = ngx_chain_update_sent(in, sent);
-    if ((send - prev_send) != sent)
-    {
-      wev->ready = 0;
-      return in;
-    }
-    if ((send >= limit) || (in == 0))
-    {
-      return in;
-    }
-  }
+    ssize_t        n, sent;
+    off_t          send, prev_send;
+    ngx_chain_t   *cl;
+    ngx_event_t   *wev;
+    ngx_iovec_t    vec;
+    struct iovec   iovs[NGX_IOVS_PREALLOCATE];
 
+    wev = c->write;
+
+    if (!wev->ready) {
+        return in;
+    }
+
+#if (NGX_HAVE_KQUEUE)
+
+    if ((ngx_event_flags & NGX_USE_KQUEUE_EVENT) && wev->pending_eof) {
+        (void) ngx_connection_error(c, wev->kq_errno,
+                               "kevent() reported about an closed connection");
+        wev->error = 1;
+        return NGX_CHAIN_ERROR;
+    }
+
+#endif
+
+    /* the maximum limit size is the maximum size_t value - the page size */
+
+    if (limit == 0 || limit > (off_t) (NGX_MAX_SIZE_T_VALUE - ngx_pagesize)) {
+        limit = NGX_MAX_SIZE_T_VALUE - ngx_pagesize;
+    }
+
+    send = 0;
+
+    vec.iovs = iovs;
+    vec.nalloc = NGX_IOVS_PREALLOCATE;
+
+    for ( ;; ) {
+        prev_send = send;
+
+        /* create the iovec and coalesce the neighbouring bufs */
+
+        cl = ngx_output_chain_to_iovec(&vec, in, limit - send, c->log);
+
+        if (cl == NGX_CHAIN_ERROR) {
+            return NGX_CHAIN_ERROR;
+        }
+
+        if (cl && cl->buf->in_file) {
+            ngx_log_error(NGX_LOG_ALERT, c->log, 0,
+                          "file buf in writev "
+                          "t:%d r:%d f:%d %p %p-%p %p %O-%O",
+                          cl->buf->temporary,
+                          cl->buf->recycled,
+                          cl->buf->in_file,
+                          cl->buf->start,
+                          cl->buf->pos,
+                          cl->buf->last,
+                          cl->buf->file,
+                          cl->buf->file_pos,
+                          cl->buf->file_last);
+
+            ngx_debug_point();
+
+            return NGX_CHAIN_ERROR;
+        }
+
+        send += vec.size;
+
+        n = ngx_writev(c, &vec);
+
+        if (n == NGX_ERROR) {
+            return NGX_CHAIN_ERROR;
+        }
+
+        sent = (n == NGX_AGAIN) ? 0 : n;
+
+        c->sent += sent;
+
+        in = ngx_chain_update_sent(in, sent);
+
+        if (send - prev_send != sent) {
+            wev->ready = 0;
+            return in;
+        }
+
+        if (send >= limit || in == NULL) {
+            return in;
+        }
+    }
 }
-
-
 
 
 ngx_chain_t *

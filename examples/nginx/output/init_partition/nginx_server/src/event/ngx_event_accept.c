@@ -26,12 +26,6 @@ static void ngx_close_accepted_connection(ngx_connection_t *c);
 
 
 
-
-
-
-
-
-
 #if (NGX_DEBUG)
 
 void

@@ -27,15 +27,7 @@ static ngx_int_t ngx_event_pipe_drain_chains(ngx_event_pipe_t *p);
 
 
 
-
-
-
-
 /* the copy input filter */
-
-
-
-
 
 
 

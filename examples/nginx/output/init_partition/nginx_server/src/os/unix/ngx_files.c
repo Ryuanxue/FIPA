@@ -199,11 +199,6 @@ ngx_thread_read_handler(void *data, ngx_log_t *log)
 
 
 
-
-
-
-
-
 #if (NGX_THREADS)
 
 ssize_t
@@ -352,17 +347,6 @@ eintr:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 #if (NGX_HAVE_POSIX_FADVISE) && !(NGX_HAVE_F_READAHEAD)
 
 ngx_int_t
@@ -454,7 +438,6 @@ ngx_fs_bsize(u_char *name)
 }
 
 #else
-
 
 
 #endif

@@ -4,19 +4,18 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static ngx_int_t ngx_http_static_handler(ngx_http_request_t *r);
 static ngx_int_t ngx_http_static_init(ngx_conf_t *cf);
 
 
-static ngx_http_module_t  ngx_http_static_module_ctx = {
     NULL,                                  /* preconfiguration */
     ngx_http_static_init,                  /* postconfiguration */
 
@@ -31,7 +30,6 @@ static ngx_http_module_t  ngx_http_static_module_ctx = {
 };
 
 
-ngx_module_t  ngx_http_static_module = {
     NGX_MODULE_V1,
     &ngx_http_static_module_ctx,           /* module context */
     NULL,                                  /* module directives */

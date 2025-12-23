@@ -3,12 +3,12 @@
 Before running the partitioning workflow, generate the following artifacts:
 
 1. **64-bit Executable**
-   - Compile the `nginx` project with 支持ssl key and 32-bit flags.
-   - Ensure dependencies are installed as required by your project. apt install libssl-dev
+   - Compile the `nginx` project with SSL key support.
+   - Ensure dependencies are installed as required by your project: `apt install libssl-dev`
    - Navigate to the source directory:
      ```bash
      cd examples/nginx_sslkey_auth/input/source_code/nginx-1.15.5
-     ./configure  --with-http_ssl_module"
+     ./configure  --with-http_ssl_module
      
      bear make -j8
      mv objs/nginx ../../nginx_64
@@ -167,7 +167,8 @@ objs/ngx_modules.o
      ```
 
 4. **32-bit Executable (for FlowCheck)**
-    首先编译注解认证文件视为污染源的nginx为32位可执行文件
+    
+    First, compile nginx with auth file annotations as the taint source into a 32-bit executable:
      ```bash
      cd examples/nginx_sslkey_auth/input/source_code
      patch -d nginx-1.15.5 -p1 < diff_auth.patch
@@ -188,11 +189,11 @@ objs/ngx_modules.o
      make clean
      ```
 
-     编译注解ssl key为污染源的nginx为32位可执行文件
+    Compile nginx with SSL key annotations as the taint source into a 32-bit executable:
     ```bash
         cd examples/nginx/input/source_code
-        删除 nginx-1.15.5
-        重新解压nginx-1.15.5.tar.xz到当前目录
+        # Remove nginx-1.15.5
+        # Re-extract nginx-1.15.5.tar.xz to the current directory
         patch -d nginx-1.15.5 -p1 < diff_sslkey.patch
         cd nginx-1.15.5
         ./configure --with-http_ssl_module  --with-cc-opt="-m32 -O0 -g -Wno-implicit-fallthrough -I/Desktop/src/Flowcheckdocker/flowcheck-1.20/include" --with-ld-opt="-m32"
@@ -201,99 +202,186 @@ objs/ngx_modules.o
         make clean
     ```
 
-    ## Partitioning Workflow Steps
+## Partitioning Workflow Steps
+
+### Workflow for Auth File Taint Source
 
 1. **Extract Statement Ranges**
    ```bash
    python3 scripts/extract_statement_linerange.py --project_root examples/nginx_sslkey_auth --compile_db examples/nginx_sslkey_auth/input/compile_commands.json --output_dir examples/nginx_sslkey_auth/output/
    ```
-2. **Quantitative Information Flow Tracking**
-   - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
 
-        To allow the host to access the nginx service running in Docker, map the container port to the host port:
-        ```bash
-        docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
-        ```
+2. **Quantitative Information Flow Tracking for Auth File**
+   
+   Run FlowCheck in Docker to perform quantitative information flow tracking on `nginx_auth_32` executable.
 
-        Start the nginx service in the foreground (for Valgrind tracing):
-        ```bash
-        /Desktop/src/Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx_sslkey_auth/input/nginx_auth_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 2>examples/nginx_sslkey_auth/output/temp/nginxoutput_auth.fc
-        ```
+   - To allow the host to access the nginx service running in Docker, map the container port to the host port:
+     ```bash
+     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
+     ```
 
-        On the host, use curl to test authenticated download:
-        ```bash
-        curl -k -u testuser:testpass123 -I https://localhost:8443/api/
-        ```
-        After confirming the download is successful, stop the nginx service in Docker by pressing Ctrl+C. This process may take several minutes, please be patient.
+   - Start the nginx service in the foreground (for Valgrind tracing):
+     ```bash
+     /Desktop/src/Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx_sslkey_auth/input/nginx_auth_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 2>examples/nginx_sslkey_auth/output/temp/nginxoutput_auth.fc
+     ```
 
-   - Merge traces and map quantitative info to statements:(running on the host)
+   - On the host, use curl to test authenticated download:
+     ```bash
+     curl -k -u testuser:testpass123 -I https://localhost:8443/api/
+     ```
+     After confirming the download is successful, stop the nginx service in Docker by pressing Ctrl+C. This process may take several minutes, please be patient.
+
+   - Merge traces and map quantitative info to statements (running on the host):
      ```bash
      python3 scripts/merge_fc_and_map_statements.py examples/nginx_sslkey_auth
+     # This generates nginx_sslkey_auth_quanfile.txt in examples/nginx_sslkey_auth/output/
+     # Rename it for the auth file taint source
      ```
+
 3. **Collect Edge Information**
-   - On the host machine, run the 64-bit executable with Pin to generate `.pinout` trace files. This requires running the server under Pin in one terminal and using `curl` to interact with it from another.
+   
+   On the host machine, run the 64-bit executable with Pin to generate `.pinout` trace files. This requires running the server under Pin in one terminal and using `curl` to interact with it from another.
 
-   - In the nginx_64 installation directory (the path specified by --prefix during configure), locate the conf/nginx.conf file. Configure authentication, port, and the location of the authentication file in the server block, for example:
-        ```
-        listen       8080;
-        server_name  localhost;
-        auth_basic "Experiment";
-        auth_basic_user_file "/abspath/to/FIPA/examples/nginx_sslkey_auth/auth/.htpasswd";
-        ```
-        The .htpasswd file should be prepared in advance and placed in the /abspath/to/FIPA/examples/nginx_sslkey_auth/auth/ directory.
-
-     - In your first terminal, start the `nginx` server under Pin. 
-       ```bash
-       src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/nginx_sslkey_auth/output/temp/nginx_sslkey.pinout -- ./examples/nginx_sslkey_auth/input/nginx_64 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 
-       ```
-     - In a second terminal, use `curl` to request a file from the protected directory:
-       ```bash
-       curl -k -u testuser:testpass123 -I https://localhost:8443/api/
-       ```
-     - After the `curl` command completes, return to the first terminal and press `Ctrl+C` to stop the server. This will generate `nginx_protected.pinout`.
+   - In your first terminal, start the `nginx` server under Pin:
+     ```bash
+     src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/nginx_sslkey_auth/output/temp/nginx_sslkey.pinout -- ./examples/nginx_sslkey_auth/input/nginx_64 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 
+     ```
+   
+   - In a second terminal, use `curl` to request a file from the protected directory:
+     ```bash
+     curl -k -u testuser:testpass123 -I https://localhost:8443/api/
+     ```
+   
+   - After the `curl` command completes, return to the first terminal and press `Ctrl+C` to stop the server. This will generate `nginx_sslkey.pinout`.
 
    - Replace addresses with symbol names and merge edges:
      ```bash
      python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/nginx_sslkey_auth
      ```
-4. **Build Graph and Solve for Partitioning**
 
-   This step uses an automated script to construct the graph and find mutiple partitioning solution. You can run the solver with different communication models and leakage budgets by specifying the `--comm-type` and `min-quan` parameters. The script will generate result files (e.g., `nginx_z3_result_u_0bit.txt`) in the `examples/nginx_sslkey_auth/output/` directory.
+4. **Build Graph and Solve for Partitioning (Auth File Taint Source)**
 
-   -   **To solve using the unidirectional model (`u`) with a 0-bit leakage budget:**
-       ```bash
-       python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=0 max-code-sz=0.1 --comm-type=u
-       ```
+   Solve using the unidirectional model (`u`) with a 0-bit leakage budget:
+   ```bash
+   python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=0 max-code-sz=0.1 --comm-type=u
+   # This generates nginx_sslkey_auth_z3_result_u_0bit.txt, rename it for auth file taint source
+   ```
+
+5. **Prepare Data for Refactoring (Auth File Taint Source)**
+
+   This step includes several key actions:
+   - Selects the optimal solution from multiple candidates generated by the solver.
+   - Analyzes read/write dependencies for global variables across partitions.
+   - Identifies functions that may be shared or need to be duplicated.
+
+   Run the script with the parameters corresponding to the desired solution from Step 4:
+   ```bash
+   # For a unidirectional model with a 0-bit leakage budget
+   python3 scripts/prepare_refactor_data.py nginx_sslkey_auth --comm-type=u --quan=0
+   ```
+
+   **Optional: Analyze Partitioning Statistics**
+
+   After preparing the refactoring data, you can run an additional script to view detailed statistics about the chosen partition. This is not a required step for the main workflow but is useful for analysis. It provides information such as the number of functions in each partition and the percentage of sensitive code.
+
+   ```bash
+   # Analyze the result for a unidirectional model with a 0-bit leakage budget
+   python3 scripts/analyze_partition_results.py nginx_sslkey_auth --comm-type=u --quan=0
+   ```
+
+6. **Code Refactoring**
+   
+   This step generates the initial partitioned code with RPC communication interfaces. The example below uses unidirectional communication with 0-bit leakage. For other configurations, modify the `--comm-type` and `--quan` parameters accordingly.
+   
+   ```bash
+   python3 scripts/refactor_function_add_rpc.py nginx_sslkey_auth --comm-type=u --quan=0
+   # This generates examples/nginx_sslkey_auth/output/init_partition, rename it to init_partition_auth
+   mv examples/nginx_sslkey_auth/output/init_partition examples/nginx_sslkey_auth/output/init_partition_auth
+   ```
+   
+   **Parameter Options:**
+   - `--comm-type`: Communication model (`u` for unidirectional, `b` for bidirectional)
+   - `--quan`: Leakage budget in bits (e.g., `0`, `64`)
+
+---
+
+### Workflow for SSL Key Path Taint Source
+
+1. **Quantitative Information Flow Tracking for SSL Key**
+   
+   Run FlowCheck in Docker to perform quantitative information flow tracking on `nginx_sslkey_32` executable.
+
+   - To allow the host to access the nginx service running in Docker, map the container port to the host port:
+     ```bash
+     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
+     ```
+
+   - Start the nginx service in the foreground (for Valgrind tracing):
+     ```bash
+     /Desktop/src/Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx_sslkey_auth/input/nginx_sslkey_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 2>examples/nginx_sslkey_auth/output/temp/nginxoutput_sslkey.fc
+     ```
+
+   - On the host, use curl to test authenticated download:
+     ```bash
+     curl -k -u testuser:testpass123 -I https://localhost:8443/api/
+     ```
+     After confirming the download is successful, stop the nginx service in Docker by pressing Ctrl+C. This process may take several minutes, please be patient.
+
+   - Merge traces and map quantitative info to statements (running on the host):
+     ```bash
+     # Remove the auth file .fc trace to avoid interference
+     mv examples/nginx_sslkey_auth/output/temp/nginxoutput_auth.fc examples/nginx_sslkey_auth/output/temp/nginxoutput_auth.fc.backup
+     python3 scripts/merge_fc_and_map_statements.py examples/nginx_sslkey_auth
+     # This generates nginx_sslkey_auth_quanfile.txt in examples/nginx_sslkey_auth/output/
+     # Rename it for the SSL key taint source
+     ```
+
+2. **Build Graph and Solve for Partitioning (SSL Key Path Taint Source)**
+
+   Solve using the unidirectional model (`u`) with a 0-bit leakage budget:
+   ```bash
+   python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=0 max-code-sz=0.1 --comm-type=u
+   # This generates nginx_sslkey_auth_z3_result_u_0bit.txt, rename it for SSL key taint source
+   ```
+
+3. **Prepare Data for Refactoring (SSL Key Path Taint Source)**
+
+   This step includes several key actions:
+   - Selects the optimal solution from multiple candidates generated by the solver.
+   - Analyzes read/write dependencies for global variables across partitions.
+   - Identifies functions that may be shared or need to be duplicated.
+
+   Run the script with the parameters corresponding to the desired solution from Step 2:
+   ```bash
+   # For a unidirectional model with a 0-bit leakage budget
+   python3 scripts/prepare_refactor_data.py nginx_sslkey_auth --comm-type=u --quan=0
+   ```
+
+   **Optional: Analyze Partitioning Statistics**
+
+   After preparing the refactoring data, you can run an additional script to view detailed statistics about the chosen partition.
+
+   ```bash
+   # Analyze the result for a unidirectional model with a 0-bit leakage budget
+   python3 scripts/analyze_partition_results.py nginx_sslkey_auth --comm-type=u --quan=0
+   ```
+
+4. **Code Refactoring**
+   
+   This step generates the initial partitioned code with RPC communication interfaces. The example below uses unidirectional communication with 0-bit leakage. For other configurations, modify the `--comm-type` and `--quan` parameters accordingly.
+   
+   ```bash
+   python3 scripts/refactor_function_add_rpc.py nginx_sslkey_auth --comm-type=u --quan=0
+   # This generates examples/nginx_sslkey_auth/output/init_partition, rename it to init_partition_sslkey
+   mv examples/nginx_sslkey_auth/output/init_partition examples/nginx_sslkey_auth/output/init_partition_sslkey
+   ```
+   
+   **Parameter Options:**
+   - `--comm-type`: Communication model (`u` for unidirectional, `b` for bidirectional)
+   - `--quan`: Leakage budget in bits (e.g., `0`, `64`)
 
 
-5. **Prepare Data for Refactoring**
 
-   The  step include several key actions:
-
-    - Selects the optimal solution from multiple candidates generated by the solver.
-    - Analyzes read/write dependencies for global variables across partitions.
-    - Identifies functions that may be shared or need to be duplicated.
-
-  - **Command:**
-
-    Run the script with the parameters corresponding to the desired solution from Step 4.
-    ```bash
-    # For a unidirectional model with a 0-bit leakage budget
-    python3 scripts/prepare_refactor_data.py nginx_sslkey_auth --comm-type=u --quan=0
-
-    ```
-
-  -  **Optional: Analyze Partitioning Statistics**
-
-        After preparing the refactoring data, you can run an additional script to view detailed statistics about the chosen partition. This is not a required step for the main workflow but is useful for analysis. It provides information such as the number of functions in each partition and the percentage of sensitive code.
-
-      Command Format:
-
-      ```bash
-          # Analyze the result for a unidirectional model with a 0-bit leakage budget
-          python3 scripts/analyze_partition_results.py nginx_sslkey_auth --comm-type=u --quan=0
-
-      ```
 
   ## Running the Partitioned Program
 

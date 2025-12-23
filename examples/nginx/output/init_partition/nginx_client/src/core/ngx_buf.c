@@ -4,11 +4,11 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 ngx_buf_t *
@@ -225,41 +225,49 @@ ngx_chain_update_chains(ngx_pool_t *p, ngx_chain_t **free, ngx_chain_t **busy,
 }
 
 
-off_t ngx_chain_coalesce_file(ngx_chain_t **in, off_t limit)
+off_t
+ngx_chain_coalesce_file(ngx_chain_t **in, off_t limit)
 {
-  off_t total;
-  off_t size;
-  off_t aligned;
-  off_t fprev;
-  ngx_fd_t fd;
-  ngx_chain_t *cl;
-  total = 0;
-  cl = *in;
-  fd = cl->buf->file->fd;
-  do
-  {
-    size = cl->buf->file_last - cl->buf->file_pos;
-    if (size > (limit - total))
-    {
-      size = limit - total;
-      aligned = (((cl->buf->file_pos + size) + get_ngx_pagesize_wrapper()) - 1) & (~(((off_t) get_ngx_pagesize_wrapper()) - 1));
-      if (aligned <= cl->buf->file_last)
-      {
-        size = aligned - cl->buf->file_pos;
-      }
-      total += size;
-      break;
-    }
-    total += size;
-    fprev = cl->buf->file_pos + size;
-    cl = cl->next;
-  }
-  while ((((cl && cl->buf->in_file) && (total < limit)) && (fd == cl->buf->file->fd)) && (fprev == cl->buf->file_pos));
-  *in = cl;
-  return total;
+    off_t         total, size, aligned, fprev;
+    ngx_fd_t      fd;
+    ngx_chain_t  *cl;
+
+    total = 0;
+
+    cl = *in;
+    fd = cl->buf->file->fd;
+
+    do {
+        size = cl->buf->file_last - cl->buf->file_pos;
+
+        if (size > limit - total) {
+            size = limit - total;
+
+            aligned = (cl->buf->file_pos + size + ngx_pagesize - 1)
+                       & ~((off_t) ngx_pagesize - 1);
+
+            if (aligned <= cl->buf->file_last) {
+                size = aligned - cl->buf->file_pos;
+            }
+
+            total += size;
+            break;
+        }
+
+        total += size;
+        fprev = cl->buf->file_pos + size;
+        cl = cl->next;
+
+    } while (cl
+             && cl->buf->in_file
+             && total < limit
+             && fd == cl->buf->file->fd
+             && fprev == cl->buf->file_pos);
+
+    *in = cl;
+
+    return total;
 }
-
-
 
 
 ngx_chain_t *

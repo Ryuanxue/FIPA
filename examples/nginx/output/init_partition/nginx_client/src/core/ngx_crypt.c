@@ -3,14 +3,14 @@
  * Copyright (C) Maxim Dounin
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_crypt.h>
 #include <ngx_md5.h>
 #include <ngx_sha1.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 #if (NGX_CRYPT)

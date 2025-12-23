@@ -55,15 +55,8 @@ ngx_hash_find(ngx_hash_t *hash, ngx_uint_t key, u_char *name, size_t len)
 
 
 
-
-
-
 #define NGX_HASH_ELT_SIZE(name)                                               \
     (sizeof(void *) + ngx_align((name)->key.len + 2, sizeof(void *)))
-
-
-
-
 
 
 
@@ -89,8 +82,6 @@ ngx_hash_strlow(u_char *dst, u_char *src, size_t n)
 
     return key;
 }
-
-
 
 
 

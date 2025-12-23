@@ -159,7 +159,6 @@ static ngx_int_t ngx_http_variable_time_local(ngx_http_request_t *r,
  * they are handled using dedicated entries
  */
 
-static ngx_http_variable_t  ngx_http_core_variables[] = {
 
     { ngx_string("http_host"), NULL, ngx_http_variable_header,
       offsetof(ngx_http_request_t, headers_in.host), 0, 0 },
@@ -383,16 +382,11 @@ static ngx_http_variable_t  ngx_http_core_variables[] = {
 };
 
 
-ngx_http_variable_value_t  ngx_http_variable_null_value =
     ngx_http_variable("");
-ngx_http_variable_value_t  ngx_http_variable_true_value =
     ngx_http_variable("1");
 
 
 static ngx_uint_t  ngx_http_variable_depth = 100;
-
-
-
 
 
 
@@ -475,8 +469,6 @@ ngx_http_get_flushed_variable(ngx_http_request_t *r, ngx_uint_t index)
 
 
 
-
-
 #if 0
 
 static void
@@ -492,8 +484,6 @@ ngx_http_variable_request_set(ngx_http_request_t *r,
 }
 
 #endif
-
-
 
 
 
@@ -521,14 +511,6 @@ ngx_int_t ngx_http_variable_header_sense_1(int *ngx_http_variable_header_sense_1
     return 0;
   }
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -583,8 +565,6 @@ ngx_int_t ngx_http_variable_request_line_sense_1(int *ngx_http_variable_request_
     return 0;
   }
 }
-
-
 
 
 
@@ -679,9 +659,6 @@ ngx_http_variable_tcpinfo(ngx_http_request_t *r, ngx_http_variable_value_t *v,
 
 
 
-
-
-
 static ngx_int_t
 ngx_http_variable_remote_addr(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data)
@@ -694,20 +671,6 @@ ngx_http_variable_remote_addr(ngx_http_request_t *r,
 
     return NGX_OK;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -767,33 +730,6 @@ ngx_int_t ngx_http_variable_remote_user_sense_1(int *ngx_http_variable_remote_us
     return 0;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1001,8 +937,6 @@ ngx_http_regex_exec(ngx_http_request_t *r, ngx_http_regex_t *re, ngx_str_t *s)
 }
 
 #endif
-
-
 
 
 

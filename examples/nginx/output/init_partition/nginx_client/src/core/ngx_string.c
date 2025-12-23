@@ -4,11 +4,11 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static u_char *ngx_sprintf_num(u_char *buf, u_char *last, uint64_t ui64,
@@ -1984,31 +1984,35 @@ ngx_str_rbtree_lookup(ngx_rbtree_t *rbtree, ngx_str_t *val, uint32_t hash)
 
 /* ngx_sort() is implemented as insertion sort because we need stable sort */
 
-void ngx_sort(void *base, size_t n, size_t size, ngx_int_t (*cmp)(const void *, const void *))
+void
+ngx_sort(void *base, size_t n, size_t size,
+    ngx_int_t (*cmp)(const void *, const void *))
 {
-  u_char *p1;
-  u_char *p2;
-  u_char *p;
-  p = ngx_alloc(size, get_ngx_cycle_wrapper()->log);
-  if (p == 0)
-  {
-    return;
-  }
-  for (p1 = ((u_char *) base) + size; p1 < (((u_char *) base) + (n * size)); p1 += size)
-  {
-    (void) memcpy(p, p1, size);
-    for (p2 = p1; (p2 > ((u_char *) base)) && (cmp(p2 - size, p) > 0); p2 -= size)
-    {
-      (void) memcpy(p2, p2 - size, size);
+    u_char  *p1, *p2, *p;
+
+    p = ngx_alloc(size, ngx_cycle->log);
+    if (p == NULL) {
+        return;
     }
 
-    (void) memcpy(p2, p, size);
-  }
+    for (p1 = (u_char *) base + size;
+         p1 < (u_char *) base + n * size;
+         p1 += size)
+    {
+        ngx_memcpy(p, p1, size);
 
-  free(p);
+        for (p2 = p1;
+             p2 > (u_char *) base && cmp(p2 - size, p) > 0;
+             p2 -= size)
+        {
+            ngx_memcpy(p2, p2 - size, size);
+        }
+
+        ngx_memcpy(p2, p, size);
+    }
+
+    ngx_free(p);
 }
-
-
 
 
 #if (NGX_MEMCPY_LIMIT)

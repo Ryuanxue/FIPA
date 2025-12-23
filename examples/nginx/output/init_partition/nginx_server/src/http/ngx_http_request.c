@@ -64,23 +64,8 @@ static void ngx_http_ssl_handshake_handler(ngx_connection_t *c);
 #endif
 
 
-static char *ngx_http_client_errors[] = {
-
-    /* NGX_HTTP_PARSE_INVALID_METHOD */
-    "client sent invalid method",
-
-    /* NGX_HTTP_PARSE_INVALID_REQUEST */
-    "client sent invalid request",
-
-    /* NGX_HTTP_PARSE_INVALID_VERSION */
-    "client sent invalid version",
-
-    /* NGX_HTTP_PARSE_INVALID_09_METHOD */
-    "client sent invalid method in HTTP/0.9 request"
-};
 
 
-ngx_http_header_t  ngx_http_headers_in[] = {
     { ngx_string("Host"), offsetof(ngx_http_headers_in_t, host),
                  ngx_http_process_host },
 
@@ -200,8 +185,6 @@ ngx_http_header_t  ngx_http_headers_in[] = {
 
     { ngx_null_string, 0, NULL }
 };
-
-
 
 
 
@@ -677,24 +660,6 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *ssl_conn, int *ad, void *arg)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ngx_int_t
 ngx_http_post_request(ngx_http_request_t *r, ngx_http_posted_request_t *pr)
 {
@@ -974,7 +939,6 @@ ngx_http_terminate_request(ngx_http_request_t *r, ngx_int_t rc)
 
 
 
-
 static void
 ngx_http_finalize_connection(ngx_http_request_t *r)
 {
@@ -1066,10 +1030,6 @@ ngx_http_set_write_handler(ngx_http_request_t *r)
 
     return NGX_OK;
 }
-
-
-
-
 
 
 
@@ -1304,7 +1264,6 @@ ngx_http_set_keepalive(ngx_http_request_t *r)
 
 
 
-
 static void
 ngx_http_set_lingering_close(ngx_http_request_t *r)
 {
@@ -1408,8 +1367,6 @@ ngx_http_lingering_close_handler(ngx_event_t *rev)
 
     ngx_add_timer(rev, timer);
 }
-
-
 
 
 

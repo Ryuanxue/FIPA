@@ -19,7 +19,6 @@ static ngx_int_t ngx_decode_base64_internal(ngx_str_t *dst, ngx_str_t *src,
 
 
 
-
 size_t
 ngx_strnlen(u_char *p, size_t n)
 {
@@ -58,7 +57,6 @@ ngx_cpystrn(u_char *dst, u_char *src, size_t n)
 
     return dst;
 }
-
 
 
 
@@ -563,7 +561,6 @@ ngx_sprintf_num(u_char *buf, u_char *last, uint64_t ui64, u_char zero,
 
 
 
-
 ngx_int_t
 ngx_strncasecmp(u_char *s1, u_char *s2, size_t n)
 {
@@ -595,14 +592,11 @@ ngx_strncasecmp(u_char *s1, u_char *s2, size_t n)
 
 
 
-
 /*
  * ngx_strstrn() and ngx_strcasestrn() are intended to search for static
  * substring with known length in null-terminated string. The argument n
  * must be length of the second substring - 1.
  */
-
-
 
 
 
@@ -639,10 +633,6 @@ ngx_strlcasestrn(u_char *s1, u_char *last, u_char *s2, size_t n)
 
     return --s1;
 }
-
-
-
-
 
 
 
@@ -695,7 +685,6 @@ ngx_filename_cmp(u_char *s1, u_char *s2, size_t n)
 
 
 
-
 /* parse a fixed point number, e.g., ngx_atofp("10.5", 4, 2) returns 1050 */
 
 
@@ -714,63 +703,6 @@ ngx_filename_cmp(u_char *s1, u_char *s2, size_t n)
 
 
 
-
-
-void
-ngx_encode_base64(ngx_str_t *dst, ngx_str_t *src)
-{
-    static u_char   basis64[] =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-    ngx_encode_base64_internal(dst, src, basis64, 1);
-}
-
-
-
-
-
-static void
-ngx_encode_base64_internal(ngx_str_t *dst, ngx_str_t *src, const u_char *basis,
-    ngx_uint_t padding)
-{
-    u_char         *d, *s;
-    size_t          len;
-
-    len = src->len;
-    s = src->data;
-    d = dst->data;
-
-    while (len > 2) {
-        *d++ = basis[(s[0] >> 2) & 0x3f];
-        *d++ = basis[((s[0] & 3) << 4) | (s[1] >> 4)];
-        *d++ = basis[((s[1] & 0x0f) << 2) | (s[2] >> 6)];
-        *d++ = basis[s[2] & 0x3f];
-
-        s += 3;
-        len -= 3;
-    }
-
-    if (len) {
-        *d++ = basis[(s[0] >> 2) & 0x3f];
-
-        if (len == 1) {
-            *d++ = basis[(s[0] & 3) << 4];
-            if (padding) {
-                *d++ = '=';
-            }
-
-        } else {
-            *d++ = basis[((s[0] & 3) << 4) | (s[1] >> 4)];
-            *d++ = basis[(s[1] & 0x0f) << 2];
-        }
-
-        if (padding) {
-            *d++ = '=';
-        }
-    }
-
-    dst->len = d - dst->data;
-}
 
 
 ngx_int_t
@@ -798,7 +730,6 @@ ngx_decode_base64(ngx_str_t *dst, ngx_str_t *src)
 
     return ngx_decode_base64_internal(dst, src, basis64);
 }
-
 
 
 
@@ -857,9 +788,6 @@ ngx_decode_base64_internal(ngx_str_t *dst, ngx_str_t *src, const u_char *basis)
  *    0xfffffffe              incomplete sequence
  *    0xffffffff              error
  */
-
-
-
 
 
 
@@ -1046,13 +974,7 @@ ngx_escape_uri(u_char *dst, u_char *src, size_t size, ngx_uint_t type)
 
 
 
-
-
-
-
-
 /* ngx_sort() is implemented as insertion sort because we need stable sort */
-
 
 
 

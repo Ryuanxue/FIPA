@@ -187,34 +187,6 @@ static ngx_resolver_node_t *ngx_resolver_lookup_addr6(ngx_resolver_t *r,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #if (NGX_HAVE_INET6)
 
 static ngx_resolver_node_t *
@@ -263,7 +235,6 @@ ngx_resolver_lookup_addr6(ngx_resolver_t *r, struct in6_addr *addr,
 
 
 
-
 #if (NGX_HAVE_INET6)
 
 static void
@@ -307,25 +278,6 @@ ngx_resolver_rbtree_insert_addr6_value(ngx_rbtree_node_t *temp,
 }
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

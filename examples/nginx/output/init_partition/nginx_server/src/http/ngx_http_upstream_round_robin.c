@@ -39,12 +39,6 @@ static void ngx_http_upstream_empty_save_session(ngx_peer_connection_t *pc,
 
 
 
-
-
-
-
-
-
 #if (NGX_HTTP_SSL)
 
 ngx_int_t

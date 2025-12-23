@@ -5,12 +5,12 @@
  * http://openwall.info/wiki/people/solar/software/public-domain-source-code/md5
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_md5.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static const u_char *ngx_md5_body(ngx_md5_t *ctx, const u_char *data,

@@ -13,8 +13,6 @@
 
 
 
-
-
 void *
 ngx_array_push(ngx_array_t *a)
 {
@@ -60,6 +58,5 @@ ngx_array_push(ngx_array_t *a)
 
     return elt;
 }
-
 
 

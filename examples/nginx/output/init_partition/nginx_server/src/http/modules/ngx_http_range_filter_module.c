@@ -77,7 +77,6 @@ static ngx_int_t ngx_http_range_header_filter_init(ngx_conf_t *cf);
 static ngx_int_t ngx_http_range_body_filter_init(ngx_conf_t *cf);
 
 
-static ngx_http_module_t  ngx_http_range_header_filter_module_ctx = {
     NULL,                                  /* preconfiguration */
     ngx_http_range_header_filter_init,     /* postconfiguration */
 
@@ -92,7 +91,6 @@ static ngx_http_module_t  ngx_http_range_header_filter_module_ctx = {
 };
 
 
-ngx_module_t  ngx_http_range_header_filter_module = {
     NGX_MODULE_V1,
     &ngx_http_range_header_filter_module_ctx, /* module context */
     NULL,                                  /* module directives */
@@ -108,7 +106,6 @@ ngx_module_t  ngx_http_range_header_filter_module = {
 };
 
 
-static ngx_http_module_t  ngx_http_range_body_filter_module_ctx = {
     NULL,                                  /* preconfiguration */
     ngx_http_range_body_filter_init,       /* postconfiguration */
 
@@ -266,7 +263,6 @@ ngx_int_t ngx_http_range_header_filter_sense_1(int *ngx_http_range_header_filter
     return ngx_http_next_header_filter(r);
   }
 }
-
 
 
 
@@ -672,7 +668,6 @@ ngx_int_t ngx_http_range_body_filter_sense_1(int *ngx_http_range_body_filter_sen
 
 
 
-
 static ngx_int_t
 ngx_http_range_test_overlapped(ngx_http_request_t *r,
     ngx_http_range_filter_ctx_t *ctx, ngx_chain_t *in)
@@ -928,8 +923,6 @@ ngx_http_range_multipart_body(ngx_http_request_t *r,
 
     return ngx_http_next_body_filter(r, out);
 }
-
-
 
 
 

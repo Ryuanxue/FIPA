@@ -3,11 +3,11 @@
  * Copyright (C) Austin Appleby
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 uint32_t

@@ -4,6 +4,8 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
@@ -11,9 +13,6 @@
 
 #if (NGX_THREADS)
 #include <ngx_thread_pool.h>
-
-#include "nginx_rpc_wrapper.h"
-
 static void ngx_thread_read_handler(void *data, ngx_log_t *log);
 static void ngx_thread_write_chain_to_file_handler(void *data, ngx_log_t *log);
 #endif
@@ -600,21 +599,22 @@ eintr:
 #endif /* NGX_THREADS */
 
 
-ngx_int_t ngx_set_file_time(u_char *name, ngx_fd_t fd, time_t s)
+ngx_int_t
+ngx_set_file_time(u_char *name, ngx_fd_t fd, time_t s)
 {
-  struct timeval tv[2];
-  tv[0].tv_sec = get_ngx_cached_time_sec_wrapper();
-  tv[0].tv_usec = 0;
-  tv[1].tv_sec = s;
-  tv[1].tv_usec = 0;
-  if (utimes((char *) name, tv) != (-1))
-  {
-    return 0;
-  }
-  return -1;
+    struct timeval  tv[2];
+
+    tv[0].tv_sec = ngx_time();
+    tv[0].tv_usec = 0;
+    tv[1].tv_sec = s;
+    tv[1].tv_usec = 0;
+
+    if (utimes((char *) name, tv) != -1) {
+        return NGX_OK;
+    }
+
+    return NGX_ERROR;
 }
-
-
 
 
 ngx_int_t

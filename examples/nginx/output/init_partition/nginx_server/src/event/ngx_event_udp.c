@@ -42,11 +42,4 @@ static ngx_connection_t *ngx_lookup_udp_connection(ngx_listening_t *ls,
 
 
 
-
-
-
-
-
-
-
 #endif

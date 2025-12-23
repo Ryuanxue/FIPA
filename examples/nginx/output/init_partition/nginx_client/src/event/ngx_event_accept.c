@@ -4,248 +4,317 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_event.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static ngx_int_t ngx_disable_accept_events(ngx_cycle_t *cycle, ngx_uint_t all);
 static void ngx_close_accepted_connection(ngx_connection_t *c);
 
 
-void ngx_event_accept(ngx_event_t *ev)
+void
+ngx_event_accept(ngx_event_t *ev)
 {
-  socklen_t socklen;
-  ngx_err_t err;
-  ngx_log_t *log;
-  ngx_uint_t level;
-  ngx_socket_t s;
-  ngx_event_t *rev;
-  ngx_event_t *wev;
-  ngx_sockaddr_t sa;
-  ngx_listening_t *ls;
-  ngx_connection_t *c;
-  ngx_connection_t *lc;
-  ngx_event_conf_t *ecf;
-  static ngx_uint_t use_accept4 = 1;
-  if (ev->timedout)
-  {
-    if (ngx_enable_accept_events((ngx_cycle_t *) get_ngx_cycle_wrapper()) != 0)
-    {
-      return;
-    }
-    ev->timedout = 0;
-  }
-  ecf = (*get_ngx_cycle_wrapper()->conf_ctx[ngx_events_module.index])[ngx_event_core_module.ctx_index];
-  ;
-  if (!(get_ngx_event_flags_wrapper() & 0x00000008))
-  {
-    ev->available = ecf->multi_accept;
-  }
-  lc = ev->data;
-  ls = lc->listening;
-  ev->ready = 0;
-  ;
-  do
-  {
-    socklen = sizeof(ngx_sockaddr_t);
-    if (use_accept4)
-    {
-      s = accept4(lc->fd, &sa.sockaddr, &socklen, SOCK_NONBLOCK);
-    }
-    else
-    {
-      s = accept(lc->fd, &sa.sockaddr, &socklen);
-    }
-    if (s == ((ngx_socket_t) (-1)))
-    {
-      err = errno;
-      if (err == EAGAIN)
-      {
-        ;
-        return;
-      }
-      level = 2;
-      if (err == ECONNABORTED)
-      {
-        level = 4;
-      }
-      else
-        if ((err == EMFILE) || (err == ENFILE))
-      {
-        level = 3;
-      }
-      if (ev->log->log_level >= level)
-        ngx_log_error_core(level, ev->log, err, (use_accept4) ? ("accept4() failed") : ("accept() failed"));
-      if (use_accept4 && (err == ENOSYS))
-      {
-        use_accept4 = 0;
-        ngx_inherited_nonblocking = 0;
-        continue;
-      }
-      if (err == ECONNABORTED)
-      {
-        if (get_ngx_event_flags_wrapper() & 0x00000008)
-        {
-          ev->available--;
+    socklen_t          socklen;
+    ngx_err_t          err;
+    ngx_log_t         *log;
+    ngx_uint_t         level;
+    ngx_socket_t       s;
+    ngx_event_t       *rev, *wev;
+    ngx_sockaddr_t     sa;
+    ngx_listening_t   *ls;
+    ngx_connection_t  *c, *lc;
+    ngx_event_conf_t  *ecf;
+#if (NGX_HAVE_ACCEPT4)
+    static ngx_uint_t  use_accept4 = 1;
+#endif
+
+    if (ev->timedout) {
+        if (ngx_enable_accept_events((ngx_cycle_t *) ngx_cycle) != NGX_OK) {
+            return;
         }
-        if (ev->available)
-        {
-          continue;
+
+        ev->timedout = 0;
+    }
+
+    ecf = ngx_event_get_conf(ngx_cycle->conf_ctx, ngx_event_core_module);
+
+    if (!(ngx_event_flags & NGX_USE_KQUEUE_EVENT)) {
+        ev->available = ecf->multi_accept;
+    }
+
+    lc = ev->data;
+    ls = lc->listening;
+    ev->ready = 0;
+
+    ngx_log_debug2(NGX_LOG_DEBUG_EVENT, ev->log, 0,
+                   "accept on %V, ready: %d", &ls->addr_text, ev->available);
+
+    do {
+        socklen = sizeof(ngx_sockaddr_t);
+
+#if (NGX_HAVE_ACCEPT4)
+        if (use_accept4) {
+            s = accept4(lc->fd, &sa.sockaddr, &socklen, SOCK_NONBLOCK);
+        } else {
+            s = accept(lc->fd, &sa.sockaddr, &socklen);
         }
-      }
-      if ((err == EMFILE) || (err == ENFILE))
-      {
-        if (ngx_disable_accept_events((ngx_cycle_t *) get_ngx_cycle_wrapper(), 1) != 0)
-        {
-          return;
+#else
+        s = accept(lc->fd, &sa.sockaddr, &socklen);
+#endif
+
+        if (s == (ngx_socket_t) -1) {
+            err = ngx_socket_errno;
+
+            if (err == NGX_EAGAIN) {
+                ngx_log_debug0(NGX_LOG_DEBUG_EVENT, ev->log, err,
+                               "accept() not ready");
+                return;
+            }
+
+            level = NGX_LOG_ALERT;
+
+            if (err == NGX_ECONNABORTED) {
+                level = NGX_LOG_ERR;
+
+            } else if (err == NGX_EMFILE || err == NGX_ENFILE) {
+                level = NGX_LOG_CRIT;
+            }
+
+#if (NGX_HAVE_ACCEPT4)
+            ngx_log_error(level, ev->log, err,
+                          use_accept4 ? "accept4() failed" : "accept() failed");
+
+            if (use_accept4 && err == NGX_ENOSYS) {
+                use_accept4 = 0;
+                ngx_inherited_nonblocking = 0;
+                continue;
+            }
+#else
+            ngx_log_error(level, ev->log, err, "accept() failed");
+#endif
+
+            if (err == NGX_ECONNABORTED) {
+                if (ngx_event_flags & NGX_USE_KQUEUE_EVENT) {
+                    ev->available--;
+                }
+
+                if (ev->available) {
+                    continue;
+                }
+            }
+
+            if (err == NGX_EMFILE || err == NGX_ENFILE) {
+                if (ngx_disable_accept_events((ngx_cycle_t *) ngx_cycle, 1)
+                    != NGX_OK)
+                {
+                    return;
+                }
+
+                if (ngx_use_accept_mutex) {
+                    if (ngx_accept_mutex_held) {
+                        ngx_shmtx_unlock(&ngx_accept_mutex);
+                        ngx_accept_mutex_held = 0;
+                    }
+
+                    ngx_accept_disabled = 1;
+
+                } else {
+                    ngx_add_timer(ev, ecf->accept_mutex_delay);
+                }
+            }
+
+            return;
         }
-        if (ngx_use_accept_mutex)
-        {
-          if (ngx_accept_mutex_held)
-          {
-            ngx_shmtx_unlock(&ngx_accept_mutex);
-            ngx_accept_mutex_held = 0;
-          }
-          ngx_accept_disabled = 1;
+
+#if (NGX_STAT_STUB)
+        (void) ngx_atomic_fetch_add(ngx_stat_accepted, 1);
+#endif
+
+        ngx_accept_disabled = ngx_cycle->connection_n / 8
+                              - ngx_cycle->free_connection_n;
+
+        c = ngx_get_connection(s, ev->log);
+
+        if (c == NULL) {
+            if (ngx_close_socket(s) == -1) {
+                ngx_log_error(NGX_LOG_ALERT, ev->log, ngx_socket_errno,
+                              ngx_close_socket_n " failed");
+            }
+
+            return;
         }
-        else
-        {
-          ngx_event_add_timer(ev, ecf->accept_mutex_delay);
+
+        c->type = SOCK_STREAM;
+
+#if (NGX_STAT_STUB)
+        (void) ngx_atomic_fetch_add(ngx_stat_active, 1);
+#endif
+
+        c->pool = ngx_create_pool(ls->pool_size, ev->log);
+        if (c->pool == NULL) {
+            ngx_close_accepted_connection(c);
+            return;
         }
-      }
-      return;
-    }
-    ngx_accept_disabled = (get_ngx_cycle_wrapper()->connection_n / 8) - get_ngx_cycle_wrapper()->free_connection_n;
-    c = ngx_get_connection(s, ev->log);
-    if (c == 0)
-    {
-      if (close(s) == (-1))
-      {
-        if (ev->log->log_level >= 2)
-          ngx_log_error_core(2, ev->log, errno, "close() socket failed");
-      }
-      return;
-    }
-    c->type = SOCK_STREAM;
-    c->pool = ngx_create_pool(ls->pool_size, ev->log);
-    if (c->pool == 0)
-    {
-      ngx_close_accepted_connection(c);
-      return;
-    }
-    if (socklen > ((socklen_t) (sizeof(ngx_sockaddr_t))))
-    {
-      socklen = sizeof(ngx_sockaddr_t);
-    }
-    c->sockaddr = ngx_palloc(c->pool, socklen);
-    if (c->sockaddr == 0)
-    {
-      ngx_close_accepted_connection(c);
-      return;
-    }
-    (void) memcpy(c->sockaddr, &sa, socklen);
-    log = ngx_palloc(c->pool, sizeof(ngx_log_t));
-    if (log == 0)
-    {
-      ngx_close_accepted_connection(c);
-      return;
-    }
-    if (ngx_inherited_nonblocking)
-    {
-      if (get_ngx_event_flags_wrapper() & 0x00000200)
-      {
-        if (ngx_blocking(s) == (-1))
-        {
-          if (ev->log->log_level >= 2)
-            ngx_log_error_core(2, ev->log, errno, "ioctl(!FIONBIO) failed");
-          ngx_close_accepted_connection(c);
-          return;
+
+        if (socklen > (socklen_t) sizeof(ngx_sockaddr_t)) {
+            socklen = sizeof(ngx_sockaddr_t);
         }
-      }
-    }
-    else
-    {
-      if (!(get_ngx_event_flags_wrapper() & 0x00000200))
-      {
-        if (ngx_nonblocking(s) == (-1))
-        {
-          if (ev->log->log_level >= 2)
-            ngx_log_error_core(2, ev->log, errno, "ioctl(FIONBIO) failed");
-          ngx_close_accepted_connection(c);
-          return;
+
+        c->sockaddr = ngx_palloc(c->pool, socklen);
+        if (c->sockaddr == NULL) {
+            ngx_close_accepted_connection(c);
+            return;
         }
-      }
-    }
-    *log = ls->log;
-    c->recv = get_ngx_io_recv_wrapper();
-    c->send = get_ngx_io_send_wrapper();
-    c->recv_chain = get_ngx_io_recv_chain_wrapper();
-    c->send_chain = get_ngx_io_send_chain_wrapper();
-    c->log = log;
-    c->pool->log = log;
-    c->socklen = socklen;
-    c->listening = ls;
-    c->local_sockaddr = ls->sockaddr;
-    c->local_socklen = ls->socklen;
-    if (c->sockaddr->sa_family == AF_UNIX)
-    {
-      c->tcp_nopush = NGX_TCP_NOPUSH_DISABLED;
-      c->tcp_nodelay = NGX_TCP_NODELAY_DISABLED;
-    }
-    rev = c->read;
-    wev = c->write;
-    wev->ready = 1;
-    if (get_ngx_event_flags_wrapper() & 0x00000200)
-    {
-      rev->ready = 1;
-    }
-    if (ev->deferred_accept)
-    {
-      rev->ready = 1;
-      rev->available = 1;
-    }
-    rev->log = log;
-    wev->log = log;
-    c->number = __sync_fetch_and_add(ngx_connection_counter, 1);
-    if (ls->addr_ntop)
-    {
-      c->addr_text.data = ngx_pnalloc(c->pool, ls->addr_text_max_len);
-      if (c->addr_text.data == 0)
-      {
-        ngx_close_accepted_connection(c);
-        return;
-      }
-      c->addr_text.len = ngx_sock_ntop(c->sockaddr, c->socklen, c->addr_text.data, ls->addr_text_max_len, 0);
-      if (c->addr_text.len == 0)
-      {
-        ngx_close_accepted_connection(c);
-        return;
-      }
-    }
-    if (ngx_event_actions.add_conn && ((get_ngx_event_flags_wrapper() & 0x00000040) == 0))
-    {
-      if (ngx_event_actions.add_conn(c) == (-1))
-      {
-        ngx_close_accepted_connection(c);
-        return;
-      }
-    }
-    log->data = 0;
-    log->handler = 0;
-    ls->handler(c);
-    if (get_ngx_event_flags_wrapper() & 0x00000008)
-    {
-      ev->available--;
-    }
-  }
-  while (ev->available);
+
+        ngx_memcpy(c->sockaddr, &sa, socklen);
+
+        log = ngx_palloc(c->pool, sizeof(ngx_log_t));
+        if (log == NULL) {
+            ngx_close_accepted_connection(c);
+            return;
+        }
+
+        /* set a blocking mode for iocp and non-blocking mode for others */
+
+        if (ngx_inherited_nonblocking) {
+            if (ngx_event_flags & NGX_USE_IOCP_EVENT) {
+                if (ngx_blocking(s) == -1) {
+                    ngx_log_error(NGX_LOG_ALERT, ev->log, ngx_socket_errno,
+                                  ngx_blocking_n " failed");
+                    ngx_close_accepted_connection(c);
+                    return;
+                }
+            }
+
+        } else {
+            if (!(ngx_event_flags & NGX_USE_IOCP_EVENT)) {
+                if (ngx_nonblocking(s) == -1) {
+                    ngx_log_error(NGX_LOG_ALERT, ev->log, ngx_socket_errno,
+                                  ngx_nonblocking_n " failed");
+                    ngx_close_accepted_connection(c);
+                    return;
+                }
+            }
+        }
+
+        *log = ls->log;
+
+        c->recv = ngx_recv;
+        c->send = ngx_send;
+        c->recv_chain = ngx_recv_chain;
+        c->send_chain = ngx_send_chain;
+
+        c->log = log;
+        c->pool->log = log;
+
+        c->socklen = socklen;
+        c->listening = ls;
+        c->local_sockaddr = ls->sockaddr;
+        c->local_socklen = ls->socklen;
+
+#if (NGX_HAVE_UNIX_DOMAIN)
+        if (c->sockaddr->sa_family == AF_UNIX) {
+            c->tcp_nopush = NGX_TCP_NOPUSH_DISABLED;
+            c->tcp_nodelay = NGX_TCP_NODELAY_DISABLED;
+#if (NGX_SOLARIS)
+            /* Solaris's sendfilev() supports AF_NCA, AF_INET, and AF_INET6 */
+            c->sendfile = 0;
+#endif
+        }
+#endif
+
+        rev = c->read;
+        wev = c->write;
+
+        wev->ready = 1;
+
+        if (ngx_event_flags & NGX_USE_IOCP_EVENT) {
+            rev->ready = 1;
+        }
+
+        if (ev->deferred_accept) {
+            rev->ready = 1;
+#if (NGX_HAVE_KQUEUE || NGX_HAVE_EPOLLRDHUP)
+            rev->available = 1;
+#endif
+        }
+
+        rev->log = log;
+        wev->log = log;
+
+        /*
+         * TODO: MT: - ngx_atomic_fetch_add()
+         *             or protection by critical section or light mutex
+         *
+         * TODO: MP: - allocated in a shared memory
+         *           - ngx_atomic_fetch_add()
+         *             or protection by critical section or light mutex
+         */
+
+        c->number = ngx_atomic_fetch_add(ngx_connection_counter, 1);
+
+#if (NGX_STAT_STUB)
+        (void) ngx_atomic_fetch_add(ngx_stat_handled, 1);
+#endif
+
+        if (ls->addr_ntop) {
+            c->addr_text.data = ngx_pnalloc(c->pool, ls->addr_text_max_len);
+            if (c->addr_text.data == NULL) {
+                ngx_close_accepted_connection(c);
+                return;
+            }
+
+            c->addr_text.len = ngx_sock_ntop(c->sockaddr, c->socklen,
+                                             c->addr_text.data,
+                                             ls->addr_text_max_len, 0);
+            if (c->addr_text.len == 0) {
+                ngx_close_accepted_connection(c);
+                return;
+            }
+        }
+
+#if (NGX_DEBUG)
+        {
+        ngx_str_t  addr;
+        u_char     text[NGX_SOCKADDR_STRLEN];
+
+        ngx_debug_accepted_connection(ecf, c);
+
+        if (log->log_level & NGX_LOG_DEBUG_EVENT) {
+            addr.data = text;
+            addr.len = ngx_sock_ntop(c->sockaddr, c->socklen, text,
+                                     NGX_SOCKADDR_STRLEN, 1);
+
+            ngx_log_debug3(NGX_LOG_DEBUG_EVENT, log, 0,
+                           "*%uA accept: %V fd:%d", c->number, &addr, s);
+        }
+
+        }
+#endif
+
+        if (ngx_add_conn && (ngx_event_flags & NGX_USE_EPOLL_EVENT) == 0) {
+            if (ngx_add_conn(c) == NGX_ERROR) {
+                ngx_close_accepted_connection(c);
+                return;
+            }
+        }
+
+        log->data = NULL;
+        log->handler = NULL;
+
+        ls->handler(c);
+
+        if (ngx_event_flags & NGX_USE_KQUEUE_EVENT) {
+            ev->available--;
+        }
+
+    } while (ev->available);
 }
-
-
 
 
 ngx_int_t

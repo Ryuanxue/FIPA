@@ -98,7 +98,6 @@ ngx_destroy_pool(ngx_pool_t *pool)
 
 
 
-
 void *
 ngx_palloc(ngx_pool_t *pool, size_t size)
 {
@@ -321,7 +320,6 @@ ngx_pool_cleanup_add(ngx_pool_t *p, size_t size)
 
 
 
-
 void
 ngx_pool_cleanup_file(void *data)
 {
@@ -335,7 +333,6 @@ ngx_pool_cleanup_file(void *data)
                       ngx_close_file_n " \"%s\" failed", c->name);
     }
 }
-
 
 
 

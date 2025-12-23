@@ -4,12 +4,12 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <nginx.h>
-
-#include "nginx_rpc_wrapper.h"
 
 
 static void ngx_show_version_info(void);
@@ -33,14 +33,12 @@ static void ngx_unload_module(void *data);
 #endif
 
 
-static ngx_conf_enum_t  ngx_debug_points[] = {
     { ngx_string("stop"), NGX_DEBUG_POINTS_STOP },
     { ngx_string("abort"), NGX_DEBUG_POINTS_ABORT },
     { ngx_null_string, 0 }
 };
 
 
-static ngx_command_t  ngx_core_commands[] = {
 
     { ngx_string("daemon"),
       NGX_MAIN_CONF|NGX_DIRECT_CONF|NGX_CONF_FLAG,
@@ -158,7 +156,6 @@ static ngx_command_t  ngx_core_commands[] = {
 };
 
 
-static ngx_core_module_t  ngx_core_module_ctx = {
     ngx_string("core"),
     ngx_core_module_create_conf,
     ngx_core_module_init_conf
@@ -193,161 +190,199 @@ static char        *ngx_signal;
 static char **ngx_os_environ;
 
 
-int main(int argc, char * const *argv)
+int ngx_cdecl
+main(int argc, char *const *argv)
 {
-  ngx_buf_t *b;
-  ngx_log_t *log;
-  ngx_uint_t i;
-  ngx_cycle_t *cycle;
-  ngx_cycle_t init_cycle;
-  ngx_conf_dump_t *cd;
-  ngx_core_conf_t *ccf;
-  ;
-  if (ngx_strerror_init() != 0)
-  {
-    return 1;
-  }
-  if (ngx_get_options(argc, argv) != 0)
-  {
-    return 1;
-  }
-  if (ngx_show_version)
-  {
-    ngx_show_version_info();
-    if (!ngx_test_config)
-    {
-      return 0;
-    }
-  }
-  ngx_max_sockets = -1;
-  ngx_time_init();
-  set_ngx_pid_wrapper(getpid());
-  ngx_parent = getppid();
-  log = ngx_log_init(ngx_prefix);
-  if (log == 0)
-  {
-    return 1;
-  }
-  (void) memset(&init_cycle, 0, sizeof(ngx_cycle_t));
-  init_cycle.log = log;
-  set_ngx_cycle_wrapper(&init_cycle);
-  init_cycle.pool = ngx_create_pool(1024, log);
-  if (init_cycle.pool == 0)
-  {
-    return 1;
-  }
-  if (ngx_save_argv(&init_cycle, argc, argv) != 0)
-  {
-    return 1;
-  }
-  if (ngx_process_options(&init_cycle) != 0)
-  {
-    return 1;
-  }
-  if (ngx_os_init(log) != 0)
-  {
-    return 1;
-  }
-  if (ngx_crc32_table_init() != 0)
-  {
-    return 1;
-  }
-  ngx_slab_sizes_init();
-  if (ngx_add_inherited_sockets(&init_cycle) != 0)
-  {
-    return 1;
-  }
-  if (ngx_preinit_modules() != 0)
-  {
-    return 1;
-  }
-  cycle = ngx_init_cycle(&init_cycle);
-  if (cycle == 0)
-  {
-    if (ngx_test_config)
-    {
-      ngx_log_stderr(0, "configuration file %s test failed", init_cycle.conf_file.data);
-    }
-    return 1;
-  }
-  if (ngx_test_config)
-  {
-    if (!ngx_quiet_mode)
-    {
-      ngx_log_stderr(0, "configuration file %s test is successful", cycle->conf_file.data);
-    }
-    if (ngx_dump_config)
-    {
-      cd = cycle->config_dump.elts;
-      for (i = 0; i < cycle->config_dump.nelts; i++)
-      {
-        ngx_write_stdout("# configuration file ");
-        (void) ngx_write_fd(STDOUT_FILENO, cd[i].name.data, cd[i].name.len);
-        ngx_write_stdout(":\x0a");
-        b = cd[i].buffer;
-        (void) ngx_write_fd(STDOUT_FILENO, b->pos, b->last - b->pos);
-        ngx_write_stdout("\x0a");
-      }
+    ngx_buf_t        *b;
+    ngx_log_t        *log;
+    ngx_uint_t        i;
+    ngx_cycle_t      *cycle, init_cycle;
+    ngx_conf_dump_t  *cd;
+    ngx_core_conf_t  *ccf;
 
+    ngx_debug_init();
+
+    if (ngx_strerror_init() != NGX_OK) {
+        return 1;
     }
+
+    if (ngx_get_options(argc, argv) != NGX_OK) {
+        return 1;
+    }
+
+    if (ngx_show_version) {
+        ngx_show_version_info();
+
+        if (!ngx_test_config) {
+            return 0;
+        }
+    }
+
+    /* TODO */ ngx_max_sockets = -1;
+
+    ngx_time_init();
+
+#if (NGX_PCRE)
+    ngx_regex_init();
+#endif
+
+    ngx_pid = ngx_getpid();
+    ngx_parent = ngx_getppid();
+
+    log = ngx_log_init(ngx_prefix);
+    if (log == NULL) {
+        return 1;
+    }
+
+    /* STUB */
+#if (NGX_OPENSSL)
+    ngx_ssl_init(log);
+#endif
+
+    /*
+     * init_cycle->log is required for signal handlers and
+     * ngx_process_options()
+     */
+
+    ngx_memzero(&init_cycle, sizeof(ngx_cycle_t));
+    init_cycle.log = log;
+    ngx_cycle = &init_cycle;
+
+    init_cycle.pool = ngx_create_pool(1024, log);
+    if (init_cycle.pool == NULL) {
+        return 1;
+    }
+
+    if (ngx_save_argv(&init_cycle, argc, argv) != NGX_OK) {
+        return 1;
+    }
+
+    if (ngx_process_options(&init_cycle) != NGX_OK) {
+        return 1;
+    }
+
+    if (ngx_os_init(log) != NGX_OK) {
+        return 1;
+    }
+
+    /*
+     * ngx_crc32_table_init() requires ngx_cacheline_size set in ngx_os_init()
+     */
+
+    if (ngx_crc32_table_init() != NGX_OK) {
+        return 1;
+    }
+
+    /*
+     * ngx_slab_sizes_init() requires ngx_pagesize set in ngx_os_init()
+     */
+
+    ngx_slab_sizes_init();
+
+    if (ngx_add_inherited_sockets(&init_cycle) != NGX_OK) {
+        return 1;
+    }
+
+    if (ngx_preinit_modules() != NGX_OK) {
+        return 1;
+    }
+
+    cycle = ngx_init_cycle(&init_cycle);
+    if (cycle == NULL) {
+        if (ngx_test_config) {
+            ngx_log_stderr(0, "configuration file %s test failed",
+                           init_cycle.conf_file.data);
+        }
+
+        return 1;
+    }
+
+    if (ngx_test_config) {
+        if (!ngx_quiet_mode) {
+            ngx_log_stderr(0, "configuration file %s test is successful",
+                           cycle->conf_file.data);
+        }
+
+        if (ngx_dump_config) {
+            cd = cycle->config_dump.elts;
+
+            for (i = 0; i < cycle->config_dump.nelts; i++) {
+
+                ngx_write_stdout("# configuration file ");
+                (void) ngx_write_fd(ngx_stdout, cd[i].name.data,
+                                    cd[i].name.len);
+                ngx_write_stdout(":" NGX_LINEFEED);
+
+                b = cd[i].buffer;
+
+                (void) ngx_write_fd(ngx_stdout, b->pos, b->last - b->pos);
+                ngx_write_stdout(NGX_LINEFEED);
+            }
+        }
+
+        return 0;
+    }
+
+    if (ngx_signal) {
+        return ngx_signal_process(cycle, ngx_signal);
+    }
+
+    ngx_os_status(cycle->log);
+
+    ngx_cycle = cycle;
+
+    ccf = (ngx_core_conf_t *) ngx_get_conf(cycle->conf_ctx, ngx_core_module);
+
+    if (ccf->master && ngx_process == NGX_PROCESS_SINGLE) {
+        ngx_process = NGX_PROCESS_MASTER;
+    }
+
+#if !(NGX_WIN32)
+
+    if (ngx_init_signals(cycle->log) != NGX_OK) {
+        return 1;
+    }
+
+    if (!ngx_inherited && ccf->daemon) {
+        if (ngx_daemon(cycle->log) != NGX_OK) {
+            return 1;
+        }
+
+        ngx_daemonized = 1;
+    }
+
+    if (ngx_inherited) {
+        ngx_daemonized = 1;
+    }
+
+#endif
+
+    if (ngx_create_pidfile(&ccf->pid, cycle->log) != NGX_OK) {
+        return 1;
+    }
+
+    if (ngx_log_redirect_stderr(cycle) != NGX_OK) {
+        return 1;
+    }
+
+    if (log->file->fd != ngx_stderr) {
+        if (ngx_close_file(log->file->fd) == NGX_FILE_ERROR) {
+            ngx_log_error(NGX_LOG_ALERT, cycle->log, ngx_errno,
+                          ngx_close_file_n " built-in log failed");
+        }
+    }
+
+    ngx_use_stderr = 0;
+
+    if (ngx_process == NGX_PROCESS_SINGLE) {
+        ngx_single_process_cycle(cycle);
+
+    } else {
+        ngx_master_process_cycle(cycle);
+    }
+
     return 0;
-  }
-  if (ngx_signal)
-  {
-    return ngx_signal_process(cycle, ngx_signal);
-  }
-  ngx_os_status(cycle->log);
-  set_ngx_cycle_wrapper(cycle);
-  ccf = (ngx_core_conf_t *) cycle->conf_ctx[ngx_core_module.index];
-  if (ccf->master && (ngx_process == 0))
-  {
-    ngx_process = 1;
-  }
-  if (ngx_init_signals(cycle->log) != 0)
-  {
-    return 1;
-  }
-  if ((!ngx_inherited) && ccf->daemon)
-  {
-    if (ngx_daemon(cycle->log) != 0)
-    {
-      return 1;
-    }
-    ngx_daemonized = 1;
-  }
-  if (ngx_inherited)
-  {
-    ngx_daemonized = 1;
-  }
-  if (ngx_create_pidfile(&ccf->pid, cycle->log) != 0)
-  {
-    return 1;
-  }
-  if (ngx_log_redirect_stderr(cycle) != 0)
-  {
-    return 1;
-  }
-  if (log->file->fd != STDERR_FILENO)
-  {
-    if (close(log->file->fd) == (-1))
-    {
-      if (cycle->log->log_level >= 2)
-        ngx_log_error_core(2, cycle->log, errno, "close() built-in log failed");
-    }
-  }
-  set_ngx_use_stderr_wrapper(0);
-  if (ngx_process == 0)
-  {
-    ngx_single_process_cycle(cycle);
-  }
-  else
-  {
-    ngx_master_process_cycle(cycle);
-  }
-  return 0;
 }
-
-
 
 
 static void
@@ -830,34 +865,46 @@ ngx_get_options(int argc, char *const *argv)
 }
 
 
-static ngx_int_t ngx_save_argv(ngx_cycle_t *cycle, int argc, char * const *argv)
+static ngx_int_t
+ngx_save_argv(ngx_cycle_t *cycle, int argc, char *const *argv)
 {
-  size_t len;
-  ngx_int_t i;
-  set_ngx_os_argv_wrapper((char **) argv);
-  ngx_argc = argc;
-  ngx_argv = ngx_alloc((argc + 1) * (sizeof(char *)), cycle->log);
-  if (ngx_argv == 0)
-  {
-    return -1;
-  }
-  for (i = 0; i < argc; i++)
-  {
-    len = strlen((const char *) argv[i]) + 1;
-    ngx_argv[i] = ngx_alloc(len, cycle->log);
-    if (ngx_argv[i] == 0)
-    {
-      return -1;
+#if (NGX_FREEBSD)
+
+    ngx_os_argv = (char **) argv;
+    ngx_argc = argc;
+    ngx_argv = (char **) argv;
+
+#else
+    size_t     len;
+    ngx_int_t  i;
+
+    ngx_os_argv = (char **) argv;
+    ngx_argc = argc;
+
+    ngx_argv = ngx_alloc((argc + 1) * sizeof(char *), cycle->log);
+    if (ngx_argv == NULL) {
+        return NGX_ERROR;
     }
-    (void) ngx_cpystrn((u_char *) ngx_argv[i], (u_char *) argv[i], len);
-  }
 
-  ngx_argv[i] = 0;
-  ngx_os_environ = environ;
-  return 0;
+    for (i = 0; i < argc; i++) {
+        len = ngx_strlen(argv[i]) + 1;
+
+        ngx_argv[i] = ngx_alloc(len, cycle->log);
+        if (ngx_argv[i] == NULL) {
+            return NGX_ERROR;
+        }
+
+        (void) ngx_cpystrn((u_char *) ngx_argv[i], (u_char *) argv[i], len);
+    }
+
+    ngx_argv[i] = NULL;
+
+#endif
+
+    ngx_os_environ = environ;
+
+    return NGX_OK;
 }
-
-
 
 
 static ngx_int_t
@@ -1361,45 +1408,58 @@ ngx_set_cpu_affinity(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 }
 
 
-ngx_cpuset_t *ngx_get_cpu_affinity(ngx_uint_t n)
+ngx_cpuset_t *
+ngx_get_cpu_affinity(ngx_uint_t n)
 {
-  ngx_uint_t i;
-  ngx_uint_t j;
-  ngx_cpuset_t *mask;
-  ngx_core_conf_t *ccf;
-  static ngx_cpuset_t result;
-  ccf = (ngx_core_conf_t *) get_ngx_cycle_wrapper()->conf_ctx[ngx_core_module.index];
-  if (ccf->cpu_affinity == 0)
-  {
-    return 0;
-  }
-  if (ccf->cpu_affinity_auto)
-  {
-    mask = &ccf->cpu_affinity[ccf->cpu_affinity_n - 1];
-    for (i = 0, j = n;; i++)
-    {
-      if (CPU_ISSET(i % CPU_SETSIZE, mask) && ((j--) == 0))
-      {
-        break;
-      }
-      if ((i == CPU_SETSIZE) && (j == n))
-      {
-        return 0;
-      }
+#if (NGX_HAVE_CPU_AFFINITY)
+    ngx_uint_t        i, j;
+    ngx_cpuset_t     *mask;
+    ngx_core_conf_t  *ccf;
+
+    static ngx_cpuset_t  result;
+
+    ccf = (ngx_core_conf_t *) ngx_get_conf(ngx_cycle->conf_ctx,
+                                           ngx_core_module);
+
+    if (ccf->cpu_affinity == NULL) {
+        return NULL;
     }
 
-    CPU_ZERO(&result);
-    CPU_SET(i % CPU_SETSIZE, &result);
-    return &result;
-  }
-  if (ccf->cpu_affinity_n > n)
-  {
-    return &ccf->cpu_affinity[n];
-  }
-  return &ccf->cpu_affinity[ccf->cpu_affinity_n - 1];
+    if (ccf->cpu_affinity_auto) {
+        mask = &ccf->cpu_affinity[ccf->cpu_affinity_n - 1];
+
+        for (i = 0, j = n; /* void */ ; i++) {
+
+            if (CPU_ISSET(i % CPU_SETSIZE, mask) && j-- == 0) {
+                break;
+            }
+
+            if (i == CPU_SETSIZE && j == n) {
+                /* empty mask */
+                return NULL;
+            }
+
+            /* void */
+        }
+
+        CPU_ZERO(&result);
+        CPU_SET(i % CPU_SETSIZE, &result);
+
+        return &result;
+    }
+
+    if (ccf->cpu_affinity_n > n) {
+        return &ccf->cpu_affinity[n];
+    }
+
+    return &ccf->cpu_affinity[ccf->cpu_affinity_n - 1];
+
+#else
+
+    return NULL;
+
+#endif
 }
-
-
 
 
 static char *

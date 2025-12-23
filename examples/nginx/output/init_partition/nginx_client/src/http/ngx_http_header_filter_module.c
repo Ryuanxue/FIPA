@@ -4,20 +4,19 @@
  * Copyright (C) Nginx, Inc.
  */
 
+#include "nginx_rpc_wrapper.h"
+
 
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
 #include <nginx.h>
 
-#include "nginx_rpc_wrapper.h"
-
 
 static ngx_int_t ngx_http_header_filter_init(ngx_conf_t *cf);
 static ngx_int_t ngx_http_header_filter(ngx_http_request_t *r);
 
 
-static ngx_http_module_t  ngx_http_header_filter_module_ctx = {
     NULL,                                  /* preconfiguration */
     ngx_http_header_filter_init,           /* postconfiguration */
 
@@ -32,7 +31,6 @@ static ngx_http_module_t  ngx_http_header_filter_module_ctx = {
 };
 
 
-ngx_module_t  ngx_http_header_filter_module = {
     NGX_MODULE_V1,
     &ngx_http_header_filter_module_ctx,    /* module context */
     NULL,                                  /* module directives */
@@ -134,7 +132,6 @@ static ngx_str_t ngx_http_status_lines[] = {
 };
 
 
-ngx_http_header_out_t  ngx_http_headers_out[] = {
     { ngx_string("Server"), offsetof(ngx_http_headers_out_t, server) },
     { ngx_string("Date"), offsetof(ngx_http_headers_out_t, date) },
     { ngx_string("Content-Length"),
@@ -623,10 +620,10 @@ ngx_http_header_filter(ngx_http_request_t *r)
 }
 
 
-static ngx_int_t ngx_http_header_filter_init(ngx_conf_t *cf)
+static ngx_int_t
+ngx_http_header_filter_init(ngx_conf_t *cf)
 {
-  set_ngx_http_top_header_filter_wrapper(ngx_http_header_filter);
-  return 0;
+    ngx_http_top_header_filter = ngx_http_header_filter;
+
+    return NGX_OK;
 }
-
-
