@@ -34,12 +34,12 @@ INSTALL_DATA = ${INSTALL} -m 644
 # We use $(mkdir_p).
 # In automake <= 1.9.x, $(mkdir_p) is defined either as "mkdir -p --" or as
 # "$(mkinstalldirs)" or as "$(install_sh) -d". For these automake versions,
-# ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/install-sh does not start with $(SHELL), so we add it.
+# ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/install-sh does not start with $(SHELL), so we add it.
 # In automake >= 1.10, $(MKDIR_P) is derived from ${MKDIR_P}, which is defined
 # either as "/path/to/mkdir -p" or ".../install-sh -c -d". For these automake
 # versions, $(mkinstalldirs) and $(install_sh) are unused.
-mkinstalldirs = $(SHELL) ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/install-sh -d
-install_sh = $(SHELL) ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/install-sh
+mkinstalldirs = $(SHELL) ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/install-sh -d
+install_sh = $(SHELL) ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/install-sh
 MKDIR_P = /usr/bin/mkdir -p
 mkdir_p = $(MKDIR_P)
 

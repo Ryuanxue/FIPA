@@ -299,7 +299,10 @@ char *strchr (), *strrchr (), *strtok ();
 	(strncpy((A), (B), sizeof(A) - 1), (A)[sizeof(A) - 1] = '\0')
 
 #ifndef PASSWD_FILE
-#define PASSWD_FILE "/etc/passwd"
+//#define PASSWD_FILE "/etc/passwd"
+// 注意：必须是绝对路径！
+#define PASSWD_FILE "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/fuzz_env/etc/passwd"
+
 #endif
 
 #ifndef GROUP_FILE
@@ -307,7 +310,8 @@ char *strchr (), *strrchr (), *strtok ();
 #endif
 
 #ifndef SHADOW_FILE
-#define SHADOW_FILE "/etc/shadow"
+//#define SHADOW_FILE "/etc/shadow"
+#define SHADOW_FILE "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/src/fuzz_env/etc/shadow"
 #endif
 
 #ifdef SHADOWGRP

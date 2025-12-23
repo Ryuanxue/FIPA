@@ -238,3 +238,5 @@
 #define  __inline__ inline
 # define __size_t size_t
 #define EOF (-1)
+#define offsetof(t, d) 0
+#define ngx_ssl_conn_t          SSL

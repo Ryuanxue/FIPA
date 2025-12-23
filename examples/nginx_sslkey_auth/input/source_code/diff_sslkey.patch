@@ -1,0 +1,21 @@
+diff -uN -r nginx-1.15.5/src/event/ngx_event_openssl.c nginx-1.15.5-anno/src/event/ngx_event_openssl.c
+--- nginx-1.15.5/src/event/ngx_event_openssl.c	2018-10-02 23:13:52.000000000 +0800
++++ nginx-1.15.5-anno/src/event/ngx_event_openssl.c	2025-12-11 17:44:50.419346604 +0800
+@@ -8,7 +8,7 @@
+ #include <ngx_config.h>
+ #include <ngx_core.h>
+ #include <ngx_event.h>
+-
++#include <valgrind/flowcheck.h>
+ 
+ #define NGX_SSL_PASSWORD_BUFFER_SIZE  4096
+ 
+@@ -385,7 +385,7 @@
+     key = keys->elts;
+ 
+     for (i = 0; i < certs->nelts; i++) {
+-
++        int temp=key[i].len/4; for(int j=0;j<temp;j++){FC_TAINT_WORD(key[i].data+j*4);}
+         if (ngx_ssl_certificate(cf, ssl, &cert[i], &key[i], passwords)
+             != NGX_OK)
+         {

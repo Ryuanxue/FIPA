@@ -47,6 +47,10 @@ examples/useradd/input/source_code/shadow-utils
 examples/useradd/input/source_code/shadow-utils_back
 examples/useradd/output/finally_partition/useradd_client/
 examples/useradd/output/finally_partition/useradd_server/
+examples/nginx/output/muti-partition/nginx-mid/
+examples/nginx/output/muti-partition/nginx-public/
+examples/nginx/output/muti-partition/nginx-core/
+examples/nginx/output/muti-partition/IDL/
 scripts/__pycache__/
 scripts/get_all_senseAddr_use_progate_for_refactor_output.py
 scripts/refactor_flowcheck_output.py

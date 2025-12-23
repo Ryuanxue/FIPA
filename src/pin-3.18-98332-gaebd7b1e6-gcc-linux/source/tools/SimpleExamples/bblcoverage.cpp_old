@@ -1,0 +1,286 @@
+/*
+ * 基本块覆盖率测试工具 (Basic Block Coverage Tool)
+ * 
+ * 此工具用于测试和统计程序执行过程中的基本块覆盖率
+ * 基本块是指没有分支指令（除了最后一条指令）的指令序列
+ */
+
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <set>
+#include <unistd.h>
+#include "pin.H"
+
+using std::map;
+using std::set;
+using std::pair;
+using std::string;
+using std::cerr;
+using std::endl;
+using std::ofstream;
+using std::hex;
+using std::dec;
+
+/* ===================================================================== */
+/* 命令行参数配置 */
+/* ===================================================================== */
+
+KNOB<string> KnobOutputFile(KNOB_MODE_WRITEONCE, "pintool",
+    "o", "bblcoverage.out", "指定输出文件名");
+KNOB<BOOL> KnobPid(KNOB_MODE_WRITEONCE, "pintool",
+    "i", "0", "在输出文件名中添加进程ID");
+KNOB<BOOL> KnobDetailedReport(KNOB_MODE_WRITEONCE, "pintool",
+    "d", "0", "生成详细的覆盖率报告");
+
+/* ===================================================================== */
+/* 全局变量 */
+/* ===================================================================== */
+
+// 基本块信息结构体
+class BBL_INFO
+{
+  public:
+    ADDRINT _start_addr;     // 基本块起始地址
+    ADDRINT _end_addr;       // 基本块结束地址
+    UINT32 _inst_count;      // 基本块中的指令数量
+    string _routine_name;    // 所属函数名
+    string _img_name;        // 所属镜像文件名
+    UINT64 _exec_count;      // 执行次数
+    
+    BBL_INFO() : _start_addr(0), _end_addr(0), _inst_count(0), _exec_count(0) {}
+    
+    BBL_INFO(ADDRINT start, ADDRINT end, UINT32 count, 
+             const string& rtn, const string& img)
+        : _start_addr(start), _end_addr(end), _inst_count(count), 
+          _routine_name(rtn), _img_name(img), _exec_count(0) {}
+};
+
+// 覆盖率统计
+map<ADDRINT, BBL_INFO> all_bbls;        // 所有发现的基本块
+set<ADDRINT> executed_bbls;             // 已执行的基本块地址
+ofstream outFile;
+
+/* ===================================================================== */
+/* 辅助函数 */
+/* ===================================================================== */
+
+INT32 Usage()
+{
+    cerr << "基本块覆盖率测试工具\n";
+    cerr << "此工具统计程序执行过程中的基本块覆盖率\n";
+    cerr << "\n";
+    cerr << "使用方法:\n";
+    cerr << "  pin -t bblcoverage.so [选项] -- <程序> [程序参数]\n";
+    cerr << "\n";
+    cerr << "选项:\n";
+    cerr << "  -o <文件名>     指定输出文件名 (默认: bblcoverage.out)\n";
+    cerr << "  -i              在输出文件名中添加进程ID\n"; 
+    cerr << "  -d              生成详细的覆盖率报告\n";
+    cerr << "\n";
+    cerr << KNOB_BASE::StringKnobSummary() << endl;
+    return -1;
+}
+
+// 获取格式化的地址字符串
+string AddressToString(ADDRINT addr)
+{
+    char buffer[32];
+    sprintf(buffer, "0x%lx", addr);
+    return string(buffer);
+}
+
+/* ===================================================================== */
+/* 插桩回调函数 */
+/* ===================================================================== */
+
+// 基本块执行计数函数
+VOID BBL_Count(ADDRINT bbl_addr)
+{
+    executed_bbls.insert(bbl_addr);
+    all_bbls[bbl_addr]._exec_count++;
+}
+
+// Trace插桩函数 - 在每个trace中寻找基本块
+VOID Trace(TRACE trace, VOID *v)
+{
+    // 遍历trace中的所有基本块
+    for (BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl))
+    {
+        // 获取基本块信息
+        ADDRINT bbl_addr = BBL_Address(bbl);
+        UINT32 inst_count = BBL_NumIns(bbl);
+        
+        // 获取基本块的结束地址
+        ADDRINT end_addr = bbl_addr;
+        for (INS ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins))
+        {
+            end_addr = INS_Address(ins) + INS_Size(ins);
+        }
+        
+        // 获取函数和镜像信息
+        string routine_name = "unknown";
+        string img_name = "unknown";
+        
+        RTN rtn = TRACE_Rtn(trace);
+        if (RTN_Valid(rtn))
+        {
+            routine_name = RTN_Name(rtn);
+        }
+        
+        IMG img = IMG_FindByAddress(TRACE_Address(trace));
+        if (IMG_Valid(img))
+        {
+            img_name = IMG_Name(img);
+            // 只保留文件名，去掉路径
+            size_t pos = img_name.find_last_of("/\\");
+            if (pos != string::npos)
+                img_name = img_name.substr(pos + 1);
+        }
+        
+        // 记录基本块信息
+        if (all_bbls.find(bbl_addr) == all_bbls.end())
+        {
+            all_bbls[bbl_addr] = BBL_INFO(bbl_addr, end_addr, inst_count, routine_name, img_name);
+        }
+        
+        // 插入计数回调
+        BBL_InsertCall(bbl, IPOINT_BEFORE, (AFUNPTR)BBL_Count, IARG_ADDRINT, bbl_addr, IARG_END);
+    }
+}
+
+/* ===================================================================== */
+/* 分析和输出函数 */
+/* ===================================================================== */
+
+VOID GenerateCoverageReport()
+{
+    UINT32 total_bbls = all_bbls.size();
+    UINT32 executed_count = executed_bbls.size();
+    double coverage_rate = total_bbls > 0 ? (double)executed_count / total_bbls * 100.0 : 0.0;
+    
+    // 基本统计信息
+    outFile << "===============================================\n";
+    outFile << "           基本块覆盖率报告\n";
+    outFile << "===============================================\n";
+    outFile << "总基本块数量: " << total_bbls << "\n";
+    outFile << "执行基本块数量: " << executed_count << "\n";
+    outFile << "覆盖率: " << coverage_rate << "%\n";
+    outFile << "===============================================\n\n";
+    
+    // 按镜像统计
+    map<string, pair<UINT32, UINT32> > img_stats; // 镜像名 -> (总数, 执行数)
+    
+    for (map<ADDRINT, BBL_INFO>::iterator it = all_bbls.begin(); it != all_bbls.end(); ++it)
+    {
+        const BBL_INFO& info = it->second;
+        img_stats[info._img_name].first++;
+        
+        if (executed_bbls.find(it->first) != executed_bbls.end())
+        {
+            img_stats[info._img_name].second++;
+        }
+    }
+    
+    outFile << "按镜像文件统计:\n";
+    outFile << "镜像文件名\t\t总基本块\t执行基本块\t覆盖率\n";
+    outFile << "---------------------------------------------------------------\n";
+    
+    for (map<string, pair<UINT32, UINT32> >::iterator it = img_stats.begin(); it != img_stats.end(); ++it)
+    {
+        double img_coverage = it->second.first > 0 ? 
+            (double)it->second.second / it->second.first * 100.0 : 0.0;
+        
+        outFile << it->first << "\t\t" 
+                << it->second.first << "\t\t"
+                << it->second.second << "\t\t"
+                << img_coverage << "%\n";
+    }
+    
+    outFile << "\n";
+    
+    // 详细报告
+    if (KnobDetailedReport.Value())
+    {
+        outFile << "===============================================\n";
+        outFile << "              详细基本块信息\n";
+        outFile << "===============================================\n";
+        outFile << "地址\t\t大小\t指令数\t执行次数\t函数名\t\t镜像\n";
+        outFile << "-------------------------------------------------------------------------\n";
+        
+        for (map<ADDRINT, BBL_INFO>::iterator it = all_bbls.begin(); it != all_bbls.end(); ++it)
+        {
+            const BBL_INFO& info = it->second;
+            BOOL executed = (executed_bbls.find(it->first) != executed_bbls.end());
+            
+            outFile << AddressToString(info._start_addr) << "\t"
+                    << (info._end_addr - info._start_addr) << "\t"
+                    << info._inst_count << "\t"
+                    << info._exec_count << "\t\t"
+                    << info._routine_name << "\t\t"
+                    << info._img_name << "\t"
+                    << (executed ? "COVERED" : "NOT_COVERED") << "\n";
+        }
+        
+        outFile << "\n";
+        
+        // 未覆盖的基本块
+        outFile << "===============================================\n";
+        outFile << "              未覆盖的基本块\n";
+        outFile << "===============================================\n";
+        
+        for (map<ADDRINT, BBL_INFO>::iterator it = all_bbls.begin(); it != all_bbls.end(); ++it)
+        {
+            if (executed_bbls.find(it->first) == executed_bbls.end())
+            {
+                const BBL_INFO& info = it->second;
+                outFile << AddressToString(info._start_addr) << " - "
+                        << AddressToString(info._end_addr) << " ["
+                        << info._routine_name << "] " 
+                        << info._img_name << "\n";
+            }
+        }
+    }
+}
+
+/* ===================================================================== */
+/* Pin初始化和清理函数 */
+/* ===================================================================== */
+
+VOID Fini(INT32 code, VOID *v)
+{
+    GenerateCoverageReport();
+    outFile.close();
+}
+
+int main(int argc, char *argv[])
+{
+    // 初始化Pin
+    if (PIN_Init(argc, argv))
+        return Usage();
+    
+    // 打开输出文件
+    string fileName = KnobOutputFile.Value();
+    if (KnobPid.Value())
+    {
+        fileName += "." + decstr(getpid());
+    }
+    
+    outFile.open(fileName.c_str());
+    if (!outFile)
+    {
+        cerr << "错误: 无法打开输出文件 " << fileName << endl;
+        return -1;
+    }
+    
+    // 注册回调函数
+    TRACE_AddInstrumentFunction(Trace, 0);
+    PIN_AddFiniFunction(Fini, 0);
+    
+    cerr << "基本块覆盖率工具已启动，输出文件: " << fileName << endl;
+    
+    // 启动程序
+    PIN_StartProgram();
+    
+    return 0;
+}

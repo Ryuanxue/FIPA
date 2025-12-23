@@ -8027,6 +8027,14 @@ static Bool fc_handle_client_request ( ThreadId tid, UWord* arg, UWord* ret )
 	    set_vbits8(addr + 1, V_BITS8_DEFINED);
 	    set_vbits8(addr + 2, V_BITS8_DEFINED);
 	    set_vbits8(addr + 3, V_BITS8_DEFINED);
+
+       /* --- ADDED START --- */
+            // 如果开启了秘密图追踪，清除 page_table 中的标记
+            if (FC_(clo_trace_secret_graph)) {
+               FC_(clo_trace_secret_graph)     = False;
+               // untaint_memory(addr, 4, location);
+            }
+            /* --- ADDED END --- */
 	    *ret = *((unsigned int *)arg[1]);
 	    break;
 	 }

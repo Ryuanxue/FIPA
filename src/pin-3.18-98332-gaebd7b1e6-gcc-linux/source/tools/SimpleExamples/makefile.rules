@@ -19,7 +19,7 @@
 # Tests defined here should not be defined in TOOL_ROOTS and TEST_ROOTS.
 TEST_TOOL_ROOTS := dcache edgcnt pinatrace trace icount inscount2_mt opcodemix malloctrace calltrace jumpmix toprtn \
                    catmix regmix ilenmix coco extmix get_source_location xed-print xed-use ldstmix topopcode regval \
-                   oper-imm bsr_bsf inscount_and_check_tls
+                   oper-imm bsr_bsf inscount_and_check_tls bblcoverage
 
 # This defines the tests to be run that were not already defined in TEST_TOOL_ROOTS.
 TEST_ROOTS :=

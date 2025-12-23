@@ -2324,7 +2324,8 @@ struct stat_rpc
                         if param.type.type.name+"_rpc" not in typedef_struct_rpc:
                             typedef_struct_rpc.append(param.type.type.name+"_rpc")
                             rpcstruct_str_list.append("struct "+param.type.type.name+"_rpc{")
-                            get_rpc_struct_str(struct_dict[param.type.type.name]['ast'],rpcstruct_str_list)
+                            if param.type.type.name in struct_dict:
+                                get_rpc_struct_str(struct_dict[param.type.type.name]['ast'],rpcstruct_str_list)
                             rpcstruct_str_list.append("};")
                             
                         for rpcstruct_str in rpcstruct_str_list:
@@ -7433,11 +7434,18 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
             # 2. 检查是否是命名结构体
             elif isinstance(var_type.type, c_ast.Struct) and var_type.type.name:
                 struct_name = var_type.type.name
+                struct_def = None  # 初始化为None
+                
                 if var_type.type.decls:
                     struct_def = var_type.type
-                else:
-                    if struct_name in struct_dict:
-                        struct_def = struct_dict[struct_name]['ast']
+                elif struct_name in struct_dict:
+                    struct_def = struct_dict[struct_name]['ast']
+                
+                # 只有当找到结构体定义时才处理
+                if struct_def is None:
+                    print(f"警告: 无法找到结构体 '{struct_name}' 的定义，跳过处理")
+                    continue
+                    
                 if struct_name+"_rpc" not in typedef_struct_rpc:
                     typedef_struct_rpc.append(struct_name+"_rpc")
                     struct_str = f"struct {struct_name}_rpc{{\n"
@@ -7459,11 +7467,6 @@ def generate_global_var_rpc_functions(proname, global_vars_set):
                                 server_functions,
                                 wrapper_functions, wrapper_header_functions,
                                 function_counter)
-                
-                # 查找结构体定义
-                struct_def = None
-                if struct_name in struct_dict:
-                    struct_def = struct_dict[struct_name]['ast']
                 
                 # 如果找到结构体定义，为每个成员生成getter和setter
                 if struct_def and hasattr(struct_def, 'decls') and struct_def.decls:
@@ -8024,7 +8027,10 @@ def replace_global_var_access_with_rpc(proname, global_vars_set):
                 var_name = node.name.name
                 field_name = node.field.name if hasattr(node.field, 'name') else None
                 
-                if field_name and field_name in self.struct_vars[var_name]['members']:
+                # 首先检查变量是否在 struct_vars 中，以及是否有 members 字段
+                if (field_name and var_name in self.struct_vars and 
+                    'members' in self.struct_vars[var_name] and 
+                    field_name in self.struct_vars[var_name]['members']):
                     # 记录这是一个结构体字段访问
                     self.struct_field_access[id(node)] = (var_name, field_name)
                     
@@ -10936,7 +10942,7 @@ if __name__ == '__main__':
     
     # 替换非敏感域中对敏感全局变量的直接访问
     collect_function_pointers()
-    replace_global_var_access_with_rpc(proname, D_sense_global_var)
+    # replace_global_var_access_with_rpc(proname, D_sense_global_var)
     append_to_files(proname, idl_functions, idl_structs, server_functions, wrapper_functions, wrapper_header_functions)
     
     rpcc_call_pair=[]#存放rpc调用的函数对，caller在non_sense_domain中，callee在sense_domain中

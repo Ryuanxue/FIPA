@@ -68,17 +68,16 @@ this is the am__doit target
 configure:3127: $? = 0
 configure:3146: result: yes (GNU style)
 configure:3216: checking for gcc
-configure:3232: found /usr/bin/gcc
-configure:3243: result: gcc
+configure:3243: result: afl-gcc
 configure:3472: checking for C compiler version
-configure:3481: gcc --version >&5
+configure:3481: afl-gcc --version >&5
 gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0
 Copyright (C) 2019 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 configure:3492: $? = 0
-configure:3481: gcc -v >&5
+configure:3481: afl-gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
@@ -89,60 +88,60 @@ Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20
 Thread model: posix
 gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2) 
 configure:3492: $? = 0
-configure:3481: gcc -V >&5
+configure:3481: afl-gcc -V >&5
 gcc: error: unrecognized command line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
 configure:3492: $? = 1
-configure:3481: gcc -qversion >&5
+configure:3481: afl-gcc -qversion >&5
 gcc: error: unrecognized command line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
 configure:3492: $? = 1
 configure:3512: checking whether the C compiler works
-configure:3534: gcc -O0 -Wall -g    conftest.c  >&5
+configure:3534: afl-gcc -O0 -Wall -g    conftest.c  >&5
 configure:3538: $? = 0
 configure:3586: result: yes
 configure:3589: checking for C compiler default output file name
 configure:3591: result: a.out
 configure:3597: checking for suffix of executables
-configure:3604: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:3604: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:3608: $? = 0
 configure:3630: result: 
 configure:3652: checking whether we are cross compiling
-configure:3660: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:3660: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:3664: $? = 0
 configure:3671: ./conftest
 configure:3675: $? = 0
 configure:3663: result: no
 configure:3668: checking for suffix of object files
-configure:3690: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:3690: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:3694: $? = 0
 configure:3715: result: o
 configure:3719: checking whether we are using the GNU C compiler
-configure:3738: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:3738: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:3738: $? = 0
 configure:3747: result: yes
-configure:3756: checking whether gcc accepts -g
-configure:3776: gcc -c -g  conftest.c >&5
+configure:3756: checking whether afl-gcc accepts -g
+configure:3776: afl-gcc -c -g  conftest.c >&5
 configure:3776: $? = 0
 configure:3817: result: yes
-configure:3834: checking for gcc option to accept ISO C89
-configure:3897: gcc  -c -O0 -Wall -g   conftest.c >&5
+configure:3834: checking for afl-gcc option to accept ISO C89
+configure:3897: afl-gcc  -c -O0 -Wall -g   conftest.c >&5
 configure:3897: $? = 0
 configure:3910: result: none needed
-configure:3935: checking whether gcc understands -c and -o together
-configure:3957: gcc -c conftest.c -o conftest2.o
+configure:3935: checking whether afl-gcc understands -c and -o together
+configure:3957: afl-gcc -c conftest.c -o conftest2.o
 configure:3960: $? = 0
-configure:3957: gcc -c conftest.c -o conftest2.o
+configure:3957: afl-gcc -c conftest.c -o conftest2.o
 configure:3960: $? = 0
 configure:3972: result: yes
-configure:3991: checking dependency style of gcc
+configure:3991: checking dependency style of afl-gcc
 configure:4102: result: gcc3
 configure:4123: checking how to run the C preprocessor
-configure:4154: gcc -E  conftest.c
+configure:4154: afl-gcc -E  conftest.c
 configure:4154: $? = 0
-configure:4168: gcc -E  conftest.c
+configure:4168: afl-gcc -E  conftest.c
 conftest.c:11:10: fatal error: ac_nonexistent.h: No such file or directory
    11 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
@@ -160,10 +159,10 @@ configure: failed program was:
 | #define VERSION "4.2"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:4193: result: gcc -E
-configure:4213: gcc -E  conftest.c
+configure:4193: result: afl-gcc -E
+configure:4213: afl-gcc -E  conftest.c
 configure:4213: $? = 0
-configure:4227: gcc -E  conftest.c
+configure:4227: afl-gcc -E  conftest.c
 conftest.c:11:10: fatal error: ac_nonexistent.h: No such file or directory
    11 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
@@ -186,51 +185,51 @@ configure:4314: result: /usr/bin/grep
 configure:4319: checking for egrep
 configure:4381: result: /usr/bin/grep -E
 configure:4386: checking for ANSI C header files
-configure:4406: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4406: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4406: $? = 0
-configure:4479: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:4479: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:4479: $? = 0
 configure:4479: ./conftest
 configure:4479: $? = 0
 configure:4490: result: yes
 configure:4503: checking for sys/types.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4503: checking for sys/stat.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4503: checking for stdlib.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4503: checking for string.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4503: checking for memory.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4503: checking for strings.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4503: checking for inttypes.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4503: checking for stdint.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4503: checking for unistd.h
-configure:4503: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4503: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4503: $? = 0
 configure:4503: result: yes
 configure:4516: checking minix/config.h usability
-configure:4516: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4516: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c:54:10: fatal error: minix/config.h: No such file or directory
    54 | #include <minix/config.h>
       |          ^~~~~~~~~~~~~~~~
@@ -293,7 +292,7 @@ configure: failed program was:
 | #include <minix/config.h>
 configure:4516: result: no
 configure:4516: checking minix/config.h presence
-configure:4516: gcc -E  conftest.c
+configure:4516: afl-gcc -E  conftest.c
 conftest.c:21:10: fatal error: minix/config.h: No such file or directory
    21 | #include <minix/config.h>
       |          ^~~~~~~~~~~~~~~~
@@ -325,22 +324,22 @@ configure:4516: result: no
 configure:4516: checking for minix/config.h
 configure:4516: result: no
 configure:4537: checking whether it is safe to define __EXTENSIONS__
-configure:4555: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:4555: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:4555: $? = 0
 configure:4562: result: yes
 configure:4642: checking whether to enable maintainer-specific portions of Makefiles
 configure:4651: result: yes
 configure:4713: checking for gcc
-configure:4740: result: gcc
+configure:4740: result: afl-gcc
 configure:4969: checking for C compiler version
-configure:4978: gcc --version >&5
+configure:4978: afl-gcc --version >&5
 gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0
 Copyright (C) 2019 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 configure:4989: $? = 0
-configure:4978: gcc -v >&5
+configure:4978: afl-gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
@@ -351,28 +350,28 @@ Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20
 Thread model: posix
 gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2) 
 configure:4989: $? = 0
-configure:4978: gcc -V >&5
+configure:4978: afl-gcc -V >&5
 gcc: error: unrecognized command line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
 configure:4989: $? = 1
-configure:4978: gcc -qversion >&5
+configure:4978: afl-gcc -qversion >&5
 gcc: error: unrecognized command line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
 configure:4989: $? = 1
 configure:4993: checking whether we are using the GNU C compiler
 configure:5021: result: yes
-configure:5030: checking whether gcc accepts -g
+configure:5030: checking whether afl-gcc accepts -g
 configure:5091: result: yes
-configure:5108: checking for gcc option to accept ISO C89
+configure:5108: checking for afl-gcc option to accept ISO C89
 configure:5184: result: none needed
-configure:5209: checking whether gcc understands -c and -o together
+configure:5209: checking whether afl-gcc understands -c and -o together
 configure:5246: result: yes
-configure:5265: checking dependency style of gcc
+configure:5265: checking dependency style of afl-gcc
 configure:5376: result: gcc3
 configure:5391: checking for library containing strerror
-configure:5422: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:5422: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:5422: $? = 0
 configure:5439: result: none required
 configure:5447: checking whether ln -s works
@@ -390,14 +389,14 @@ configure:5666: checking for a sed that does not truncate output
 configure:5730: result: /usr/bin/sed
 configure:5748: checking for fgrep
 configure:5810: result: /usr/bin/grep -F
-configure:5845: checking for ld used by gcc
+configure:5845: checking for ld used by afl-gcc
 configure:5912: result: /usr/bin/ld
 configure:5919: checking if the linker (/usr/bin/ld) is GNU ld
 configure:5934: result: yes
 configure:5946: checking for BSD- or MS-compatible name lister (nm)
 configure:6000: result: /usr/bin/nm -B
 configure:6130: checking the name lister (/usr/bin/nm -B) interface
-configure:6137: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:6137: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:6140: /usr/bin/nm -B "conftest.o"
 configure:6143: output
 0000000000000000 B some_variable
@@ -423,7 +422,7 @@ configure:6973: checking for ar
 configure:6989: found /usr/bin/ar
 configure:7000: result: ar
 configure:7037: checking for archiver @FILE support
-configure:7054: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:7054: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:7054: $? = 0
 configure:7057: ar cr libconftest.a @conftest.lst >&5
 configure:7060: $? = 0
@@ -437,11 +436,11 @@ configure:7152: result: strip
 configure:7224: checking for ranlib
 configure:7240: found /usr/bin/ranlib
 configure:7251: result: ranlib
-configure:7353: checking command to parse /usr/bin/nm -B output from gcc object
-configure:7506: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:7353: checking command to parse /usr/bin/nm -B output from afl-gcc object
+configure:7506: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:7509: $? = 0
 configure:7513: /usr/bin/nm -B conftest.o | sed -n -e 's/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' | sed '/ __gnu_lto/d' > conftest.nm
-configure:7579: gcc -o conftest -O0 -Wall -g    conftest.c conftstm.o >&5
+configure:7579: afl-gcc -o conftest -O0 -Wall -g    conftest.c conftstm.o >&5
 configure:7582: $? = 0
 configure:7620: result: ok
 configure:7667: checking for sysroot
@@ -450,7 +449,7 @@ configure:7704: checking for a working dd
 configure:7742: result: /usr/bin/dd
 configure:7746: checking how to truncate binary pipes
 configure:7761: result: /usr/bin/dd bs=4096 count=1
-configure:7897: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:7897: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:7900: $? = 0
 configure:8090: checking for mt
 configure:8106: found /usr/bin/mt
@@ -459,34 +458,34 @@ configure:8140: checking if mt is a manifest tool
 configure:8146: mt '-?'
 configure:8154: result: no
 configure:8828: checking for dlfcn.h
-configure:8828: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:8828: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:8828: $? = 0
 configure:8828: result: yes
 configure:9024: checking for objdir
 configure:9039: result: .libs
-configure:9299: checking if gcc supports -fno-rtti -fno-exceptions
-configure:9317: gcc -c -O0 -Wall -g   -fno-rtti -fno-exceptions conftest.c >&5
+configure:9299: checking if afl-gcc supports -fno-rtti -fno-exceptions
+configure:9317: afl-gcc -c -O0 -Wall -g   -fno-rtti -fno-exceptions conftest.c >&5
 cc1: warning: command line option '-fno-rtti' is valid for C++/D/ObjC++ but not for C
 configure:9321: $? = 0
 configure:9334: result: no
-configure:9698: checking for gcc option to produce PIC
+configure:9698: checking for afl-gcc option to produce PIC
 configure:9705: result: -fPIC -DPIC
-configure:9713: checking if gcc PIC flag -fPIC -DPIC works
-configure:9731: gcc -c -O0 -Wall -g   -fPIC -DPIC -DPIC conftest.c >&5
+configure:9713: checking if afl-gcc PIC flag -fPIC -DPIC works
+configure:9731: afl-gcc -c -O0 -Wall -g   -fPIC -DPIC -DPIC conftest.c >&5
 configure:9735: $? = 0
 configure:9748: result: yes
-configure:9777: checking if gcc static flag -static works
+configure:9777: checking if afl-gcc static flag -static works
 configure:9805: result: yes
-configure:9820: checking if gcc supports -c -o file.o
-configure:9841: gcc -c -O0 -Wall -g   -o out/conftest2.o conftest.c >&5
+configure:9820: checking if afl-gcc supports -c -o file.o
+configure:9841: afl-gcc -c -O0 -Wall -g   -o out/conftest2.o conftest.c >&5
 configure:9845: $? = 0
 configure:9867: result: yes
-configure:9875: checking if gcc supports -c -o file.o
+configure:9875: checking if afl-gcc supports -c -o file.o
 configure:9922: result: yes
-configure:9955: checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
+configure:9955: checking whether the afl-gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
 configure:11218: result: yes
 configure:11458: checking dynamic linker characteristics
-configure:12039: gcc -o conftest -O0 -Wall -g    -Wl,-rpath -Wl,/foo conftest.c  >&5
+configure:12039: afl-gcc -o conftest -O0 -Wall -g    -Wl,-rpath -Wl,/foo conftest.c  >&5
 configure:12039: $? = 0
 configure:12288: result: GNU/Linux ld.so
 configure:12410: checking how to hardcode library paths into programs
@@ -500,21 +499,21 @@ configure:13053: result: no
 configure:13056: checking whether to build static libraries
 configure:13060: result: yes
 configure:9878: checking for dirent.h that defines DIR
-configure:9897: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:9897: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:9897: $? = 0
 configure:9905: result: yes
 configure:9918: checking for library containing opendir
-configure:9949: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:9949: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:9949: $? = 0
 configure:9966: result: none required
 configure:10033: checking for ANSI C header files
 configure:10137: result: yes
 configure:10145: checking for sys/wait.h that is POSIX.1 compatible
-configure:10171: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10171: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10171: $? = 0
 configure:10178: result: yes
 configure:10186: checking for stdbool.h that conforms to C99
-configure:10253: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10253: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:80:14: warning: the address of 's' will always evaluate as 'true' [-Waddress]
    80 |              bool e = &s;
@@ -555,9 +554,9 @@ conftest.c:85:39: warning: the address of 'p' will always evaluate as 'true' [-W
 configure:10253: $? = 0
 configure:10260: result: yes
 configure:10262: checking for _Bool
-configure:10262: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10262: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10262: $? = 0
-configure:10262: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10262: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:67:20: error: expected expression before ')' token
    67 | if (sizeof ((_Bool)))
@@ -637,31 +636,31 @@ configure: failed program was:
 | }
 configure:10262: result: yes
 configure:10287: checking errno.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking errno.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for errno.h
 configure:10287: result: yes
 configure:10287: checking fcntl.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking fcntl.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for fcntl.h
 configure:10287: result: yes
 configure:10287: checking limits.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking limits.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for limits.h
@@ -669,177 +668,177 @@ configure:10287: result: yes
 configure:10287: checking for unistd.h
 configure:10287: result: yes
 configure:10287: checking sys/time.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking sys/time.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for sys/time.h
 configure:10287: result: yes
 configure:10287: checking utmp.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking utmp.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for utmp.h
 configure:10287: result: yes
 configure:10287: checking utmpx.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking utmpx.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for utmpx.h
 configure:10287: result: yes
 configure:10287: checking termios.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking termios.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for termios.h
 configure:10287: result: yes
 configure:10287: checking termio.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking termio.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for termio.h
 configure:10287: result: yes
 configure:10287: checking sgtty.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking sgtty.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for sgtty.h
 configure:10287: result: yes
 configure:10287: checking sys/ioctl.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking sys/ioctl.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for sys/ioctl.h
 configure:10287: result: yes
 configure:10287: checking syslog.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking syslog.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for syslog.h
 configure:10287: result: yes
 configure:10287: checking paths.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking paths.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for paths.h
 configure:10287: result: yes
 configure:10287: checking utime.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking utime.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for utime.h
 configure:10287: result: yes
 configure:10287: checking ulimit.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking ulimit.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for ulimit.h
 configure:10287: result: yes
 configure:10287: checking sys/resource.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking sys/resource.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for sys/resource.h
 configure:10287: result: yes
 configure:10287: checking gshadow.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking gshadow.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for gshadow.h
 configure:10287: result: yes
 configure:10287: checking lastlog.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking lastlog.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for lastlog.h
 configure:10287: result: yes
 configure:10287: checking locale.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking locale.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for locale.h
 configure:10287: result: yes
 configure:10287: checking rpc/key_prot.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking rpc/key_prot.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for rpc/key_prot.h
 configure:10287: result: yes
 configure:10287: checking netdb.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking netdb.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 configure:10287: $? = 0
 configure:10287: result: yes
 configure:10287: checking for netdb.h
 configure:10287: result: yes
 configure:10287: checking acl/libacl.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c:87:10: fatal error: acl/libacl.h: No such file or directory
    87 | #include <acl/libacl.h>
       |          ^~~~~~~~~~~~~~
@@ -935,7 +934,7 @@ configure: failed program was:
 | #include <acl/libacl.h>
 configure:10287: result: no
 configure:10287: checking acl/libacl.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 conftest.c:54:10: fatal error: acl/libacl.h: No such file or directory
    54 | #include <acl/libacl.h>
       |          ^~~~~~~~~~~~~~
@@ -1000,7 +999,7 @@ configure:10287: result: no
 configure:10287: checking for acl/libacl.h
 configure:10287: result: no
 configure:10287: checking attr/libattr.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c:87:10: fatal error: attr/libattr.h: No such file or directory
    87 | #include <attr/libattr.h>
       |          ^~~~~~~~~~~~~~~~
@@ -1096,7 +1095,7 @@ configure: failed program was:
 | #include <attr/libattr.h>
 configure:10287: result: no
 configure:10287: checking attr/libattr.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 conftest.c:54:10: fatal error: attr/libattr.h: No such file or directory
    54 | #include <attr/libattr.h>
       |          ^~~~~~~~~~~~~~~~
@@ -1161,7 +1160,7 @@ configure:10287: result: no
 configure:10287: checking for attr/libattr.h
 configure:10287: result: no
 configure:10287: checking attr/error_context.h usability
-configure:10287: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10287: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c:87:10: fatal error: attr/error_context.h: No such file or directory
    87 | #include <attr/error_context.h>
       |          ^~~~~~~~~~~~~~~~~~~~~~
@@ -1257,7 +1256,7 @@ configure: failed program was:
 | #include <attr/error_context.h>
 configure:10287: result: no
 configure:10287: checking attr/error_context.h presence
-configure:10287: gcc -E  conftest.c
+configure:10287: afl-gcc -E  conftest.c
 conftest.c:54:10: fatal error: attr/error_context.h: No such file or directory
    54 | #include <attr/error_context.h>
       |          ^~~~~~~~~~~~~~~~~~~~~~
@@ -1322,81 +1321,81 @@ configure:10287: result: no
 configure:10287: checking for attr/error_context.h
 configure:10287: result: no
 configure:10298: checking shadow.h usability
-configure:10298: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10298: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10298: $? = 0
 configure:10298: result: yes
 configure:10298: checking shadow.h presence
-configure:10298: gcc -E  conftest.c
+configure:10298: afl-gcc -E  conftest.c
 configure:10298: $? = 0
 configure:10298: result: yes
 configure:10298: checking for shadow.h
 configure:10298: result: yes
 configure:10314: checking for l64a
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for fchmod
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for fchown
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for fsync
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for futimes
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getgroups
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for gethostname
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getspnam
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for gettimeofday
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getusershell
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getutent
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for initgroups
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for lchown
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for lckpwdf
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for lstat
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for lutimes
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for memcpy
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:93:6: warning: conflicting types for built-in function 'memcpy'; expected 'void *(void *, const void *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
    93 | char memcpy ();
       |      ^~~~~~
@@ -1406,7 +1405,7 @@ conftest.c:81:1: note: 'memcpy' is declared in header '<string.h>'
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for memset
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:94:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
    94 | char memset ();
       |      ^~~~~~
@@ -1416,15 +1415,15 @@ conftest.c:82:1: note: 'memset' is declared in header '<string.h>'
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for setgroups
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for sigaction
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for strchr
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:97:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
    97 | char strchr ();
       |      ^~~~~~
@@ -1434,61 +1433,61 @@ conftest.c:85:1: note: 'strchr' is declared in header '<string.h>'
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for updwtmp
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for updwtmpx
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for innetgr
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getpwnam_r
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getpwuid_r
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getgrnam_r
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getgrgid_r
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getspnam_r
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for getaddrinfo
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10314: checking for ruserok
-configure:10314: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:10314: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:10314: $? = 0
 configure:10314: result: yes
 configure:10330: checking for special C compiler options needed for large files
 configure:10375: result: no
 configure:10381: checking for _FILE_OFFSET_BITS value needed for large files
-configure:10406: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10406: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10406: $? = 0
 configure:10438: result: no
 configure:10524: checking for an ANSI C-conforming const
-configure:10590: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10590: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10590: $? = 0
 configure:10597: result: yes
 configure:10605: checking for uid_t in sys/types.h
 configure:10624: result: yes
 configure:10635: checking for off_t
-configure:10635: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10635: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10635: $? = 0
-configure:10635: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10635: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:121:20: error: expected expression before ')' token
   121 | if (sizeof ((off_t)))
@@ -1622,9 +1621,9 @@ configure: failed program was:
 | }
 configure:10635: result: yes
 configure:10646: checking for pid_t
-configure:10646: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10646: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10646: $? = 0
-configure:10646: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10646: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:121:20: error: expected expression before ')' token
   121 | if (sizeof ((pid_t)))
@@ -1758,9 +1757,9 @@ configure: failed program was:
 | }
 configure:10646: result: yes
 configure:10657: checking for mode_t
-configure:10657: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10657: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10657: $? = 0
-configure:10657: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10657: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:121:21: error: expected expression before ')' token
   121 | if (sizeof ((mode_t)))
@@ -1894,15 +1893,15 @@ configure: failed program was:
 | }
 configure:10657: result: yes
 configure:10668: checking whether stat file-mode macros are broken
-configure:10695: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10695: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10695: $? = 0
 configure:10702: result: no
 configure:10710: checking for struct stat.st_rdev
-configure:10710: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10710: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10710: $? = 0
 configure:10710: result: yes
 configure:10720: checking for struct stat.st_atim
-configure:10720: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10720: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:123:5: error: used struct type value where scalar is required
   123 | if (ac_aggr.st_atim)
@@ -2039,11 +2038,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10720: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10720: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10720: $? = 0
 configure:10720: result: yes
 configure:10730: checking for struct stat.st_atimensec
-configure:10730: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10730: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:124:12: error: 'struct stat' has no member named 'st_atimensec'
   124 | if (ac_aggr.st_atimensec)
@@ -2181,7 +2180,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10730: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10730: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:124:19: error: 'struct stat' has no member named 'st_atimensec'
   124 | if (sizeof ac_aggr.st_atimensec)
@@ -2321,7 +2320,7 @@ configure: failed program was:
 | }
 configure:10730: result: no
 configure:10740: checking for struct stat.st_mtim
-configure:10740: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10740: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:124:5: error: used struct type value where scalar is required
   124 | if (ac_aggr.st_mtim)
@@ -2459,11 +2458,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10740: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10740: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10740: $? = 0
 configure:10740: result: yes
 configure:10750: checking for struct stat.st_mtimensec
-configure:10750: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10750: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:125:12: error: 'struct stat' has no member named 'st_mtimensec'
   125 | if (ac_aggr.st_mtimensec)
@@ -2602,7 +2601,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10750: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10750: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:125:19: error: 'struct stat' has no member named 'st_mtimensec'
   125 | if (sizeof ac_aggr.st_mtimensec)
@@ -2743,35 +2742,35 @@ configure: failed program was:
 | }
 configure:10750: result: no
 configure:10760: checking whether time.h and sys/time.h may both be included
-configure:10780: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10780: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10780: $? = 0
 configure:10787: result: yes
 configure:10795: checking whether struct tm is in sys/time.h or time.h
-configure:10815: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10815: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10815: $? = 0
 configure:10822: result: time.h
 configure:10831: checking for struct utmp.ut_type
-configure:10831: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10831: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10831: $? = 0
 configure:10831: result: yes
 configure:10841: checking for struct utmp.ut_id
-configure:10841: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10841: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10841: $? = 0
 configure:10841: result: yes
 configure:10851: checking for struct utmp.ut_name
-configure:10851: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10851: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10851: $? = 0
 configure:10851: result: yes
 configure:10861: checking for struct utmp.ut_user
-configure:10861: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10861: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10861: $? = 0
 configure:10861: result: yes
 configure:10871: checking for struct utmp.ut_host
-configure:10871: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10871: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10871: $? = 0
 configure:10871: result: yes
 configure:10881: checking for struct utmp.ut_syslen
-configure:10881: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10881: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:100:12: error: 'struct utmp' has no member named 'ut_syslen'
   100 | if (ac_aggr.ut_syslen)
@@ -2885,7 +2884,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10881: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10881: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:100:19: error: 'struct utmp' has no member named 'ut_syslen'
   100 | if (sizeof ac_aggr.ut_syslen)
@@ -3001,23 +3000,23 @@ configure: failed program was:
 | }
 configure:10881: result: no
 configure:10891: checking for struct utmp.ut_addr
-configure:10891: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10891: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10891: $? = 0
 configure:10891: result: yes
 configure:10901: checking for struct utmp.ut_addr_v6
-configure:10901: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10901: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10901: $? = 0
 configure:10901: result: yes
 configure:10911: checking for struct utmp.ut_time
-configure:10911: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10911: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10911: $? = 0
 configure:10911: result: yes
 configure:10921: checking for struct utmp.ut_xtime
-configure:10921: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10921: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10921: $? = 0
 configure:10921: result: yes
 configure:10931: checking for struct utmp.ut_tv
-configure:10931: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10931: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:104:5: error: used struct type value where scalar is required
   104 | if (ac_aggr.ut_tv)
@@ -3135,11 +3134,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10931: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10931: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10931: $? = 0
 configure:10931: result: yes
 configure:10947: checking for struct utmpx.ut_name
-configure:10947: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10947: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:105:12: error: 'struct utmpx' has no member named 'ut_name'
   105 | if (ac_aggr.ut_name)
@@ -3258,7 +3257,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10947: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10947: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:105:19: error: 'struct utmpx' has no member named 'ut_name'
   105 | if (sizeof ac_aggr.ut_name)
@@ -3379,11 +3378,11 @@ configure: failed program was:
 | }
 configure:10947: result: no
 configure:10957: checking for struct utmpx.ut_host
-configure:10957: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10957: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10957: $? = 0
 configure:10957: result: yes
 configure:10967: checking for struct utmpx.ut_syslen
-configure:10967: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10967: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:106:12: error: 'struct utmpx' has no member named 'ut_syslen'
   106 | if (ac_aggr.ut_syslen)
@@ -3503,7 +3502,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10967: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10967: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:106:19: error: 'struct utmpx' has no member named 'ut_syslen'
   106 | if (sizeof ac_aggr.ut_syslen)
@@ -3625,7 +3624,7 @@ configure: failed program was:
 | }
 configure:10967: result: no
 configure:10977: checking for struct utmpx.ut_addr
-configure:10977: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10977: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:106:12: error: 'struct utmpx' has no member named 'ut_addr'
   106 | if (ac_aggr.ut_addr)
@@ -3745,7 +3744,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10977: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10977: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:106:19: error: 'struct utmpx' has no member named 'ut_addr'
   106 | if (sizeof ac_aggr.ut_addr)
@@ -3867,11 +3866,11 @@ configure: failed program was:
 | }
 configure:10977: result: no
 configure:10987: checking for struct utmpx.ut_addr_v6
-configure:10987: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10987: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:10987: $? = 0
 configure:10987: result: yes
 configure:10997: checking for struct utmpx.ut_time
-configure:10997: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10997: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:107:13: error: 'struct utmpx' has no member named 'ut_time'; did you mean 'ut_type'?
   107 | if (ac_aggr.ut_time)
@@ -3993,7 +3992,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:10997: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:10997: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:107:20: error: 'struct utmpx' has no member named 'ut_time'; did you mean 'ut_type'?
   107 | if (sizeof ac_aggr.ut_time)
@@ -4117,7 +4116,7 @@ configure: failed program was:
 | }
 configure:10997: result: no
 configure:11007: checking for struct utmpx.ut_xtime
-configure:11007: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:11007: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:107:12: error: 'struct utmpx' has no member named 'ut_xtime'
   107 | if (ac_aggr.ut_xtime)
@@ -4238,7 +4237,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:11007: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:11007: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:107:19: error: 'struct utmpx' has no member named 'ut_xtime'
   107 | if (sizeof ac_aggr.ut_xtime)
@@ -4361,7 +4360,7 @@ configure: failed program was:
 | }
 configure:11007: result: no
 configure:11020: checking for ll_host in struct lastlog
-configure:11037: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:11037: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:105:26: warning: unused variable 'cp' [-Wunused-variable]
   105 | struct lastlog ll; char *cp = ll.ll_host;
@@ -4369,13 +4368,13 @@ conftest.c:105:26: warning: unused variable 'cp' [-Wunused-variable]
 configure:11037: $? = 0
 configure:11046: result: yes
 configure:11056: checking type of array argument to getgroups
-configure:11090: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11090: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11090: $? = 0
 configure:11090: ./conftest
 configure:11090: $? = 0
 configure:11115: result: gid_t
 configure:11123: checking return type of signal handlers
-configure:11141: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:11141: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:109:10: error: void value not ignored as it ought to be
   109 | return *(signal (0, 0)) (0) == 1;
@@ -4498,13 +4497,13 @@ configure:11148: result: void
 configure:11162: checking for utime.h
 configure:11162: result: yes
 configure:11176: checking whether utime accepts a null argument
-configure:11205: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11205: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11205: $? = 0
 configure:11205: ./conftest
 configure:11205: $? = 0
 configure:11215: result: yes
 configure:11227: checking for strftime
-configure:11227: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11227: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:129:6: warning: conflicting types for built-in function 'strftime'; expected 'long unsigned int(char *, long unsigned int,  const char *, const void *)' [-Wbuiltin-declaration-mismatch]
   129 | char strftime ();
       |      ^~~~~~~~
@@ -4514,33 +4513,33 @@ conftest.c:117:1: note: 'strftime' is declared in header '<time.h>'
 configure:11227: $? = 0
 configure:11227: result: yes
 configure:11280: checking for mkdir
-configure:11280: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11280: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11280: $? = 0
 configure:11280: result: yes
 configure:11293: checking for putgrent
-configure:11293: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11293: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11293: $? = 0
 configure:11293: result: yes
 configure:11306: checking for putpwent
-configure:11306: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11306: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11306: $? = 0
 configure:11306: result: yes
 configure:11319: checking for putspent
-configure:11319: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11319: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11319: $? = 0
 configure:11319: result: yes
 configure:11332: checking for rename
-configure:11332: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11332: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11332: $? = 0
 configure:11332: result: yes
 configure:11345: checking for rmdir
-configure:11345: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11345: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11345: $? = 0
 configure:11345: result: yes
 configure:11359: checking for sgetgrent
-configure:11359: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
-/usr/bin/ld: /tmp/ccl6NQLz.o: in function `main':
-/home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/conftest.c:147: undefined reference to `sgetgrent'
+configure:11359: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+/usr/bin/ld: /tmp/cco4P2Dr.o: in function `main':
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/conftest.c:147: undefined reference to `sgetgrent'
 collect2: error: ld returned 1 exit status
 configure:11359: $? = 1
 configure: failed program was:
@@ -4696,9 +4695,9 @@ configure: failed program was:
 | }
 configure:11359: result: no
 configure:11372: checking for sgetpwent
-configure:11372: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
-/usr/bin/ld: /tmp/ccuoUAWE.o: in function `main':
-/home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/conftest.c:147: undefined reference to `sgetpwent'
+configure:11372: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+/usr/bin/ld: /tmp/cc6dLVly.o: in function `main':
+/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/conftest.c:147: undefined reference to `sgetpwent'
 collect2: error: ld returned 1 exit status
 configure:11372: $? = 1
 configure: failed program was:
@@ -4854,11 +4853,11 @@ configure: failed program was:
 | }
 configure:11372: result: no
 configure:11385: checking for sgetspent
-configure:11385: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11385: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11385: $? = 0
 configure:11385: result: yes
 configure:11399: checking for snprintf
-configure:11399: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11399: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:137:6: warning: conflicting types for built-in function 'snprintf'; expected 'int(char *, long unsigned int,  const char *, ...)' [-Wbuiltin-declaration-mismatch]
   137 | char snprintf ();
       |      ^~~~~~~~
@@ -4868,25 +4867,25 @@ conftest.c:125:1: note: 'snprintf' is declared in header '<stdio.h>'
 configure:11399: $? = 0
 configure:11399: result: yes
 configure:11412: checking for strcasecmp
-configure:11412: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11412: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:138:6: warning: conflicting types for built-in function 'strcasecmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
   138 | char strcasecmp ();
       |      ^~~~~~~~~~
 configure:11412: $? = 0
 configure:11412: result: yes
 configure:11425: checking for strdup
-configure:11425: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11425: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:139:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
   139 | char strdup ();
       |      ^~~~~~
 configure:11425: $? = 0
 configure:11425: result: yes
 configure:11438: checking for strerror
-configure:11438: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11438: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11438: $? = 0
 configure:11438: result: yes
 configure:11451: checking for strstr
-configure:11451: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11451: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:141:6: warning: conflicting types for built-in function 'strstr'; expected 'char *(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
   141 | char strstr ();
       |      ^~~~~~
@@ -4896,11 +4895,11 @@ conftest.c:129:1: note: 'strstr' is declared in header '<string.h>'
 configure:11451: $? = 0
 configure:11451: result: yes
 configure:11466: checking for setpgrp
-configure:11466: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11466: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11466: $? = 0
 configure:11466: result: yes
 configure:11473: checking for working shadow group support
-configure:11494: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11494: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 conftest.c:121:5: warning: return type defaults to 'int' [-Wimplicit-int]
   121 |     main()
       |     ^~~~
@@ -5055,19 +5054,19 @@ configure:11591: result: /var/log
 configure:11609: checking location of the passwd program
 configure:11620: result: /usr/bin
 configure:11815: checking for posix_spawn
-configure:11815: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11815: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11815: $? = 0
 configure:11815: result: yes
 configure:11827: checking for library containing inet_ntoa
-configure:11858: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11858: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11858: $? = 0
 configure:11875: result: none required
 configure:11883: checking for library containing socket
-configure:11914: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11914: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11914: $? = 0
 configure:11931: result: none required
 configure:11939: checking for library containing gethostbyname
-configure:11970: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:11970: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:11970: $? = 0
 configure:11987: result: none required
 configure:12013: checking for xsltproc
@@ -5076,17 +5075,24 @@ configure:12043: result: /usr/bin/xsltproc
 configure:12068: checking for XML catalog (/etc/xml/catalog)
 configure:12071: result: found
 configure:12082: checking for xmlcatalog
-configure:12113: result: no
+configure:12100: found /usr/bin/xmlcatalog
+configure:12113: result: /usr/bin/xmlcatalog
 configure:12132: checking for DocBook XML DTD V4.1.2 in XML catalog
-configure:12143: result: not found
+configure:12135: $XMLCATALOG --noout "$XML_CATALOG_FILE" "-//OASIS//DTD DocBook XML V4.1.2//EN" >&2
+file:///usr/share/xml/docbook/schema/dtd/4.1.2/docbookx.dtd
+configure:12138: $? = 0
+configure:12140: result: found
 configure:12149: checking for DocBook XSL Stylesheets >= 1.70.1 in XML catalog
-configure:12160: result: not found
-configure:12193: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:12152: $XMLCATALOG --noout "$XML_CATALOG_FILE" "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl" >&2
+file:///usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl
+configure:12155: $? = 0
+configure:12157: result: found
+configure:12193: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:12193: $? = 0
 configure:12193: ./conftest
 configure:12193: $? = 0
 configure:12225: checking for crypt in -lcrypt
-configure:12250: gcc -o conftest -O0 -Wall -g    conftest.c -lcrypt   >&5
+configure:12250: afl-gcc -o conftest -O0 -Wall -g    conftest.c -lcrypt   >&5
 configure:12250: $? = 0
 configure:12259: result: yes
 configure:12273: checking for acl/libacl.h
@@ -5098,7 +5104,7 @@ configure:12392: result: no
 configure:12392: checking for attr/error_context.h
 configure:12392: result: no
 configure:12508: checking libaudit.h usability
-configure:12508: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:12508: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c:166:10: fatal error: libaudit.h: No such file or directory
   166 | #include <libaudit.h>
       |          ^~~~~~~~~~~~
@@ -5273,7 +5279,7 @@ configure: failed program was:
 | #include <libaudit.h>
 configure:12508: result: no
 configure:12508: checking libaudit.h presence
-configure:12508: gcc -E  conftest.c
+configure:12508: afl-gcc -E  conftest.c
 conftest.c:133:10: fatal error: libaudit.h: No such file or directory
   133 | #include <libaudit.h>
       |          ^~~~~~~~~~~~
@@ -5417,35 +5423,35 @@ configure:12508: result: no
 configure:12508: checking for libaudit.h
 configure:12508: result: no
 configure:12750: checking selinux/selinux.h usability
-configure:12750: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:12750: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:12750: $? = 0
 configure:12750: result: yes
 configure:12750: checking selinux/selinux.h presence
-configure:12750: gcc -E  conftest.c
+configure:12750: afl-gcc -E  conftest.c
 configure:12750: $? = 0
 configure:12750: result: yes
 configure:12750: checking for selinux/selinux.h
 configure:12750: result: yes
 configure:12768: checking semanage/semanage.h usability
-configure:12768: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:12768: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 configure:12768: $? = 0
 configure:12768: result: yes
 configure:12768: checking semanage/semanage.h presence
-configure:12768: gcc -E  conftest.c
+configure:12768: afl-gcc -E  conftest.c
 configure:12768: $? = 0
 configure:12768: result: yes
 configure:12768: checking for semanage/semanage.h
 configure:12768: result: yes
 configure:12785: checking for is_selinux_enabled in -lselinux
-configure:12810: gcc -o conftest -O0 -Wall -g    conftest.c -lselinux   >&5
+configure:12810: afl-gcc -o conftest -O0 -Wall -g    conftest.c -lselinux   >&5
 configure:12810: $? = 0
 configure:12819: result: yes
 configure:12831: checking for semanage_connect in -lsemanage
-configure:12856: gcc -o conftest -O0 -Wall -g    conftest.c -lsemanage   >&5
+configure:12856: afl-gcc -o conftest -O0 -Wall -g    conftest.c -lsemanage   >&5
 configure:12856: $? = 0
 configure:12865: result: yes
 configure:12896: checking tcb.h usability
-configure:12896: gcc -c -O0 -Wall -g   conftest.c >&5
+configure:12896: afl-gcc -c -O0 -Wall -g   conftest.c >&5
 conftest.c:169:10: fatal error: tcb.h: No such file or directory
   169 | #include <tcb.h>
       |          ^~~~~~~
@@ -5623,7 +5629,7 @@ configure: failed program was:
 | #include <tcb.h>
 configure:12896: result: no
 configure:12896: checking tcb.h presence
-configure:12896: gcc -E  conftest.c
+configure:12896: afl-gcc -E  conftest.c
 conftest.c:136:10: fatal error: tcb.h: No such file or directory
   136 | #include <tcb.h>
       |          ^~~~~~~
@@ -5786,14 +5792,14 @@ configure:13599: result: /usr/bin/xgettext
 configure:13644: checking for msgmerge
 configure: trying /usr/bin/msgmerge...
 configure:13675: result: /usr/bin/msgmerge
-configure:13733: checking for ld used by gcc
+configure:13733: checking for ld used by afl-gcc
 configure:13800: result: /usr/bin/ld -m elf_x86_64
 configure:13807: checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld
 configure:13822: result: yes
 configure:13829: checking for shared library run path origin
 configure:13842: result: done
 configure:14414: checking for CFPreferencesCopyAppValue
-configure:14432: gcc -o conftest -O0 -Wall -g    conftest.c  -Wl,-framework -Wl,CoreFoundation >&5
+configure:14432: afl-gcc -o conftest -O0 -Wall -g    conftest.c  -Wl,-framework -Wl,CoreFoundation >&5
 conftest.c:138:10: fatal error: CoreFoundation/CFPreferences.h: No such file or directory
   138 | #include <CoreFoundation/CFPreferences.h>
       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5947,7 +5953,7 @@ configure: failed program was:
 | }
 configure:14441: result: no
 configure:14448: checking for CFLocaleCopyCurrent
-configure:14466: gcc -o conftest -O0 -Wall -g    conftest.c  -Wl,-framework -Wl,CoreFoundation >&5
+configure:14466: afl-gcc -o conftest -O0 -Wall -g    conftest.c  -Wl,-framework -Wl,CoreFoundation >&5
 conftest.c:138:10: fatal error: CoreFoundation/CFLocale.h: No such file or directory
   138 | #include <CoreFoundation/CFLocale.h>
       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -6101,7 +6107,7 @@ configure: failed program was:
 | }
 configure:14475: result: no
 configure:14524: checking for GNU gettext in libc
-configure:14553: gcc -o conftest -O0 -Wall -g    conftest.c  >&5
+configure:14553: afl-gcc -o conftest -O0 -Wall -g    conftest.c  >&5
 configure:14553: $? = 0
 configure:14562: result: yes
 configure:15409: checking whether to use NLS
@@ -6159,12 +6165,16 @@ config.status:1289: creating etc/Makefile
 config.status:1289: creating etc/pam.d/Makefile
 config.status:1289: creating shadow.spec
 config.status:1289: creating config.h
+config.status:1470: config.h is unchanged
 config.status:1518: executing depfiles commands
 config.status:1595: cd libmisc       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make: Nothing to be done for 'am--depfiles'.
 config.status:1600: $? = 0
 config.status:1595: cd lib       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make: Nothing to be done for 'am--depfiles'.
 config.status:1600: $? = 0
 config.status:1595: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make: Nothing to be done for 'am--depfiles'.
 config.status:1600: $? = 0
 config.status:1518: executing libtool commands
 config.status:1518: executing po-directories commands
@@ -6176,8 +6186,8 @@ config.status:1518: executing po-directories commands
 ac_cv_build=x86_64-pc-linux-gnu
 ac_cv_c_compiler_gnu=yes
 ac_cv_c_const=yes
-ac_cv_env_CC_set=
-ac_cv_env_CC_value=
+ac_cv_env_CC_set=set
+ac_cv_env_CC_value=afl-gcc
 ac_cv_env_CFLAGS_set=set
 ac_cv_env_CFLAGS_value='-O0 -Wall -g '
 ac_cv_env_CPPFLAGS_set=
@@ -6331,16 +6341,16 @@ ac_cv_path_MSGFMT=/usr/bin/msgfmt
 ac_cv_path_MSGMERGE=/usr/bin/msgmerge
 ac_cv_path_SED=/usr/bin/sed
 ac_cv_path_XGETTEXT=/usr/bin/xgettext
-ac_cv_path_XMLCATALOG=no
+ac_cv_path_XMLCATALOG=/usr/bin/xmlcatalog
 ac_cv_path_XSLTPROC=/usr/bin/xsltproc
 ac_cv_path_install='/usr/bin/install -c'
 ac_cv_path_lt_DD=/usr/bin/dd
 ac_cv_path_mkdir=/usr/bin/mkdir
 ac_cv_prog_AWK=mawk
-ac_cv_prog_CPP='gcc -E'
+ac_cv_prog_CPP='afl-gcc -E'
 ac_cv_prog_YACC='bison -y'
 ac_cv_prog_ac_ct_AR=ar
-ac_cv_prog_ac_ct_CC=gcc
+ac_cv_prog_ac_ct_CC=afl-gcc
 ac_cv_prog_ac_ct_MANIFEST_TOOL=mt
 ac_cv_prog_ac_ct_OBJDUMP=objdump
 ac_cv_prog_ac_ct_RANLIB=ranlib
@@ -6420,7 +6430,7 @@ shadow_cv_utmpdir=/var/run
 
 ACCT_TOOLS_SETUID_FALSE=''
 ACCT_TOOLS_SETUID_TRUE='#'
-ACLOCAL='${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing aclocal-1.16'
+ACLOCAL='${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing aclocal-1.16'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
@@ -6430,14 +6440,14 @@ AM_DEFAULT_V='$(AM_DEFAULT_VERBOSITY)'
 AM_DEFAULT_VERBOSITY='1'
 AM_V='$(V)'
 AR='ar'
-AUTOCONF='${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing autoconf'
-AUTOHEADER='${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing autoheader'
-AUTOMAKE='${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing automake-1.16'
+AUTOCONF='${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing autoconf'
+AUTOHEADER='${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing autoheader'
+AUTOMAKE='${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing automake-1.16'
 AWK='mawk'
-CC='gcc'
+CC='afl-gcc'
 CCDEPMODE='depmode=gcc3'
 CFLAGS='-O0 -Wall -g '
-CPP='gcc -E'
+CPP='afl-gcc -E'
 CPPFLAGS=''
 CYGPATH_W='echo'
 DEFS='-DHAVE_CONFIG_H'
@@ -6449,8 +6459,8 @@ ECHO_C=''
 ECHO_N='-n'
 ECHO_T=''
 EGREP='/usr/bin/grep -E'
-ENABLE_REGENERATE_MAN_FALSE=''
-ENABLE_REGENERATE_MAN_TRUE='#'
+ENABLE_REGENERATE_MAN_FALSE='#'
+ENABLE_REGENERATE_MAN_TRUE=''
 ENABLE_SUBIDS_FALSE='#'
 ENABLE_SUBIDS_TRUE=''
 EXEEXT=''
@@ -6493,7 +6503,7 @@ LT_SYS_LIBRARY_PATH=''
 MAINT=''
 MAINTAINER_MODE_FALSE='#'
 MAINTAINER_MODE_TRUE=''
-MAKEINFO='${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing makeinfo'
+MAKEINFO='${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing makeinfo'
 MANIFEST_TOOL=':'
 MKDIR_P='/usr/bin/mkdir -p'
 MSGFMT='/usr/bin/msgfmt'
@@ -6534,13 +6544,13 @@ WITH_TCB_TRUE='#'
 XGETTEXT='/usr/bin/xgettext'
 XGETTEXT_015='/usr/bin/xgettext'
 XGETTEXT_EXTRA_OPTIONS=''
-XMLCATALOG='no'
+XMLCATALOG='/usr/bin/xmlcatalog'
 XML_CATALOG_FILE='/etc/xml/catalog'
 XSLTPROC='/usr/bin/xsltproc'
 YACC='bison -y'
 YFLAGS=''
 ac_ct_AR='ar'
-ac_ct_CC='gcc'
+ac_ct_CC='afl-gcc'
 ac_ct_DUMPBIN=''
 am__EXEEXT_FALSE=''
 am__EXEEXT_TRUE='#'
@@ -6572,7 +6582,7 @@ host_vendor='pc'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/install-sh'
+install_sh='${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'

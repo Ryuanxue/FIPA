@@ -214,67 +214,129 @@ Before running the partitioning workflow, generate the following artifacts:
 
 ## Running the Partitioned Program
 
-The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
+  ### Two-Partition (Client-Server)
 
-### 1. Compilation
+  The result of automatic partitioning may require manual adjustments. We provide a runnable version in `output/finally_partition`.
 
-First, decompress the two archives in `examples/nginx/output/finally_partition/`.
+  #### 1. Compilation
 
-Then, compile the client and server components.
+  First, decompress the two archives in `examples/nginx/output/finally_partition/`.
 
-**Compile `nginx_server`:**
-```bash
-cd examples/nginx/output/finally_partition/nginx_server/nginx-1.15.5
-./configure --prefix=`pwd`/nginx_install --without-http_rewrite_module --without-http_gzip_module --without-http_charset_module --without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module --without-http_split_clients_module --without-http_referer_module --without-http_proxy_module --without-http_fastcgi_module --without-http_uwsgi_module --without-http_scgi_module --without-http_memcached_module --without-http_limit_conn_module --without-http_limit_req_module --without-http_empty_gif_module --without-http_browser_module --without-http_upstream_ip_hash_module --with-cc-opt="-O0 -g -Wno-error=sign-compare -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=cast-function-type -Wno-error=implicit-fallthrough -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=int-conversion"
-make -j8
-make install
-# The nginx_server executable will be in the objs/ directory and nginx_install/sbin/ directory.
-```
+  Then, compile the client and server components.
 
-**Compile `nginx_client`:**
-```bash
-cd examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5
-./configure --prefix=`pwd`/nginx_install --without-http_rewrite_module --without-http_gzip_module --without-http_charset_module --without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module --without-http_split_clients_module --without-http_referer_module --without-http_proxy_module --without-http_fastcgi_module --without-http_uwsgi_module --without-http_scgi_module --without-http_memcached_module --without-http_limit_conn_module --without-http_limit_req_module --without-http_empty_gif_module --without-http_browser_module --without-http_upstream_ip_hash_module --with-cc-opt="-O0 -g -Wno-error=sign-compare -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=cast-function-type -Wno-error=implicit-fallthrough -Wno-error=unused-function"
-make -j8
-make install
-# The nginx_client executable will be in the objs/ directory and nginx_install/sbin/ directory.
-```
-- **Configure the nginx_client:**
-After compilation, configure the nginx configuration file at `examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5/nginx_install/conf/nginx.conf`. Specifically, set up the authentication parameters in the server block:
-
-  ```
-    server {
-        listen       8080;
-        server_name  localhost;
-        auth_basic "Experiment";
-        auth_basic_user_file "/abspath/to/FIPA/examples/nginx/auth/.htpasswd";
-        }
-  ```
-**Note:** Replace `/abspath/to/FIPA` with the actual absolute path to your FIPA directory. The `.htpasswd` file must be prepared in advance and placed in the `/abspath/to/FIPA/examples/nginx/auth/` directory.
-
-
-```
-
-### 2. Execution
-
-- **Terminal 1 (Server):** Start the server program. It will wait for a connection from the client.
+  **Compile `nginx_server`:**
   ```bash
   cd examples/nginx/output/finally_partition/nginx_server/nginx-1.15.5
-  ./objs/nginx_server
+  ./configure --prefix=`pwd`/nginx_install --without-http_rewrite_module --without-http_gzip_module --without-http_charset_module --without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module --without-http_split_clients_module --without-http_referer_module --without-http_proxy_module --without-http_fastcgi_module --without-http_uwsgi_module --without-http_scgi_module --without-http_memcached_module --without-http_limit_conn_module --without-http_limit_req_module --without-http_empty_gif_module --without-http_browser_module --without-http_upstream_ip_hash_module --with-cc-opt="-O0 -g -Wno-error=sign-compare -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=cast-function-type -Wno-error=implicit-fallthrough -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=int-conversion"
+  make -j8
+  make install
+  # The nginx_server executable will be in the objs/ directory and nginx_install/sbin/ directory.
   ```
-- **Terminal 2 (Client):** Start the client program. It will handle incoming HTTP requests and communicate with the server for sensitive operations.
+
+  **Compile `nginx_client`:**
   ```bash
   cd examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5
-  ./objs/nginx -g "daemon off;"
+  ./configure --prefix=`pwd`/nginx_install --without-http_rewrite_module --without-http_gzip_module --without-http_charset_module --without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module --without-http_split_clients_module --without-http_referer_module --without-http_proxy_module --without-http_fastcgi_module --without-http_uwsgi_module --without-http_scgi_module --without-http_memcached_module --without-http_limit_conn_module --without-http_limit_req_module --without-http_empty_gif_module --without-http_browser_module --without-http_upstream_ip_hash_module --with-cc-opt="-O0 -g -Wno-error=sign-compare -Wno-error=unused-variable -Wno-error=uninitialized -Wno-error=cast-function-type -Wno-error=implicit-fallthrough -Wno-error=unused-function"
+  make -j8
+  make install
+  # The nginx_client executable will be in the objs/ directory and nginx_install/sbin/ directory.
   ```
+  - **Configure the nginx_client:**
+  After compilation, configure the nginx configuration file at `examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5/nginx_install/conf/nginx.conf`. Specifically, set up the authentication parameters in the server block:
 
-### 3. Testing
+    ```
+      server {
+          listen       8080;
+          server_name  localhost;
+          auth_basic "Experiment";
+          auth_basic_user_file "/abspath/to/FIPA/examples/nginx/auth/.htpasswd";
+          }
+    ```
+  **Note:** Replace `/abspath/to/FIPA` with the actual absolute path to your FIPA directory. The `.htpasswd` file must be prepared in advance and placed in the `/abspath/to/FIPA/examples/nginx/auth/` directory.
 
-- On the host, use `curl` to test the authenticated access. The client part of nginx will handle the request and interact with the server part for authentication.
+
+
+  #### 2. Execution
+
+  - **Terminal 1 (Server):** Start the server program. It will wait for a connection from the client.
+    ```bash
+    cd examples/nginx/output/finally_partition/nginx_server/nginx-1.15.5
+    ./objs/nginx_server
+    ```
+  - **Terminal 2 (Client):** Start the client program. It will handle incoming HTTP requests and communicate with the server for sensitive operations.
+    ```bash
+    cd examples/nginx/output/finally_partition/nginx_client/nginx-1.15.5
+    ./objs/nginx -g "daemon off;"
+    ```
+
+  #### 3. Testing
+
+  - On the host, use `curl` to test the authenticated access. The client part of nginx will handle the request and interact with the server part for authentication.
+    ```bash
+    curl --user testuser:123456 http://localhost:8080
+    ```
+  - The server terminal will print "Authentication successful" upon successful verification.
+
+  ### Multiple-Partition (Three Partitions)
+
+  This configuration creates three partitions: one public partition and two sensitive partitions. The partitions are generated using different leakage budgets (A=64 and A=0) to create a **Core Partition** (highly sensitive) and a **Restricted Partition** (moderately sensitive). The partitioning results are located in `examples/nginx/output/muti-partition/`.
+
+  #### 1. Compilation
+
+  **Compile the Public Partition:**
   ```bash
-  curl --user testuser:123456 http://localhost:8080
+  # Assuming you are in the FIPA directory
+  cd examples/nginx/output/muti-partition/nginx-public
+  ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
+  make -j8
   ```
-- The server terminal will print "Authentication successful" upon successful verification.
+
+  **Compile the Restricted Partition:**
+  ```bash
+  # Assuming you are in the FIPA directory
+  cd examples/nginx/output/muti-partition/nginx-mid
+  ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
+  make -j8
+  ```
+
+  **Compile the Core Partition:**
+  ```bash
+  # Assuming you are in the FIPA directory
+  cd examples/nginx/output/muti-partition/nginx-core
+  ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
+  make -j8
+  ```
+
+  #### 2. Execution
+
+  **Terminal 1 (Core Partition):** Start the core service program. It will wait for connections from the Restricted Partition.
+  ```bash
+  # Assuming you are in the FIPA directory
+  cd examples/nginx/output/muti-partition/nginx-core
+  ./objs/nginx
+  ```
+
+  **Terminal 2 (Restricted Partition):** Start the restricted service program. It will wait for connections from the Public Partition.
+  ```bash
+  # Assuming you are in the FIPA directory
+  cd examples/nginx/output/muti-partition/nginx-mid
+  ./objs/nginx
+  ```
+
+  **Terminal 3 (Public Partition):** Start the public service program. It will handle client connections and communicate with the Restricted Partition via RPC.
+  ```bash
+  # Assuming you are in the FIPA directory
+  cd examples/nginx/output/muti-partition
+  ./nginx-public/objs/nginx -p $(pwd) -c conf/nginx.conf -g "daemon off;"
+  ```
+
+  #### 3. Testing
+
+  Use `curl` to test the multi-partition nginx with authentication:
+  ```bash
+  curl --user testuser:testpass123 http://localhost:8080
+  ```
+
 
 ## Notes
 - For details on each step, refer to the main FIPA README.md in the project root.

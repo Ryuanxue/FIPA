@@ -444,6 +444,7 @@ void make_freshly_tagged_input(Addr start, SizeT len, ULong location) {
    for (i = 0; i < len; i++) {
       ULong tag = get_next_tag();
       set_tag(start + i, tag, location);
+      // VG_(printf)("Created new tag %lu for input byte at %p\n", tag, start + i);
       new_edge(SOURCE_TAG, tag, 8, "input byte", location);
    }
 }
@@ -458,6 +459,18 @@ void make_freshly_tagged_register(ThreadId tid, OffT offset, int capacity,
    VG_(set_shadow_regs_area)(tid, 0, tag_offset, sizeof(ULong), (UChar*)&tag);
    new_edge(SOURCE_TAG, tag, capacity, "input register", location);
 }
+
+/* --- ADDED START --- */
+void untaint_memory(Addr start, SizeT len, ULong location) {
+   SizeT i;
+   // 遍历范围内的每个字节，将其对应的 tag 设置为 0
+   // set_tag 会处理 page_table 的更新以及 flow_regions 的例外情况
+   for (i = 0; i < len; i++) {
+      set_tag(start + i, 0, location);
+      VG_(printf)("Untainted memory at %p\n", start + i);
+   }
+}
+/* --- ADDED END --- */
 
 static ULong leak_cascade = 0;
 

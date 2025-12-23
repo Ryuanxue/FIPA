@@ -1,0 +1,47 @@
+2025/12/01 13:46:43 [error] 567108#0: *1 open() "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/input/source_code/nginx-1.15.5/html/favicon.ico" failed (2: No such file or directory), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/"
+2025/12/01 13:47:32 [error] 567108#0: *8 open() "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/input/source_code/nginx-1.15.5/html/favicon.ico" failed (2: No such file or directory), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8443", referrer: "https://localhost:8443/"
+2025/12/01 15:59:35 [emerg] 599110#0: BIO_new_file("/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/input/source_code/nginx-1.15.5/conf/ssl/cert.pem") failed (SSL: error:02001002:system library:fopen:No such file or directory:fopen('/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/input/source_code/nginx-1.15.5/conf/ssl/cert.pem','r') error:2006D080:BIO routines:BIO_new_file:no such file)
+2025/12/01 16:00:35 [error] 599206#0: *4 open() "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/input/source_code/nginx-1.15.5/conf/auth/.htpasswd" failed (2: No such file or directory), client: 127.0.0.1, server: localhost, request: "HEAD / HTTP/1.1", host: "localhost:8443"
+2025/12/01 16:01:06 [error] 599206#0: *5 open() "/home/raoxue/Desktop/IF-driver-partition/FIPA/examples/nginx/input/source_code/nginx-1.15.5/conf/auth/.htpasswd" failed (2: No such file or directory), client: 127.0.0.1, server: localhost, request: "HEAD / HTTP/1.1", host: "localhost:8443"
+2025/12/01 16:01:57 [notice] 599600#0: signal process started
+2025/12/01 09:08:59 [emerg] 12#0: the "ssl" parameter requires ngx_http_ssl_module in /Desktop/examples/nginx/input/source_code/nginx-1.15.5/conf/nginx-ssl-auth.conf:51
+2025/12/01 09:11:40 [emerg] 19#0: the "ssl" parameter requires ngx_http_ssl_module in /Desktop/examples/nginx/input/source_code/nginx-1.15.5/conf/nginx-ssl-auth.conf:51
+2025/12/01 09:40:30 [emerg] 4165#0: unexpected end of parameter, expecting ";" in command line
+2025/12/01 09:41:46 [emerg] 4169#0: unexpected end of parameter, expecting ";" in command line
+2025/12/01 09:42:41 [emerg] 4171#0: unexpected end of parameter, expecting ";" in command line
+2025/12/01 10:17:07 [emerg] 9354#0: unexpected end of parameter, expecting ";" in command line
+2025/12/01 10:19:45 [emerg] 9398#0: unexpected end of parameter, expecting ";" in command line
+2025/12/01 11:03:55 [alert] 9796#0: worker process 9797 exited on signal 9
+2025/12/01 11:12:57 [alert] 9799#0: worker process 9800 exited on signal 9
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8080 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8081 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8443 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8080 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8081 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8443 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8080 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8081 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8443 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8080 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8081 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8443 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8080 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8081 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: bind() to 0.0.0.0:8443 failed (98: Address already in use)
+2025/12/01 20:50:31 [emerg] 675084#0: still could not bind()
+2025/12/02 02:56:56 [alert] 15707#0: worker process 15708 exited on signal 9
+2025/12/02 03:03:18 [alert] 15710#0: worker process 15711 exited on signal 9
+2025/12/06 03:29:22 [emerg] 9541#0: unexpected end of parameter, expecting ";" in command line
+2025/12/06 03:29:31 [emerg] 9543#0: unexpected end of parameter, expecting ";" in command line
+2025/12/06 03:29:51 [emerg] 9545#0: unexpected ";" in command line
+2025/12/06 03:55:38 [alert] 12195#0: worker process 12196 exited on signal 9
+2025/12/11 13:49:50 [alert] 19741#0: worker process 19742 exited on signal 9
+2025/12/11 14:06:20 [alert] 22006#0: worker process 22007 exited on signal 9
+2025/12/14 23:32:11 [alert] 1786916#0: worker process 1786920 exited on signal 9
+2025/12/14 23:46:23 [alert] 1790397#0: worker process 1790401 exited on signal 9
+2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8080 failed (98: Address already in use)
+2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8081 failed (98: Address already in use)
+2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8443 failed (98: Address already in use)
+2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8444 failed (98: Address already in use)
+2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8080 failed (98: Address already in use)
+2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8081 failed (98: Address already in use)

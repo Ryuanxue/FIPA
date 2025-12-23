@@ -158,18 +158,18 @@ am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(srcdir)/../generate_mans.mak \
 	$(srcdir)/../generate_translations.mak $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing aclocal-1.16
+ACLOCAL = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing aclocal-1.16
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing autoconf
-AUTOHEADER = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing autoheader
-AUTOMAKE = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing automake-1.16
+AUTOCONF = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing autoconf
+AUTOHEADER = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing autoheader
+AUTOMAKE = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing automake-1.16
 AWK = mawk
-CC = gcc
+CC = afl-gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -O0 -Wall -g 
-CPP = gcc -E
+CPP = afl-gcc -E
 CPPFLAGS = 
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -220,7 +220,7 @@ LTLIBINTL =
 LTLIBOBJS =  ${LIBOBJDIR}sgetgrent$U.lo ${LIBOBJDIR}sgetpwent$U.lo
 LT_SYS_LIBRARY_PATH = 
 MAINT = 
-MAKEINFO = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/missing makeinfo
+MAKEINFO = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /usr/bin/mkdir -p
 MSGFMT = /usr/bin/msgfmt
@@ -251,17 +251,17 @@ VERSION = 4.2
 XGETTEXT = /usr/bin/xgettext
 XGETTEXT_015 = /usr/bin/xgettext
 XGETTEXT_EXTRA_OPTIONS = 
-XMLCATALOG = no
+XMLCATALOG = /usr/bin/xmlcatalog
 XML_CATALOG_FILE = /etc/xml/catalog
 XSLTPROC = /usr/bin/xsltproc
 YACC = bison -y
 YFLAGS = 
-abs_builddir = /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/man/zh_CN
-abs_srcdir = /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/man/zh_CN
-abs_top_builddir = /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils
-abs_top_srcdir = /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils
+abs_builddir = /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/man/zh_CN
+abs_srcdir = /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/man/zh_CN
+abs_top_builddir = /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils
+abs_top_srcdir = /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils
 ac_ct_AR = ar
-ac_ct_CC = gcc
+ac_ct_CC = afl-gcc
 ac_ct_DUMPBIN = 
 am__include = include
 am__leading_dot = .
@@ -288,7 +288,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/partitioned_software/chsh/0_raw_code/shadow-utils/install-sh
+install_sh = ${SHELL} /home/raoxue/Desktop/IF-driver-partition/FIPA/examples/chage/input/source_code/shadow-utils/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -327,16 +327,16 @@ man_nopam = \
 
 EXTRA_DIST = $(man_MANS) man1/id.1 man8/sulogin.8 $(am__append_2)
 LANG = $(notdir $(CURDIR))
-#PAM_COND = no_pam
-##PAM_COND = pam
-##SHADOWGRP_COND = no_gshadow
-#SHADOWGRP_COND = gshadow
-#TCB_COND = no_tcb
-##TCB_COND = tcb
-##SHA_CRYPT_COND = no_sha_crypt
-#SHA_CRYPT_COND = sha_crypt
-##SUBIDS_COND = no_subids
-#SUBIDS_COND = subids
+PAM_COND = no_pam
+#PAM_COND = pam
+#SHADOWGRP_COND = no_gshadow
+SHADOWGRP_COND = gshadow
+TCB_COND = no_tcb
+#TCB_COND = tcb
+#SHA_CRYPT_COND = no_sha_crypt
+SHA_CRYPT_COND = sha_crypt
+#SUBIDS_COND = no_subids
+SUBIDS_COND = subids
 CLEANFILES = .xml2po.mo $(EXTRA_DIST) $(addsuffix .xml,$(EXTRA_DIST)) config.xml
 all: all-am
 
@@ -627,7 +627,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean-local:
+#clean-local:
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-local mostlyclean-am
@@ -716,44 +716,44 @@ uninstall-man: uninstall-man1 uninstall-man3 uninstall-man5 \
 .PRECIOUS: Makefile
 
 
-#config.xml: ../config.xml.in
-#	$(MAKE) -C .. config.xml
-#	cp ../config.xml $@
+config.xml: ../config.xml.in
+	$(MAKE) -C .. config.xml
+	cp ../config.xml $@
 
-#%.xml: ../%.xml ../po/$(LANG).po
-#	xml2po --expand-all-entities -l $(LANG) -p ../po/$(LANG).po -o $@ ../$@
-#	sed -i 's:\(^<refentry .*\)>:\1 lang="$(LANG)">:' $@
+%.xml: ../%.xml ../po/$(LANG).po
+	xml2po --expand-all-entities -l $(LANG) -p ../po/$(LANG).po -o $@ ../$@
+	sed -i 's:\(^<refentry .*\)>:\1 lang="$(LANG)">:' $@
 
-#%.xml-config: %.xml
-#	if grep -q SHADOW-CONFIG-HERE $<; then \
-#		sed -e 's/^<!-- SHADOW-CONFIG-HERE -->/<!ENTITY % config SYSTEM "config.xml">%config;/' $< > $@; \
-#	else \
-#		sed -e 's/^\(<!DOCTYPE .*docbookx.dtd"\)>/\1 [<!ENTITY % config SYSTEM "config.xml">%config;]>/' $< > $@; \
-#	fi
+%.xml-config: %.xml
+	if grep -q SHADOW-CONFIG-HERE $<; then \
+		sed -e 's/^<!-- SHADOW-CONFIG-HERE -->/<!ENTITY % config SYSTEM "config.xml">%config;/' $< > $@; \
+	else \
+		sed -e 's/^\(<!DOCTYPE .*docbookx.dtd"\)>/\1 [<!ENTITY % config SYSTEM "config.xml">%config;]>/' $< > $@; \
+	fi
 
-#man1/% man3/% man5/% man8/%: %.xml-config Makefile config.xml
-#	$(XSLTPROC) --stringparam profile.condition "$(PAM_COND);$(SHADOWGRP_COND);$(TCB_COND);$(SHA_CRYPT_COND);$(SUBIDS_COND)" \
-#	            --param "man.authors.section.enabled" "0" \
-#	            --stringparam "man.output.base.dir" "" \
-#	            --param "man.output.in.separate.dir" "1" \
-#	            -nonet http://docbook.sourceforge.net/release/xsl/current/manpages/profile-docbook.xsl $<
+man1/% man3/% man5/% man8/%: %.xml-config Makefile config.xml
+	$(XSLTPROC) --stringparam profile.condition "$(PAM_COND);$(SHADOWGRP_COND);$(TCB_COND);$(SHA_CRYPT_COND);$(SUBIDS_COND)" \
+	            --param "man.authors.section.enabled" "0" \
+	            --stringparam "man.output.base.dir" "" \
+	            --param "man.output.in.separate.dir" "1" \
+	            -nonet http://docbook.sourceforge.net/release/xsl/current/manpages/profile-docbook.xsl $<
 
-#clean-local:
-#	for d in man1 man3 man5 man8; do [ -d $$d ] && rmdir $$d; done
+clean-local:
+	for d in man1 man3 man5 man8; do [ -d $$d ] && rmdir $$d; done
 
 #$(man_MANS):
 #	@echo you need to run configure with --enable-man to generate man pages
 #	@false
 
-#man8/grpconv.8 man8/grpunconv.8 man8/pwunconv.8: man8/pwconv.8
+man8/grpconv.8 man8/grpunconv.8 man8/pwunconv.8: man8/pwconv.8
 
-#man3/getspnam.3: man3/shadow.3
+man3/getspnam.3: man3/shadow.3
 
-#man8/vigr.8: man8/vipw.8
+man8/vigr.8: man8/vipw.8
 
-$(man_MANS):
-	@echo you need to run configure with --enable-man to generate man pages
-	@false
+#$(man_MANS):
+#	@echo you need to run configure with --enable-man to generate man pages
+#	@false
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

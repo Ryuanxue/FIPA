@@ -61,6 +61,7 @@ void set_tag(Addr addr, ULong tag, ULong location);
 void make_freshly_tagged_input(Addr start, SizeT len, ULong location);
 void make_freshly_tagged_register(ThreadId tid, OffT offset, int capacity,
 				  ULong location);
+void untaint_memory(Addr start, SizeT len, ULong location);//RAOXUE
 void count_leaked_tags(Addr start, SizeT len, ULong location);
 
 void trace_enter_enclose(void);

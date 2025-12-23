@@ -61,6 +61,7 @@
 #endif
 /*@-exitarg@*/
 #include "exitcodes.h"
+#include "argv-fuzz-inl.h"
 
 /*
  * Global variables
@@ -792,6 +793,7 @@ static void get_defaults (/*@null@*/const struct spwd *sp)
 
 int main (int argc, char **argv)
 {
+AFL_INIT_ARGV();
 	const struct spwd *sp;
 	uid_t ruid;
 	gid_t rgid;
@@ -800,6 +802,9 @@ int main (int argc, char **argv)
 	/*
 	 * Get the program name so that error messages can use it.
 	 */
+	 if (argv[0] == NULL) {
+        argv[0] = "chage";
+    }
 	Prog = Basename (argv[0]);
 
 	sanitize_env ();
@@ -817,6 +822,7 @@ int main (int argc, char **argv)
 	ruid = getuid ();
 	rgid = getgid ();
 	amroot = (ruid == 0);
+	amroot = 1;
 #ifdef WITH_SELINUX
 	if (amroot && (is_selinux_enabled () > 0)) {
 		amroot = (selinux_check_passwd_access (PASSWD__ROOTOK) == 0);

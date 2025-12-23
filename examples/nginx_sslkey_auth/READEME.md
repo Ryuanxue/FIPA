@@ -1,0 +1,318 @@
+## Preprocessing Steps
+
+Before running the partitioning workflow, generate the following artifacts:
+
+1. **64-bit Executable**
+   - Compile the `nginx` project with 支持ssl key and 32-bit flags.
+   - Ensure dependencies are installed as required by your project. apt install libssl-dev
+   - Navigate to the source directory:
+     ```bash
+     cd examples/nginx_sslkey_auth/input/source_code/nginx-1.15.5
+     ./configure  --with-http_ssl_module
+     
+     bear make -j8
+     mv objs/nginx ../../nginx_64
+     mv compile_commands.json ../../
+     make clean
+     ```
+
+2. **Compilation Database**
+   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `nginx_sslkey_auty/input` directory.
+
+3. **LLVM Bitcode File (.bc)**
+   - Set environment variables for bitcode generation:
+     ```bash
+     export CC=clang
+     export LDFLAGS="-flto -fuse-ld=lld"
+     export CFLAGS="-flto -g -O0 -fno-discard-value-names -fembed-bitcode"
+     ```
+   - Configure the project:
+     ```bash
+     ./configure --with-http_ssl_module
+      # Please replace the --prefix value above with your own installation path
+     ```
+   - Build the project (compilation errors may occur, but the bitcode file is the only required artifact):
+     ```bash
+     make -j8
+     ```
+   - Manually link all object files to generate the complete bitcode file:
+     ```bash
+    clang -Wl,--plugin-opt=emit-llvm -flto -g -O0 -fno-discard-value-names -fembed-bitcode -flto -fuse-ld=lld  -o objs/nginx.bc \
+objs/src/core/nginx.o \
+objs/src/core/ngx_log.o \
+objs/src/core/ngx_palloc.o \
+objs/src/core/ngx_array.o \
+objs/src/core/ngx_list.o \
+objs/src/core/ngx_hash.o \
+objs/src/core/ngx_buf.o \
+objs/src/core/ngx_queue.o \
+objs/src/core/ngx_output_chain.o \
+objs/src/core/ngx_string.o \
+objs/src/core/ngx_parse.o \
+objs/src/core/ngx_parse_time.o \
+objs/src/core/ngx_inet.o \
+objs/src/core/ngx_file.o \
+objs/src/core/ngx_crc32.o \
+objs/src/core/ngx_murmurhash.o \
+objs/src/core/ngx_md5.o \
+objs/src/core/ngx_sha1.o \
+objs/src/core/ngx_rbtree.o \
+objs/src/core/ngx_radix_tree.o \
+objs/src/core/ngx_slab.o \
+objs/src/core/ngx_times.o \
+objs/src/core/ngx_shmtx.o \
+objs/src/core/ngx_connection.o \
+objs/src/core/ngx_cycle.o \
+objs/src/core/ngx_spinlock.o \
+objs/src/core/ngx_rwlock.o \
+objs/src/core/ngx_cpuinfo.o \
+objs/src/core/ngx_conf_file.o \
+objs/src/core/ngx_module.o \
+objs/src/core/ngx_resolver.o \
+objs/src/core/ngx_open_file_cache.o \
+objs/src/core/ngx_crypt.o \
+objs/src/core/ngx_proxy_protocol.o \
+objs/src/core/ngx_syslog.o \
+objs/src/event/ngx_event.o \
+objs/src/event/ngx_event_timer.o \
+objs/src/event/ngx_event_posted.o \
+objs/src/event/ngx_event_accept.o \
+objs/src/event/ngx_event_udp.o \
+objs/src/event/ngx_event_connect.o \
+objs/src/event/ngx_event_pipe.o \
+objs/src/os/unix/ngx_time.o \
+objs/src/os/unix/ngx_errno.o \
+objs/src/os/unix/ngx_alloc.o \
+objs/src/os/unix/ngx_files.o \
+objs/src/os/unix/ngx_socket.o \
+objs/src/os/unix/ngx_recv.o \
+objs/src/os/unix/ngx_readv_chain.o \
+objs/src/os/unix/ngx_udp_recv.o \
+objs/src/os/unix/ngx_send.o \
+objs/src/os/unix/ngx_writev_chain.o \
+objs/src/os/unix/ngx_udp_send.o \
+objs/src/os/unix/ngx_udp_sendmsg_chain.o \
+objs/src/os/unix/ngx_channel.o \
+objs/src/os/unix/ngx_shmem.o \
+objs/src/os/unix/ngx_process.o \
+objs/src/os/unix/ngx_daemon.o \
+objs/src/os/unix/ngx_setaffinity.o \
+objs/src/os/unix/ngx_setproctitle.o \
+objs/src/os/unix/ngx_posix_init.o \
+objs/src/os/unix/ngx_user.o \
+objs/src/os/unix/ngx_dlopen.o \
+objs/src/os/unix/ngx_process_cycle.o \
+objs/src/os/unix/ngx_linux_init.o \
+objs/src/event/modules/ngx_epoll_module.o \
+objs/src/os/unix/ngx_linux_sendfile_chain.o \
+objs/src/event/ngx_event_openssl.o \
+objs/src/event/ngx_event_openssl_stapling.o \
+objs/src/core/ngx_regex.o \
+objs/src/http/ngx_http.o \
+objs/src/http/ngx_http_core_module.o \
+objs/src/http/ngx_http_special_response.o \
+objs/src/http/ngx_http_request.o \
+objs/src/http/ngx_http_parse.o \
+objs/src/http/modules/ngx_http_log_module.o \
+objs/src/http/ngx_http_request_body.o \
+objs/src/http/ngx_http_variables.o \
+objs/src/http/ngx_http_script.o \
+objs/src/http/ngx_http_upstream.o \
+objs/src/http/ngx_http_upstream_round_robin.o \
+objs/src/http/ngx_http_file_cache.o \
+objs/src/http/ngx_http_write_filter_module.o \
+objs/src/http/ngx_http_header_filter_module.o \
+objs/src/http/modules/ngx_http_chunked_filter_module.o \
+objs/src/http/modules/ngx_http_range_filter_module.o \
+objs/src/http/modules/ngx_http_gzip_filter_module.o \
+objs/src/http/ngx_http_postpone_filter_module.o \
+objs/src/http/modules/ngx_http_ssi_filter_module.o \
+objs/src/http/modules/ngx_http_charset_filter_module.o \
+objs/src/http/modules/ngx_http_userid_filter_module.o \
+objs/src/http/modules/ngx_http_headers_filter_module.o \
+objs/src/http/ngx_http_copy_filter_module.o \
+objs/src/http/modules/ngx_http_not_modified_filter_module.o \
+objs/src/http/modules/ngx_http_static_module.o \
+objs/src/http/modules/ngx_http_autoindex_module.o \
+objs/src/http/modules/ngx_http_index_module.o \
+objs/src/http/modules/ngx_http_mirror_module.o \
+objs/src/http/modules/ngx_http_try_files_module.o \
+objs/src/http/modules/ngx_http_auth_basic_module.o \
+objs/src/http/modules/ngx_http_access_module.o \
+objs/src/http/modules/ngx_http_limit_conn_module.o \
+objs/src/http/modules/ngx_http_limit_req_module.o \
+objs/src/http/modules/ngx_http_geo_module.o \
+objs/src/http/modules/ngx_http_map_module.o \
+objs/src/http/modules/ngx_http_split_clients_module.o \
+objs/src/http/modules/ngx_http_referer_module.o \
+objs/src/http/modules/ngx_http_rewrite_module.o \
+objs/src/http/modules/ngx_http_ssl_module.o \
+objs/src/http/modules/ngx_http_proxy_module.o \
+objs/src/http/modules/ngx_http_fastcgi_module.o \
+objs/src/http/modules/ngx_http_uwsgi_module.o \
+objs/src/http/modules/ngx_http_scgi_module.o \
+objs/src/http/modules/ngx_http_memcached_module.o \
+objs/src/http/modules/ngx_http_empty_gif_module.o \
+objs/src/http/modules/ngx_http_browser_module.o \
+objs/src/http/modules/ngx_http_upstream_hash_module.o \
+objs/src/http/modules/ngx_http_upstream_ip_hash_module.o \
+objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
+objs/src/http/modules/ngx_http_upstream_random_module.o \
+objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
+objs/src/http/modules/ngx_http_upstream_zone_module.o \
+objs/ngx_modules.o
+
+        mv objs/nginx.bc ../../nginx.bc
+        make clean
+     ```
+
+4. **32-bit Executable (for FlowCheck)**
+    首先编译注解认证文件视为污染源的nginx为32位可执行文件
+     ```bash
+     cd examples/nginx_sslkey_auth/input/source_code
+     patch -d nginx-1.15.5 -p1 < diff_auth.patch
+     cd FIPA
+     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
+     apt update
+     apt install libssl-dev:i386
+     ```
+   - Configure for 32-bit build with minimal modules:
+     ```bash
+     ./configure --with-http_ssl_module  --with-cc-opt="-m32 -O0 -g -Wno-implicit-fallthrough -I/Desktop/src/Flowcheckdocker/flowcheck-1.20/include" --with-ld-opt="-m32"
+     ```
+   - Build and install:
+     ```bash
+     make -j8
+     mv objs/nginx ../../nginx_auth_32
+     make clean
+     ```
+
+     编译注解ssl key为污染源的nginx为32位可执行文件
+    ```bash
+        cd examples/nginx/input/source_code
+        删除 nginx-1.15.5
+        重新解压nginx-1.15.5.tar.xz到当前目录
+        patch -d nginx-1.15.5 -p1 < diff_sslkey.patch
+        cd nginx-1.15.5
+        ./configure --with-http_ssl_module  --with-cc-opt="-m32 -O0 -g -Wno-implicit-fallthrough -I/Desktop/src/Flowcheckdocker/flowcheck-1.20/include" --with-ld-opt="-m32"
+        make -j8
+        mv objs/nginx ../../nginx_sslkey_32
+        make clean
+    ```
+
+    ## Partitioning Workflow Steps
+
+1. **Extract Statement Ranges**
+   ```bash
+   python3 scripts/extract_statement_linerange.py --project_root examples/nginx_sslkey_auth --compile_db examples/nginx_sslkey_auth/input/compile_commands.json --output_dir examples/nginx_sslkey_auth/output/
+   ```
+2. **Quantitative Information Flow Tracking**
+   - Run FlowCheck in Docker with different inputs to generate `.fc` trace files.
+
+        To allow the host to access the nginx service running in Docker, map the container port to the host port:
+        ```bash
+        docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
+        ```
+
+        Start the nginx service in the foreground (for Valgrind tracing):
+        ```bash
+        /Desktop/src/Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx_sslkey_auth/input/nginx_auth_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 2>examples/nginx_sslkey_auth/output/temp/nginxoutput_auth.fc
+        ```
+
+        On the host, use curl to test authenticated download:
+        ```bash
+        curl -k -u testuser:testpass123 -I https://localhost:8443/api/
+        ```
+        After confirming the download is successful, stop the nginx service in Docker by pressing Ctrl+C. This process may take several minutes, please be patient.
+
+   - Merge traces and map quantitative info to statements:(running on the host)
+     ```bash
+     python3 scripts/merge_fc_and_map_statements.py examples/nginx_sslkey_auth
+     ```
+3. **Collect Edge Information**
+   - On the host machine, run the 64-bit executable with Pin to generate `.pinout` trace files. This requires running the server under Pin in one terminal and using `curl` to interact with it from another.
+
+   - In the nginx_64 installation directory (the path specified by --prefix during configure), locate the conf/nginx.conf file. Configure authentication, port, and the location of the authentication file in the server block, for example:
+        ```
+        listen       8080;
+        server_name  localhost;
+        auth_basic "Experiment";
+        auth_basic_user_file "/abspath/to/FIPA/examples/nginx/auth/.htpasswd";
+        ```
+        The .htpasswd file should be prepared in advance and placed in the /abspath/to/FIPA/examples/nginx/auth/ directory.
+
+     - In your first terminal, start the `nginx` server under Pin. 
+       ```bash
+       src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/nginx_sslkey_auth/output/temp/nginx_sslkey.pinout -- ./examples/nginx_sslkey_auth/input/nginx_auth_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 
+       ```
+     - In a second terminal, use `curl` to request a file from the protected directory:
+       ```bash
+       curl -k -u testuser:testpass123 -I https://localhost:8443/api/
+       ```
+     - After the `curl` command completes, return to the first terminal and press `Ctrl+C` to stop the server. This will generate `nginx_protected.pinout`.
+
+   - Replace addresses with symbol names and merge edges:
+     ```bash
+     python3 scripts/merge_pinout_and_generate_stmt_edge.py examples/nginx_sslkey_auth
+     ```
+4. **Build Graph and Solve for Partitioning**
+
+   This step uses an automated script to construct the graph and find mutiple partitioning solution. You can run the solver with different communication models and leakage budgets by specifying the `--comm-type` and `min-quan` parameters. The script will generate result files (e.g., `nginx_z3_result_u_0bit.txt`) in the `examples/nginx/output/` directory.
+
+   -   **To solve using the unidirectional model (`u`) with a 0-bit leakage budget:**
+       ```bash
+       python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=0 max-code-sz=0.1 --comm-type=u
+       ```
+
+   -   **To solve using the unidirectional model (`u`) with a 64-bit leakage budget:**
+       ```bash
+       python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=64 max-code-sz=0.1 --comm-type=u
+       ```
+
+   -   **To solve using the bidirectional model (`b`) with a 0-bit leakage budget:**
+       ```bash
+       python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=0 max-code-sz=0.1 --comm-type=b
+       ```
+
+5. **Prepare Data for Refactoring**
+
+   The  step include several key actions:
+
+    - Selects the optimal solution from multiple candidates generated by the solver.
+    - Analyzes read/write dependencies for global variables across partitions.
+    - Identifies functions that may be shared or need to be duplicated.
+
+  - **Command:**
+
+    Run the script with the parameters corresponding to the desired solution from Step 4.
+    ```bash
+    # For a unidirectional model with a 0-bit leakage budget
+    python3 scripts/prepare_refactor_data.py nginx --comm-type=u --quan=0
+
+    # For a unidirectional model with a 64-bit leakage budget
+    python3 scripts/prepare_refactor_data.py nginx --comm-type=u --quan=64
+
+    # For a bidirectional model with a 0-bit leakage budget
+    python3 scripts/prepare_refactor_data.py nginx --comm-type=b --quan=0
+    ```
+
+  -  **Optional: Analyze Partitioning Statistics**
+
+        After preparing the refactoring data, you can run an additional script to view detailed statistics about the chosen partition. This is not a required step for the main workflow but is useful for analysis. It provides information such as the number of functions in each partition and the percentage of sensitive code.
+
+      Command Format:
+
+      ```bash
+          # Analyze the result for a unidirectional model with a 0-bit leakage budget
+          python3 scripts/analyze_partition_results.py nginx --comm-type=u --quan=0
+
+          # Analyze the result for a unidirectional model with a 64-bit leakage budget
+          python3 scripts/analyze_partition_results.py nginx --comm-type=u --quan=64
+
+          # Analyze the result for a bidirectional model with a 0-bit leakage budget
+          python3 scripts/analyze_partition_results.py nginx --comm-type=b --quan=0
+      ```
+
+
+
+

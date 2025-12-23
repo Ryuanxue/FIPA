@@ -303,3 +303,27 @@ typedef struct
 
 
 #endif
+
+typedef struct x509_store_ctx_st X509_STORE_CTX;
+typedef struct ssl_st SSL;
+typedef struct ssl_session_st SSL_SESSION;
+typedef struct ssl_ctx_st SSL_CTX;
+typedef struct rsa_st RSA;
+typedef struct asn1_string_st ASN1_INTEGER;
+typedef struct asn1_string_st ASN1_ENUMERATED;
+typedef struct asn1_string_st ASN1_BIT_STRING;
+typedef struct asn1_string_st ASN1_OCTET_STRING;
+typedef struct asn1_string_st ASN1_PRINTABLESTRING;
+typedef struct asn1_string_st ASN1_T61STRING;
+typedef struct asn1_string_st ASN1_IA5STRING;
+typedef struct asn1_string_st ASN1_GENERALSTRING;
+typedef struct asn1_string_st ASN1_UNIVERSALSTRING;
+typedef struct asn1_string_st ASN1_BMPSTRING;
+typedef struct asn1_string_st ASN1_UTCTIME;
+typedef struct asn1_string_st ASN1_TIME;
+typedef struct asn1_string_st ASN1_GENERALIZEDTIME;
+typedef struct asn1_string_st ASN1_VISIBLESTRING;
+typedef struct asn1_string_st ASN1_UTF8STRING;
+typedef struct asn1_string_st ASN1_STRING;
+typedef int ASN1_BOOLEAN;
+typedef int ASN1_NULL;

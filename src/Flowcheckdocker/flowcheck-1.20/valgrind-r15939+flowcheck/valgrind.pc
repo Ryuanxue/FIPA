@@ -1,4 +1,4 @@
-prefix=/Desktop/IF-driver-partition/Flowcheckdocker/flowcheck-1.20/valgrind-r15939+flowcheck/..
+prefix=/Desktop/src/Flowcheckdocker/flowcheck-1.20/valgrind-r15939+flowcheck/..
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include/valgrind
