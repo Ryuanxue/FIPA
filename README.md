@@ -14,7 +14,7 @@ This project consists of several independent submodules that must be compiled an
 
 1. **System packages** - Install LLVM-12, development libraries, and RPC services:
    ```bash
-   sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev zlib1g zlib1g-dev libpugixml-dev rpcbind
+   sudo apt install llvm-12 libclang-12-dev llvm-12-dev libtinyxml2-dev lld-12 zlib1g zlib1g-dev libpugixml-dev rpcbind
    ```
 
 2. **Python packages** - Install required Python libraries:

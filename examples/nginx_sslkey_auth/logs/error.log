@@ -45,3 +45,4 @@
 2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8444 failed (98: Address already in use)
 2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8080 failed (98: Address already in use)
 2025/12/14 23:47:56 [emerg] 1790556#0: bind() to 0.0.0.0:8081 failed (98: Address already in use)
+2025/12/23 09:05:59 [alert] 12#0: worker process 13 exited on signal 9
