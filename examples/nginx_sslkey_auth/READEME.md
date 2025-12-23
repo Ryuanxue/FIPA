@@ -8,7 +8,7 @@ Before running the partitioning workflow, generate the following artifacts:
    - Navigate to the source directory:
      ```bash
      cd examples/nginx_sslkey_auth/input/source_code/nginx-1.15.5
-     ./configure  --with-http_ssl_module
+     ./configure  --with-http_ssl_module"
      
      bear make -j8
      mv objs/nginx ../../nginx_64
@@ -17,7 +17,7 @@ Before running the partitioning workflow, generate the following artifacts:
      ```
 
 2. **Compilation Database**
-   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `nginx_sslkey_auty/input` directory.
+   - The shell commands above have already moved the compilation database (`compile_commands.json`) to the `nginx/input` directory.
 
 3. **LLVM Bitcode File (.bc)**
    - Set environment variables for bitcode generation:
@@ -175,6 +175,7 @@ objs/ngx_modules.o
      docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
      apt update
      apt install libssl-dev:i386
+     cd examples/nginx_sslkey_auth/input/source_code/nginx-1.15.5
      ```
    - Configure for 32-bit build with minimal modules:
      ```bash
@@ -237,13 +238,13 @@ objs/ngx_modules.o
         listen       8080;
         server_name  localhost;
         auth_basic "Experiment";
-        auth_basic_user_file "/abspath/to/FIPA/examples/nginx/auth/.htpasswd";
+        auth_basic_user_file "/abspath/to/FIPA/examples/nginx_sslkey_auth/auth/.htpasswd";
         ```
-        The .htpasswd file should be prepared in advance and placed in the /abspath/to/FIPA/examples/nginx/auth/ directory.
+        The .htpasswd file should be prepared in advance and placed in the /abspath/to/FIPA/examples/nginx_sslkey_auth/auth/ directory.
 
      - In your first terminal, start the `nginx` server under Pin. 
        ```bash
-       src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/nginx_sslkey_auth/output/temp/nginx_sslkey.pinout -- ./examples/nginx_sslkey_auth/input/nginx_auth_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 
+       src/pin-3.18-98332-gaebd7b1e6-gcc-linux/pin -t src/pin-3.18-98332-gaebd7b1e6-gcc-linux/source/tools/ManualExamples/obj-intel64/funcgvrelation.so -o examples/nginx_sslkey_auth/output/temp/nginx_sslkey.pinout -- ./examples/nginx_sslkey_auth/input/nginx_64 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 
        ```
      - In a second terminal, use `curl` to request a file from the protected directory:
        ```bash
@@ -257,22 +258,13 @@ objs/ngx_modules.o
      ```
 4. **Build Graph and Solve for Partitioning**
 
-   This step uses an automated script to construct the graph and find mutiple partitioning solution. You can run the solver with different communication models and leakage budgets by specifying the `--comm-type` and `min-quan` parameters. The script will generate result files (e.g., `nginx_z3_result_u_0bit.txt`) in the `examples/nginx/output/` directory.
+   This step uses an automated script to construct the graph and find mutiple partitioning solution. You can run the solver with different communication models and leakage budgets by specifying the `--comm-type` and `min-quan` parameters. The script will generate result files (e.g., `nginx_z3_result_u_0bit.txt`) in the `examples/nginx_sslkey_auth/output/` directory.
 
    -   **To solve using the unidirectional model (`u`) with a 0-bit leakage budget:**
        ```bash
        python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=0 max-code-sz=0.1 --comm-type=u
        ```
 
-   -   **To solve using the unidirectional model (`u`) with a 64-bit leakage budget:**
-       ```bash
-       python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=64 max-code-sz=0.1 --comm-type=u
-       ```
-
-   -   **To solve using the bidirectional model (`b`) with a 0-bit leakage budget:**
-       ```bash
-       python3 scripts/based_qg_bi_praming.py nginx_sslkey_auth min-quan=0 max-code-sz=0.1 --comm-type=b
-       ```
 
 5. **Prepare Data for Refactoring**
 
@@ -287,13 +279,8 @@ objs/ngx_modules.o
     Run the script with the parameters corresponding to the desired solution from Step 4.
     ```bash
     # For a unidirectional model with a 0-bit leakage budget
-    python3 scripts/prepare_refactor_data.py nginx --comm-type=u --quan=0
+    python3 scripts/prepare_refactor_data.py nginx_sslkey_auth --comm-type=u --quan=0
 
-    # For a unidirectional model with a 64-bit leakage budget
-    python3 scripts/prepare_refactor_data.py nginx --comm-type=u --quan=64
-
-    # For a bidirectional model with a 0-bit leakage budget
-    python3 scripts/prepare_refactor_data.py nginx --comm-type=b --quan=0
     ```
 
   -  **Optional: Analyze Partitioning Statistics**
@@ -304,15 +291,68 @@ objs/ngx_modules.o
 
       ```bash
           # Analyze the result for a unidirectional model with a 0-bit leakage budget
-          python3 scripts/analyze_partition_results.py nginx --comm-type=u --quan=0
+          python3 scripts/analyze_partition_results.py nginx_sslkey_auth --comm-type=u --quan=0
 
-          # Analyze the result for a unidirectional model with a 64-bit leakage budget
-          python3 scripts/analyze_partition_results.py nginx --comm-type=u --quan=64
-
-          # Analyze the result for a bidirectional model with a 0-bit leakage budget
-          python3 scripts/analyze_partition_results.py nginx --comm-type=b --quan=0
       ```
 
+  ## Running the Partitioned Program
+
+  ### Multiple-Partition (Three Partitions)
+
+    First, decompress the two archives in `examples/nginx_sslkey_auth/output/multi-partition/`.
+
+    This configuration creates three partitions: one public partition and two sensitive partitions. The partitioning is guided by different taint sources: the SSL key path taint source generates the SSL partition, and the auth file taint source generates the auth partition. The SSL partition is compiled as a shared library, while the auth partition is compiled as an RPC server. The partitioning results are located in `examples/nginx_sslkey_auth/output/muti-partition/`.
+
+    #### 1. Compilation
+
+    **Compile the SSL Partition as a Shared Library:**
+     ```
+     # Assuming you are in the FIPA directory
+     cd examples/nginx_sslkey_auth/output/multi-partition/nginx_public_partition/libngx_ssl_cert
+     make
+     ```
+
+    **Compile the Public Partition:**
+    ```bash
+    # Assuming you are in the FIPA directory
+    cd examples/nginx_sslkey_auth/output/muti-partition/nginx_public_partition
+    ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
+    make -j8
+    ```
+
+    **Compile the Auth Partition:**
+    ```bash
+    # Assuming you are in the FIPA directory
+    cd examples/nginx_sslkey_auth/output/muti-partition/nginx_auth_partition
+    ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
+    make -j8
+    ```
+
+
+    #### 2. Execution
+
+    **Terminal 1 (Auth Partition):** Start the core service program. It will wait for connections from the public partition
+    ```bash
+    # Assuming you are in the FIPA directory
+    cd examples/nginx_sslkey_auth/output/muti-partition/nginx_auth_partition
+    ./objs/nginx
+    ```
+
+    **Terminal 2 (Public Partition and SSL Partition):** Start the public partition (this includes both the public partition and SSL partition components)
+    ```bash
+    # Assuming you are in the FIPA directory
+    cd examples/nginx_sslkey_auth/output/muti-partition
+    ./nginx_public_partition/objs/nginx -p $(pwd) -c conf/nginx-ssl-auth.conf -g "daemon off;"
+    ```
+
+    
+
+    #### 3. Testing
+
+    Use `curl` to test the multi-partition nginx with authentication:
+    ```bash
+    curl -k -u testuser:testpass123 -I https://localhost:8443/api/
+    ```
 
 
 

@@ -279,6 +279,8 @@ Before running the partitioning workflow, generate the following artifacts:
 
   ### Multiple-Partition (Three Partitions)
 
+  First, decompress the three archives in `examples/nginx/output/multi-partition/`.
+
   This configuration creates three partitions: one public partition and two sensitive partitions. The partitions are generated using different leakage budgets (A=64 and A=0) to create a **Core Partition** (highly sensitive) and a **Restricted Partition** (moderately sensitive). The partitioning results are located in `examples/nginx/output/muti-partition/`.
 
   #### 1. Compilation
@@ -287,7 +289,7 @@ Before running the partitioning workflow, generate the following artifacts:
   ```bash
   # Assuming you are in the FIPA directory
   cd examples/nginx/output/muti-partition/nginx-public
-  ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
+  ./configure  --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
   make -j8
   ```
 
@@ -295,7 +297,7 @@ Before running the partitioning workflow, generate the following artifacts:
   ```bash
   # Assuming you are in the FIPA directory
   cd examples/nginx/output/muti-partition/nginx-mid
-  ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
+  ./configure  --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
   make -j8
   ```
 
@@ -303,7 +305,7 @@ Before running the partitioning workflow, generate the following artifacts:
   ```bash
   # Assuming you are in the FIPA directory
   cd examples/nginx/output/muti-partition/nginx-core
-  ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
+  ./configure  --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
   make -j8
   ```
 
