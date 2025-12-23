@@ -20,7 +20,7 @@ RUN dpkg --add-architecture i386 && \
     autoconf \
     automake \
     autopoint \
-    libssl-dev \
+    libssl-dev:i386 \
     libselinux1-dev:i386 \
     libsemanage1-dev:i386 \
     pkg-config:i386 \

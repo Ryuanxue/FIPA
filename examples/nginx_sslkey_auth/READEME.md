@@ -173,7 +173,7 @@ objs/ngx_modules.o
      cd examples/nginx_sslkey_auth/input/source_code
      patch -d nginx-1.15.5 -p1 < diff_auth.patch
      cd FIPA
-     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
+     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image
      apt update
      apt install libssl-dev:i386
      cd examples/nginx_sslkey_auth/input/source_code/nginx-1.15.5
@@ -217,12 +217,12 @@ objs/ngx_modules.o
 
    - To allow the host to access the nginx service running in Docker, map the container port to the host port:
      ```bash
-     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
+     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image
      ```
 
    - Start the nginx service in the foreground (for Valgrind tracing):
      ```bash
-     /Desktop/src/Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx_sslkey_auth/input/nginx_auth_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 2>examples/nginx_sslkey_auth/output/temp/nginxoutput_auth.fc
+     valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx_sslkey_auth/input/nginx_auth_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 2>examples/nginx_sslkey_auth/output/temp/nginxoutput_auth.fc
      ```
 
    - On the host, use curl to test authenticated download:
@@ -313,12 +313,12 @@ objs/ngx_modules.o
 
    - To allow the host to access the nginx service running in Docker, map the container port to the host port:
      ```bash
-     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image_reviwer
+     docker run -it -p 8080:8080 -p 8081:8081 -p 8443:8443 -v .:/Desktop flowcheck-image
      ```
 
    - Start the nginx service in the foreground (for Valgrind tracing):
      ```bash
-     /Desktop/src/Flowcheckdocker/flowcheck-1.20/bin/valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx_sslkey_auth/input/nginx_sslkey_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 2>examples/nginx_sslkey_auth/output/temp/nginxoutput_sslkey.fc
+    valgrind --tool=exp-flowcheck --fullpath-after= --folding-level=0 --project-name=nginx-1.15.5 --trace-secret-graph=yes --graph-file=temp.g ./examples/nginx_sslkey_auth/input/nginx_sslkey_32 -p $(pwd)/examples/nginx_sslkey_auth -c conf/nginx-ssl-auth.conf -g "daemon off;" 2>examples/nginx_sslkey_auth/output/temp/nginxoutput_sslkey.fc
      ```
 
    - On the host, use curl to test authenticated download:
