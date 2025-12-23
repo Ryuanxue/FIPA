@@ -399,7 +399,7 @@ objs/ngx_modules.o
      cd examples/nginx_sslkey_auth/output/multi-partition/nginx_public_partition
          ./configure --with-http_ssl_module --with-cc-opt="-O0 -g -Wno-implicit-fallthrough -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=unused-function -Wno-error=int-conversion -Wno-error=format -Wno-error=cast-function-type -Wno-error=incompatible-pointer-types -Wno-error=missing-field-initializers"
 
-     cd examples/nginx_sslkey_auth/output/multi-partition/nginx_public_partition/libngx_ssl_cert
+     cd libngx_ssl_cert
      make
      ```
 
